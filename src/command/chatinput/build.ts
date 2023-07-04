@@ -13,7 +13,7 @@ import { EnkaClient } from 'enka-network-api';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('build')
-		.setDescription('Genshin Artifacter')
+		.setDescription('Artifacter')
 		.addStringOption((input) =>
 			input.setName('uid').setDescription('キャラクターのデータを取得するプレイヤーの UID').setRequired(true),
 		)
@@ -32,10 +32,14 @@ export default {
 				)
 				.setRequired(true),
 		),
+	ownersOnly: false,
+	modOnly: false,
+	guildOnly: true,
+	permissions: [],
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
-			await interaction.deferReply({ ephemeral: true });
-            const database = interaction.client.botData.artifacter;
+			await interaction.deferReply();
+			const database = interaction.client.botData.artifacter;
 			let first = '';
 			const enka = new EnkaClient();
 			enka
@@ -55,7 +59,7 @@ export default {
 						return await interaction.editReply({
 							embeds: [
 								new EmbedBuilder()
-									.setTitle('<:x_:1061166079495389196> | 失敗')
+									.setTitle(':x: 失敗')
 									.setDescription('キャラクターが見つかりませんでした。')
 									.setColor('Blue'),
 							],
@@ -77,22 +81,13 @@ export default {
 				})
 				.catch(async () => {
 					return await interaction.editReply({
-						embeds: [
-							new EmbedBuilder()
-								.setTitle('<:x_:1061166079495389196> | 失敗')
-								.setDescription('エラーが発生しました。')
-								.setColor('Blue'),
-						],
+						embeds: [new EmbedBuilder().setTitle(':x: 失敗').setDescription('エラーが発生しました。').setColor('Blue')],
 					});
 				});
-		} catch (error) {
-			console.log(error);
+		} catch {
 			await interaction.editReply({
 				embeds: [
-					new EmbedBuilder()
-						.setTitle('<:x_:1061166079495389196> | 失敗')
-						.setDescription('ユーザーの取得に失敗しました。')
-						.setColor('Blue'),
+					new EmbedBuilder().setTitle(':x: 失敗').setDescription('ユーザーの取得に失敗しました。').setColor('Blue'),
 				],
 			});
 		}
