@@ -55,7 +55,7 @@ export default {
 						return await interaction.editReply({
 							embeds: [
 								new EmbedBuilder()
-									.setTitle('<:x_:1061166079495389196> | 失敗')
+									.setTitle(':x: 失敗')
 									.setDescription('キャラクターが見つかりませんでした。')
 									.setColor('Blue'),
 							],
@@ -79,7 +79,7 @@ export default {
 					return await interaction.editReply({
 						embeds: [
 							new EmbedBuilder()
-								.setTitle('<:x_:1061166079495389196> | 失敗')
+								.setTitle(':x: 失敗')
 								.setDescription('エラーが発生しました。')
 								.setColor('Blue'),
 						],
@@ -90,7 +90,7 @@ export default {
 			await interaction.editReply({
 				embeds: [
 					new EmbedBuilder()
-						.setTitle('<:x_:1061166079495389196> | 失敗')
+						.setTitle(':x: 失敗')
 						.setDescription('ユーザーの取得に失敗しました。')
 						.setColor('Blue'),
 				],
