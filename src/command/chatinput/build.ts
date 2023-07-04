@@ -13,7 +13,7 @@ import { EnkaClient } from 'enka-network-api';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('build')
-		.setDescription('Genshin Artifacter')
+		.setDescription('Artifacter')
 		.addStringOption((input) =>
 			input.setName('uid').setDescription('キャラクターのデータを取得するプレイヤーの UID').setRequired(true),
 		)
@@ -34,8 +34,8 @@ export default {
 		),
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
-			await interaction.deferReply({ ephemeral: true });
-            const database = interaction.client.botData.artifacter;
+			await interaction.deferReply();
+			const database = interaction.client.botData.artifacter;
 			let first = '';
 			const enka = new EnkaClient();
 			enka
