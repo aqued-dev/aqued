@@ -32,6 +32,10 @@ export default {
 				)
 				.setRequired(true),
 		),
+	ownersOnly: false,
+	modOnly: false,
+	guildOnly: true,
+	permissions: [],
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
 			await interaction.deferReply();
@@ -77,22 +81,13 @@ export default {
 				})
 				.catch(async () => {
 					return await interaction.editReply({
-						embeds: [
-							new EmbedBuilder()
-								.setTitle(':x: 失敗')
-								.setDescription('エラーが発生しました。')
-								.setColor('Blue'),
-						],
+						embeds: [new EmbedBuilder().setTitle(':x: 失敗').setDescription('エラーが発生しました。').setColor('Blue')],
 					});
 				});
-		} catch (error) {
-			console.log(error);
+		} catch {
 			await interaction.editReply({
 				embeds: [
-					new EmbedBuilder()
-						.setTitle(':x: 失敗')
-						.setDescription('ユーザーの取得に失敗しました。')
-						.setColor('Blue'),
+					new EmbedBuilder().setTitle(':x: 失敗').setDescription('ユーザーの取得に失敗しました。').setColor('Blue'),
 				],
 			});
 		}

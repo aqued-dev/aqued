@@ -1,35 +1,131 @@
 /* eslint-disable unicorn/number-literal-case */
 import {
 	ApplicationCommandType,
-	ChannelType,
+	Colors,
 	ContextMenuCommandBuilder,
-	MessageContextMenuCommandInteraction,
-	PermissionFlagsBits,
+	EmbedBuilder,
+	time,
+	UserContextMenuCommandInteraction,
 } from 'discord.js';
+import { translatePermission } from '../../utils/permission.js';
 
 export default {
-	command: new ContextMenuCommandBuilder().setName('Force Pin解除').setType(ApplicationCommandType.User),
+	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),
 	ownersOnly: false,
 	modOnly: false,
 	guildOnly: true,
-	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
+	permissions: [],
 
-	async execute(interaction: MessageContextMenuCommandInteraction) {
-		const { botData } = interaction.client;
-		const { forcePin } = botData;
-		if (interaction.targetMessage.channel.type !== ChannelType.GuildText)
-			return await interaction.error(
-				':x: Force Pinを解除できませんでした。',
-				'テキストチャンネルでお試しください。',
-				true,
-			);
-		if (!(await forcePin.get(interaction.targetMessage.channelId)))
-			return await interaction.error(':x: Force Pinを解除できませんでした。', 'Force Pinが設定されていません。', true);
-		await forcePin.delete(interaction.targetMessage.channelId);
-		await interaction.ok(
-			':o: Force Pinを解除しました。',
-			'Force Pinの設定は、`アプリ > Force Pin`で、いつでもできます。',
-			true,
-		);
+	async execute(interaction: UserContextMenuCommandInteraction) {
+		const user = interaction.targetUser;
+		const member = interaction.guild.members.cache.get(user.id);
+		const username = user.discriminator === '0' ? `@${user.username}` : `${user.username}#${user.discriminator}`;
+		const response = await fetch(user.extDefaultAvatarURL({ extension: 'gif' }));
+		if (member) {
+			const memberResponse = await fetch(member.extDefaultAvatarURL({ extension: 'gif' }));
+			const embed = new EmbedBuilder()
+				.setTitle(`**${username}**の情報`)
+				.setColor(Colors.Blue)
+				.addFields(
+					{
+						name: '基本情報',
+						value: `**名前**: ${user.globalName ? `${user.globalName}(${username})` : username}\n**ID**: \`${
+							user.id
+						}\`\n**アカウント作成日時**: ${time(user.createdAt, 'F')}\n**bot**: ${
+							user.bot ? 'はい' : 'いいえ'
+						}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**フラグ**: ${
+							user.flags
+								.toArray()
+								.map((v) =>
+									v
+										.replaceAll('VerifiedDeveloper', '<:verified_bot_developer:1035780599404826645>')
+										.replaceAll('PremiumEarlySupporter', '<:Discord_Early_Supporter:1027518349544005673>')
+										.replaceAll('ActiveDeveloper', '<:ActiveDevloper:1082582737241776180>')
+										.replaceAll('Staff', '<:Discord_Staff:1027518926957064212>')
+										.replaceAll('Partner', '<:Partner_server:1028500801313833050>')
+										.replaceAll('Hypesquad', '<:Discord_Hypesquad_Event:1027518774431191060>')
+										.replaceAll('BugHunterLevel1', '<:Discord_Bug_Hunter:1027518144652255272>')
+										.replaceAll('BugHunterLevel2', '<:Discord_Bug_Hunter:1027518144652255272>')
+										.replaceAll('HypeSquadOnlineHouse1', '<:Discord_Hypesquad_Bravery:1027518564724379698>')
+										.replaceAll('HypeSquadOnlineHouse2', '<:Discord_Hypesquad_Brilliance:1027518693128810496>')
+										.replaceAll('HypeSquadOnlineHouse3', '<:Discord_Hypesquad_Balance:1027518440912728104>')
+										.replaceAll('VerifiedBot', '<:verified_bot:1028499348792823818>')
+										.replaceAll('CertifiedModerator', '<:DiscordCertifiedModerator:1082847714162786305>'),
+								)
+								.join(' ') || 'なし'
+						}`,
+						inline: false,
+					},
+					{
+						name: 'サーバーメンバー情報',
+						value: `**ニックネーム**: ${member.nickname || 'なし'}\n${
+							member.communicationDisabledUntil
+								? `**タイムアウトが解除される日時**:${time(member.communicationDisabledUntil, 'F')}`
+								: ''
+						}\n**サーバー参加日時**: ${time(member.joinedAt, 'F')}\n**権限**: \`${translatePermission(
+							member.permissions.toArray(),
+						).join(', ')}\`${
+							member.premiumSince ? `**最後にブーストした日時**: ${time(member.premiumSince, 'F')}` : ''
+						}`,
+						inline: false,
+					},
+				)
+				.setThumbnail(
+					memberResponse.ok
+						? member.extDefaultAvatarURL({ extension: 'gif' })
+						: member.extDefaultAvatarURL({ extension: 'webp' }),
+				);
+			if (member.avatar) {
+				response.ok
+					? embed.setImage(user.extDefaultAvatarURL({ extension: 'gif' }))
+					: embed.setImage(user.extDefaultAvatarURL({ extension: 'webp' }));
+			}
+
+			await interaction.reply({
+				embeds: [embed],
+			});
+		} else {
+			await interaction.reply({
+				embeds: [
+					new EmbedBuilder()
+						.setTitle(`**${username}**の情報`)
+						.setColor(Colors.Blue)
+						.addFields({
+							name: '基本情報',
+							value: `**名前**: ${user.globalName ? `${user.globalName}(${username})` : username}\n**ID**: \`${
+								user.id
+							}\`\n**アカウント作成日時**: ${time(user.createdAt, 'F')}\n**bot**: ${
+								user.bot ? 'はい' : 'いいえ'
+							}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**フラグ**: ${
+								user.flags
+									.toArray()
+									.map((v) =>
+										v
+											.replaceAll('VerifiedDeveloper', '<:verified_bot_developer:1035780599404826645>')
+											.replaceAll('PremiumEarlySupporter', '<:Discord_Early_Supporter:1027518349544005673>')
+											.replaceAll('ActiveDeveloper', '<:ActiveDevloper:1082582737241776180>')
+											.replaceAll('Staff', '<:Discord_Staff:1027518926957064212>')
+											.replaceAll('Partner', '<:Partner_server:1028500801313833050>')
+											.replaceAll('Hypesquad', '<:Discord_Hypesquad_Event:1027518774431191060>')
+											.replaceAll('BugHunterLevel1', '<:Discord_Bug_Hunter:1027518144652255272>')
+											.replaceAll('BugHunterLevel2', '<:Discord_Bug_Hunter:1027518144652255272>')
+											.replaceAll('HypeSquadOnlineHouse1', '<:Discord_Hypesquad_Bravery:1027518564724379698>')
+											.replaceAll('HypeSquadOnlineHouse2', '<:Discord_Hypesquad_Brilliance:1027518693128810496>')
+											.replaceAll('HypeSquadOnlineHouse3', '<:Discord_Hypesquad_Balance:1027518440912728104>')
+											.replaceAll('VerifiedBot', '<:verified_bot:1028499348792823818>')
+											.replaceAll('CertifiedModerator', '<:DiscordCertifiedModerator:1082847714162786305>'),
+									)
+									.join(' ') || 'なし'
+							}`,
+							inline: true,
+						})
+						.setThumbnail(
+							response.ok
+								? user.extDefaultAvatarURL({ extension: 'gif' })
+								: user.extDefaultAvatarURL({ extension: 'webp' }),
+						),
+				],
+			});
+		}
 	},
 };
