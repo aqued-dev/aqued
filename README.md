@@ -1,0 +1,3 @@
+# aqued
+
+DiscordBot、Aqued のレポジトリです。

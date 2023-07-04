@@ -1,0 +1,18 @@
+{
+	"token": "Discord Bot Token",
+	"owners": ["user id"],
+	"mods": ["user id"],
+	"channelIds": {
+		"error": "channel id",
+		"botLog": "channel id",
+		"commandLog": "channel id"
+	},
+	"clientId": "user id",
+	"load": {
+		"chatinput": true,
+		"messagecotextmenu": true,
+		"usercotextmenu": true
+	},
+	"mongoDBUrl": "mongoDBUrl",
+	"key": "key"
+}

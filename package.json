@@ -1,0 +1,44 @@
+{
+	"name": "aqued",
+	"version": "3.0.0",
+	"description": "Discord Bot",
+	"main": "dist/index.js",
+	"author": "aqued-dev",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"lint": "prettier --check . && eslint src --ext .ts --format=pretty",
+		"format": "prettier --write . && eslint src --ext .ts --fix --format=pretty",
+		"build": "rimraf dist && tsc",
+		"start": "node dist/src/index.js"
+	},
+	"dependencies": {
+		"@discordjs/rest": "^1.7.2-dev.1687565517-75d91b5.0",
+		"discord.js": "^14.11.1-dev.1687565525-75d91b5.0",
+		"enka-network-api": "^3.4.0",
+		"json-bigint": "^1.0.0",
+		"mongoose": "^7.3.1",
+		"typescript": "5.1.6"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.6.5",
+		"@commitlint/config-conventional": "^17.6.5",
+		"@types/json-bigint": "^1.0.1",
+		"@types/node": "20",
+		"@typescript-eslint/eslint-plugin": "^5.60.0",
+		"@typescript-eslint/parser": "^5.60.0",
+		"@yarnpkg/pnpify": "3",
+		"@yarnpkg/sdks": "^3.0.0-rc.48",
+		"eslint": "^8.43.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-formatter-pretty": "^5.0.0",
+		"eslint-plugin-unicorn": "^47.0.0",
+		"husky": "^8.0.3",
+		"prettier": "^2.8.8",
+		"rimraf": "^5.0.1"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"packageManager": "yarn@3.6.1"
+}

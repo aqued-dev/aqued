@@ -1,0 +1,19 @@
+{
+	"env": {
+		"es2021": true,
+		"node": true
+	},
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "plugin:unicorn/recommended"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"sourceType": "module",
+		"project": "./tsconfig.json",
+		"ecmaVersion": "latest"
+	},
+	"plugins": ["@typescript-eslint", "unicorn"],
+	"root": true,
+	"rules": {
+		"unicorn/prefer-node-protocol": "error",
+		"unicorn/filename-case": "off"
+	}
+}
