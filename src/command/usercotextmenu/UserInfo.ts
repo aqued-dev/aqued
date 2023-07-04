@@ -7,7 +7,6 @@ import {
 	UserContextMenuCommandInteraction,
 } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import '../../utils/extrans.js';
 export default {
 	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),
 	ownersOnly: false,
