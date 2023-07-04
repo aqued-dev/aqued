@@ -151,7 +151,7 @@ function UserExtensionDefaultAvatarURL(options: ImageURLOptions) {
 	const defaultAvatar = this.client.rest.cdn.defaultAvatar(index);
 	return this.avatarURL(options) ?? defaultAvatar;
 }
-function GuildMemberExtensionDefaultAvatarURL(options:ImageURLOptions) {
+function GuildMemberExtensionDefaultAvatarURL(options: ImageURLOptions) {
 	return this.avatarURL(options) ?? this.user.extDefaultAvatarURL(options);
 }
 

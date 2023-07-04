@@ -1,22 +1,19 @@
-import {
-	ApplicationCommandType,
-	Colors,
-	ContextMenuCommandBuilder,
-	EmbedBuilder,
-	time,
-	UserContextMenuCommandInteraction,
-} from 'discord.js';
+/* eslint-disable unicorn/number-literal-case */
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder, time } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import '../../utils/extrans.js';
+
 export default {
-	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),
+	command: new SlashCommandBuilder()
+		.setName('userinfo')
+		.setDescription('ユーザーの情報を表示します。')
+		.addUserOption((input) => input.setName('user').setDescription('ユーザー')),
 	ownersOnly: false,
 	modOnly: false,
 	guildOnly: false,
 	permissions: false,
 
-	async execute(interaction: UserContextMenuCommandInteraction) {
-		const user = interaction.targetUser;
+	async execute(interaction: ChatInputCommandInteraction) {
+		const user = interaction.options.getUser('user') || interaction.user;
 		const member = interaction.guild && interaction.guild.members.cache.get(user.id);
 		const username = user.discriminator === '0' ? `@${user.username}` : `${user.username}#${user.discriminator}`;
 		const response = await fetch(user.extDefaultAvatarURL({ extension: 'gif' }));
