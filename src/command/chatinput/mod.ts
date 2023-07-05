@@ -1,9 +1,5 @@
 // eslint-disable-next-line unicorn/prevent-abbreviations
-import {
-	ChannelType,
-	ChatInputCommandInteraction,
-	SlashCommandBuilder,
-} from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
