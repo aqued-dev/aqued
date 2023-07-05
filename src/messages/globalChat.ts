@@ -1,5 +1,15 @@
+/* eslint-disable unicorn/no-await-expression-member */
 /* eslint-disable unicorn/no-nested-ternary */
-import { AttachmentBuilder, ChannelType, Colors, EmbedBuilder, Message, StickerFormatType, Webhook } from 'discord.js';
+import {
+	AttachmentBuilder,
+	ChannelType,
+	Colors,
+	EmbedBuilder,
+	Message,
+	MessageType,
+	StickerFormatType,
+	Webhook,
+} from 'discord.js';
 
 export default async function (message: Message) {
 	try {
@@ -46,14 +56,31 @@ export default async function (message: Message) {
 			}
 			const messages: undefined | { channelId: string; messageId: string }[] =
 				await message.client.botData.globalChat.messages.get(message.id);
-
+			const content =
+				message.cleanContent.slice(0, 1500) === message.cleanContent
+					? message.cleanContent
+					: `${message.cleanContent.slice(0, 1500)}...` || '内容がありません。';
+			let replymsg: string;
+			if (message.type === MessageType.Reply) {
+				const repliedMessage = await message.fetchReference();
+				replymsg = repliedMessage.content;
+				if (repliedMessage.content.includes('\n')) {
+					replymsg = repliedMessage.content.slice(repliedMessage.content.indexOf('\n'));
+				}
+			}
 			if (user.avatar) {
 				const avatar = user.avatar.startsWith('a_')
 					? user.extDefaultAvatarURL({ extension: 'gif' })
 					: user.extDefaultAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
-						content: message.cleanContent || '内容がありません。',
+						content:
+							message.type === MessageType.Reply
+								? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
+								  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
+									? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
+									: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
+								: content,
 						files: attachments,
 						embeds: stickerEmbeds,
 						avatarURL: avatar,
@@ -90,7 +117,13 @@ export default async function (message: Message) {
 				const avatar = user.extDefaultAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
-						content: message.cleanContent || '内容がありません。',
+						content:
+							message.type === MessageType.Reply
+								? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
+								  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
+									? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
+									: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
+								: content,
 						files: attachments,
 						embeds: stickerEmbeds,
 						avatarURL: avatar,
