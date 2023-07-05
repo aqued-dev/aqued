@@ -46,7 +46,14 @@ export default {
 					const channel = interaction.client.channels.cache.get(value.channelId);
 					if (!channel) continue;
 					if (channel.type !== ChannelType.GuildText) continue;
-					channel.messages.fetch(value.messageId).then((message) => message.delete());
+					const webhooks = await channel.fetchWebhooks();
+					const webhook: Webhook =
+						!webhooks.some((value) => value.name === 'Aqued') ||
+						webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+							? await channel.createWebhook({ name: 'Aqued' })
+							: webhooks.find((value) => value.name === 'Aqued');
+
+					webhook.deleteMessage(value.messageId);
 				}
 				await interaction.ok('削除しました。', 'メッセージを削除しました。', true);
 				break;
