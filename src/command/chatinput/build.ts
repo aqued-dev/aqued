@@ -34,7 +34,7 @@ export default {
 	ownersOnly: false,
 	modOnly: false,
 	guildOnly: true,
-	permissions: [],
+	permissions: false,
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
 			await interaction.deferReply();
