@@ -18,7 +18,6 @@ export default {
 		),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: true,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
 
 	async execute(interaction: ChatInputCommandInteraction) {

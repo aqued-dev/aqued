@@ -9,7 +9,6 @@ export default {
 		.addUserOption((input) => input.setName('user').setDescription('ユーザー')),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: false,
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {

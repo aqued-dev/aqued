@@ -14,7 +14,6 @@ export default {
 		.addSubcommand((input) => input.setName('ban_member').setDescription('banされたメンバー一覧を表示します。')),
 	ownersOnly: true,
 	modOnly: false,
-	guildOnly: true,
 	permissions: [PermissionFlagsBits.KickMembers, PermissionFlagsBits.BanMembers, PermissionFlagsBits.ModerateMembers],
 
 	async execute(interaction: ChatInputCommandInteraction) {

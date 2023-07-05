@@ -12,7 +12,6 @@ export default {
 	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: false,
 	permissions: false,
 
 	async execute(interaction: UserContextMenuCommandInteraction) {

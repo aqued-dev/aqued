@@ -18,7 +18,6 @@ export default {
 		),
 	ownersOnly: true,
 	modOnly: false,
-	guildOnly: false,
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {

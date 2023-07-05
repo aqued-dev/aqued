@@ -16,7 +16,6 @@ export default {
 		.addStringOption((input) => input.setName('text').setDescription('短冊の内容').setRequired(true)),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: false,
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {

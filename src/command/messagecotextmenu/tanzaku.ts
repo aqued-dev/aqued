@@ -16,7 +16,7 @@ export default {
 	command: new ContextMenuCommandBuilder().setName('短冊').setType(ApplicationCommandType.Message),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: false,
+	permissions: false,
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {
 		interaction.targetMessage.cleanContent

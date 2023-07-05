@@ -14,7 +14,6 @@ export default {
 		.setGuildOnly(),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: true,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageChannels],
 	async execute(interaction: ChatInputCommandInteraction) {
 		const channel = interaction.options.getChannel('channel', true, [ChannelType.GuildAnnouncement]);

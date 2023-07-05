@@ -4,7 +4,6 @@ export default {
 	command: new SlashCommandBuilder().setName('ping').setDescription('botのping値を返します。'),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: false,
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {

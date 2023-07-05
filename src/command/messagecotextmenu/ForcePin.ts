@@ -21,7 +21,6 @@ export default {
 	command: new ContextMenuCommandBuilder().setName('Force Pin').setType(ApplicationCommandType.Message).setGuildOnly(),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: true,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {

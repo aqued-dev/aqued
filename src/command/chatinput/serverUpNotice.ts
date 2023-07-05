@@ -16,7 +16,6 @@ export default {
 		.setGuildOnly(),
 	ownersOnly: false,
 	modOnly: false,
-	guildOnly: true,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.MentionEveryone],
 	async execute(interaction: ChatInputCommandInteraction) {
 		const message = await interaction.reply({
