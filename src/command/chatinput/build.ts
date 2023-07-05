@@ -2,6 +2,7 @@ import {
 	APISelectMenuOption,
 	ActionRowBuilder,
 	ChatInputCommandInteraction,
+	Colors,
 	EmbedBuilder,
 	SelectMenuComponentOptionData,
 	SlashCommandBuilder,
@@ -59,13 +60,13 @@ export default {
 								new EmbedBuilder()
 									.setTitle(':x: 失敗')
 									.setDescription('キャラクターが見つかりませんでした。')
-									.setColor('Blue'),
+									.setColor(Colors.Red),
 							],
 						});
 					}
 					await database.set(interaction.options.getString('uid'), interaction.options.getString('計算方法'));
 					await interaction.editReply({
-						embeds: [new EmbedBuilder().setTitle('キャラクターを選択してください').setColor('Blue')],
+						embeds: [new EmbedBuilder().setTitle('キャラクターを選択してください').setColor(Colors.Blue)],
 						components: [
 							new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 								new StringSelectMenuBuilder()
@@ -79,13 +80,18 @@ export default {
 				})
 				.catch(async () => {
 					return await interaction.editReply({
-						embeds: [new EmbedBuilder().setTitle(':x: 失敗').setDescription('エラーが発生しました。').setColor('Blue')],
+						embeds: [
+							new EmbedBuilder().setTitle(':x: 失敗').setDescription('エラーが発生しました。').setColor(Colors.Red),
+						],
 					});
 				});
 		} catch {
 			await interaction.editReply({
 				embeds: [
-					new EmbedBuilder().setTitle(':x: 失敗').setDescription('ユーザーの取得に失敗しました。').setColor('Blue'),
+					new EmbedBuilder()
+						.setTitle(':x: 失敗')
+						.setDescription('ユーザーの取得に失敗しました。')
+						.setColor(Colors.Red),
 				],
 			});
 		}
