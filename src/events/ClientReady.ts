@@ -1,10 +1,23 @@
 import { ActivityType, Client, Colors, EmbedBuilder, Events } from 'discord.js';
 import { info } from '../utils/log.js';
+import { readdir, statSync, unlink } from 'node:fs';
 
 export default {
 	name: Events.ClientReady,
 	once: true,
 	async execute(client: Client) {
+		readdir('src/interactions/artifacter', (error, files) => {
+			if (error) throw error;
+			for (const file of files) {
+				const filePath = `src/interactions/artifacter/${file}`;
+				const fileExtension = file.split('.').pop();
+				if (statSync(filePath).isFile() && fileExtension === 'png') {
+					unlink(filePath, (error) => {
+						if (error) throw error;
+					});
+				}
+			}
+		});
 		client.user.setPresence({
 			status: 'online',
 			activities: [
