@@ -48,8 +48,6 @@ export default async function (interaction: BaseInteraction) {
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
-		if (command.data.guildOnly && !interaction.guild)
-			return await interaction.error('サーバー専用コマンド', 'このコマンドはサーバー内でしか実行できません。', true);
 		if (command.data.permissions) {
 			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
@@ -180,8 +178,6 @@ export default async function (interaction: BaseInteraction) {
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
-		if (command.data.guildOnly && !interaction.guild)
-			return await interaction.error('サーバー専用コマンド', 'このコマンドはサーバー内でしか実行できません。', true);
 		if (command.data.permissions) {
 			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
@@ -312,8 +308,6 @@ export default async function (interaction: BaseInteraction) {
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
-		if (command.data.guildOnly && !interaction.guild)
-			return await interaction.error('サーバー専用コマンド', 'このコマンドはサーバー内でしか実行できません。', true);
 		if (command.data.permissions) {
 			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
