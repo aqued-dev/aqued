@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/number-literal-case */
+/* eslint-disable unicorn/no-nested-ternary */
 import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder, time } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
 
@@ -16,9 +16,7 @@ export default {
 		const user = interaction.options.getUser('user') || interaction.user;
 		const member = interaction.guild && interaction.guild.members.cache.get(user.id);
 		const username = user.discriminator === '0' ? `@${user.username}` : `${user.username}#${user.discriminator}`;
-		const response = await fetch(user.extDefaultAvatarURL({ extension: 'gif' }));
 		if (member) {
-			const memberResponse = await fetch(member.extDefaultAvatarURL({ extension: 'gif' }));
 			const embed = new EmbedBuilder()
 				.setTitle(`**${username}**の情報`)
 				.setColor(Colors.Blue)
@@ -65,16 +63,21 @@ export default {
 						}`,
 						inline: false,
 					},
-				)
-				.setThumbnail(
-					memberResponse.ok
-						? member.extDefaultAvatarURL({ extension: 'gif' })
-						: member.extDefaultAvatarURL({ extension: 'webp' }),
 				);
+
 			if (member.avatar) {
-				response.ok
+				member.avatar.startsWith('a_')
+					? embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'gif' }))
+					: embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'webp' }));
+				user.avatar.startsWith('a_')
 					? embed.setImage(user.extDefaultAvatarURL({ extension: 'gif' }))
 					: embed.setImage(user.extDefaultAvatarURL({ extension: 'webp' }));
+			} else if (user.avatar) {
+				user.avatar.startsWith('a_')
+					? embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'gif' }))
+					: embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
+			} else {
+				embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
 			}
 
 			await interaction.reply({
@@ -116,8 +119,10 @@ export default {
 							inline: true,
 						})
 						.setThumbnail(
-							response.ok
-								? user.extDefaultAvatarURL({ extension: 'gif' })
+							user.avatar
+								? user.avatar.startsWith('a_')
+									? user.extDefaultAvatarURL({ extension: 'gif' })
+									: user.extDefaultAvatarURL({ extension: 'webp' })
 								: user.extDefaultAvatarURL({ extension: 'webp' }),
 						),
 				],
