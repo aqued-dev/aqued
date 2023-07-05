@@ -5,6 +5,7 @@ import {
 	ApplicationCommandType,
 	AttachmentBuilder,
 	ChannelType,
+	Colors,
 	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GuildMember,
@@ -34,13 +35,13 @@ export default {
 			if (message.stickers.first().format === StickerFormatType.Lottie)
 				stickerEmbeds.push(
 					new EmbedBuilder()
-						.setColor(0x2b2d31)
+						.setColor(Colors.Blue)
 						.setDescription('このスタンプに対応していないため、表示できません。')
 						.toJSON(),
 				);
 			else
 				stickerEmbeds.push(
-					new EmbedBuilder().setTitle('スタンプ').setColor(0x2b2d31).setImage(message.stickers.first().url).toJSON(),
+					new EmbedBuilder().setTitle('スタンプ').setColor(Colors.Blue).setImage(message.stickers.first().url).toJSON(),
 				);
 		}
 		const messageEmbed: APIEmbed[] = [];
