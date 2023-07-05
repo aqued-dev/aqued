@@ -53,6 +53,7 @@ client.botData = {
 		number: newMongoDB('commandExecutorsNumber'),
 		users: newMongoDB('commandExecutorsUsers'),
 	},
+	globalChat: { register: newMongoDB('globalChatRegister'), messages: newMongoDB('globalChatMessages') },
 	aquedAutoNews: newMongoDB('aquedAutoNews'),
 	artifacter: newMongoDB('artifacter'),
 	errorChannelId: config.channelIds.error,
