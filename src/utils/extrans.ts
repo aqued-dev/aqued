@@ -48,7 +48,7 @@ declare module 'discord.js' {
 			infos: MongoDB;
 			errorChannelId: string;
 			botLogChannelId: string;
-			globalChat: { register: MongoDB; messages: MongoDB };
+			globalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
 			aquedAutoNews: MongoDB;
 			commandLogChannelId: string;
 			commandDatas: Array<

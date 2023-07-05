@@ -7,6 +7,10 @@ export default async function (message: Message) {
 		if (user.bot || user.system || user.discriminator === '0000') return;
 		if (message.channel.type !== ChannelType.GuildText) return;
 		if (!(await message.client.botData.globalChat.register.get(message.channelId))) return;
+		if (await message.client.botData.globalChat.blocks.get(user.id)) {
+			message.react('❌');
+			return;
+		}
 		const registers = await message.client.botData.globalChat.register.keys();
 		for (const value of registers) {
 			const channel = message.client.channels.cache.get(value);

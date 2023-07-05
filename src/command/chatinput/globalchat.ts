@@ -21,7 +21,7 @@ export default {
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
 
 	async execute(interaction: ChatInputCommandInteraction) {
-		const { register } = interaction.client.botData.globalChat;
+		const { register, blocks } = interaction.client.botData.globalChat;
 		const optionsChannel = interaction.options.getChannel('channel', true, [ChannelType.GuildText]);
 
 		if (await register.get(optionsChannel.id)) {
@@ -58,6 +58,14 @@ export default {
 				});
 			}
 		} else {
+			if (await blocks.get(interaction.user.id))
+				return await interaction.error(
+					'グローバルチャットに入室できません',
+					`あなたはグローバルチャットBanされている為、\n入室、グローバルチャットでの発言ができません。\nban理由: ${await blocks.get(
+						interaction.user.id,
+					)}\n異論申し立てはサポートサーバーまで。`,
+					true,
+				);
 			await register.set(optionsChannel.id, true);
 			await interaction.ok('参加しました。', '参加が完了しました。', false);
 			const registers = await register.keys();
