@@ -1,5 +1,5 @@
 // eslint-disable-next-line unicorn/prevent-abbreviations
-import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, Webhook } from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -25,6 +25,12 @@ export default {
 				.setName('globalchatunban')
 				.setDescription('(botモデレーター専用コマンド)グローバルチャットBan解除を行います。')
 				.addUserOption((input) => input.setName('user').setDescription('対象ユーザー').setRequired(true)),
+		)
+		.addSubcommand((input) =>
+			input
+				.setName('globalchataquedsystem')
+				.setDescription('(botモデレーター専用コマンド)Aqued System Messageを送信します。')
+				.addStringOption((input) => input.setName('content').setDescription('内容').setRequired(true)),
 		),
 	ownersOnly: false,
 	modOnly: true,
@@ -58,6 +64,29 @@ export default {
 				const user = interaction.options.getUser('user');
 				await blocks.delete(user.id);
 				await interaction.ok('グローバルチャットBan解除に成功', 'グローバルチャットBan解除が完了しました。', true);
+				break;
+			}
+			case 'globalchataquedsystem': {
+				const content = interaction.options.getString('content');
+				const registers = await interaction.client.botData.globalChat.register.keys();
+				await interaction.ok('送信開始', '送信が開始しました。', true);
+				for (const value of registers) {
+					const channel = interaction.client.channels.cache.get(value);
+					if (!channel) continue;
+					if (channel.type !== ChannelType.GuildText) continue;
+					const webhooks = await channel.fetchWebhooks();
+					const webhook: Webhook =
+						!webhooks.some((value) => value.name === 'Aqued') ||
+						webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+							? await channel.createWebhook({ name: 'Aqued' })
+							: webhooks.find((value) => value.name === 'Aqued');
+
+					await webhook.send({
+						content,
+						avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+						username: 'Aqued System',
+					});
+				}
 				break;
 			}
 		}

@@ -54,7 +54,7 @@ export default {
 				await webhook.send({
 					embeds: [embed],
 					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
-					username: 'Aqued Global System',
+					username: 'Aqued System',
 				});
 			}
 		} else {
@@ -95,7 +95,7 @@ export default {
 				await webhook.send({
 					embeds: [embed],
 					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
-					username: 'Aqued Global System',
+					username: 'Aqued System',
 				});
 			}
 		}
