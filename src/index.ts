@@ -58,6 +58,7 @@ client.botData = {
 		messages: newMongoDB('globalChatMessages'),
 		blocks: newMongoDB('globalChatblocks'),
 	},
+	messageExpansion: newMongoDB('messageExpansion'),
 	aquedAutoNews: newMongoDB('aquedAutoNews'),
 	artifacter: newMongoDB('artifacter'),
 	errorChannelId: config.channelIds.error,

@@ -38,6 +38,7 @@ declare module 'discord.js' {
 			messageFiles: any[];
 			owners: string[];
 			gbans: MongoDB;
+			messageExpansion: MongoDB;
 			guildUpNotice: { dissoku: MongoDB; disboard: MongoDB };
 			mods: string[];
 			cooldowns?: Collection<string, any>;
