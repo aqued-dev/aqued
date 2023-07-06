@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImageURLOptions, calculateUserDefaultAvatarIndex } from '@discordjs/rest';
+import { Worker } from 'node:worker_threads';
 import {
 	Collection,
 	User,
@@ -20,6 +21,43 @@ import {
 	Message,
 } from 'discord.js';
 import { MongoDB } from './MongoDB.js';
+export interface BotData {
+	commands: {
+		chatInput: Array<{ name: string; data: any }>;
+		userCotextMenu: Array<{ name: string; data: any }>;
+		messageCotextMenu: Array<{ name: string; data: any }>;
+	};
+	load: {
+		chatinput: boolean;
+		messagecotextmenu: boolean;
+		usercotextmenu: boolean;
+	};
+	commandExecutors: { serverUpNotice: MongoDB; number: MongoDB; users: MongoDB };
+	interactionFiles: any[];
+	messageFiles: any[];
+	loops: Collection<string, Worker>;
+	owners: string[];
+	gbans: MongoDB;
+	messageExpansion: MongoDB;
+	guildUpNotice: { dissoku: MongoDB; disboard: MongoDB };
+	mods: string[];
+	cooldowns?: Collection<string, any>;
+	reboot: boolean;
+	errors: MongoDB;
+	artifacter: MongoDB;
+	forcePin: MongoDB;
+	infos: MongoDB;
+	errorChannelId: string;
+	botLogChannelId: string;
+	globalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
+	aquedAutoNews: MongoDB;
+	commandLogChannelId: string;
+	commandDatas: Array<
+		RESTPostAPIChatInputApplicationCommandsJSONBody | RESTPostAPIContextMenuApplicationCommandsJSONBody
+	>;
+	rest: REST;
+	clientId: string;
+}
 declare module 'discord.js' {
 	interface Client {
 		botData: {
@@ -36,6 +74,7 @@ declare module 'discord.js' {
 			commandExecutors: { serverUpNotice: MongoDB; number: MongoDB; users: MongoDB };
 			interactionFiles: any[];
 			messageFiles: any[];
+			loops: Collection<string, Worker>;
 			owners: string[];
 			gbans: MongoDB;
 			messageExpansion: MongoDB;

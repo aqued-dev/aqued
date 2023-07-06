@@ -35,6 +35,7 @@ client.botData = {
 	commands: { chatInput: [], userCotextMenu: [], messageCotextMenu: [] },
 	interactionFiles: [],
 	messageFiles: [],
+	loops: new Collection(),
 	load: config.load,
 	owners: config.owners,
 	gbans: newMongoDB('botDataGbans'),
@@ -141,6 +142,7 @@ for (const file of await readdir(`./dist/src/messages`).then((files) => files.fi
 	const { default: event } = await import(`./messages/${file}`);
 	messageFiles.push(event);
 }
+
 for (const file of await readdir(`./dist/src/events`).then((files) => files.filter((file) => file.endsWith('.js')))) {
 	const { default: event } = await import(`./events/${file}`);
 	client[event.once ? 'once' : 'on'](event.name, async (...arguments_) => await event.execute(...arguments_));
