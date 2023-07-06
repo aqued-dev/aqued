@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@discordjs/rest": "^1.7.2-dev.1687565517-75d91b5.0",
 		"discord.js": "^14.11.1-dev.1687565525-75d91b5.0",
-		"enka-network-api": "^3.4.0",
+		"enka-network-api": "^3.6.1",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^7.3.1",
 		"typescript": "latest"
