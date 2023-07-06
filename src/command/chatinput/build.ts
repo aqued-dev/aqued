@@ -22,11 +22,11 @@ export default {
 				.setName('計算方法')
 				.setDescription('計算方法')
 				.addChoices(
+					{ name: '攻撃', value: 'ATTACK' },
 					{ name: 'HP', value: 'HP' },
-					{ name: 'ATTACK', value: 'ATTACK' },
-					{ name: 'CHARGE', value: 'CHARGE' },
+					{ name: 'チャージ', value: 'CHARGE' },
 					{
-						name: 'ELEMENT',
+						name: '元素熟知',
 						value: 'ELEMENT',
 					},
 				)
@@ -88,10 +88,7 @@ export default {
 		} catch {
 			await interaction.editReply({
 				embeds: [
-					new EmbedBuilder()
-						.setTitle(':x: 失敗')
-						.setDescription('ユーザーの取得に失敗しました。')
-						.setColor(Colors.Red),
+					new EmbedBuilder().setTitle(':x: 失敗').setDescription('ユーザーの取得に失敗しました。').setColor(Colors.Red),
 				],
 			});
 		}
