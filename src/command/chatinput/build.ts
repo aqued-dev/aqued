@@ -46,12 +46,12 @@ export default {
 				.then(async (user) => {
 					const list: Array<StringSelectMenuOptionBuilder | SelectMenuComponentOptionData | APISelectMenuOption> = [];
 					for (const [index, v] of user.charactersPreview.entries()) {
-						if (index === 0) first = v.characterData.name.get('jp');
+						if (index === 0) first = v.character.characterData.name.get('jp');
 
 						list.push({
-							label: v.characterData.name.get('jp'),
-							description: v.characterData.name.get('jp'),
-							value: v.characterData.name.get('jp'),
+							label: v.character.characterData.name.get('jp'),
+							description: v.character.characterData.name.get('jp'),
+							value: v.character.characterData.name.get('jp'),
 						});
 					}
 					if (!first) {
