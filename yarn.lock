@@ -1207,7 +1207,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.60.0
     "@yarnpkg/pnpify": 3
     "@yarnpkg/sdks": ^3.0.0-rc.48
-    discord.js: ^14.11.1-dev.1687565525-75d91b5.0
+    discord.js: ^14.11.1-dev.1688990693-09b0382.0
     enka-network-api: ^3.6.1
     eslint: ^8.43.0
     eslint-config-prettier: ^8.8.0
@@ -1815,9 +1815,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.11.1-dev.1687565525-75d91b5.0":
-  version: 14.11.1-dev.1688429484-75d91b5.0
-  resolution: "discord.js@npm:14.11.1-dev.1688429484-75d91b5.0"
+"discord.js@npm:^14.11.1-dev.1688990693-09b0382.0":
+  version: 14.11.1-dev.1688990693-09b0382.0
+  resolution: "discord.js@npm:14.11.1-dev.1688990693-09b0382.0"
   dependencies:
     "@discordjs/builders": ^1.6.3
     "@discordjs/collection": ^1.5.1
@@ -1833,7 +1833,7 @@ __metadata:
     tslib: ^2.5.2
     undici: ^5.22.1
     ws: ^8.13.0
-  checksum: 6719c5665eac22eff3af8a79b6254abc57d99cffa1ab31c6a73bceae4268508f39a4a9c6ae586c127b59a567683d7ef1a84e7150df2b5962f20151aa25e78685
+  checksum: b5f03b6c68bc56000bfab6d1f8dddddbc5b702c67d08186726dead5ab3501e6adcdf99b317ba6dd15778d9ad7f97d69a9a18dcabbb3cfb7603cc6c74ba8faa61
   languageName: node
   linkType: hard
 
