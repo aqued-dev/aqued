@@ -1,7 +1,6 @@
 import { ActivityType, Client, Colors, EmbedBuilder, Events } from 'discord.js';
 import { info } from '../utils/log.js';
 import { readdir, stat, unlink } from 'node:fs/promises';
-import { Worker } from 'node:worker_threads';
 
 export default {
 	name: Events.ClientReady,
@@ -54,13 +53,5 @@ export default {
 			],
 		});
 		client.botData.reboot = false;
-		for (const file of await readdir(`./dist/src/loops`).then((files) =>
-			files.filter((file) => file.endsWith('.js')),
-		)) {
-			const worker = new Worker(`./dist/src/loops/${file}`);
-			const data = { guilds: [...client.guilds.cache.values()], channels: [...client.channels.cache.values()], botData: client.botData };
-			worker.postMessage(data);
-			client.botData.loops.set(file.replace('.js', ''), worker);
-		}
 	},
 };

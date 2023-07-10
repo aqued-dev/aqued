@@ -35,7 +35,6 @@ client.botData = {
 	commands: { chatInput: [], userCotextMenu: [], messageCotextMenu: [] },
 	interactionFiles: [],
 	messageFiles: [],
-	loops: new Collection(),
 	load: config.load,
 	owners: config.owners,
 	gbans: newMongoDB('botDataGbans'),
@@ -49,6 +48,8 @@ client.botData = {
 		dissoku: newMongoDB('guildUpNoticeDissoku'),
 		disboard: newMongoDB('guildUpNoticeDisboard'),
 	},
+	aquedFreeChannel: newMongoDB('aquedFreeChannel'),
+	aquedFreeChannelUser: newMongoDB('aquedFreeChannelUser'),
 	commandExecutors: {
 		serverUpNotice: newMongoDB('commandExecutorsServerUpNotice'),
 		number: newMongoDB('commandExecutorsNumber'),

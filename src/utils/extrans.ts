@@ -19,6 +19,7 @@ import {
 	SlashCommandBuilder,
 	ContextMenuCommandBuilder,
 	Message,
+	ModalSubmitInteraction,
 } from 'discord.js';
 import { MongoDB } from './MongoDB.js';
 export interface BotData {
@@ -71,10 +72,11 @@ declare module 'discord.js' {
 				messagecotextmenu: boolean;
 				usercotextmenu: boolean;
 			};
+			aquedFreeChannel: MongoDB;
+			aquedFreeChannelUser: MongoDB;
 			commandExecutors: { serverUpNotice: MongoDB; number: MongoDB; users: MongoDB };
 			interactionFiles: any[];
 			messageFiles: any[];
-			loops: Collection<string, Worker>;
 			owners: string[];
 			gbans: MongoDB;
 			messageExpansion: MongoDB;
@@ -107,6 +109,10 @@ declare module 'discord.js' {
 		extDefaultAvatarURL(options: ImageURLOptions): string;
 	}
 	interface ChatInputCommandInteraction {
+		error: (title: string, description: string, ephemeral: boolean) => Promise<Message>;
+		ok: (title: string, description: string, ephemeral: boolean) => Promise<Message>;
+	}
+	interface ModalSubmitInteraction {
 		error: (title: string, description: string, ephemeral: boolean) => Promise<Message>;
 		ok: (title: string, description: string, ephemeral: boolean) => Promise<Message>;
 	}
@@ -204,6 +210,8 @@ StringSelectMenuInteraction.prototype.error = error;
 MessageContextMenuCommandInteraction.prototype.error = error;
 RoleSelectMenuInteraction.prototype.error = error;
 ButtonInteraction.prototype.error = error;
+ModalSubmitInteraction.prototype.error = error;
+ModalSubmitInteraction.prototype.ok = ok;
 RoleSelectMenuInteraction.prototype.ok = ok;
 ChatInputCommandInteraction.prototype.ok = ok;
 ButtonInteraction.prototype.ok = ok;
