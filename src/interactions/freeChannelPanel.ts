@@ -7,7 +7,7 @@ export default async function (interaction: BaseInteraction) {
 	const message =
 		interaction.fields.getTextInputValue('message') || '以下のボタンを押すことでチャンネル作成ができます。';
 	const userchannelnumber = interaction.fields.getTextInputValue('userchannelnumber') || '0000';
-	if (Number.isNaN(userchannelnumber)) {
+	if (Number.isNaN(Number(userchannelnumber))) {
 		return await interaction.error('チャンネル数制限に不正な数値', '数字ではありません。', true);
 	} else if ((userchannelnumber !== '0000' && Number(userchannelnumber) < 1) || Number(userchannelnumber) > 20) {
 		return await interaction.error('チャンネル数制限に不正な数値', '1-20の数字ではありません。', true);
