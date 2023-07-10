@@ -1208,7 +1208,7 @@ __metadata:
     "@yarnpkg/pnpify": 3
     "@yarnpkg/sdks": ^3.0.0-rc.48
     discord.js: ^14.11.1-dev.1687565525-75d91b5.0
-    enka-network-api: ^3.6.1
+    enka-network-api: ^3.7.0
     eslint: ^8.43.0
     eslint-config-prettier: ^8.8.0
     eslint-formatter-pretty: ^5.0.0
@@ -1901,14 +1901,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enka-network-api@npm:^3.6.1":
-  version: 3.6.1
-  resolution: "enka-network-api@npm:3.6.1"
+"enka-network-api@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "enka-network-api@npm:3.7.0"
   dependencies:
     axios: ^1.4.0
     config_file.js: ^1.2.2
     unzip-stream: ^0.3.1
-  checksum: 51c8a01514f4e4730564db72ffa99a793f92bc72a22c5d3ff78c5aa02fa9c368154673a133b4f0251a56b6dee9585b3e31d9ffe295b7748fc8f22c2b66bc3150
+  checksum: 34c154ab476c5c794052c030f4bba0043ceef20369039263292fa0409ae7a44e09b3026c2e130582ce39488b8043cc4272856f60b555a2c325517e39157f5e79
   languageName: node
   linkType: hard
 
