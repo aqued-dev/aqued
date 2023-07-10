@@ -34,7 +34,7 @@
 		"eslint-formatter-pretty": "^5.0.0",
 		"eslint-plugin-unicorn": "^47.0.0",
 		"husky": "^8.0.3",
-		"prettier": "^2.8.8",
+		"prettier": "^3.0.0",
 		"rimraf": "^5.0.1"
 	},
 	"engines": {
