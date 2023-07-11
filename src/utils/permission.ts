@@ -1,6 +1,6 @@
 import { PermissionFlags, PermissionFlagsBits } from 'discord.js';
 export type PermissionsString = keyof typeof PermissionFlagsBits;
-export const translatePermission = (permissionFlags: PermissionFlags[] | PermissionsString[]): string[] =>
+export const translatePermission = (permissionFlags: PermissionFlags[] | PermissionsString[] | bigint[]): string[] =>
 	permissionFlags.map(
 		(flag) =>
 			({
@@ -95,5 +95,5 @@ export const translatePermission = (permissionFlags: PermissionFlags[] | Permiss
 				'4398046511104': 'サウンドボードを使用',
 				'35184372088832': '外部のサウンドの使用',
 				'70368744177664': 'ボイスメッセージを送信',
-			})[flag.toString()],
+			}[flag.toString()]),
 	);

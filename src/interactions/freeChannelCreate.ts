@@ -126,7 +126,7 @@ export default async function (interaction: BaseInteraction) {
 						new ActionRowBuilder<TextInputBuilder>().addComponents(
 							new TextInputBuilder()
 								.setCustomId('slowmode')
-								.setLabel('低速モード(秒単位)')
+								.setLabel('低速モードの秒数')
 								.setMaxLength(5)
 								.setValue(String(interaction.channel.rateLimitPerUser))
 								.setStyle(TextInputStyle.Short)
