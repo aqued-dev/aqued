@@ -49,7 +49,9 @@ export default async function (interaction: BaseInteraction) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
 		if (command.data.permissions) {
-			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+			const author = interaction.guild.members.cache.get(interaction.user.id);
+			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			const authorPerms = author.permissions;
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
 				return await interaction.error(
@@ -179,7 +181,9 @@ export default async function (interaction: BaseInteraction) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
 		if (command.data.permissions) {
-			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+			const author = interaction.guild.members.cache.get(interaction.user.id);
+			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			const authorPerms = author.permissions;
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
 				return await interaction.error(
@@ -309,7 +313,9 @@ export default async function (interaction: BaseInteraction) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
 
 		if (command.data.permissions) {
-			const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+			const author = interaction.guild.members.cache.get(interaction.user.id);
+			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			const authorPerms = author.permissions;
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
 				return await interaction.error(
