@@ -95,5 +95,5 @@ export const translatePermission = (permissionFlags: PermissionFlags[] | Permiss
 				'4398046511104': 'サウンドボードを使用',
 				'35184372088832': '外部のサウンドの使用',
 				'70368744177664': 'ボイスメッセージを送信',
-			}[flag.toString()]),
+			})[flag.toString()],
 	);
