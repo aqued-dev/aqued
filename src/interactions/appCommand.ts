@@ -100,7 +100,7 @@ export default async function (interaction: BaseInteraction) {
 				botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 				await interaction.error(
 					'エラーが発生しました。',
-					'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+					`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
@@ -121,7 +121,7 @@ export default async function (interaction: BaseInteraction) {
 			botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 			await interaction.error(
 				'エラーが発生しました。',
-				'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+				`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
@@ -232,7 +232,7 @@ export default async function (interaction: BaseInteraction) {
 				botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 				await interaction.error(
 					'エラーが発生しました。',
-					'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+					`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
@@ -253,7 +253,7 @@ export default async function (interaction: BaseInteraction) {
 			botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 			await interaction.error(
 				'エラーが発生しました。',
-				'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+				`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
@@ -364,7 +364,7 @@ export default async function (interaction: BaseInteraction) {
 				botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 				await interaction.error(
 					'エラーが発生しました。',
-					'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+					`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
@@ -385,7 +385,7 @@ export default async function (interaction: BaseInteraction) {
 			botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 			await interaction.error(
 				'エラーが発生しました。',
-				'以下のIDを控え、サポートサーバーでお問い合わせください。\nID: ' + errorId.toString(),
+				`以下のIDを控え、サポートサーバーでお問い合わせください。\nID: \`${errorId.toString()}\``,
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
