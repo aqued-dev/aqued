@@ -98,7 +98,7 @@ export default async function (interaction: BaseInteraction) {
 									.addFields({
 										name: 'DISBOARD',
 										value: `${
-											(await interaction.client.botData.guildUpNotice.dissoku.get(interaction.guildId))
+											(await interaction.client.botData.guildUpNotice.disboard.get(interaction.guildId))
 												? '有効'
 												: '無効'
 										}`,

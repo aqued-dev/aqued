@@ -13,18 +13,22 @@
 		"start": "node dist/src/index.js"
 	},
 	"dependencies": {
-		"@discordjs/rest": "^1.7.2-dev.1689034321-09b0382.0",
-		"discord.js": "^14.11.1-dev.1689034320-09b0382.0",
-		"enka-network-api": "^3.7.0",
+		"@discordjs/rest": "^1.7.2-dev.1689249890-ceab07b.0",
+		"discord.js": "^14.11.1-dev.1689249910-ceab07b.0",
+		"enka-network-api": "^3.7.1",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^7.3.2",
-		"typescript": "^5.1.6"
+		"mongoose": "^7.3.4",
+		"typescript": "^5.1.6",
+		"ws": "^8.13.0",
+		"xml2js": "^0.6.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.6.6",
 		"@commitlint/config-conventional": "^17.6.6",
 		"@types/json-bigint": "^1.0.1",
-		"@types/node": "20.4.1",
+		"@types/node": "20.4.2",
+		"@types/ws": "^8.5.5",
+		"@types/xml2js": "^0.4.11",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"@yarnpkg/pnpify": "3.1.6",
@@ -34,7 +38,7 @@
 		"eslint-formatter-pretty": "^5.0.0",
 		"eslint-plugin-unicorn": "^47.0.0",
 		"husky": "^8.0.3",
-		"prettier": "^3.0.0",
+		"prettier": "2.8.8",
 		"rimraf": "^5.0.1"
 	},
 	"engines": {

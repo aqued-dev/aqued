@@ -80,6 +80,12 @@ declare module 'discord.js' {
 			owners: string[];
 			gbans: MongoDB;
 			messageExpansion: MongoDB;
+			sgcJsonChannelId: string;
+			sgcJsonChannelIdv2: string;
+			afk: {
+				afk: MongoDB;
+				mention: MongoDB;
+			};
 			guildUpNotice: { dissoku: MongoDB; disboard: MongoDB };
 			mods: string[];
 			cooldowns?: Collection<string, any>;
@@ -90,7 +96,9 @@ declare module 'discord.js' {
 			infos: MongoDB;
 			errorChannelId: string;
 			botLogChannelId: string;
+			verifyPanel: MongoDB;
 			globalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
+			superGlobalChat: { register: MongoDB; messages: MongoDB; replyMessages: MongoDB };
 			aquedAutoNews: MongoDB;
 			commandLogChannelId: string;
 			commandDatas: Array<

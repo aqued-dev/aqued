@@ -7,6 +7,7 @@ import {
 	SlashCommandBuilder,
 	Webhook,
 } from 'discord.js';
+import { translatePermission } from '../../utils/permission.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -18,9 +19,32 @@ export default {
 		),
 	ownersOnly: false,
 	modOnly: false,
-	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
+	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		const permissions = [PermissionFlagsBits.ManageChannels];
+		const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+		if (!authorPerms || !permissions.every((permission) => authorPerms.has(permission))) {
+			const permission: bigint[] = permissions;
+			return await interaction.error(
+				'権限不足',
+				'このコマンドを実行するためには、あなたに`' +
+					translatePermission(permission).join(', ') +
+					'`の権限が必要です。',
+				true,
+			);
+		}
+		const botPerms = interaction.channel.permissionsFor(
+			interaction.guild.members.cache.get(interaction.client.user.id),
+		);
+		if (!botPerms || !permissions.every((permission) => botPerms.has(permission))) {
+			const permission: bigint[] = permissions;
+			return await interaction.error(
+				'権限不足',
+				'このコマンドを実行するためには、Botに`' + translatePermission(permission).join(', ') + '`の権限が必要です。',
+				true,
+			);
+		}
 		const { register, blocks } = interaction.client.botData.globalChat;
 		const optionsChannel = interaction.options.getChannel('channel', true, [ChannelType.GuildText]);
 

@@ -10,6 +10,7 @@ import {
 	MessageType,
 	StickerFormatType,
 } from 'discord.js';
+import { MessageEditData } from '../utils/SuperGlobalChatType.js';
 async function dissoku(newMessage: Message) {
 	if (!(await newMessage.client.botData.guildUpNotice.dissoku.get(newMessage.guildId))) return;
 	if (newMessage.author.id !== '761562078095867916') return;
@@ -114,11 +115,46 @@ async function globalChat(newMessage: Message) {
 		});
 	}
 }
+async function superGlobalChat(newMessage: Message) {
+	const user = newMessage.author;
+
+	if (user.bot || user.system || user.discriminator === '0000') return;
+	if (newMessage.channel.type !== ChannelType.GuildText) return;
+	if (!(await newMessage.client.botData.superGlobalChat.register.get(newMessage.channelId))) return;
+	const msgs: undefined | { channelId: string; messageId: string }[] =
+		await newMessage.client.botData.superGlobalChat.messages.get(newMessage.id);
+	for (const value of msgs) {
+		const channel = newMessage.client.channels.cache.get(value.channelId);
+		if (!channel) continue;
+		if (channel.type !== ChannelType.GuildText) continue;
+		const webhooks = await channel.fetchWebhooks();
+		const webhook: Webhook =
+			!webhooks.some((value) => value.name === 'Aqued') ||
+			webhooks.find((value) => value.name === 'Aqued').owner.id !== newMessage.client.user.id
+				? await channel.createWebhook({ name: 'Aqued' })
+				: webhooks.find((value) => value.name === 'Aqued');
+
+		const content =
+			newMessage.content.slice(0, 1500) === newMessage.content
+				? newMessage.content
+				: `${newMessage.content.slice(0, 1500)}...`;
+		webhook.editMessage(value.messageId, {
+			content: content,
+		});
+	}
+	const channel = newMessage.client.channels.cache.get(newMessage.client.botData.sgcJsonChannelIdv2);
+	if (channel && channel.isTextBased()) {
+		if (newMessage.channel.type !== ChannelType.GuildText) return;
+		const data: MessageEditData = { type: 'edit', messageId: newMessage.id, content: newMessage.content };
+		channel.send(JSON.stringify(data));
+	}
+}
 export default {
 	name: Events.MessageUpdate,
 	once: false,
 	async execute(oldMessage: Message, newMessage: Message) {
 		await dissoku(newMessage);
 		await globalChat(newMessage);
+		await superGlobalChat(newMessage);
 	},
 };

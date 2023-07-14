@@ -1,18 +1,24 @@
 {
-	"token": "Discord Bot Token",
-	"owners": ["user id"],
-	"mods": ["user id"],
+	"token": "",
+	"owners": [
+		""
+	],
+	"mods": [
+		""
+	],
 	"channelIds": {
-		"error": "channel id",
-		"botLog": "channel id",
-		"commandLog": "channel id"
+		"error": "",
+		"botLog": "",
+		"commandLog": ""
 	},
-	"clientId": "user id",
+	"clientId": "",
+	"mongoDBUrl": "",
 	"load": {
 		"chatinput": true,
 		"messagecotextmenu": true,
 		"usercotextmenu": true
 	},
-	"mongoDBUrl": "mongoDBUrl",
-	"key": "key"
+	"sgcJsonChannelId": "",
+	"sgcJsonChannelIdv2": "",
+	"key": ""
 }

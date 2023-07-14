@@ -315,9 +315,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/rest@npm:^1.7.2-dev.1689034321-09b0382.0":
-  version: 1.7.2-dev.1689034321-09b0382.0
-  resolution: "@discordjs/rest@npm:1.7.2-dev.1689034321-09b0382.0"
+"@discordjs/rest@npm:^1.7.2-dev.1689249890-ceab07b.0":
+  version: 1.7.2-dev.1689249890-ceab07b.0
+  resolution: "@discordjs/rest@npm:1.7.2-dev.1689249890-ceab07b.0"
   dependencies:
     "@discordjs/collection": ^1.5.1
     "@discordjs/util": ^0.3.1
@@ -327,7 +327,7 @@ __metadata:
     file-type: ^18.4.0
     tslib: ^2.5.2
     undici: ^5.22.1
-  checksum: 490d518139350cc3fd50b695942aa53b5a6909216b437f85f2fb48289c6357d3a79bbf73734b85ff1272ebd7b02728777439a29ead0968be5b0f4f2d975af8bd
+  checksum: 47914bf2294b415bbf951e3daea97f2fe6c3600815e455e2220818d0531ef38dd5fa25dd79cc861fd24c24022fd7eb8dd16a31f7cc937210a2f6e0f5a01a92ab
   languageName: node
   linkType: hard
 
@@ -649,10 +649,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.4.1":
-  version: 20.4.1
-  resolution: "@types/node@npm:20.4.1"
-  checksum: 22cbcc792f2eb636fe4188778ed0f32658ab872aa7fcb9847b3fa289a42b14b9f5e30c6faec50ef3c7adbc6c2a246926e5858136bb8b10c035a3fcaa6afbeed2
+"@types/node@npm:20.4.2":
+  version: 20.4.2
+  resolution: "@types/node@npm:20.4.2"
+  checksum: 99e544ea7560d51f01f95627fc40394c24a13da8f041121a0da13e4ef0a2aa332932eaf9a5e8d0e30d1c07106e96a183be392cbba62e8cf0bf6a085d5c0f4149
   languageName: node
   linkType: hard
 
@@ -710,12 +710,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.5.4":
+"@types/ws@npm:^8.5.4, @types/ws@npm:^8.5.5":
   version: 8.5.5
   resolution: "@types/ws@npm:8.5.5"
   dependencies:
     "@types/node": "*"
   checksum: d00bf8070e6938e3ccf933010921c6ce78ac3606696ce37a393b27a9a603f7bd93ea64f3c5fa295a2f743575ba9c9a9fdb904af0f5fe2229bf2adf0630386e4a
+  languageName: node
+  linkType: hard
+
+"@types/xml2js@npm:^0.4.11":
+  version: 0.4.11
+  resolution: "@types/xml2js@npm:0.4.11"
+  dependencies:
+    "@types/node": "*"
+  checksum: d0e7d2a8c7e0a53147c777a6756bdea0eb26a3de0d3c1f42c17e63332e4e2dc532f687c19ca26a0518336f5de60e1ec4345d7ef71e7ba0656fcf3390c9388eb5
   languageName: node
   linkType: hard
 
@@ -1211,25 +1220,29 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.6.6
     "@commitlint/config-conventional": ^17.6.6
-    "@discordjs/rest": ^1.7.2-dev.1689034321-09b0382.0
+    "@discordjs/rest": ^1.7.2-dev.1689249890-ceab07b.0
     "@types/json-bigint": ^1.0.1
-    "@types/node": 20.4.1
+    "@types/node": 20.4.2
+    "@types/ws": ^8.5.5
+    "@types/xml2js": ^0.4.11
     "@typescript-eslint/eslint-plugin": ^6.0.0
     "@typescript-eslint/parser": ^6.0.0
     "@yarnpkg/pnpify": 3.1.6
     "@yarnpkg/sdks": ^3.0.0-rc.48
-    discord.js: ^14.11.1-dev.1689034320-09b0382.0
-    enka-network-api: ^3.7.0
+    discord.js: ^14.11.1-dev.1689249910-ceab07b.0
+    enka-network-api: ^3.7.1
     eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
     eslint-formatter-pretty: ^5.0.0
     eslint-plugin-unicorn: ^47.0.0
     husky: ^8.0.3
     json-bigint: ^1.0.0
-    mongoose: ^7.3.2
-    prettier: ^3.0.0
+    mongoose: ^7.3.4
+    prettier: 2.8.8
     rimraf: ^5.0.1
     typescript: ^5.1.6
+    ws: ^8.13.0
+    xml2js: ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1826,9 +1839,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.11.1-dev.1689034320-09b0382.0":
-  version: 14.11.1-dev.1689034320-09b0382.0
-  resolution: "discord.js@npm:14.11.1-dev.1689034320-09b0382.0"
+"discord.js@npm:^14.11.1-dev.1689249910-ceab07b.0":
+  version: 14.11.1-dev.1689249910-ceab07b.0
+  resolution: "discord.js@npm:14.11.1-dev.1689249910-ceab07b.0"
   dependencies:
     "@discordjs/builders": ^1.6.3
     "@discordjs/collection": ^1.5.1
@@ -1844,7 +1857,7 @@ __metadata:
     tslib: ^2.5.2
     undici: ^5.22.1
     ws: ^8.13.0
-  checksum: 5f27bc981c9633dc0ec8ef670180e86a21952e3acf70fd8ed5b4bae96f2c8a9819a05e657259ba73e39f35551fd811ea9d7049930a9c63503baa76fa05312b19
+  checksum: 638b864187213a3b8b68b3d09c60d6c372bfee3557de23f3358e543146b7cfc85d6e9c6b3368600d8e115c3be9d6d22c49a23b69df6e293574ba6f71590b078d
   languageName: node
   linkType: hard
 
@@ -1912,14 +1925,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enka-network-api@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "enka-network-api@npm:3.7.0"
+"enka-network-api@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "enka-network-api@npm:3.7.1"
   dependencies:
     axios: ^1.4.0
     config_file.js: ^1.2.2
     unzip-stream: ^0.3.1
-  checksum: 34c154ab476c5c794052c030f4bba0043ceef20369039263292fa0409ae7a44e09b3026c2e130582ce39488b8043cc4272856f60b555a2c325517e39157f5e79
+  checksum: fed8e9b52897f6738b7b3350476656e0a4c497ea7afe00068a2681a420cf4314d26dd74fff3d0795e394eef0ed8d9d336feee5b84bee68f8531abced20731637
   languageName: node
   linkType: hard
 
@@ -3360,9 +3373,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "mongoose@npm:7.3.2"
+"mongoose@npm:^7.3.4":
+  version: 7.3.4
+  resolution: "mongoose@npm:7.3.4"
   dependencies:
     bson: ^5.3.0
     kareem: 2.5.1
@@ -3371,7 +3384,7 @@ __metadata:
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: a8f4e35c50071c9d116c66293e1f9a0f558c7d1ce9773ce94adc8a2b5238c34d5351df58f4edf0aafc60429d4e34d3ee3a6c405ad931458f8224f2974895f683
+  checksum: 1ffdb8449c7e151c1057679070b00072fb6f676ffcde5e33ff4e180c672a1ba4e7447c02bc0985e32ae25f795744a67974ded06df5a6124bd2dd0c2785974f5c
   languageName: node
   linkType: hard
 
@@ -3689,12 +3702,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "prettier@npm:3.0.0"
+"prettier@npm:2.8.8":
+  version: 2.8.8
+  resolution: "prettier@npm:2.8.8"
   bin:
-    prettier: bin/prettier.cjs
-  checksum: 6a832876a1552dc58330d2467874e5a0b46b9ccbfc5d3531eb69d15684743e7f83dc9fbd202db6270446deba9c82b79d24383d09924c462b457136a759425e33
+    prettier: bin-prettier.js
+  checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
   languageName: node
   linkType: hard
 
@@ -4018,6 +4031,13 @@ __metadata:
   dependencies:
     sparse-bitfield: ^3.0.3
   checksum: 4fdc0b70fb5e523f977de405e12cca111f1f10dd68a0cfae0ca52c1a7919a94d1556598ba2d35f447655c3b32879846c77f9274c90806f6673248ae3cea6ee43
+  languageName: node
+  linkType: hard
+
+"sax@npm:>=0.6.0":
+  version: 1.2.4
+  resolution: "sax@npm:1.2.4"
+  checksum: d3df7d32b897a2c2f28e941f732c71ba90e27c24f62ee918bd4d9a8cfb3553f2f81e5493c7f0be94a11c1911b643a9108f231dd6f60df3fa9586b5d2e3e9e1fe
   languageName: node
   linkType: hard
 
@@ -4706,6 +4726,23 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 53e991bbf928faf5dc6efac9b8eb9ab6497c69feeb94f963d648b7a3530a720b19ec2e0ec037344257e05a4f35bd9ad04d9de6f289615ffb133282031b18c61c
+  languageName: node
+  linkType: hard
+
+"xml2js@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "xml2js@npm:0.6.0"
+  dependencies:
+    sax: ">=0.6.0"
+    xmlbuilder: ~11.0.0
+  checksum: 437f353fd66d367bf158e9555a0625df9965d944e499728a5c6bc92a54a2763179b144f14b7e1c725040f56bbd22b0fa6cfcb09ec4faf39c45ce01efe631f40b
+  languageName: node
+  linkType: hard
+
+"xmlbuilder@npm:~11.0.0":
+  version: 11.0.1
+  resolution: "xmlbuilder@npm:11.0.1"
+  checksum: 7152695e16f1a9976658215abab27e55d08b1b97bca901d58b048d2b6e106b5af31efccbdecf9b07af37c8377d8e7e821b494af10b3a68b0ff4ae60331b415b0
   languageName: node
   linkType: hard
 
