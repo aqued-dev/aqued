@@ -1,11 +1,7 @@
 {
 	"token": "",
-	"owners": [
-		""
-	],
-	"mods": [
-		""
-	],
+	"owners": [""],
+	"mods": [""],
 	"channelIds": {
 		"error": "",
 		"botLog": "",

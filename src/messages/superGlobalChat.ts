@@ -10,7 +10,7 @@ export default async function (message: Message) {
 		if (!(await channelDB.get(message.channelId))) return;
 		if (message.author.bot || message.author.system || message.author.discriminator === '0000') return;
 		if (message.channel.type !== ChannelType.GuildText) return;
-			if (
+		if (
 			/(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g.test(
 				message.cleanContent.toLowerCase(),
 			) ||
