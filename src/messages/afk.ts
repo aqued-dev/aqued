@@ -18,8 +18,8 @@ export default async function (message: Message) {
 				`[${message.guild.name} > #${message.channel.name}](https://discord.com/channels/${message.guildId}/${message.channelId}/${message.id})`,
 			);
 			const embed = new EmbedBuilder().setDescription(`<@!${value.id}>はafkです。`).setColor(Colors.Blue);
-			if ((await afk.get(message.author.id)) && (await afk.get(message.author.id)) !== true) {
-				embed.addFields({ name: '理由', value: await afk.get(message.author.id) });
+			if ((await afk.get(value.id)) && (await afk.get(value.id)) !== true) {
+				embed.addFields({ name: '理由', value: await afk.get(value.id) });
 			}
 			await message.channel.send({ embeds: [embed] });
 			if (array.length > 0) await mention.set(value.id, array);
