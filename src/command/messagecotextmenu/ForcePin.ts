@@ -72,30 +72,56 @@ export default {
 				true,
 			);
 
-		let messageUser: User | GuildMember = interaction.guild.members.cache.get(interaction.targetMessage.author.id);
-		if (!messageUser) messageUser = users.cache.get(interaction.targetMessage.author.id);
-		webhook
-			.send({
-				avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
-				username: messageUser.displayName,
-				embeds: [...messageEmbed, ...stickerEmbeds],
-				content: interaction.targetMessage.cleanContent,
-				files: attachments,
-			})
-			.then(async (message_) => {
-				message.delete();
-				const data: ForcePinDataType = {
-					attachments,
-					content: interaction.targetMessage.cleanContent,
-					embeds: [...messageEmbed, ...stickerEmbeds],
-					userId: interaction.targetMessage.author.id,
-					latestMessageId: message_.id,
-					latestChannelId: message_.channelId,
+		if (interaction.targetMessage.author.discriminator === '0000') {
+			const messageUser: User = interaction.targetMessage.author;
+			webhook
+				.send({
 					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
 					username: messageUser.displayName,
-				};
-				await forcePin.set(interaction.targetMessage.channelId, data);
-			});
+					embeds: [...messageEmbed, ...stickerEmbeds],
+					content: interaction.targetMessage.cleanContent,
+					files: attachments,
+				})
+				.then(async (message_) => {
+					message.delete();
+					const data: ForcePinDataType = {
+						attachments,
+						content: interaction.targetMessage.cleanContent,
+						embeds: [...messageEmbed, ...stickerEmbeds],
+						userId: interaction.targetMessage.author.id,
+						latestMessageId: message_.id,
+						latestChannelId: message_.channelId,
+						avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+						username: messageUser.displayName,
+					};
+					await forcePin.set(interaction.targetMessage.channelId, data);
+				});
+		} else {
+			let messageUser: User | GuildMember = interaction.guild.members.cache.get(interaction.targetMessage.author.id);
+			if (!messageUser) messageUser = users.cache.get(interaction.targetMessage.author.id);
+			webhook
+				.send({
+					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+					username: messageUser.displayName,
+					embeds: [...messageEmbed, ...stickerEmbeds],
+					content: interaction.targetMessage.cleanContent,
+					files: attachments,
+				})
+				.then(async (message_) => {
+					message.delete();
+					const data: ForcePinDataType = {
+						attachments,
+						content: interaction.targetMessage.cleanContent,
+						embeds: [...messageEmbed, ...stickerEmbeds],
+						userId: interaction.targetMessage.author.id,
+						latestMessageId: message_.id,
+						latestChannelId: message_.channelId,
+						avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+						username: messageUser.displayName,
+					};
+					await forcePin.set(interaction.targetMessage.channelId, data);
+				});
+		}
 		await interaction.ok(
 			'Force Pinを設定しました。',
 			'Force Pinの解除は、`アプリ > Force Pin解除`で、いつでもできます。',
