@@ -92,7 +92,7 @@ const {
 	commandExecutors,
 	load,
 } = client.botData;
-await infos.set('version', (await infos.get('version')) || '3.0.0');
+await infos.set('version', (await infos.get('version')) || '3.0.1');
 
 info('Aqued');
 info('repository: https://github.com/aqued-dev/aqued');
