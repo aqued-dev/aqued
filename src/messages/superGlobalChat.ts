@@ -10,11 +10,20 @@ export default async function (message: Message) {
 		if (!(await channelDB.get(message.channelId))) return;
 		if (message.author.bot || message.author.system || message.author.discriminator === '0000') return;
 		if (message.channel.type !== ChannelType.GuildText) return;
+			if (
+			/(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g.test(
+				message.cleanContent.toLowerCase(),
+			) ||
+			message.cleanContent.toLowerCase().includes('disboard.org') ||
+			message.cleanContent.toLowerCase().includes('discoparty.jp') ||
+			message.cleanContent.toLowerCase().includes('dissoku.net')
+		)
+			return message.react('❌');
 		const channels = await channelDB.keys();
 		if (!channels) return;
 		const data: MessageData = {
 			type: 'message',
-			version: "2.1.7",
+			version: '2.1.7',
 			userId: message.author.id,
 			userName: message.author.username,
 			userDiscriminator: message.author.discriminator,
@@ -28,6 +37,7 @@ export default async function (message: Message) {
 			messageId: message.id,
 			content: message.content,
 		};
+
 		if (message.attachments.size > 0) data['attachmentsUrl'] = message.attachments.map((value) => value.proxyURL);
 		let replymsg: string;
 		const content =

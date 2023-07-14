@@ -21,6 +21,15 @@ export default async function (message: Message) {
 			message.react('❌');
 			return;
 		}
+		if (
+			/(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g.test(
+				message.cleanContent.toLowerCase(),
+			) ||
+			message.cleanContent.toLowerCase().includes('disboard.org') ||
+			message.cleanContent.toLowerCase().includes('discoparty.jp') ||
+			message.cleanContent.toLowerCase().includes('dissoku.net')
+		)
+			return message.react('❌');
 		const registers = await message.client.botData.globalChat.register.keys();
 		for (const value of registers) {
 			const channel = message.client.channels.cache.get(value);
