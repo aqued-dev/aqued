@@ -27,6 +27,7 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildWebhooks,
+		GatewayIntentBits.GuildPresences,
 	],
 	allowedMentions: { repliedUser: false, parse: [] },
 	presence: { status: 'dnd', activities: [{ name: '起動中...', type: ActivityType.Playing }] },

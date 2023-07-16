@@ -26,7 +26,13 @@ export default {
 							user.id
 						}\`\n**アカウント作成日時**: ${time(user.createdAt, 'F')}\n**bot**: ${
 							user.bot ? 'はい' : 'いいえ'
-						}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**フラグ**: ${
+						}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**ステータス**: ${user
+							.extPresence()
+							.status.replace('offline', '<:offline:1125783729181298698> オフライン')
+							.replace('invisible', '<:offline:1125783729181298698> オフライン')
+							.replace('online', '<:online:1125783732721287281> オンライン')
+							.replace('idle', '<:idle:1125783726966722660> 離席中')
+							.replace('dnd', '<:dnd:1125783722571092112> 取り込み中')}\n**フラグ**: ${
 							user.flags
 								.toArray()
 								.map((v) =>
@@ -94,7 +100,13 @@ export default {
 								user.id
 							}\`\n**アカウント作成日時**: ${time(user.createdAt, 'F')}\n**bot**: ${
 								user.bot ? 'はい' : 'いいえ'
-							}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**フラグ**: ${
+							}\n**system**: ${user.system ? 'はい' : 'いいえ'}\n**ステータス**: ${user
+								.extPresence()
+								.status.replace('offline', '<:offline:1125783729181298698> オフライン')
+								.replace('invisible', '<:offline:1125783729181298698> オフライン')
+								.replace('online', '<:online:1125783732721287281> オンライン')
+								.replace('idle', '<:idle:1125783726966722660> 離席中')
+								.replace('dnd', '<:dnd:1125783722571092112> 取り込み中')}\n**フラグ**: ${
 								user.flags
 									.toArray()
 									.map((v) =>
