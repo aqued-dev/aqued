@@ -15,7 +15,16 @@ export default async function (message: Message) {
 		const data: MessageData | MessageDeleteData | MessageEditData | EmptyData = JSON.parse(message.content);
 		switch (data.type) {
 			case 'message': {
-				await replyMessages.set(data.messageId, { content: data.content, id: message.id, user: message.author });
+				await replyMessages.set(data.messageId, {
+					content: data.content,
+					id: message.id,
+					user: {
+						discriminator: message.author.discriminator,
+						globalName: message.author.globalName,
+						username: message.author.username,
+						extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+					},
+				});
 
 				for (const value of registers) {
 					const channel = message.client.channels.cache.get(value);
@@ -31,8 +40,13 @@ export default async function (message: Message) {
 					const files = data.attachmentsUrl ?? [];
 					const embeds: EmbedBuilder[] = [];
 					if (data.reference) {
-						const repliedMessage: { content: string; id: string; user: User } | undefined =
-							await message.client.botData.superGlobalChat.replyMessages.get(data.reference);
+						const repliedMessage:
+							| {
+									content: string;
+									id: string;
+									user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+							  }
+							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(data.reference);
 						if (!repliedMessage) return;
 						const embed = new EmbedBuilder()
 							.setAuthor({
@@ -42,7 +56,7 @@ export default async function (message: Message) {
 											? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
 											: `@${repliedMessage.user.username}`
 										: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
-								iconURL: repliedMessage.user.extDefaultAvatarURL({ extension: 'webp' }),
+								iconURL: repliedMessage.user.extDefaultAvatarURL,
 							})
 							.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 							.setColor(Colors.Blue);
@@ -77,7 +91,12 @@ export default async function (message: Message) {
 							await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 								content: message.content,
 								id: data.messageId,
-								user: message.author,
+								user: {
+									discriminator: message.author.discriminator,
+									globalName: message.author.globalName,
+									username: message.author.username,
+									extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+								},
 							});
 						});
 				}

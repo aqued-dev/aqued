@@ -48,8 +48,13 @@ export default async function (message: Message) {
 			message.content.slice(0, 1500) === message.content ? message.content : `${message.content.slice(0, 1500)}...`;
 		const embeds: EmbedBuilder[] = [];
 		if (message.reference) {
-			const repliedMessage: { content: string; id: string; user: User } | undefined =
-				await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
+			const repliedMessage:
+				| {
+						content: string;
+						id: string;
+						user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+				  }
+				| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
 			if (!repliedMessage) return;
 			data['reference'] = repliedMessage.id;
 			const embed = new EmbedBuilder()
@@ -60,7 +65,7 @@ export default async function (message: Message) {
 								? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
 								: `@${repliedMessage.user.username}`
 							: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
-					iconURL: repliedMessage.user.extDefaultAvatarURL({ extension: 'webp' }),
+					iconURL: repliedMessage.user.extDefaultAvatarURL,
 				})
 				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 				.setColor(Colors.Blue);
@@ -103,8 +108,13 @@ export default async function (message: Message) {
 					});
 					await message.client.botData.superGlobalChat.messages.set(message.id, array);
 					if (message.reference) {
-						const repliedMessage: { content: string; id: string; user: User } | undefined =
-							await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
+						const repliedMessage:
+							| {
+									content: string;
+									id: string;
+									user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+							  }
+							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
 						if (!repliedMessage) return;
 						await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 							content: message.content,
@@ -117,7 +127,12 @@ export default async function (message: Message) {
 		await message.client.botData.superGlobalChat.replyMessages.set(message.id, {
 			content: message.content,
 			id: message.id,
-			user: message.author,
+			user: {
+				discriminator: message.author.discriminator,
+				globalName: message.author.globalName,
+				username: message.author.username,
+				extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+			},
 		});
 		message.react('✅');
 		const channel = message.client.channels.cache.get(message.client.botData.sgcJsonChannelId);
