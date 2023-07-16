@@ -42,7 +42,7 @@ export default async function (message: Message) {
 				webhooks.find((value) => value.name === 'Aqued').owner.id !== message.client.user.id
 					? await channel.createWebhook({ name: 'Aqued' })
 					: webhooks.find((value) => value.name === 'Aqued');
-			const attachments: Array<string | AttachmentBuilder> = [];
+			const attachments: (string | AttachmentBuilder)[] = [];
 			if (message.attachments.size > 0) {
 				message.attachments.map((attachment) =>
 					attachments.push(
@@ -69,13 +69,21 @@ export default async function (message: Message) {
 				message.cleanContent.slice(0, 1500) === message.cleanContent
 					? message.cleanContent
 					: `${message.cleanContent.slice(0, 1500)}...` || '内容がありません。';
-			let replymsg: string;
 			if (message.type === MessageType.Reply) {
 				const repliedMessage = await message.fetchReference();
-				replymsg = repliedMessage.content;
-				if (repliedMessage.content.includes('\n')) {
-					replymsg = repliedMessage.content.slice(repliedMessage.content.indexOf('\n'));
-				}
+				const embed = new EmbedBuilder()
+					.setAuthor({
+						name:
+							repliedMessage.author.discriminator === '0'
+								? repliedMessage.author.globalName
+									? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
+									: `@${repliedMessage.author.username}`
+								: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
+						iconURL: repliedMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+					})
+					.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
+					.setColor(Colors.Blue);
+				stickerEmbeds.push(embed);
 			}
 			if (user.avatar) {
 				const avatar = user.avatar.startsWith('a_')
@@ -83,13 +91,7 @@ export default async function (message: Message) {
 					: user.extDefaultAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
-						content:
-							message.type === MessageType.Reply
-								? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
-								  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
-									? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
-									: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
-								: content,
+						content,
 						files: attachments,
 						embeds: stickerEmbeds,
 						avatarURL: avatar,
@@ -126,13 +128,7 @@ export default async function (message: Message) {
 				const avatar = user.extDefaultAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
-						content:
-							message.type === MessageType.Reply
-								? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
-								  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
-									? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
-									: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
-								: content,
+						content,
 						files: attachments,
 						embeds: stickerEmbeds,
 						avatarURL: avatar,

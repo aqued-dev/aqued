@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-nested-ternary */
-import { ChannelType, Colors, EmbedBuilder, Message, SnowflakeUtil, Webhook } from 'discord.js';
+import { ChannelType, Colors, EmbedBuilder, Message, SnowflakeUtil, User, Webhook } from 'discord.js';
 import { MessageData } from '../utils/SuperGlobalChatType.js';
 import { calculateUserDefaultAvatarIndex } from '@discordjs/rest';
 import { inspect } from 'node:util';
@@ -39,19 +39,27 @@ export default async function (message: Message) {
 		};
 
 		if (message.attachments.size > 0) data['attachmentsUrl'] = message.attachments.map((value) => value.proxyURL);
-		let replymsg: string;
 		const content =
 			message.content.slice(0, 1500) === message.content ? message.content : `${message.content.slice(0, 1500)}...`;
-
+		const embeds: EmbedBuilder[] = [];
 		if (message.reference) {
-			const repliedMessage: { content: string; id: string } | undefined =
+			const repliedMessage: { content: string; id: string; user: User } | undefined =
 				await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
 			if (!repliedMessage) return;
 			data['reference'] = repliedMessage.id;
-			replymsg = repliedMessage.content;
-			if (repliedMessage.content.includes('\n')) {
-				replymsg = repliedMessage.content.slice(repliedMessage.content.indexOf('\n'));
-			}
+			const embed = new EmbedBuilder()
+				.setAuthor({
+					name:
+						repliedMessage.user.discriminator === '0'
+							? repliedMessage.user.globalName
+								? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
+								: `@${repliedMessage.user.username}`
+							: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
+					iconURL: repliedMessage.user.extDefaultAvatarURL({ extension: 'webp' }),
+				})
+				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
+				.setColor(Colors.Blue);
+			embeds.push(embed);
 		}
 
 		for (const channel of channels) {
@@ -67,12 +75,7 @@ export default async function (message: Message) {
 					: webhooks.find((value) => value.name === 'Aqued');
 			await webhook
 				.send({
-					content: data.reference
-						? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
-						  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
-							? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
-							: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
-						: content,
+					content,
 					files: data.attachmentsUrl || [],
 					avatarURL: message.author.avatar
 						? message.client.rest.cdn.avatar(message.author.id, message.author.avatar, { extension: 'webp' })
@@ -81,6 +84,7 @@ export default async function (message: Message) {
 									? calculateUserDefaultAvatarIndex(message.author.id)
 									: Number(message.author.discriminator) % 5,
 						  ),
+					embeds,
 					username: `${message.author.username}${
 						message.author.discriminator === '0' ? '' : `#${message.author.discriminator}`
 					}(id: ${message.author.id})`,
@@ -94,12 +98,13 @@ export default async function (message: Message) {
 					});
 					await message.client.botData.superGlobalChat.messages.set(message.id, array);
 					if (message.reference) {
-						const repliedMessage: { content: string; id: string } | undefined =
+						const repliedMessage: { content: string; id: string; user: User } | undefined =
 							await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
 						if (!repliedMessage) return;
 						await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 							content: message.content,
 							id: repliedMessage.id,
+							user: repliedMessage.user,
 						});
 					}
 				});
@@ -107,6 +112,7 @@ export default async function (message: Message) {
 		await message.client.botData.superGlobalChat.replyMessages.set(message.id, {
 			content: message.content,
 			id: message.id,
+			user: message.author,
 		});
 		message.react('✅');
 		const channel = message.client.channels.cache.get(message.client.botData.sgcJsonChannelId);

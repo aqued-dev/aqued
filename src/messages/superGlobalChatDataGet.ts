@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-nested-ternary */
-import { Message, ChannelType, Webhook, Colors, EmbedBuilder, SnowflakeUtil } from 'discord.js';
+import { Message, ChannelType, Webhook, Colors, EmbedBuilder, SnowflakeUtil, User } from 'discord.js';
 import { EmptyData, MessageData, MessageDeleteData, MessageEditData } from '../utils/SuperGlobalChatType.js';
 import { calculateUserDefaultAvatarIndex } from '@discordjs/rest';
 import { inspect } from 'node:util';
@@ -15,7 +15,7 @@ export default async function (message: Message) {
 		const data: MessageData | MessageDeleteData | MessageEditData | EmptyData = JSON.parse(message.content);
 		switch (data.type) {
 			case 'message': {
-				await replyMessages.set(data.messageId, { content: data.content, id: message.id });
+				await replyMessages.set(data.messageId, { content: data.content, id: message.id, user: message.author });
 
 				for (const value of registers) {
 					const channel = message.client.channels.cache.get(value);
@@ -29,15 +29,24 @@ export default async function (message: Message) {
 							? await channel.createWebhook({ name: 'Aqued' })
 							: webhooks.find((value) => value.name === 'Aqued');
 					const files = data.attachmentsUrl ?? [];
-					let replymsg: string;
+					const embeds: EmbedBuilder[] = [];
 					if (data.reference) {
-						const repliedMessage: { content: string; id: string } | undefined =
+						const repliedMessage: { content: string; id: string; user: User } | undefined =
 							await message.client.botData.superGlobalChat.replyMessages.get(data.reference);
 						if (!repliedMessage) return;
-						replymsg = repliedMessage.content;
-						if (replymsg.includes('\n')) {
-							replymsg = replymsg.slice(replymsg.indexOf('\n'));
-						}
+						const embed = new EmbedBuilder()
+							.setAuthor({
+								name:
+									repliedMessage.user.discriminator === '0'
+										? repliedMessage.user.globalName
+											? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
+											: `@${repliedMessage.user.username}`
+										: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
+								iconURL: repliedMessage.user.extDefaultAvatarURL({ extension: 'webp' }),
+							})
+							.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
+							.setColor(Colors.Blue);
+						embeds.push(embed);
 					}
 					const content =
 						data.content.slice(0, 1500) === data.content ? data.content : `${data.content.slice(0, 1500)}...`;
@@ -47,16 +56,12 @@ export default async function (message: Message) {
 							username: `${data.userName}${data.userDiscriminator === '0' ? '' : `#${data.userDiscriminator}`}(id: ${
 								data.userId
 							}) | ${message.author.username} 経由`,
-							content: data.reference
-								? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
-								  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
-									? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
-									: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
-								: content,
+							content,
+							embeds,
 							avatarURL: data.userAvatar
 								? `${message.client.rest.cdn.avatar(data.userId, data.userAvatar, { extension: 'webp' })}`
-								: `${this.client.rest.cdn.defaultAvatar(
-										this.discriminator === '0'
+								: `${this.user.client.rest.cdn.defaultAvatar(
+										this.user.discriminator === '0'
 											? calculateUserDefaultAvatarIndex(message.author.id)
 											: Number(message.author.discriminator) % 5,
 								  )}`,
@@ -72,6 +77,7 @@ export default async function (message: Message) {
 							await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 								content: message.content,
 								id: data.messageId,
+								user: message.author,
 							});
 						});
 				}

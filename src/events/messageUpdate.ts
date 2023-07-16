@@ -94,22 +94,24 @@ async function globalChat(newMessage: Message) {
 			newMessage.cleanContent.slice(0, 1500) === newMessage.cleanContent
 				? newMessage.cleanContent
 				: `${newMessage.cleanContent.slice(0, 1500)}...` || '内容がありません。';
-		let replymsg: string;
 		if (newMessage.type === MessageType.Reply) {
 			const repliedMessage = await newMessage.fetchReference();
-			replymsg = repliedMessage.content;
-			if (repliedMessage.content.includes('\n')) {
-				replymsg = repliedMessage.content.slice(repliedMessage.content.indexOf('\n'));
-			}
+			const embed = new EmbedBuilder()
+				.setAuthor({
+					name:
+						repliedMessage.author.discriminator === '0'
+							? repliedMessage.author.globalName
+								? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
+								: `@${repliedMessage.author.username}`
+							: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
+					iconURL: repliedMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+				})
+				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
+				.setColor(Colors.Blue);
+			stickerEmbeds.push(embed);
 		}
 		webhook.editMessage(value.messageId, {
-			content:
-				newMessage.type === MessageType.Reply
-					? replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15) ===
-					  replymsg.replaceAll('\n', ' ').replaceAll('> ', '')
-						? `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '')}\n${content}`
-						: `> ${replymsg.replaceAll('\n', ' ').replaceAll('> ', '').slice(0, 15)}...\n${content}`
-					: content,
+			content,
 			files: attachments,
 			embeds: stickerEmbeds,
 		});
