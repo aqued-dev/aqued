@@ -10,13 +10,18 @@ export default async function (message: Message) {
 		if (!(await channelDB.get(message.channelId))) return;
 		if (message.author.bot || message.author.system || message.author.discriminator === '0000') return;
 		if (message.channel.type !== ChannelType.GuildText) return;
+		const LowerCaseContent = message.cleanContent.toLowerCase();
+
+		const discordRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g;
+		const disboardRegex = /disboard\.org/g;
+		const discopartyRegex = /discoparty\.jp/g;
+		const dissokuRegex = /dissoku\.net/g;
+
 		if (
-			/(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g.test(
-				message.cleanContent.toLowerCase(),
-			) ||
-			message.cleanContent.toLowerCase().includes('disboard.org') ||
-			message.cleanContent.toLowerCase().includes('discoparty.jp') ||
-			message.cleanContent.toLowerCase().includes('dissoku.net')
+			discordRegex.test(LowerCaseContent) ||
+			disboardRegex.test(LowerCaseContent) ||
+			discopartyRegex.test(LowerCaseContent) ||
+			dissokuRegex.test(LowerCaseContent)
 		)
 			return message.react('❌');
 		const channels = await channelDB.keys();
