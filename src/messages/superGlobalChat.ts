@@ -118,8 +118,13 @@ export default async function (message: Message) {
 						if (!repliedMessage) return;
 						await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 							content: message.content,
-							id: repliedMessage.id,
-							user: repliedMessage.user,
+							id: message.id,
+							user: {
+								discriminator: message.author.discriminator,
+								globalName: message.author.globalName,
+								username: message.author.username,
+								extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+							},
 						});
 					}
 				});
