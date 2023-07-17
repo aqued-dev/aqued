@@ -1222,7 +1222,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.0.0
     "@yarnpkg/pnpify": 3.1.6
     "@yarnpkg/sdks": ^3.0.0-rc.48
-    discord.js: ^14.11.1-dev.1689422688-8c782bf.0
+    discord.js: ^14.11.1-dev.1689600799-afa9879.0
     enka-network-api: ^3.7.1
     eslint: ^8.45.0
     eslint-config-prettier: ^8.8.0
@@ -1832,9 +1832,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.11.1-dev.1689422688-8c782bf.0":
-  version: 14.11.1-dev.1689422688-8c782bf.0
-  resolution: "discord.js@npm:14.11.1-dev.1689422688-8c782bf.0"
+"discord-api-types@npm:^0.37.48":
+  version: 0.37.49
+  resolution: "discord-api-types@npm:0.37.49"
+  checksum: 34fd886673d1c6da6a3fd6f6bce1ad78e1b49fa4097bc54180089b12039b9a7ec80f980defb74b71f06a895fb534fa54f7a484c3967f27c3dad163a579a9db7f
+  languageName: node
+  linkType: hard
+
+"discord.js@npm:^14.11.1-dev.1689600799-afa9879.0":
+  version: 14.11.1-dev.1689600799-afa9879.0
+  resolution: "discord.js@npm:14.11.1-dev.1689600799-afa9879.0"
   dependencies:
     "@discordjs/builders": ^1.6.3
     "@discordjs/collection": ^1.5.1
@@ -1843,14 +1850,14 @@ __metadata:
     "@discordjs/util": ^0.3.1
     "@discordjs/ws": ^0.8.3
     "@sapphire/snowflake": ^3.5.1
-    "@types/ws": ^8.5.4
-    discord-api-types: ^0.37.45
+    "@types/ws": ^8.5.5
+    discord-api-types: ^0.37.48
     fast-deep-equal: ^3.1.3
     lodash.snakecase: ^4.1.1
-    tslib: ^2.5.2
+    tslib: ^2.6.0
     undici: ^5.22.1
     ws: ^8.13.0
-  checksum: f921f4aac7847ad40fef61cf7535db3c3a8f18d9125273080ad75a3e4aee35cbb2a17f6cc748f1c2980237b37ff2ee2991bc3b3aaabddba16624223c4787e0f1
+  checksum: 6f603380973c217f4cd1c08e48462f2a2baad0db1f75e280911842f33b15d31c0b7b445445a8416536360ac55b1a39c0bfc062f441de1cd32c21a1d3a9b0f32a
   languageName: node
   linkType: hard
 
@@ -4494,7 +4501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.2":
+"tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.2, tslib@npm:^2.6.0":
   version: 2.6.0
   resolution: "tslib@npm:2.6.0"
   checksum: c01066038f950016a18106ddeca4649b4d76caa76ec5a31e2a26e10586a59fceb4ee45e96719bf6c715648e7c14085a81fee5c62f7e9ebee68e77a5396e5538f
