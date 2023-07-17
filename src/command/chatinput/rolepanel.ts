@@ -32,8 +32,17 @@ export default {
 		const roles = [];
 
 		for (let index = 1; index <= 10; index++) {
-			const role = interaction.options.getRole(`role${index}`);
-			roles.push(role ? { id: role.id, name: role.name } : undefined);
+			const rawRole = interaction.options.getRole(`role${index}`);
+			const role = interaction.guild.roles.cache.get(rawRole.id);
+			const member = interaction.guild.members.cache.get(interaction.user.id);
+			if (role && member && member.roles.highest.comparePositionTo(role) <= 0)
+				return await interaction.error(
+					'実行者のロールよりも上位のロールを指定しています',
+					'指定したロールはあなたが持っているロールよりも上です。',
+					true,
+				);
+
+			roles.push(rawRole ? { id: rawRole.id, name: rawRole.name } : undefined);
 		}
 
 		await interaction.client.botData.rolePanel.set(id.toString(), roles);

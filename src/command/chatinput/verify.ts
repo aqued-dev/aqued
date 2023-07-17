@@ -6,6 +6,7 @@ import {
 	ChatInputCommandInteraction,
 	SlashCommandBuilder,
 	Colors,
+	PermissionFlagsBits,
 } from 'discord.js';
 export default {
 	command: new SlashCommandBuilder()
@@ -31,12 +32,21 @@ export default {
 		.setGuildOnly(),
 	ownersOnly: false,
 	modOnly: false,
-	permissions: false,
+	permissions: [PermissionFlagsBits.ManageRoles],
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		const role = interaction.options.getRole('role');
+		const member = interaction.guild.members.cache.get(interaction.user.id);
+
+		if (role && member && member.roles.highest.comparePositionTo(role.id) <= 0)
+			return await interaction.error(
+				'実行者のロールよりも上位のロールを指定しています',
+				'指定したロールはあなたが持っているロールよりも上です。',
+				true,
+			);
+
 		switch (interaction.options.getString('type')) {
 			case '足し算認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
@@ -55,7 +65,6 @@ export default {
 				break;
 			}
 			case '引き算認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
@@ -74,7 +83,6 @@ export default {
 				break;
 			}
 			case '掛け算認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
@@ -93,7 +101,6 @@ export default {
 				break;
 			}
 			case '割り算認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
@@ -112,7 +119,6 @@ export default {
 				break;
 			}
 			case '1クリック認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
@@ -131,7 +137,6 @@ export default {
 				break;
 			}
 			case '乱数認証': {
-				const role = interaction.options.getRole('role');
 				const message = await interaction.reply({
 					fetchReply: true,
 					embeds: [
