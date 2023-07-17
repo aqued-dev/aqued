@@ -33,7 +33,7 @@ export default {
 
 		for (let index = 1; index <= 10; index++) {
 			const rawRole = interaction.options.getRole(`role${index}`);
-			const role = interaction.guild.roles.cache.get(rawRole.id);
+			const role = interaction.guild.roles.cache.get(rawRole ? rawRole.id : '');
 			const member = interaction.guild.members.cache.get(interaction.user.id);
 			if (role && member && member.roles.highest.comparePositionTo(role) <= 0)
 				return await interaction.error(
