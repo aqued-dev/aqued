@@ -15,6 +15,8 @@ import {
 	SnowflakeUtil,
 } from 'discord.js';
 import config from '../config.json' assert { type: 'json' };
+import packageJson from '../package.json' assert { type: 'json' };
+
 import './utils/extrans.js';
 import { info, error } from './utils/log.js';
 import { MongoDB } from './utils/MongoDB.js';
@@ -93,7 +95,18 @@ const {
 	commandExecutors,
 	load,
 } = client.botData;
-await infos.set('version', (await infos.get('version')) || '3.1.2');
+const version = packageJson.version;
+const response = await fetch('https://api.github.com/repos/aqued-dev/aqued/tags');
+if (response.ok) {
+	const json = await response.json();
+	if (Number(version.replaceAll('.', '')) < Number(json[0].name.replaceAll('.', ''))) {
+		info('new version release: https://github.com/aqued-dev/aqued/releases/tag/' + json[0].name);
+	} else if (Number(version.replaceAll('.', '')) === Number(json[0].name.replaceAll('.', ''))) {
+		await infos.set('version', json[0].name);
+	}
+} else {
+	await infos.set('version', version);
+}
 
 info('Aqued');
 info('repository: https://github.com/aqued-dev/aqued');
