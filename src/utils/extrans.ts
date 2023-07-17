@@ -24,6 +24,8 @@ declare module 'discord.js' {
 			};
 			aquedFreeChannel: MongoDB;
 			aquedFreeChannelUser: MongoDB;
+			rolePanel: MongoDB;
+			rolePanelId: MongoDB;
 			commandExecutors: { serverUpNotice: MongoDB; number: MongoDB; users: MongoDB };
 			interactionFiles: any[];
 			messageFiles: any[];

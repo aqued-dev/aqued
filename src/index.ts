@@ -47,6 +47,8 @@ client.botData = {
 	errors: newMongoDB('botErrorData'),
 	forcePin: newMongoDB('forcePin'),
 	infos: newMongoDB('infos'),
+	rolePanel: newMongoDB('rolePanel'),
+	rolePanelId: newMongoDB('rolePanelId'),
 	guildUpNotice: {
 		dissoku: newMongoDB('guildUpNoticeDissoku'),
 		disboard: newMongoDB('guildUpNoticeDisboard'),
