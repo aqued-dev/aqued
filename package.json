@@ -13,7 +13,7 @@
 		"start": "node dist/src/index.js"
 	},
 	"dependencies": {
-		"@discordjs/rest": "^1.7.2-dev.1689422667-8c782bf.0",
+		"@discordjs/rest": "^1.7.2-dev.1689600762-afa9879.0",
 		"discord.js": "^14.11.1-dev.1689422688-8c782bf.0",
 		"enka-network-api": "^3.7.1",
 		"json-bigint": "^1.0.0",
