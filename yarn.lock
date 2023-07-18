@@ -314,7 +314,6 @@ __metadata:
   checksum: 397dca0f2433dcc20c98805427388dd2ab09b906c429185e5d7cfc5057ad7b2a815653482476cffb64b8e1c3628ff254d927796316956d737375be22383c88d7
   languageName: node
   linkType: hard
-
 "@discordjs/rest@npm:^1.7.2-dev.1689639246-afa9879.0":
   version: 1.7.2-dev.1689639246-afa9879.0
   resolution: "@discordjs/rest@npm:1.7.2-dev.1689639246-afa9879.0"
