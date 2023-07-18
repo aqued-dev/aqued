@@ -13,8 +13,8 @@
 		"start": "node dist/src/index.js"
 	},
 	"dependencies": {
-		"@discordjs/rest": "^1.7.2-dev.1689600762-afa9879.0",
-		"discord.js": "^14.11.1-dev.1689422688-8c782bf.0",
+		"@discordjs/rest": "^1.7.2-dev.1689639246-afa9879.0",
+		"discord.js": "^14.11.1-dev.1689639260-afa9879.0",
 		"enka-network-api": "^3.7.1",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^7.3.4",
@@ -29,8 +29,8 @@
 		"@types/node": "20.4.2",
 		"@types/ws": "^8.5.5",
 		"@types/xml2js": "^0.4.11",
-		"@typescript-eslint/eslint-plugin": "^6.0.0",
-		"@typescript-eslint/parser": "^6.0.0",
+		"@typescript-eslint/eslint-plugin": "^6.1.0",
+		"@typescript-eslint/parser": "^6.1.0",
 		"@yarnpkg/pnpify": "3.1.6",
 		"@yarnpkg/sdks": "^3.0.0-rc.48",
 		"eslint": "^8.45.0",
