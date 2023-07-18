@@ -2,7 +2,7 @@ import { AttachmentBuilder, BaseInteraction, Colors, EmbedBuilder } from 'discor
 import { writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
+import './artifacter/keep.js';
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
 	if (!interaction.customId.includes('select_build1_uid_')) return;
@@ -14,7 +14,10 @@ export default async function (interaction: BaseInteraction) {
 		}&calcmethod=${await database.get(interaction.customId.replace('select_build1_uid_', ''))}`,
 	);
 	if (response.ok) {
-		writeFileSync('src/interactions/artifacter/' + interaction.id + '.png', Buffer.from(await response.arrayBuffer()));
+		writeFileSync(
+			'dist/src/interactions/artifacter/' + interaction.id + '.png',
+			Buffer.from(await response.arrayBuffer()),
+		);
 	} else {
 		return await interaction.editReply({
 			embeds: [
