@@ -7,7 +7,7 @@ export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
 	if (!interaction.customId.includes('select_build1_uid_')) return;
 	const database = interaction.client.botData.artifacter;
-	await interaction.deferReply({ ephemeral: true });
+	await interaction.deferReply();
 	const response = await fetch(
 		`https://artifacter.mikn.dev/?uid=${interaction.customId.replace('select_build1_uid_', '')}&character=${
 			interaction.values[0]
