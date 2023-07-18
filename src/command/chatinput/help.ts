@@ -1,5 +1,6 @@
 import {
 	ActionRowBuilder,
+	ApplicationCommandType,
 	ButtonBuilder,
 	ButtonStyle,
 	ChatInputCommandInteraction,
@@ -24,7 +25,14 @@ export default {
 			for (const command of commands) {
 				if (command.name !== interaction.options.getString('name')) continue;
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setTitle(command.name).setDescription(command.description).setColor(Colors.Blue)],
+					embeds: [
+						new EmbedBuilder()
+							.setTitle(command.name)
+							.setDescription(
+								command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
+							)
+							.setColor(Colors.Blue),
+					],
 				});
 				return;
 			}
@@ -50,7 +58,7 @@ export default {
 				const endIndex = Math.min(startIndex + pageSize, commands.length);
 				const lists = commands.slice(startIndex, endIndex).map((command) => ({
 					name: command.name,
-					description: command.description ?? '説明がありません。',
+					description: command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
 				}));
 
 				embeds.push(

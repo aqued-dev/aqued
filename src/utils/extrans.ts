@@ -5,6 +5,7 @@ import {
 	REST,
 	SlashCommandBuilder,
 	ContextMenuCommandBuilder,
+	RESTPostAPIContextMenuApplicationCommandsJSONBody,
 } from 'discord.js';
 import { MongoDB } from './MongoDB.js';
 import './userExtrans.js';
@@ -59,9 +60,6 @@ declare module 'discord.js' {
 			rest: REST;
 			clientId: string;
 		};
-	}
-	interface RESTPostAPIContextMenuApplicationCommandsJSONBody {
-		description: string | undefined;
 	}
 	interface SlashCommandBuilder {
 		setGuildOnly(): SlashCommandBuilder;
