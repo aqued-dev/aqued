@@ -846,21 +846,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "@typescript-eslint/parser@npm:6.1.0"
+"@typescript-eslint/parser@npm:^6.4.1":
+  version: 6.4.1
+  resolution: "@typescript-eslint/parser@npm:6.4.1"
   dependencies:
-    "@typescript-eslint/scope-manager": 6.1.0
-    "@typescript-eslint/types": 6.1.0
-    "@typescript-eslint/typescript-estree": 6.1.0
-    "@typescript-eslint/visitor-keys": 6.1.0
+    "@typescript-eslint/scope-manager": 6.4.1
+    "@typescript-eslint/types": 6.4.1
+    "@typescript-eslint/typescript-estree": 6.4.1
+    "@typescript-eslint/visitor-keys": 6.4.1
     debug: ^4.3.4
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: dc59cda4396ca09e3aa2bd5b99d8ef9526df56567d4a9b953668102116db975dfb2426c3369560a2b02e083d49e43b4cebb252144d175e900096eb0b17f7ae3c
+  checksum: cb61c757963f2a7964c2f846087eadda044720da769d96600f9f0069fe796d612caef5d9bb0c785aa4fa95028b2d231e7c83847ce44f02b1fa41f2102d6f444c
   languageName: node
   linkType: hard
 
@@ -871,6 +871,16 @@ __metadata:
     "@typescript-eslint/types": 6.1.0
     "@typescript-eslint/visitor-keys": 6.1.0
   checksum: 57c73b8713be79abebbcfef1d58f78a820ea88a5c37a44d2c9a76130216d9ee824134fae215dde794121cfaf1284370da77e1e5184ba71812aebb1a8cf39f325
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/scope-manager@npm:6.4.1":
+  version: 6.4.1
+  resolution: "@typescript-eslint/scope-manager@npm:6.4.1"
+  dependencies:
+    "@typescript-eslint/types": 6.4.1
+    "@typescript-eslint/visitor-keys": 6.4.1
+  checksum: 8f7f90aa378a19838301b31cfa58a4b0641d2b84891705c8c006c67aacb5c0d07112b714e1f0e7a159c5736779c934ec26dadef42a0711fccb635596aba391fc
   languageName: node
   linkType: hard
 
@@ -898,6 +908,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/types@npm:6.4.1":
+  version: 6.4.1
+  resolution: "@typescript-eslint/types@npm:6.4.1"
+  checksum: 16ba46140dbe426407bbb940e87fb347e7eb53b64f74e8f6a819cd662aa25ccd0c25b1e588867ce3cd36a8b4eccea7bd81f4d429595e6e86d9a24c655b1c8617
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/typescript-estree@npm:6.1.0":
   version: 6.1.0
   resolution: "@typescript-eslint/typescript-estree@npm:6.1.0"
@@ -913,6 +930,24 @@ __metadata:
     typescript:
       optional: true
   checksum: 42729b8952a78ff9fc7d3833e16de25f1a3502461ebe5d09a28fb4375c8e5978dde0dd1f8a7973bf7470ff9023cce84de82e968b02a09f54a0f753d21d9127e8
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:6.4.1":
+  version: 6.4.1
+  resolution: "@typescript-eslint/typescript-estree@npm:6.4.1"
+  dependencies:
+    "@typescript-eslint/types": 6.4.1
+    "@typescript-eslint/visitor-keys": 6.4.1
+    debug: ^4.3.4
+    globby: ^11.1.0
+    is-glob: ^4.0.3
+    semver: ^7.5.4
+    ts-api-utils: ^1.0.1
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 34c289e50a6337321154efe6c20c762e94fea308f9032971e356a266f63e99b908b1a00dd8cf51eba50a6f69db01d665faf2cf13454b355767fd167eebe60f1c
   languageName: node
   linkType: hard
 
@@ -940,6 +975,16 @@ __metadata:
     "@typescript-eslint/types": 6.1.0
     eslint-visitor-keys: ^3.4.1
   checksum: 21c7c9b9a52325e3b67c0015deb99a1603b19703af7c002e87f32e2d8f9910813985877ee7b589dc9938d308e3d082cf97c8ca43c2c95b86a919c426d8913439
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:6.4.1":
+  version: 6.4.1
+  resolution: "@typescript-eslint/visitor-keys@npm:6.4.1"
+  dependencies:
+    "@typescript-eslint/types": 6.4.1
+    eslint-visitor-keys: ^3.4.1
+  checksum: bd9cd56fc793e1d880c24193f939c4992b2653f330baece41cd461d1fb48edb2c53696987cba0e29074bbb452dd181fd009db92dd19060fdcc417ad76768f18a
   languageName: node
   linkType: hard
 
@@ -1317,7 +1362,7 @@ __metadata:
     "@types/ws": ^8.5.5
     "@types/xml2js": ^0.4.11
     "@typescript-eslint/eslint-plugin": ^6.1.0
-    "@typescript-eslint/parser": ^6.1.0
+    "@typescript-eslint/parser": ^6.4.1
     "@yarnpkg/pnpify": 3.1.6
     "@yarnpkg/sdks": ^3.0.0-rc.48
     discord.js: ^14.11.1-dev.1689639260-afa9879.0
