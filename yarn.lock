@@ -741,10 +741,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.4.2":
+"@types/node@npm:*":
   version: 20.4.2
   resolution: "@types/node@npm:20.4.2"
   checksum: 99e544ea7560d51f01f95627fc40394c24a13da8f041121a0da13e4ef0a2aa332932eaf9a5e8d0e30d1c07106e96a183be392cbba62e8cf0bf6a085d5c0f4149
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.5.7":
+  version: 20.5.7
+  resolution: "@types/node@npm:20.5.7"
+  checksum: fc284c8e16ddc04569730d58e87eae349eb1c3dd9020cb79a1862d9d9add6f04e7367a236f3252db8db2572f90278e250f4cd43d27d264972b54394eaba1ed76
   languageName: node
   linkType: hard
 
@@ -1313,7 +1320,7 @@ __metadata:
     "@discordjs/rest": 1.7.2-dev.1689422667-8c782bf.0
     "@napi-rs/canvas": ^0.1.41
     "@types/json-bigint": ^1.0.1
-    "@types/node": 20.4.2
+    "@types/node": 20.5.7
     "@types/ws": ^8.5.5
     "@types/xml2js": ^0.4.11
     "@typescript-eslint/eslint-plugin": ^6.1.0
