@@ -18,7 +18,7 @@
 		"discord.js": "^14.11.1-dev.1689639260-afa9879.0",
 		"enka-network-api": "^3.7.1",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^7.3.4",
+		"mongoose": "^7.4.5",
 		"typescript": "^5.1.6",
 		"ws": "^8.13.0",
 		"xml2js": "^0.6.0"
