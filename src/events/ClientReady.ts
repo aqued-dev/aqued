@@ -4,7 +4,7 @@ import { readdir, stat, unlink } from 'node:fs/promises';
 
 export default {
 	name: Events.ClientReady,
-	once: true,
+	once: false,
 	async execute(client: Client) {
 		const files = await readdir('src/interactions/artifacter');
 		for (const file of files) {

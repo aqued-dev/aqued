@@ -1,7 +1,16 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ImageURLOptions, calculateUserDefaultAvatarIndex } from '@discordjs/rest';
-import { User, GuildMember, Activity, ClientPresenceStatusData, Client, PresenceStatus, Snowflake } from 'discord.js';
+import {
+	ImageURLOptions,
+	calculateUserDefaultAvatarIndex,
+	User,
+	GuildMember,
+	Activity,
+	ClientPresenceStatusData,
+	Client,
+	PresenceStatus,
+	Snowflake,
+} from 'discord.js';
 
 declare module 'discord.js' {
 	interface User {

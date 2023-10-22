@@ -1,7 +1,14 @@
 /* eslint-disable unicorn/no-nested-ternary */
-import { ChannelType, Colors, EmbedBuilder, Message, SnowflakeUtil, Webhook } from 'discord.js';
+import {
+	ChannelType,
+	Colors,
+	EmbedBuilder,
+	Message,
+	SnowflakeUtil,
+	Webhook,
+	calculateUserDefaultAvatarIndex,
+} from 'discord.js';
 import { MessageData } from '../utils/SuperGlobalChatType.js';
-import { calculateUserDefaultAvatarIndex } from '@discordjs/rest';
 import { inspect } from 'node:util';
 
 export default async function (message: Message) {
