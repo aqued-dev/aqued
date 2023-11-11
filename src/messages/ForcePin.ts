@@ -40,15 +40,13 @@ export default async function (message: Message) {
 						userId: data.userId,
 						latestMessageId: message_.id,
 						latestChannelId: message_.channelId,
-						avatarURL: user_.extDefaultAvatarURL({ extension: 'webp' }),
-						username: user_.displayName,
 					};
 					await botData.forcePin.set(data.latestChannelId, setData);
 				})
 		: webhook
 				.send({
-					avatarURL: data.avatarURL,
-					username: data.username,
+					avatarURL: user_.extDefaultAvatarURL({ extension: 'webp' }),
+					username: user_.displayName,
 					embeds: data.embeds,
 					content: data.content,
 					files: data.attachments,
@@ -61,8 +59,6 @@ export default async function (message: Message) {
 						userId: data.userId,
 						latestMessageId: message_.id,
 						latestChannelId: message_.channelId,
-						avatarURL: data.avatarURL,
-						username: data.username,
 					};
 					await botData.forcePin.set(data.latestChannelId, setData);
 				});

@@ -9,6 +9,7 @@ import {
 	ButtonInteraction,
 	RoleSelectMenuInteraction,
 	ModalSubmitInteraction,
+	Message,
 } from 'discord.js';
 declare module 'discord.js' {
 	interface ChatInputCommandInteraction {

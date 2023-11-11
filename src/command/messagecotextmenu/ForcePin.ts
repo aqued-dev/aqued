@@ -91,8 +91,6 @@ export default {
 						userId: interaction.targetMessage.author.id,
 						latestMessageId: message_.id,
 						latestChannelId: message_.channelId,
-						avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
-						username: messageUser.displayName,
 					};
 					await forcePin.set(interaction.targetMessage.channelId, data);
 				});
@@ -116,8 +114,6 @@ export default {
 						userId: interaction.targetMessage.author.id,
 						latestMessageId: message_.id,
 						latestChannelId: message_.channelId,
-						avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
-						username: messageUser.displayName,
 					};
 					await forcePin.set(interaction.targetMessage.channelId, data);
 				});

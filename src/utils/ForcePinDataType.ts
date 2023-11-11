@@ -7,6 +7,4 @@ export interface ForcePinDataType {
 	content: string;
 	latestMessageId: string;
 	latestChannelId: string;
-	avatarURL: string;
-	username: string;
 }
