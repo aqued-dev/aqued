@@ -1,3 +1,3 @@
 # aqued
 
-DiscordBot、Aqued のレポジトリです。
+v4 beta

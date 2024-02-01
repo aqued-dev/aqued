@@ -2,16 +2,13 @@
 
 ## サポートされているバージョン
 
-| Version | Supported          |
-| ------- | ------------------ |
-| main    | :white_check_mark: |
-| 3.0.0   | :white_check_mark: |
-| 2.4.x   | :x:                |
-| 2.3.x   | :x:                |
-| 2.2.x   | :x:                |
-| 2.1.x   | :x:                |
-| < 2.0.x | :x:                |
+| Version       | Supported          |
+| ------------- | ------------------ |
+| main          | :white_check_mark: |
+| v4.0.x-beta.0 | :white_check_mark: |
+| < 3.x.0       | :warning:          |
+| < 2.x.x       | :x:                |
 
 ## 脆弱性の報告
 
-Issues 又は公式鯖でチケットを立ててお知らせください。
+イシュー又は公式サーバーにて、チケットを作成頂き、お知らせいただければと思います。

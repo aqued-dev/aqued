@@ -1,48 +1,47 @@
-# Changelog
+# 変更ログ
 
-All notable changes to this project will be documented in this file.
+このプロジェクトに対する変更はすべて、このファイルに記録されます。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [未リリース](https://github.com/aqued-dev/aqued/compare/3.1.2...HEAD)
 
-## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.1.2...HEAD)
+## [4.0.0](https://github.com/aqued-dev/aqued/compare/3.1.2...main) - 未リリース
 
 ## [3.1.2](https://github.com/aqued-dev/aqued/compare/3.1.1...3.1.2) - 2023-07-17
 
-### Fixed
+### 修正
 
 - superglobalchat のエラー
 
 ## [3.1.1](https://github.com/aqued-dev/aqued/compare/3.1.0...3.1.1) - 2023-07-17
 
-### Fixed
+### 修正
 
 - CWE-20
 
 ## [3.1.0](https://github.com/aqued-dev/aqued/compare/3.0.1...3.1.0) - 2023-07-16
 
-### Added
+### 追加
 
 - help コマンド。
 - userstatus コマンド。
 
-### Changed
+### 変更
 
 - userinfo でステータスを確認できるように。
 - グローバルチャット、スーパーグローバルチャットでのメッセージ返信の時の返信先メッセージを embed にするように。
 
 ## [3.0.1](https://github.com/aqued-dev/aqued/compare/3.0.0...3.0.1) - 2023-07-14
 
-### Added
+### 追加
 
 - グローバルチャットで招待リンクは送信できないように。
 
-### Fixed
+### 修正
 
 - afk の理由が表示されない。
 - webhook が送信したメッセージを force pin するとエラーが発生する。
 
-### Changed
+### 変更
 
 - エラー ID をコードスパンで囲みます。
 
