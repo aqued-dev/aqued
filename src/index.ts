@@ -7,15 +7,17 @@ import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 async function load(type: string) {
 	const data = new Collection<string, SlashCommandClass>();
-	(await readdir(resolve(import.meta.dirname, 'func', type)))
-		.filter((file) => file.endsWith('.js'))
-		// eslint-disable-next-line unicorn/no-array-for-each
-		.forEach(async (file) => {
-			const slashClass = (await import(`../src/func/${type}/${file}`)).default;
-			const slash: SlashCommandClass = new slashClass();
-			data.set(slash.command.name, slash);
-		});
+	const files = await readdir(resolve(import.meta.dirname, 'func', type));
 
+	await Promise.all(
+		files
+			.filter((file) => file.endsWith('.js'))
+			.map(async (file) => {
+				const slashClass = (await import(`../src/func/${type}/${file}`)).default;
+				const slash: SlashCommandClass = new slashClass();
+				data.set(slash.command.name, slash);
+			}),
+	);
 	return data;
 }
 
@@ -46,8 +48,7 @@ client.config = Config;
 
 (await readdir(resolve(import.meta.dirname, 'event')))
 	.filter((file) => file.endsWith('.js'))
-	// eslint-disable-next-line unicorn/no-array-for-each
-	.forEach(async (file = 'ready.js') => {
+	.forEach(async (file) => {
 		const eventClass = (await import(`../src/event/${file}`)).default;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(...args));
@@ -58,14 +59,13 @@ await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {
 		body: commandsData,
 	})
-	.then(() => Logger.info('コマンドを登録しました'))
+	.then(() => Logger.info('command has been registered!'))
 	.catch((error_) => {
 		Logger.error(error_);
-		Logger.error('コマンドが登録できませんでした');
+		Logger.error('Could not register command :(');
 		exit(1);
 	});
-
-client.on(Events.Debug, (message) => Logger.info(message));
+// client.on(Events.Debug, (message) => Logger.info(message));
 
 await client
 	.login(client.config.discordToken)
