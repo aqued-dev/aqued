@@ -1,4 +1,4 @@
-import { BaseInteraction, Client, EmbedBuilder } from 'discord.js';
+import { BaseInteraction, Client } from 'discord.js';
 import { InteractionEventClass } from 'src/lib/index.js';
 
 export default class implements InteractionEventClass {

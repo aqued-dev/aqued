@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { setInterval } from 'node:timers/promises';
 import { EventClass } from '../lib/index.js';
 import { ActivityType, Client, Events } from 'discord.js';

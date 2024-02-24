@@ -10,7 +10,7 @@ export default class implements EventClass<any> {
 	async run(interaction: BaseInteraction) {
 		(await readdir(resolve(import.meta.dirname, 'interactions')))
 			.filter((file) => file.endsWith('.js'))
-			.forEach(async (file) => {
+			.map(async (file) => {
 				const eventClass = (await import(`../event/interactions/${file}`)).default;
 				const event = new eventClass();
 				await event.run(interaction, interaction.client);

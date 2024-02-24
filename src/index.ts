@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Client, Collection, Events, GatewayIntentBits, Routes } from 'discord.js';
+import { Client, Collection, GatewayIntentBits, Routes } from 'discord.js';
 import { exit } from 'node:process';
 import { Config, EventClass, Logger, SlashCommandClass } from './lib/index.js';
 import { Logger as PinoLogger } from 'pino';
@@ -48,7 +48,7 @@ client.config = Config;
 
 (await readdir(resolve(import.meta.dirname, 'event')))
 	.filter((file) => file.endsWith('.js'))
-	.forEach(async (file) => {
+	.map(async (file) => {
 		const eventClass = (await import(`../src/event/${file}`)).default;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(...args));
