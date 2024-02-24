@@ -10,11 +10,16 @@
 		"project": "./tsconfig.json",
 		"ecmaVersion": "latest"
 	},
-	"ignorePatterns": ["tsup.config.ts", "config.ts", "config.example.ts", "dist/*"],
-	"plugins": ["@typescript-eslint", "unicorn"],
+	"ignorePatterns": ["config.ts", "config.example.ts", "dist/*"],
+	"plugins": ["@typescript-eslint", "unicorn", "deprecation"],
 	"root": true,
 	"rules": {
+		"deprecation/deprecation": "warn",
 		"unicorn/prefer-node-protocol": "error",
-		"unicorn/filename-case": "off"
+		"no-console": "error",
+		"unicorn/no-await-expression-member": "off",
+		"@typescript-eslint/no-unused-vars": "warn",
+		"unicorn/empty-brace-spaces": "warn",
+		"unicorn/prevent-abbreviations": "off"
 	}
 }
