@@ -47,12 +47,12 @@ client.config = Config;
 (await readdir(resolve(import.meta.dirname, 'event')))
 	.filter((file) => file.endsWith('.js'))
 	// eslint-disable-next-line unicorn/no-array-for-each
-	.forEach(async (file="ready.js") => {
+	.forEach(async (file = 'ready.js') => {
 		const eventClass = (await import(`../src/event/${file}`)).default;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(...args));
 	});
-	
+
 const commandsData = [...client.loads.slash.values()].map((slash) => slash.command.toJSON());
 await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {
