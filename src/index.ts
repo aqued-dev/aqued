@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Client, Collection, Events, GatewayIntentBits, Routes } from 'discord.js';
 import { exit } from 'node:process';
-import { Config, Logger, SlashCommandClass } from './lib/index.js';
+import { Config, EventClass, Logger, SlashCommandClass } from './lib/index.js';
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -43,16 +43,16 @@ client.loads = { slash: await load('slash') };
 
 client.logger = Logger;
 client.config = Config;
-/*
+
 (await readdir(resolve(import.meta.dirname, 'event')))
 	.filter((file) => file.endsWith('.js'))
 	// eslint-disable-next-line unicorn/no-array-for-each
 	.forEach(async (file="ready.js") => {
-		const { eventClass } = (await import(`../event/${file}`)).default;
+		const eventClass = (await import(`../src/event/${file}`)).default;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(...args));
 	});
-	*/
+	
 const commandsData = [...client.loads.slash.values()].map((slash) => slash.command.toJSON());
 await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {

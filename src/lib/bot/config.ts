@@ -1,7 +1,4 @@
 import { config } from 'dotenv';
-import { Logger } from './logger.js';
-Logger.info(process.cwd());
-
 config();
 const discordToken = process.env.DISCORD_TOKEN;
 const discordBotId = process.env.DISCORD_BOT_ID;
