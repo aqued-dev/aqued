@@ -42,7 +42,6 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (botData.reboot) return await interaction.error('起動中', '起動完了までお待ちください', true);
 		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
@@ -174,7 +173,6 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (botData.reboot) return await interaction.error('起動中', '起動完了までお待ちください', true);
 		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
@@ -306,7 +304,6 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (botData.reboot) return await interaction.error('起動中', '起動完了までお待ちください', true);
 		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
 		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
