@@ -16,5 +16,4 @@ export default class implements EventClass<any> {
 				await event.run(interaction, interaction.client);
 			});
 	}
-
 }

@@ -6,12 +6,11 @@ const prisma = new PrismaClient();
 export default class Ping implements SlashCommandClass {
 	command = new SlashCommandBuilder().setName('ai').setDescription('実行したチャンネルで、Gemini AIを有効化します。');
 	async run(interaction: ChatInputCommandInteraction) {
-		const data = await prisma.ai
-			.findMany({
-				where: {
-					OR: [{ channelId: interaction.channelId }],
-				},
-			})
+		const data = await prisma.ai.findMany({
+			where: {
+				OR: [{ channelId: interaction.channelId }],
+			},
+		});
 		if (data.length === 0) {
 			await prisma.ai.create({ data: { channelId: interaction.channelId } });
 			await interaction.reply('登録しました。');
