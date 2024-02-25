@@ -45,7 +45,6 @@ client.loads = { slash: await load('slash') };
 
 client.logger = Logger;
 client.config = Config;
-
 (await readdir(resolve(import.meta.dirname, 'event')))
 	.filter((file) => file.endsWith('.js'))
 	.map(async (file) => {
@@ -74,3 +73,5 @@ await client
 		Logger.error(error_);
 		exit(1);
 	});
+
+process.on('unhandledRejection', (reason) => Logger.error(reason));

@@ -14,6 +14,7 @@
 	"plugins": ["@typescript-eslint", "unicorn", "deprecation"],
 	"root": true,
 	"rules": {
+		"unicorn/filename-case": "off",
 		"deprecation/deprecation": "warn",
 		"unicorn/prefer-node-protocol": "error",
 		"no-console": "error",

@@ -8,6 +8,7 @@ export default class implements EventClass<any> {
 	name = Events.ClientReady;
 	once = false;
 	async run(client: Client) {
+		
 		client.logger.info('ready!!');
 		client.user.setPresence({
 			status: 'idle',

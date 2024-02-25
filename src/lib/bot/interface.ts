@@ -5,6 +5,7 @@ import {
 	Client,
 	ClientEvents,
 	Events,
+	Message,
 	SlashCommandBuilder,
 } from 'discord.js';
 
@@ -15,6 +16,9 @@ export interface EventClass<Event extends keyof ClientEvents> {
 }
 export interface InteractionEventClass {
 	run(interaction: BaseInteraction, client: Client): Promise<void>;
+}
+export interface MessageEventClass {
+	run(message: Message, client?: Client): Promise<void>;
 }
 export interface SlashCommandClass {
 	command: SlashCommandBuilder;
