@@ -8,7 +8,6 @@ export default class implements EventClass<any> {
 	name = Events.ShardResume;
 	once = false;
 	async run(client: Client, id: number) {
-		console.log(client);
 		client.user.setPresence({
 			status: 'idle',
 			activities: [
