@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Client, Collection, Events, GatewayIntentBits, Routes } from 'discord.js';
+import { Client, Events, GatewayIntentBits, Routes } from 'discord.js';
 import { exit } from 'node:process';
-import { Config, EventClass, Logger, SlashCommandClass } from './lib/index.js';
+import { AnyEventClass, Config, EventClass, Logger, SlashCommandClass } from './lib/index.js';
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 async function load(type: string) {
-	const data = new Collection<string, SlashCommandClass>();
+	const data = new Map<string, SlashCommandClass>();
 	const files = await readdir(resolve(import.meta.dirname, 'func', type));
 
 	await Promise.all(
@@ -20,10 +19,26 @@ async function load(type: string) {
 	);
 	return data;
 }
-
+const events = new Map<string, AnyEventClass[]>();
+(await readdir(resolve(import.meta.dirname, 'event', 'messageCreate')))
+	.filter((file) => file.endsWith('.js'))
+	.map(async (file) => {
+		const array = events.get(Events.MessageCreate) ?? [];
+		const eventClass = (await import(`./event/messageCreate/${file}`)).default;
+		const event = new eventClass();
+		array.push(event);
+		events.set(Events.MessageCreate, array);
+	});
+(await readdir(resolve(import.meta.dirname, 'event', 'interactions')))
+	.filter((file) => file.endsWith('.js'))
+	.map(async (file) => {
+		const eventClass = (await import(`./event/interactions/${file}`)).default;
+		const event = new eventClass();
+		events.set(Events.InteractionCreate, event);
+	});
 declare module 'discord.js' {
 	interface Client {
-		loads: { slash: Collection<string, SlashCommandClass> };
+		loads: { slash: Map<string, SlashCommandClass>; events: Map<string, AnyEventClass[]> };
 		logger: PinoLogger;
 		config: typeof Config;
 	}
@@ -41,7 +56,7 @@ const client = new Client({
 });
 client.rest.setToken(Config.discordToken);
 
-client.loads = { slash: await load('slash') };
+client.loads = { slash: await load('slash'), events };
 
 client.logger = Logger;
 client.config = Config;
@@ -49,6 +64,7 @@ client.config = Config;
 	.filter((file) => file.endsWith('.js'))
 	.map(async (file) => {
 		const eventClass = (await import(`../src/event/${file}`)).default;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(client, ...args));
 	});

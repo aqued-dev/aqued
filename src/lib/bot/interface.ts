@@ -20,6 +20,9 @@ export interface InteractionEventClass {
 export interface MessageEventClass {
 	run(message: Message, client?: Client): Promise<void>;
 }
+export interface AnyEventClass {
+	run(arg: unknown, client?: Client): Promise<void>;
+}
 export interface SlashCommandClass {
 	command: SlashCommandBuilder;
 	run(inteaction: ChatInputCommandInteraction): Promise<void>;
