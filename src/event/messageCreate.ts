@@ -6,6 +6,8 @@ export default class implements EventClass<any> {
 	name = Events.MessageCreate;
 	once = false;
 	async run(client: Client, message: Message) {
-		client.loads.events.get(Events.MessageCreate).map(async (value) => await value.run(message, client));
+		for (const value of client.loads.events.get(Events.MessageCreate)) {
+			await value.run(message, client);
+		}
 	}
 }

@@ -6,6 +6,8 @@ export default class implements EventClass<any> {
 	name = Events.InteractionCreate;
 	once = false;
 	async run(client: Client, interaction: BaseInteraction) {
-		client.loads.events.get(Events.InteractionCreate).map(async (value) => await value.run(interaction, client));
+		for (const value of client.loads.events.get(Events.InteractionCreate)) {
+			await value.run(interaction, client);
+		}
 	}
 }

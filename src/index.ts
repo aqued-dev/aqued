@@ -1,9 +1,12 @@
 import { Client, Events, GatewayIntentBits, Routes } from 'discord.js';
 import { exit } from 'node:process';
-import { AnyEventClass, Config, EventClass, Logger, SlashCommandClass } from './lib/index.js';
+import { AnyEventClass, Config, EventClass, Logger, MessageEventClass, SlashCommandClass } from './lib/index.js';
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
+process.on('unhandledRejection', (reason) => Logger.error(reason));
+process.on("uncaughtException", (reason) => Logger.error(reason));
+
 async function load(type: string) {
 	const data = new Map<string, SlashCommandClass>();
 	const files = await readdir(resolve(import.meta.dirname, 'func', type));
@@ -25,16 +28,18 @@ const events = new Map<string, AnyEventClass[]>();
 	.map(async (file) => {
 		const array = events.get(Events.MessageCreate) ?? [];
 		const eventClass = (await import(`./event/messageCreate/${file}`)).default;
-		const event = new eventClass();
+		const event: MessageEventClass = new eventClass();
 		array.push(event);
 		events.set(Events.MessageCreate, array);
 	});
 (await readdir(resolve(import.meta.dirname, 'event', 'interactions')))
 	.filter((file) => file.endsWith('.js'))
 	.map(async (file) => {
+		const array = events.get(Events.MessageCreate) ?? [];
 		const eventClass = (await import(`./event/interactions/${file}`)).default;
 		const event = new eventClass();
-		events.set(Events.InteractionCreate, event);
+		array.push(event);
+		events.set(Events.InteractionCreate, array);
 	});
 declare module 'discord.js' {
 	interface Client {
@@ -90,4 +95,3 @@ await client
 		exit(1);
 	});
 
-process.on('unhandledRejection', (reason) => Logger.error(reason));
