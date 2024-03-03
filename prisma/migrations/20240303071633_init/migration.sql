@@ -1,4 +1,11 @@
 -- CreateTable
+CREATE TABLE `Ai` (
+    `_id` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `AiThread` (
     `id` VARCHAR(191) NOT NULL,
 
@@ -8,8 +15,8 @@ CREATE TABLE `AiThread` (
 -- CreateTable
 CREATE TABLE `AiThreadHistory` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `userContent` VARCHAR(191) NOT NULL,
-    `aiContent` VARCHAR(191) NOT NULL,
+    `userContent` TEXT NOT NULL,
+    `aiContent` TEXT NOT NULL,
     `aiThreadId` VARCHAR(191) NULL,
 
     UNIQUE INDEX `AiThreadHistory_id_key`(`id`),

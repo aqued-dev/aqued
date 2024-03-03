@@ -6,7 +6,10 @@ import {
 	ClientEvents,
 	Events,
 	Message,
+	ModalSubmitInteraction,
 	SlashCommandBuilder,
+	SlashCommandOptionsOnlyBuilder,
+	SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 
 export interface EventClass<Event extends keyof ClientEvents> {
@@ -24,7 +27,8 @@ export interface AnyEventClass {
 	run(arg: unknown, client?: Client): Promise<void>;
 }
 export interface SlashCommandClass {
-	command: SlashCommandBuilder;
+	command: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
 	run(inteaction: ChatInputCommandInteraction): Promise<void>;
 	button?(inteaction: ButtonInteraction): Promise<void>;
+	modal?(interaction: ModalSubmitInteraction): Promise<void>;
 }

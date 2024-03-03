@@ -7,6 +7,15 @@ export default class implements EventClass<any> {
 	once = false;
 	async run(client: Client) {
 		client.logger.info('ready!!');
+		client.user.setPresence({
+			status: 'idle',
+			activities: [
+				{
+					name: `/help | ${client.guilds.cache.size} Guilds | ${String(client.ws.ping) === '-1' ? '?' : client.ws.ping} ms`,
+					type: ActivityType.Custom,
+				},
+			],
+		});
 		setInterval(async () => {
 			client.user.setPresence({
 				status: 'idle',

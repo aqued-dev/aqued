@@ -4,6 +4,8 @@ import { AnyEventClass, Config, EventClass, Logger, MessageEventClass, SlashComm
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import API from './lib/api.js';
+await API();
 process.on('unhandledRejection', (reason) => Logger.error(reason));
 process.on('uncaughtException', (reason) => Logger.error(reason));
 

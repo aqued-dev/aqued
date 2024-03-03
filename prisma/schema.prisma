@@ -17,9 +17,11 @@ model AiThread {
 }
 
 model AiThreadHistory {
-  id          Int       @id @unique @default(autoincrement())
-  userContent String
-  aiContent   String
-  AiThread    AiThread? @relation(fields: [aiThreadId], references: [id])
-  aiThreadId  String?
+  id          Int    @id @unique @default(autoincrement())
+  userContent String @db.Text
+
+  aiContent String @db.Text
+
+  AiThread   AiThread? @relation(fields: [aiThreadId], references: [id])
+  aiThreadId String?
 }
