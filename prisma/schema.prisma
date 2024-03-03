@@ -25,3 +25,7 @@ model AiThreadHistory {
   AiThread   AiThread? @relation(fields: [aiThreadId], references: [id])
   aiThreadId String?
 }
+
+model EarthQuakeAlert {
+  channelId String @id @map("_id")
+}

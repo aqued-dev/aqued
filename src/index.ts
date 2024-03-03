@@ -5,10 +5,11 @@ import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import API from './lib/api.js';
+import EQ from './lib/earthquake.js';
+
 await API();
 process.on('unhandledRejection', (reason) => Logger.error(reason));
 process.on('uncaughtException', (reason) => Logger.error(reason));
-
 async function load(type: string) {
 	const data = new Map<string, SlashCommandClass>();
 	const files = await readdir(resolve(import.meta.dirname, 'func', type));
@@ -62,7 +63,7 @@ const client = new Client({
 	presence: { status: 'dnd' },
 });
 client.rest.setToken(Config.discordToken);
-
+await EQ(client);
 client.loads = { slash: await load('slash'), events };
 
 client.logger = Logger;

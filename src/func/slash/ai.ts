@@ -28,7 +28,7 @@ export default class Ai implements SlashCommandClass {
 			await interaction.reply({
 				embeds: [
 					new EmbedBuilder().setAuthor({
-						name: '登録を解除しました',
+						name: '登録解除しました',
 						iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
 					}),
 				],
