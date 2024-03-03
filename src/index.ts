@@ -5,7 +5,7 @@ import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 process.on('unhandledRejection', (reason) => Logger.error(reason));
-process.on("uncaughtException", (reason) => Logger.error(reason));
+process.on('uncaughtException', (reason) => Logger.error(reason));
 
 async function load(type: string) {
 	const data = new Map<string, SlashCommandClass>();
@@ -94,4 +94,3 @@ await client
 		Logger.error(error_);
 		exit(1);
 	});
-
