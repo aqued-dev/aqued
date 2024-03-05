@@ -3,10 +3,8 @@
 		"module": "NodeNext",
 		"target": "ESNext",
 		"esModuleInterop": true,
-		"resolveJsonModule": true,
 		"outDir": "dist",
-		"experimentalDecorators": true,
 		"baseUrl": "./"
 	},
-	"include": ["src", "src/global.d.ts"]
+	"include": ["src"]
 }
