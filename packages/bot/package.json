@@ -1,0 +1,51 @@
+{
+	"name": "@aqued/bot",
+	"version": "4.0.0-beta.0",
+	"description": "Multifunctional Discord Bot.",
+	"main": "dist/index.js",
+	"author": "aqued-dev",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"build": "rimraf dist && swc src -d dist && prisma migrate dev --name init generate",
+		"start": "prisma migrate deploy --name init generate && node dist/src/index.js | pino-pretty -tc",
+		"dev": "pnpm build && node dist/src/index.js | pino-pretty -tc",
+		"lint": "eslint src --ext .ts && prettier --check .",
+		"lint:fix": "eslint src --ext .ts --fix && prettier --write .",
+		"prepare": "husky"
+	},
+	"dependencies": {
+		"@prisma/client": "^5.10.2",
+		"@types/ws": "^8.5.10",
+		"discord.js": "^14.14.1",
+		"dotenv": "^16.4.5",
+		"fastify": "^4.26.1",
+		"pino": "^8.19.0",
+		"pino-pretty": "^10.3.1",
+		"prisma": "^5.10.2",
+		"ws": "^8.16.0"
+	},
+	"devDependencies": {
+		"@google/generative-ai": "^0.2.1",
+		"@swc/cli": "^0.3.10",
+		"@swc/core": "^1.4.2",
+		"@types/node": "^20.11.24",
+		"@typescript-eslint/eslint-plugin": "^6.21.0",
+		"@typescript-eslint/parser": "^6.21.0",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-deprecation": "^2.0.0",
+		"eslint-plugin-unicorn": "^50.0.1",
+		"husky": "^9.0.11",
+		"prettier": "^3.2.5",
+		"rimraf": "^5.0.5"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"packageManager": "pnpm@8.15.4",
+	"volta": {
+		"node": "20.11.1",
+		"pnpm": "8.15.4"
+	}
+}

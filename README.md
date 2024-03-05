@@ -1,3 +1,5 @@
 # aqued
 
-v4 beta
+Aqued のリポジトリです。
+
+Bot は package/bot、Web は package/web にあります。

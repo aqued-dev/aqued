@@ -10,7 +10,7 @@
 		"project": "./tsconfig.json",
 		"ecmaVersion": "latest"
 	},
-	"ignorePatterns": ["config.ts", "config.example.ts", "dist/*"],
+	"ignorePatterns": ["config.ts", "config.example.ts", "dist/*", "src/*"],
 	"plugins": ["@typescript-eslint", "unicorn", "deprecation"],
 	"root": true,
 	"rules": {
