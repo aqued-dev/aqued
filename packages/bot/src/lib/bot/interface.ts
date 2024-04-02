@@ -1,4 +1,5 @@
 import {
+	AutocompleteInteraction,
 	BaseInteraction,
 	ButtonInteraction,
 	ChatInputCommandInteraction,
@@ -17,26 +18,31 @@ export interface EventClass<Event extends keyof ClientEvents> {
 	run(client: Client, ...args: ClientEvents[Event]): Promise<void>;
 }
 export interface InteractionEventClass {
-	run(interaction: BaseInteraction, client: Client): Promise<void>;
+	run(interaction: BaseInteraction, client: Client): Promise<unknown>;
 }
 export interface MessageEventClass {
-	run(message: Message, client?: Client): Promise<void>;
+	run(message: Message, client?: Client): Promise<unknown>;
 }
 
 export interface SlashCommandClass {
-	command: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
-	run(inteaction: ChatInputCommandInteraction): Promise<void>;
-	button?(inteaction: ButtonInteraction): Promise<void>;
-	modal?(interaction: ModalSubmitInteraction): Promise<void>;
+	command:
+		| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+		| SlashCommandBuilder
+		| SlashCommandSubcommandsOnlyBuilder
+		| SlashCommandOptionsOnlyBuilder;
+	run(interaction: ChatInputCommandInteraction): Promise<unknown>;
+	button?(interaction: ButtonInteraction): Promise<unknown>;
+	modal?(interaction: ModalSubmitInteraction): Promise<unknown>;
+	autoComplete?(interaction: AutocompleteInteraction): Promise<unknown>;
 }
 
-export function isMessage(value: unknown): value is MessageEventClass {
+export function isMessageEvent(value: unknown): value is MessageEventClass {
 	if (typeof value !== 'object' || value === null) return false;
 	const { run } = value as MessageEventClass;
 	if (typeof run !== typeof Message) return false;
 	return true;
 }
-export function isInteraction(value: unknown): value is InteractionEventClass {
+export function isInteractionEvent(value: unknown): value is InteractionEventClass {
 	if (typeof value !== 'object' || value === null) return false;
 	const { run } = value as InteractionEventClass;
 	if (typeof run !== typeof BaseInteraction) return false;
