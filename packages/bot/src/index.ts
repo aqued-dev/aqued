@@ -57,6 +57,7 @@ declare module 'discord.js' {
 			slash: Map<string, SlashCommandClass>;
 			events: Map<string, (MessageEventClass | InteractionEventClass)[]>;
 		};
+		cache: Map<string, string>;
 		logger: PinoLogger;
 		config: typeof Config;
 	}
@@ -75,7 +76,7 @@ const client = new Client({
 client.rest.setToken(Config.discordToken);
 await EQ(client);
 client.loads = { slash: await load('slash'), events };
-
+client.cache = new Map();
 client.logger = Logger;
 client.config = Config;
 (await readdir(resolve(import.meta.dirname, 'event')))
@@ -86,7 +87,6 @@ client.config = Config;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(client, ...args));
 	});
-
 const commandsData = [...client.loads.slash.values()].map((slash) => slash.command.toJSON());
 await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {
