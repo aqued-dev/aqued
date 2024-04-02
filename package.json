@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "bot": "pnpm -F \"bot\"",
-	"web": "pnpm -F \"web\"",
+    "web": "pnpm -F \"web\"",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -22,5 +22,8 @@
   "volta": {
     "node": "20.11.1",
     "pnpm": "8.15.4"
+  },
+  "dependencies": {
+    "typescript": "^5.3.3"
   }
 }
