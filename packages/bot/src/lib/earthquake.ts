@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 export default async function (client: Client) {
 	const ws = new WebSocket('wss://api.p2pquake.net/v2/ws');
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	ws.on('message', async (wsdata: any) => {
-		const data: EQData = JSON.parse(wsdata.data);
+	ws.on('message', async (wsdata) => {
+		const data: EQData = JSON.parse(wsdata.toString());
 		const channels = await prisma.earthQuakeAlert.findMany();
 		if (data.code === 551) {
 			const maxScale = data.earthquake.maxScale
