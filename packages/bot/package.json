@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@prisma/client": "^5.11.0",
 		"@types/ws": "^8.5.10",
+		"@xmldom/xmldom": "^0.8.10",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.4.5",
 		"fastify": "^4.26.2",

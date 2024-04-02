@@ -4,7 +4,9 @@
 		"target": "ESNext",
 		"esModuleInterop": true,
 		"outDir": "dist",
-		"baseUrl": "./"
+		"baseUrl": "./",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"include": ["src"]
 }
