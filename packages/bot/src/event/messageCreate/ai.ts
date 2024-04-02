@@ -21,8 +21,8 @@ export default class implements MessageEventClass {
 				.startChat({
 					history: data.flatMap((value) => {
 						return [
-							{ role: 'user', parts: value.userContent },
-							{ role: 'model', parts: value.aiContent },
+							{ role: 'user', parts: [{ text: value.userContent }] },
+							{ role: 'model', parts: [{ text: value.aiContent }] },
 						];
 					}),
 				})
