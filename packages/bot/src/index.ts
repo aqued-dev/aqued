@@ -1,6 +1,13 @@
 import { Client, Events, GatewayIntentBits, Routes } from 'discord.js';
 import { exit } from 'node:process';
-import { AnyEventClass, Config, EventClass, Logger, MessageEventClass, SlashCommandClass } from './lib/index.js';
+import {
+	Config,
+	EventClass,
+	InteractionEventClass,
+	Logger,
+	MessageEventClass,
+	SlashCommandClass,
+} from './lib/index.js';
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -25,7 +32,7 @@ async function load(type: string) {
 	);
 	return data;
 }
-const events = new Map<string, AnyEventClass[]>();
+const events = new Map<string, (MessageEventClass | InteractionEventClass)[]>();
 (await readdir(resolve(import.meta.dirname, 'event', 'messageCreate')))
 	.filter((file) => file.endsWith('.js'))
 	.map(async (file) => {
@@ -46,7 +53,10 @@ const events = new Map<string, AnyEventClass[]>();
 	});
 declare module 'discord.js' {
 	interface Client {
-		loads: { slash: Map<string, SlashCommandClass>; events: Map<string, AnyEventClass[]> };
+		loads: {
+			slash: Map<string, SlashCommandClass>;
+			events: Map<string, (MessageEventClass | InteractionEventClass)[]>;
+		};
 		logger: PinoLogger;
 		config: typeof Config;
 	}

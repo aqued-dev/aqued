@@ -3,8 +3,7 @@ import { setInterval } from 'node:timers/promises';
 import { EventClass } from '../lib/index.js';
 import { ActivityType, Client, Events } from 'discord.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default class implements EventClass<any> {
+export default class implements EventClass<Events.ShardResume> {
 	name = Events.ShardResume;
 	once = false;
 	async run(client: Client, id: number) {
