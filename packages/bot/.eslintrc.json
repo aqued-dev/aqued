@@ -10,9 +10,8 @@
 		"project": "./tsconfig.json",
 		"ecmaVersion": "latest"
 	},
-	"ignorePatterns": ["config.ts", "config.example.ts", "dist/*", "src/*"],
+	"ignorePatterns": ["./config.ts", "./config.example.ts", "./dist/*"],
 	"plugins": ["@typescript-eslint", "unicorn", "deprecation"],
-	"root": true,
 	"rules": {
 		"unicorn/filename-case": "off",
 		"deprecation/deprecation": "warn",
