@@ -3,6 +3,7 @@ import { EmbedBuilder, Message } from 'discord.js';
 import { Config, MessageEventClass } from '../../lib/index.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PrismaClient } from '@prisma/client';
+import { splitNewLineText } from 'src/lib/index.js';
 const prisma = new PrismaClient();
 export default class implements MessageEventClass {
 	async run(message: Message) {
@@ -73,7 +74,10 @@ export default class implements MessageEventClass {
 					if (result.response.text() === '') return;
 					const channel = await message.startThread({ name: '会話' });
 					await channel.sendTyping();
-					await channel.send(result.response.text());
+
+					for (const text of splitNewLineText(result.response.text())) {
+						await channel.send(text);
+					}
 					await prisma.aiThread.create({ data: { id: channel.id } });
 					await prisma.aiThreadHistory.create({
 						data: { userContent: message.cleanContent, aiContent: result.response.text(), aiThreadId: channel.id },
