@@ -37,7 +37,7 @@ export default class implements SlashCommandClass {
 					date: string;
 					dateLabel: string;
 					telop: string;
-					detail: { weather: string; wind: string; wave: string };
+					detail: { weather: string | null; wind: string | null; wave: string | null };
 					temperature: {
 						max: { celsius: string | null; fahrenheit: string | null };
 						min: { celsius: string | null; fahrenheit: string | null };
@@ -79,8 +79,8 @@ export default class implements SlashCommandClass {
 						})
 						.addFields(
 							{ name: '天気', value: `${today.telop}(${today.detail.weather})` },
-							{ name: '風', value: today.detail.wind },
-							{ name: '波', value: today.detail.wave },
+							{ name: '風', value: `${today.detail.wind ?? '--'}` },
+							{ name: '波', value: `${today.detail.wave ?? '--'}` },
 							{
 								name: '気温',
 								value: `最低: ${today.temperature.min.celsius ?? '--'} °C, 最高: ${today.temperature.max.celsius ?? '--'} °C`,
