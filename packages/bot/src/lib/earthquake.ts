@@ -23,7 +23,7 @@ export default async function (client: Client) {
 			const depth =
 				data.earthquake.hypocenter.depth === -1
 					? '不明'
-					: data.earthquake.hypocenter.depth.toString().replace('0', 'ごく浅い');
+					: data.earthquake.hypocenter.depth.toString();
 			const magnitude = data.earthquake.hypocenter.magnitude === -1 ? '不明' : data.earthquake.hypocenter.magnitude;
 			const hypocenter = data.earthquake.hypocenter.name ?? '不明';
 			const domesticTsunami = data.earthquake.domesticTsunami
