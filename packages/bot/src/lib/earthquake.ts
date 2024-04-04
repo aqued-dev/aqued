@@ -20,17 +20,14 @@ export default async function (client: Client) {
 				.replace(/55/, '6弱')
 				.replace(/60/, '6強');
 			const time = data.earthquake.time;
-			const depth =
-				data.earthquake.hypocenter.depth === -1
-					? '不明'
-					: data.earthquake.hypocenter.depth.toString();
+			const depth = data.earthquake.hypocenter.depth === -1 ? '不明' : data.earthquake.hypocenter.depth.toString();
 			const magnitude = data.earthquake.hypocenter.magnitude === -1 ? '不明' : data.earthquake.hypocenter.magnitude;
 			const hypocenter = data.earthquake.hypocenter.name ?? '不明';
 			const domesticTsunami = data.earthquake.domesticTsunami
 				.replace('None', 'この地震による津波の心配はありません。')
 				.replace('Unknown', 'この地震による津波は不明です。')
 				.replace('Checking', 'この地震による津波は調査中です。')
-				.replace('NonEffective', '若干の海面変動が予想されます・')
+				.replace('NonEffective', '若干の海面変動が予想されます。')
 				.replace('Watch', '津波注意報が発令されています。今後の情報に注意してください。')
 				.replace('Warning', '津波予報が発令されています。今後の情報に注意してください。');
 			for await (const channel of channels) {
@@ -39,7 +36,7 @@ export default async function (client: Client) {
 						new EmbedBuilder()
 							.setTitle('地震情報')
 							.setDescription(
-								`震度: ${maxScale}\n時間: ${time}\n深さ: ${depth}\nマグニチュード: ${magnitude}\n震源: ${hypocenter}\n津波: ${domesticTsunami}`,
+								`発生時刻: ${time}\n震源: ${hypocenter}\n震度: ${maxScale}\nマグニチュード: ${magnitude}\n深さ: ${depth}km\n津波: ${domesticTsunami}`,
 							)
 							.setColor(Colors.Red)
 							.setTimestamp(new Date())

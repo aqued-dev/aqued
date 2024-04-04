@@ -63,9 +63,9 @@ export default class implements SlashCommandClass {
 					}[];
 				};
 			} = await response.json();
-			if (data.error) return await interaction.editReply({ content: `エラーが発生しました。\n${data.error}` });
+			if (data.error) return await interaction.editReply({ content: `エラーが発生しました\n${data.error}` });
 			if (response.status !== 200)
-				return await interaction.editReply({ content: `サーバーエラーが発生しました。\n${data.error}` });
+				return await interaction.editReply({ content: `サーバーエラーが発生しました\n${data.error}` });
 			const today = data.forecasts[0];
 			await interaction.editReply({
 				embeds: [
@@ -97,7 +97,7 @@ export default class implements SlashCommandClass {
 				],
 			});
 		} catch (error) {
-			await interaction.editReply({ content: `データ取得にエラーが発生しました。` });
+			await interaction.editReply({ content: `データ取得にエラーが発生しました` });
 			Logger.error(error);
 		}
 	}

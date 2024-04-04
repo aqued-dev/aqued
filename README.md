@@ -1,5 +1,5 @@
 # aqued
 
-Aqued のリポジトリです。
+Aqued のリポジトリです
 
-Bot は package/bot、Web は package/web にあります。
+Bot は package/bot、Web は package/web にあります

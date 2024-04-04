@@ -1,9 +1,8 @@
-/* eslint-disable unicorn/catch-error-name */
 import { EmbedBuilder, Message } from 'discord.js';
 import { Config, MessageEventClass } from '../../lib/index.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PrismaClient } from '@prisma/client';
-import { splitNewLineText } from 'src/lib/index.js';
+import { splitNewLineText } from '../../lib/index.js';
 const prisma = new PrismaClient();
 export default class implements MessageEventClass {
 	async run(message: Message) {
@@ -55,7 +54,7 @@ export default class implements MessageEventClass {
 						],
 					});
 					await prisma.aiThreadHistory.create({
-						data: { userContent: message.cleanContent, aiContent: '回答できませんでした。' },
+						data: { userContent: message.cleanContent, aiContent: '回答できませんでした' },
 					});
 				});
 		} else {
