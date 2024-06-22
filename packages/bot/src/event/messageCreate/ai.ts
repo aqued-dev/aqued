@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from 'discord.js';
+import { Colors, EmbedBuilder, Message } from 'discord.js';
 import { Config, MessageEventClass } from '../../lib/index.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PrismaClient } from '@prisma/client';
@@ -50,7 +50,7 @@ export default class implements MessageEventClass {
 									name: 'テキストの生成に失敗しました',
 									iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 								})
-								.setDescription(content),
+								.setDescription(content).setColor(Colors.Blue),
 						],
 					});
 					await prisma.aiThreadHistory.create({
@@ -93,7 +93,7 @@ export default class implements MessageEventClass {
 									name: 'テキストの生成に失敗しました',
 									iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 								})
-								.setDescription(content),
+								.setDescription(content).setColor(Colors.Red),
 						],
 					});
 				});

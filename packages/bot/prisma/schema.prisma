@@ -29,3 +29,16 @@ model AiThreadHistory {
 model EarthQuakeAlert {
   channelId String @id @map("_id")
 }
+
+model Afk {
+    userId String @id 
+    reason String? @db.Text
+    mentions AfkMentions[]
+}
+model AfkMentions {
+    userId String @id 
+    messageId String 
+    channelId String
+    guildId String
+    afk Afk? @relation(fields: [userId], references: [userId])
+}

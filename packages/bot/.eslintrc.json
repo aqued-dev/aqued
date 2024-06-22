@@ -20,6 +20,7 @@
 		"unicorn/no-await-expression-member": "off",
 		"@typescript-eslint/no-unused-vars": "warn",
 		"unicorn/empty-brace-spaces": "warn",
-		"unicorn/prevent-abbreviations": "off"
+		"unicorn/prevent-abbreviations": "off",
+		"unicorn/consistent-function-scoping": "off"
 	}
 }

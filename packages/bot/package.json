@@ -14,38 +14,37 @@
 		"lint:fix": "eslint src --ext .ts --fix && prettier --write ."
 	},
 	"dependencies": {
-		"@prisma/client": "^5.11.0",
+		"@prisma/client": "^5.15.1",
 		"@types/ws": "^8.5.10",
 		"@xmldom/xmldom": "^0.8.10",
-		"discord.js": "^14.14.1",
+		"discord.js": "^14.15.3",
 		"dotenv": "^16.4.5",
-		"fastify": "^4.26.2",
-		"pino": "^8.19.0",
-		"pino-pretty": "^11.0.0",
-		"prisma": "^5.11.0",
-		"ws": "^8.16.0"
+		"fastify": "^4.28.0",
+		"pino": "^9.2.0",
+		"pino-pretty": "^11.2.1",
+		"prisma": "^5.15.1",
+		"ws": "^8.17.1",
+		"@google/generative-ai": "^0.13.0"
 	},
 	"devDependencies": {
-		"@google/generative-ai": "^0.3.1",
 		"@swc/cli": "^0.3.12",
-		"@swc/core": "^1.4.11",
-		"@types/node": "^20.12.2",
-		"@typescript-eslint/eslint-plugin": "^7.5.0",
-		"@typescript-eslint/parser": "^7.5.0",
-		"eslint": "^8.57.0",
+		"@swc/core": "^1.6.3",
+		"@types/node": "^20.14.7",
+		"@typescript-eslint/eslint-plugin": "^8.0.0-alpha.30",
+		"@typescript-eslint/parser": "^8.0.0-alpha.30",
+		"eslint": "^9.5.0",
 		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-deprecation": "^2.0.0",
-		"eslint-plugin-unicorn": "^51.0.1",
+		"eslint-plugin-unicorn": "^54.0.0",
 		"husky": "^9.0.11",
-		"prettier": "^3.2.5",
-		"rimraf": "^5.0.5"
+		"prettier": "^3.3.2",
+		"rimraf": "^5.0.7"
 	},
 	"engines": {
 		"node": ">=20.0.0"
 	},
-	"packageManager": "pnpm@8.15.4",
+	"packageManager": "pnpm@9.4.0",
 	"volta": {
-		"node": "20.11.1",
-		"pnpm": "8.15.4"
+		"node": "22.3.0",
+		"pnpm": "9.4.0"
 	}
 }

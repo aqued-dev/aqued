@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { SlashCommandClass } from '../../lib/bot/index.js';
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 const prisma = new PrismaClient();
 
 export default class Ai implements SlashCommandClass {
@@ -20,7 +20,7 @@ export default class Ai implements SlashCommandClass {
 					new EmbedBuilder().setAuthor({
 						name: '登録しました',
 						iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-					}),
+					}).setColor(Colors.Blue),
 				],
 			});
 		} else {
@@ -30,7 +30,7 @@ export default class Ai implements SlashCommandClass {
 					new EmbedBuilder().setAuthor({
 						name: '登録解除しました',
 						iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-					}),
+					}).setColor(Colors.Blue),
 				],
 			});
 		}

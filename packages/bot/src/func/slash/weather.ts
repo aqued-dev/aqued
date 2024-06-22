@@ -11,7 +11,6 @@ export default class implements SlashCommandClass {
 	command = new SlashCommandBuilder()
 		.setName('weather')
 		.setDescription('天気を表示します')
-		// eslint-disable-next-line unicorn/consistent-function-scoping
 		.addStringOption((input) => input.setName('place').setDescription('場所').setAutocomplete(true).setRequired(true));
 	async run(interaction: ChatInputCommandInteraction) {
 		try {

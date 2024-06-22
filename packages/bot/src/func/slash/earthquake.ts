@@ -1,7 +1,6 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 import { PrismaClient } from '@prisma/client';
 import { SlashCommandClass } from '../../lib/bot/index.js';
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 const prisma = new PrismaClient();
 
 export default class EarthQuake implements SlashCommandClass {
@@ -33,14 +32,14 @@ export default class EarthQuake implements SlashCommandClass {
 						new EmbedBuilder().setAuthor({
 							name: '登録しました',
 							iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-						}),
+						}).setColor(Colors.Blue),
 					],
 				});
 			} else {
 				await prisma.earthQuakeAlert.deleteMany({ where: { channelId } });
 				await interaction.reply({
 					embeds: [
-						new EmbedBuilder().setAuthor({
+						new EmbedBuilder().setColor(Colors.Blue).setAuthor({
 							name: '登録解除しました',
 							iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
 						}),

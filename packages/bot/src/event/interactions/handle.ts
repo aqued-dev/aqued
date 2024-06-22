@@ -7,7 +7,7 @@ export default class implements InteractionEventClass {
 			const command = client.loads.slash.get(interaction.commandName);
 			if (!command) {
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setTitle('コマンドが見つかりません').setDescription('no')],
+					embeds: [new EmbedBuilder().setTitle('コマンドが見つかりません').setDescription('no').setColor(Colors.Blue)],
 				});
 				return;
 			}
@@ -16,7 +16,7 @@ export default class implements InteractionEventClass {
 				const Snowflake = SnowflakeUtil;
 				let id: bigint | string = Snowflake.generate();
 
-				const errorChannel = client.channels.cache.get('1225085269561184276');
+				const errorChannel = client.channels.cache.get('1121747218328715274');
 
 				if (!errorChannel) id = 'なし';
 				if (errorChannel.isThread() && errorChannel.parent.type === ChannelType.GuildForum) {
@@ -25,7 +25,7 @@ export default class implements InteractionEventClass {
 							new EmbedBuilder()
 								.setAuthor({
 									name: 'エラーが発生しました',
-									iconURL: 'https://raw.githubinteraction.usercontent.com/aqued-dev/icon/main/no.png',
+									iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 								})
 
 								.setFooter({ text: `エラーid: ${id}` })
@@ -42,7 +42,8 @@ export default class implements InteractionEventClass {
 												: ` **@${interaction.user.username}`
 											: `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,
 								})
-								.addFields({ name: 'パーミッション', value: `${interaction.guild.members.me.permissions.bitfield}` }),
+								.addFields({ name: 'パーミッション', value: `${interaction.guild.members.me.permissions.bitfield}` })
+								.setColor(Colors.Blue),
 						],
 					});
 					message.reply('```js\n' + error + '\n```');
@@ -53,7 +54,7 @@ export default class implements InteractionEventClass {
 				const embed = new EmbedBuilder()
 					.setAuthor({
 						name: 'エラーが発生しました',
-						iconURL: 'https://raw.githubinteraction.usercontent.com/aqued-dev/icon/main/no.png',
+						iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 					})
 					.setDescription(
 						`申し訳ございません。\nお手数をおかけしますが、サポートサーバーでお問い合わせください。\nお問い合わせの際は、エラーidをお伝えください。`,
