@@ -3,8 +3,7 @@ import { WebSocket } from 'ws';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 export default async function (client: Client) {
-	const ws = new WebSocket('wss://api.p2pquake.net/v2/ws');
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const ws = new WebSocket('wss://api.p2pquake.net/v2/ws'); 
 	ws.on('message', async (wsdata) => {
 		const data: EQData = JSON.parse(wsdata.toString());
 		const channels = await prisma.earthQuakeAlert.findMany();
