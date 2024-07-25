@@ -10,8 +10,8 @@
 		"build": "rimraf dist && swc src -d dist",
 		"start": "node dist/src/index.js | pino-pretty -tc",
 		"dev": "pnpm build && node dist/src/index.js | pino-pretty -tc",
-		"lint": "eslint src .src/ && prettier --check .",
-		"lint:fix": "eslint src .src/ --fix && prettier --write ."
+		"lint": "eslint src ./src && prettier --check .",
+		"lint:fix": "eslint src ./src --fix && prettier --write ."
 	},
 	"dependencies": {
 		"@google/generative-ai": "^0.14.0",
