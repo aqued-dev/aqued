@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { SlashCommandClass } from '../../lib/bot/index.js';
 import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-const prisma = new PrismaClient();
+import { dataSource } from '../../lib/db/dataSource.js';
+import { EarthQuakeAlert } from '../../lib/db/entities/EarthQuakeAlert.js';
 
 export default class EarthQuake implements SlashCommandClass {
 	command = new SlashCommandBuilder()
@@ -15,28 +15,56 @@ export default class EarthQuake implements SlashCommandClass {
 					input.setName('受信するチャンネル').setDescription('地震速報を受信するチャンネルを選択してください'),
 				),
 		);
+	private interaction: ChatInputCommandInteraction;
+	private getChannelId() {
+		const channel = this.interaction.options.getChannel('受信するチャンネル');
+		if (!channel) return this.interaction.channelId;
+		return channel.id;
+	}
+	private async getData() {
+		return dataSource.transaction(async (em) => {
+			const channelId = this.getChannelId();
+			const repo = em.getRepository(EarthQuakeAlert);
+			const data = await repo.findOneBy({ channelId });
+			return data;
+		});
+	}
+	private async registered(): Promise<{ bool: boolean; data: EarthQuakeAlert | undefined }> {
+		const data = await this.getData();
+		if (!data) return { bool: false, data: undefined };
+		return { bool: true, data };
+	}
+	private async register() {
+		return dataSource.transaction(async (em) => {
+			const registered = await this.registered();
+			const repo = em.getRepository(EarthQuakeAlert);
+			if (registered.bool) {
+				repo.remove(registered.data);
+				return false;
+			} else {
+				const data = new EarthQuakeAlert();
+				data.channelId = this.getChannelId();
+				repo.insert(data);
+				return true;
+			}
+		});
+	}
 	async run(interaction: ChatInputCommandInteraction) {
+		this.interaction = interaction;
 		if (interaction.options.getSubcommand() === 'alert') {
-			const channelId = interaction.options.getChannel('受信するチャンネル')
-				? interaction.options.getChannel('受信するチャンネル').id
-				: interaction.channelId;
-			const data = await prisma.earthQuakeAlert.findMany({
-				where: {
-					OR: [{ channelId }],
-				},
-			});
-			if (data.length === 0) {
-				await prisma.earthQuakeAlert.create({ data: { channelId } });
+			const register = await this.register();
+			if (register) {
 				await interaction.reply({
 					embeds: [
-						new EmbedBuilder().setAuthor({
-							name: '登録しました',
-							iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-						}).setColor(Colors.Blue),
+						new EmbedBuilder()
+							.setAuthor({
+								name: '登録しました',
+								iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
+							})
+							.setColor(Colors.Blue),
 					],
 				});
 			} else {
-				await prisma.earthQuakeAlert.deleteMany({ where: { channelId } });
 				await interaction.reply({
 					embeds: [
 						new EmbedBuilder().setColor(Colors.Blue).setAuthor({

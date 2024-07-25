@@ -36,8 +36,7 @@ export default class implements InteractionEventClass {
 									name: 'ユーザー',
 									value:
 										interaction.user.discriminator === '0'
-											? // eslint-disable-next-line unicorn/no-nested-ternary
-												interaction.user.globalName
+											? interaction.user.globalName
 												? `${interaction.user.globalName} (@${interaction.user.username})`
 												: ` **@${interaction.user.username}`
 											: `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,

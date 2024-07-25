@@ -90,7 +90,6 @@ export default class implements SlashCommandClass {
 							},
 						)
 						.setColor(
-							// eslint-disable-next-line unicorn/no-nested-ternary
 							today.telop.startsWith('晴') ? Colors.Orange : today.telop.startsWith('曇り') ? Colors.Grey : Colors.Blue,
 						),
 				],
@@ -110,11 +109,9 @@ export default class implements SlashCommandClass {
 			areaXml = text;
 		}
 		const parser = new DOMParser();
-		const xmlDoc = parser.parseFromString(areaXml, 'text/xml');
-		// eslint-disable-next-line unicorn/prefer-query-selector
+		const xmlDoc = parser.parseFromString(areaXml, 'text/xml');		 
 		const cityTags = xmlDoc.getElementsByTagName('city');
 		const data: { title: string; id: string }[] = [];
-		// eslint-disable-next-line unicorn/no-for-loop
 		for (let i = 0; i < cityTags.length; i++) {
 			const cityTag = cityTags[i];
 			data.push({ title: cityTag.getAttribute('title'), id: cityTag.getAttribute('id') });

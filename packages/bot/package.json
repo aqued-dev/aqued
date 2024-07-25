@@ -7,37 +7,38 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "rimraf dist && swc src -d dist && prisma migrate dev --name init generate",
-		"start": "prisma migrate deploy --name init generate && node dist/src/index.js | pino-pretty -tc",
+		"build": "rimraf dist && swc src -d dist",
+		"start": "node dist/src/index.js | pino-pretty -tc",
 		"dev": "pnpm build && node dist/src/index.js | pino-pretty -tc",
-		"lint": "eslint src --ext .ts && prettier --check .",
-		"lint:fix": "eslint src --ext .ts --fix && prettier --write ."
+		"lint": "eslint src .src/ && prettier --check .",
+		"lint:fix": "eslint src .src/ --fix && prettier --write ."
 	},
 	"dependencies": {
-		"@google/generative-ai": "^0.13.0",
-		"@prisma/client": "^5.15.1",
+		"@google/generative-ai": "^0.14.0",
 		"@types/ws": "^8.5.10",
 		"@xmldom/xmldom": "^0.8.10",
 		"discord.js": "^14.15.3",
 		"dotenv": "^16.4.5",
-		"fastify": "^4.28.0",
+		"fastify": "^4.28.1",
+		"mysql2": "^3.10.2",
 		"pino": "^9.2.0",
 		"pino-pretty": "^11.2.1",
-		"prisma": "^5.15.1",
+		"reflect-metadata": "^0.2.2",
+		"typeorm": "^0.3.20",
 		"ws": "^8.17.1"
 	},
 	"devDependencies": {
-		"@swc/cli": "^0.3.12",
-		"@swc/core": "^1.6.3",
-		"@types/node": "^20.14.7",
-		"eslint": "^9.5.0",
+		"@swc/cli": "^0.4.0",
+		"@swc/core": "^1.6.6",
+		"@types/node": "^20.14.9",
+		"eslint": "^9.6.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-unicorn": "^54.0.0",
-		"globals": "^15.6.0",
+		"globals": "^15.7.0",
 		"husky": "^9.0.11",
 		"prettier": "^3.3.2",
 		"rimraf": "^5.0.7",
-		"typescript-eslint": "8.0.0-alpha.30"
+		"typescript-eslint": "8.0.0-alpha.38"
 	},
 	"engines": {
 		"node": ">=20.0.0"

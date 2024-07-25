@@ -1,36 +1,38 @@
 import { RESTPostAPIChannelMessageJSONBody, Client, Routes, EmbedBuilder, Colors } from 'discord.js';
+import { dataSource } from './db/dataSource.js';
+import { EarthQuakeAlert } from './db/entities/EarthQuakeAlert.js';
 import { WebSocket } from 'ws';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 export default async function (client: Client) {
-	const ws = new WebSocket('wss://api.p2pquake.net/v2/ws'); 
+	const ws = new WebSocket('wss://api.p2pquake.net/v2/ws');
 	ws.on('message', async (wsdata) => {
 		const data: EQData = JSON.parse(wsdata.toString());
-		const channels = await prisma.earthQuakeAlert.findMany();
-		if (data.code === 551) {
-			const maxScale = data.earthquake.maxScale
-				.toString()
-				.replace(
-					/10|20|30|40|70|-1/,
-					(m) => ({ '10': '1', '20': '2', '30': '3', '40': '4', '70': '7', '-1': '不明' })[m],
-				)
-				.replace(/45/, '5弱')
-				.replace(/50/, '5強')
-				.replace(/55/, '6弱')
-				.replace(/60/, '6強');
-			const time = data.earthquake.time;
-			const depth = data.earthquake.hypocenter.depth === -1 ? '不明' : data.earthquake.hypocenter.depth.toString();
-			const magnitude = data.earthquake.hypocenter.magnitude === -1 ? '不明' : data.earthquake.hypocenter.magnitude;
-			const hypocenter = data.earthquake.hypocenter.name ?? '不明';
-			const domesticTsunami = data.earthquake.domesticTsunami
-				.replace('None', 'この地震による津波の心配はありません。')
-				.replace('Unknown', 'この地震による津波は不明です。')
-				.replace('Checking', 'この地震による津波は調査中です。')
-				.replace('NonEffective', '若干の海面変動が予想されます。')
-				.replace('Watch', '津波注意報が発令されています。今後の情報に注意してください。')
-				.replace('Warning', '津波予報が発令されています。今後の情報に注意してください。');
-			for await (const channel of channels) {
-				const message: RESTPostAPIChannelMessageJSONBody = {
+		dataSource.transaction(async (em) => {
+			const repo = em.getRepository(EarthQuakeAlert);
+			const dbData = await repo.find();
+			let message: RESTPostAPIChannelMessageJSONBody;
+			if (data.code === 551) {
+				const maxScale = data.earthquake.maxScale
+					.toString()
+					.replace(
+						/10|20|30|40|70|-1/,
+						(m) => ({ '10': '1', '20': '2', '30': '3', '40': '4', '70': '7', '-1': '不明' })[m],
+					)
+					.replace(/45/, '5弱')
+					.replace(/50/, '5強')
+					.replace(/55/, '6弱')
+					.replace(/60/, '6強');
+				const time = data.earthquake.time;
+				const depth = data.earthquake.hypocenter.depth === -1 ? '不明' : data.earthquake.hypocenter.depth.toString();
+				const magnitude = data.earthquake.hypocenter.magnitude === -1 ? '不明' : data.earthquake.hypocenter.magnitude;
+				const hypocenter = data.earthquake.hypocenter.name ?? '不明';
+				const domesticTsunami = data.earthquake.domesticTsunami
+					.replace('None', 'この地震による津波の心配はありません。')
+					.replace('Unknown', 'この地震による津波は不明です。')
+					.replace('Checking', 'この地震による津波は調査中です。')
+					.replace('NonEffective', '若干の海面変動が予想されます。')
+					.replace('Watch', '津波注意報が発令されています。今後の情報に注意してください。')
+					.replace('Warning', '津波予報が発令されています。今後の情報に注意してください。');
+				message = {
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('地震情報')
@@ -42,12 +44,9 @@ export default async function (client: Client) {
 							.toJSON(),
 					],
 				};
-				await client.rest.post(Routes.channelMessages(channel.channelId), { body: message });
 			}
-		}
-		if (data.code === 554) {
-			for await (const channel of channels) {
-				const message: RESTPostAPIChannelMessageJSONBody = {
+			if (data.code === 554) {
+				message = {
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('緊急地震速報')
@@ -57,9 +56,11 @@ export default async function (client: Client) {
 							.toJSON(),
 					],
 				};
-				await client.rest.post(Routes.channelMessages(channel.channelId), { body: message });
 			}
-		}
+			for (const { channelId } of dbData) {
+				await client.rest.post(Routes.channelMessages(channelId), { body: message });
+			}
+		});
 	});
 }
 export type EQData =

@@ -13,6 +13,7 @@ import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import API from './lib/api.js';
 import EQ from './lib/earthquake.js';
+import { dataSource } from './lib/db/dataSource.js';
 
 await API();
 process.on('unhandledRejection', (reason) => Logger.error(reason));
@@ -99,6 +100,7 @@ await client.rest
 		exit(1);
 	});
 // client.on(Events.Debug, (message) => Logger.info(message));
+await dataSource.initialize()
 
 await client
 	.login(client.config.discordToken)

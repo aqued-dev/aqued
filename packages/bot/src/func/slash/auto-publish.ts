@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { SlashCommandClass } from '../../lib/bot/index.js';
-import { ChannelType, ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-const prisma = new PrismaClient();
+import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 export default class AutoPublish implements SlashCommandClass {
 	command = new SlashCommandBuilder()

@@ -1,11 +1,12 @@
 {
-	"compilerOptions": {
-	  "module": "NodeNext",
-	  "target": "ESNext",
-	  "esModuleInterop": true,
-	  "resolveJsonModule": true,
-	  "outDir": "packages/bot/dist",
-	  "experimentalDecorators": true
-	},  
-	"include": ["packages/bot/src"]
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "outDir": "packages/bot/dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["packages/bot/src"]
 }

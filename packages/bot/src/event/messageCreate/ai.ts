@@ -1,18 +1,68 @@
 import { Colors, EmbedBuilder, Message } from 'discord.js';
 import { Config, MessageEventClass } from '../../lib/index.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { PrismaClient } from '@prisma/client';
 import { splitNewLineText } from '../../lib/index.js';
-const prisma = new PrismaClient();
+import { dataSource } from '../../lib/db/dataSource.js';
+import { Ai } from '../../lib/db/entities/Ai.js';
+import { AiThread } from '../../lib/db/entities/AiThread.js';
+import { AiThreadHistory } from '../../lib/db/entities/AiThreadHistory.js';
 export default class implements MessageEventClass {
+	private message: Message;
+	private async getAi(): Promise<Ai | undefined> {
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(Ai);
+			const data = await repo.findOneBy({ channelId: this.message.channelId });
+			return data ?? undefined;
+		});
+	}
+	private async aiRegistered(): Promise<boolean> {
+		const data = await this.getAi();
+		if (!data) return false;
+		return true;
+	}
+	private async getAiThread(): Promise<AiThread | undefined> {
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(AiThread);
+			const data = await repo.findOneBy({ threadId: this.message.channelId });
+			return data ?? undefined;
+		});
+	}
+	private async addAiThread() {
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(AiThread);
+			const data = new AiThread();
+			data.threadId = this.message.channelId;
+			await repo.insert(data);
+		});
+	}
+	private async aiThreadRegistered(): Promise<boolean> {
+		const data = await this.getAiThread();
+		if (!data) return false;
+		return true;
+	}
+	private async getData() {
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(AiThreadHistory);
+			const data = await repo.findBy({ threadId: this.message.channelId });
+			return data;
+		});
+	}
+	private async addData(aiContent: string) {
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(AiThreadHistory);
+			const data = new AiThreadHistory();
+			data.aiContent = aiContent;
+			data.userContent = this.message.cleanContent;
+			data.threadId = this.message.channelId;
+			repo.insert(data);
+		});
+	}
 	async run(message: Message) {
+		this.message = message;
 		if (message.system || message.author.bot) return;
 		if (!message.content || message.content.startsWith('// ')) return;
-		if (
-			message.channel.isThread() &&
-			(await prisma.aiThread.findMany({ where: { OR: [{ id: message.channelId }] } })).length > 0
-		) {
-			const data = await prisma.aiThreadHistory.findMany({ where: { OR: [{ aiThreadId: message.channelId }] } });
+		if (message.channel.isThread() && this.aiThreadRegistered()) {
+			const data = await this.getData();
 
 			await message.channel.sendTyping();
 			const ai = new GoogleGenerativeAI(Config.geminiApiKey);
@@ -28,16 +78,11 @@ export default class implements MessageEventClass {
 				})
 				.sendMessage(message.cleanContent)
 				.then(async (result) => {
-					if (result.response.text() === '') return;
+					const aiContent = result.response.text();
+					if (aiContent === '') return;
 					await message.channel.sendTyping();
-					await message.reply(result.response.text());
-					await prisma.aiThreadHistory.create({
-						data: {
-							userContent: message.cleanContent,
-							aiContent: result.response.text(),
-							aiThreadId: message.channelId,
-						},
-					});
+					await message.reply(aiContent);
+					await this.addData(aiContent);
 				})
 				.catch(async (error) => {
 					let content: string = error.message;
@@ -50,20 +95,14 @@ export default class implements MessageEventClass {
 									name: 'テキストの生成に失敗しました',
 									iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 								})
-								.setDescription(content).setColor(Colors.Blue),
+								.setDescription(content)
+								.setColor(Colors.Blue),
 						],
 					});
-					await prisma.aiThreadHistory.create({
-						data: { userContent: message.cleanContent, aiContent: '回答できませんでした' },
-					});
+					await this.addData('回答できません。');
 				});
 		} else {
-			const data = await prisma.ai.findMany({
-				where: {
-					OR: [{ channelId: message.channelId }],
-				},
-			});
-			if (data.length === 0) return;
+			if (!(await this.aiRegistered())) return;
 			await message.channel.sendTyping();
 			const ai = new GoogleGenerativeAI(Config.geminiApiKey);
 			const model = ai.getGenerativeModel({ model: 'gemini-pro' });
@@ -77,10 +116,8 @@ export default class implements MessageEventClass {
 					for (const text of splitNewLineText(result.response.text())) {
 						await channel.send(text);
 					}
-					await prisma.aiThread.create({ data: { id: channel.id } });
-					await prisma.aiThreadHistory.create({
-						data: { userContent: message.cleanContent, aiContent: result.response.text(), aiThreadId: channel.id },
-					});
+					await this.addAiThread();
+					await this.addData(result.response.text());
 				})
 				.catch(async (error) => {
 					let content: string = error.message;
@@ -93,7 +130,8 @@ export default class implements MessageEventClass {
 									name: 'テキストの生成に失敗しました',
 									iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/no.png',
 								})
-								.setDescription(content).setColor(Colors.Red),
+								.setDescription(content)
+								.setColor(Colors.Red),
 						],
 					});
 				});
