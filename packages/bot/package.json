@@ -14,31 +14,31 @@
 		"lint:fix": "eslint src ./src --fix && prettier --write ."
 	},
 	"dependencies": {
-		"@google/generative-ai": "^0.14.0",
-		"@types/ws": "^8.5.10",
+		"@google/generative-ai": "^0.16.0",
+		"@types/ws": "^8.5.11",
 		"@xmldom/xmldom": "^0.8.10",
 		"discord.js": "^14.15.3",
 		"dotenv": "^16.4.5",
 		"fastify": "^4.28.1",
-		"mysql2": "^3.10.2",
-		"pino": "^9.2.0",
-		"pino-pretty": "^11.2.1",
+		"mysql2": "^3.10.3",
+		"pino": "^9.3.2",
+		"pino-pretty": "^11.2.2",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "^0.3.20",
-		"ws": "^8.17.1"
+		"ws": "^8.18.0"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.4.0",
-		"@swc/core": "^1.6.6",
-		"@types/node": "^20.14.9",
-		"eslint": "^9.6.0",
+		"@swc/core": "^1.7.2",
+		"@types/node": "^20.14.12",
+		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-unicorn": "^54.0.0",
-		"globals": "^15.7.0",
-		"husky": "^9.0.11",
-		"prettier": "^3.3.2",
-		"rimraf": "^5.0.7",
-		"typescript-eslint": "8.0.0-alpha.38"
+		"eslint-plugin-unicorn": "^55.0.0",
+		"globals": "^15.8.0",
+		"husky": "^9.1.2",
+		"prettier": "^3.3.3",
+		"rimraf": "^6.0.1",
+		"typescript-eslint": "8.0.0-alpha.54"
 	},
 	"engines": {
 		"node": ">=20.0.0"
