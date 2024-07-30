@@ -1,3 +1,3 @@
 # @aqued/bot
 
-v4 beta
+自称高性能 DiscordBot です。
