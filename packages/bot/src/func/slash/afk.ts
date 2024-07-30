@@ -1,7 +1,8 @@
 import { SlashCommandClass } from '../../lib/bot/index.js';
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { AFK } from '../../lib/db/entities/AFK.js';
 import { dataSource } from '../../lib/db/dataSource.js';
+import { set, unset } from '../../lib/index.js';
 
 export default class AFKCI implements SlashCommandClass {
 	command = new SlashCommandBuilder()
@@ -43,25 +44,9 @@ export default class AFKCI implements SlashCommandClass {
 		this.interaction = interaction;
 		const register = await this.register();
 		if (register) {
-			await interaction.reply({
-				embeds: [
-					new EmbedBuilder()
-						.setAuthor({
-							name: '登録しました',
-							iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-						})
-						.setColor(Colors.Blue),
-				],
-			});
+			await interaction.reply(set());
 		} else {
-			await interaction.reply({
-				embeds: [
-					new EmbedBuilder().setColor(Colors.Blue).setAuthor({
-						name: '解除しました',
-						iconURL: 'https://raw.githubusercontent.com/aqued-dev/icon/main/check.png',
-					}),
-				],
-			});
+			await interaction.reply(unset());
 		}
 	}
 }

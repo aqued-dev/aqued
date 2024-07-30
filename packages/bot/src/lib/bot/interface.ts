@@ -1,4 +1,5 @@
 import {
+	AnySelectMenuInteraction,
 	AutocompleteInteraction,
 	BaseInteraction,
 	ButtonInteraction,
@@ -30,10 +31,12 @@ export interface SlashCommandClass {
 		| SlashCommandBuilder
 		| SlashCommandSubcommandsOnlyBuilder
 		| SlashCommandOptionsOnlyBuilder;
+	guildId?: string;
 	run(interaction: ChatInputCommandInteraction): Promise<unknown>;
 	button?(interaction: ButtonInteraction): Promise<unknown>;
 	modal?(interaction: ModalSubmitInteraction): Promise<unknown>;
 	autoComplete?(interaction: AutocompleteInteraction): Promise<unknown>;
+	select?(interaction: AnySelectMenuInteraction): Promise<unknown>;
 }
 
 export function isMessageEvent(value: unknown): value is MessageEventClass {

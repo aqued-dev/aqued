@@ -32,8 +32,8 @@ export default class implements MessageEventClass {
 		});
 	}
 	async run(message: Message) {
-		Logger.info('revice');
 		this.message = message;
+		if (!this.message.reference) return;
 		const registered = await this.afkRegistered();
 		if (!registered) return;
 		await this.mentionRegister();
