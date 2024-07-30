@@ -1,10 +1,11 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { entities } from "./entities/index.js";
+import { Config } from "../bot/config.js";
 
 export const dataSource = new DataSource({
   type: "mysql", 
-  host: "db",
+  host: Config.dbHost,
   username: "user",
   password: "password",
   port: 3306,
