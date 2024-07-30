@@ -88,7 +88,10 @@ client.config = Config;
 		const event: EventClass<any> = new eventClass();
 		client[event.once ? 'once' : 'on'](event.name, async (...args) => await event.run(client, ...args));
 	});
-const commandsData = [...client.loads.slash.values()].map((slash) => slash.command.toJSON());
+const commandsData = [...client.loads.slash.values()]
+	.filter((slash) => !slash.guildId)
+	.map((slash) => slash.command.toJSON());
+const guildCommands = [...client.loads.slash.values()].filter((slash) => slash.guildId);
 await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {
 		body: commandsData,
@@ -99,8 +102,22 @@ await client.rest
 		Logger.error('Could not register command :(');
 		exit(1);
 	});
+await Promise.all(
+	guildCommands.map(
+		async (command) =>
+			await client.rest
+				.put(Routes.applicationGuildCommands(Config.discordBotId, command.guildId), {})
+				.then(() => Logger.info('command has been registered!'))
+				.catch((error_) => {
+					Logger.error(error_);
+					Logger.error('Could not register command :(');
+					exit(1);
+				}),
+	),
+);
+
 // client.on(Events.Debug, (message) => Logger.info(message));
-await dataSource.initialize()
+await dataSource.initialize();
 
 await client
 	.login(client.config.discordToken)
