@@ -77,6 +77,8 @@ export default class implements InteractionEventClass {
 				[...client.loads.slash.values()].map(async (value) => {
 					if (value.button && interaction.isButton()) await value.button(interaction);
 					if (value.modal && interaction.isModalSubmit()) await value.modal(interaction);
+					if (value.select && interaction.isAnySelectMenu()) await value.select(interaction);
+
 					if (value.autoComplete && interaction.isAutocomplete() && interaction.commandName === value.command.name)
 						await value.autoComplete(interaction);
 				}),
