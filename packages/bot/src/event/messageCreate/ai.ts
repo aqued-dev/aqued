@@ -61,7 +61,7 @@ export default class implements MessageEventClass {
 		this.message = message;
 		if (message.system || message.author.bot) return;
 		if (!message.content || message.content.startsWith('// ')) return;
-		if (message.channel.isThread() && this.aiThreadRegistered()) {
+		if (message.channel.isThread() && (await this.aiThreadRegistered())) {
 			const data = await this.getData();
 
 			await message.channel.sendTyping();
