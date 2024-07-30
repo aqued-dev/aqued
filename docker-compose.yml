@@ -20,7 +20,7 @@ services:
     volumes:
       - .:/usr/src/app
     container_name: bot
-    image: node:22.3.0
+    image: node:22.5.1
     working_dir: /usr/src/app
     command: bash -c 'npm install -g pnpm && pnpm bot i && pnpm bot build && pnpm bot start'
 volumes:
