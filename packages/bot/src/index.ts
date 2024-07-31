@@ -11,11 +11,9 @@ import {
 import { Logger as PinoLogger } from 'pino';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import API from './lib/api.js';
 import EQ from './lib/earthquake.js';
 import { dataSource } from './lib/db/dataSource.js';
 
-await API();
 process.on('unhandledRejection', (reason) => Logger.error(reason));
 process.on('uncaughtException', (reason) => Logger.error(reason));
 async function load(type: string) {
@@ -33,6 +31,7 @@ async function load(type: string) {
 	);
 	return data;
 }
+
 const events = new Map<string, (MessageEventClass | InteractionEventClass)[]>();
 (await readdir(resolve(import.meta.dirname, 'event', 'messageCreate')))
 	.filter((file) => file.endsWith('.js'))
@@ -55,8 +54,8 @@ const events = new Map<string, (MessageEventClass | InteractionEventClass)[]>();
 declare module 'discord.js' {
 	interface Client {
 		loads: {
-			slash: Map<string, SlashCommandClass>;
-			events: Map<string, (MessageEventClass | InteractionEventClass)[]>;
+			slash?: Map<string, SlashCommandClass>;
+			events?: Map<string, (MessageEventClass | InteractionEventClass)[]>;
 		};
 		cache: Map<string, string>;
 		logger: PinoLogger;
@@ -106,7 +105,9 @@ await Promise.all(
 	guildCommands.map(
 		async (command) =>
 			await client.rest
-				.put(Routes.applicationGuildCommands(Config.discordBotId, command.guildId), {})
+				.put(Routes.applicationGuildCommands(Config.discordBotId, command.guildId), {
+					body: [command.command.toJSON()],
+				})
 				.then(() => Logger.info('command has been registered!'))
 				.catch((error_) => {
 					Logger.error(error_);

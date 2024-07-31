@@ -109,7 +109,7 @@ export default class implements SlashCommandClass {
 			areaXml = text;
 		}
 		const parser = new DOMParser();
-		const xmlDoc = parser.parseFromString(areaXml, 'text/xml');		 
+		const xmlDoc = parser.parseFromString(areaXml, 'text/xml');
 		const cityTags = xmlDoc.getElementsByTagName('city');
 		const data: { title: string; id: string }[] = [];
 		for (let i = 0; i < cityTags.length; i++) {

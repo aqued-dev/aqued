@@ -19,7 +19,6 @@
 		"@xmldom/xmldom": "^0.8.10",
 		"discord.js": "^14.15.3",
 		"dotenv": "^16.4.5",
-		"fastify": "^4.28.1",
 		"mysql2": "^3.10.3",
 		"pino": "^9.3.2",
 		"pino-pretty": "^11.2.2",
@@ -41,11 +40,11 @@
 		"typescript-eslint": "8.0.0-alpha.54"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": ">=20.11.0"
 	},
 	"packageManager": "pnpm@9.4.0",
 	"volta": {
-		"node": "22.3.0",
+		"node": "22.5.1",
 		"pnpm": "9.4.0"
 	}
 }

@@ -4,6 +4,6 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 export class GBAN {
 	@PrimaryColumn({ name: 'USER_ID', type: 'bigint', comment: 'ユーザーID' })
 	userId: string;
-	@Column({ name: 'REASON', type: "text", comment: '理由' })
+	@Column({ name: 'REASON', type: 'text', comment: '理由' })
 	reason: string;
 }

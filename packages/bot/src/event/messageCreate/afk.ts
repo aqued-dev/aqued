@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { AFK } from '../../lib/db/entities/AFK.js';
 import { dataSource } from '../../lib/db/dataSource.js';
 import { AFKMentions } from '../../lib/db/entities/AFKMention.js';
-import { MessageEventClass, Logger } from '../../lib/index.js';
+import { MessageEventClass } from '../../lib/index.js';
 
 export default class implements MessageEventClass {
 	private message: Message;

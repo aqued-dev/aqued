@@ -66,7 +66,7 @@ export default class implements MessageEventClass {
 
 			await message.channel.sendTyping();
 			const ai = new GoogleGenerativeAI(Config.geminiApiKey);
-			const model = ai.getGenerativeModel({ model: 'gemini-pro' });
+			const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
 			model
 				.startChat({
 					history: data.flatMap((value) => {

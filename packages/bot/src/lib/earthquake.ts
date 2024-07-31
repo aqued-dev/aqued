@@ -57,6 +57,7 @@ export default async function (client: Client) {
 					],
 				};
 			}
+			if (!message) return;
 			for (const { channelId } of dbData) {
 				await client.rest.post(Routes.channelMessages(channelId), { body: message });
 			}

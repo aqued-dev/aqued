@@ -1,4 +1,5 @@
-import { PermissionFlags, PermissionFlagsBits } from 'discord.js';
+import { PermissionFlags } from 'discord.js';
+import type { PermissionFlagsBits } from 'discord.js';
 export type PermissionsString = keyof typeof PermissionFlagsBits;
 export const translatePermission = (permissionFlags: PermissionFlags[] | PermissionsString[] | bigint[]): string[] =>
 	permissionFlags.map(
