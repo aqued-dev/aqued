@@ -33,24 +33,29 @@ async function load(type: string) {
 }
 
 const events = new Map<string, (MessageEventClass | InteractionEventClass)[]>();
-(await readdir(resolve(import.meta.dirname, 'event', 'messageCreate')))
+
+const messageEventFiles = await readdir(resolve(import.meta.dirname, 'event', 'messageCreate'));
+const messageArray = [];
+messageEventFiles
 	.filter((file) => file.endsWith('.js'))
-	.map(async (file) => {
-		const array = events.get(Events.MessageCreate) ?? [];
+	.forEach(async (file) => {
 		const eventClass = (await import(`./event/messageCreate/${file}`)).default;
 		const event: MessageEventClass = new eventClass();
-		array.push(event);
-		events.set(Events.MessageCreate, array);
+		messageArray.push(event);
 	});
-(await readdir(resolve(import.meta.dirname, 'event', 'interactions')))
+events.set(Events.MessageCreate, messageArray);
+
+const interactionEventFiles = await readdir(resolve(import.meta.dirname, 'event', 'interactions'));
+const interactionArray = [];
+interactionEventFiles
 	.filter((file) => file.endsWith('.js'))
-	.map(async (file) => {
-		const array = events.get(Events.MessageCreate) ?? [];
+	.forEach(async (file) => {
 		const eventClass = (await import(`./event/interactions/${file}`)).default;
-		const event = new eventClass();
-		array.push(event);
-		events.set(Events.InteractionCreate, array);
+		const event: InteractionEventClass = new eventClass();
+		interactionArray.push(event);
 	});
+events.set(Events.InteractionCreate, interactionArray);
+
 declare module 'discord.js' {
 	interface Client {
 		loads: {
@@ -95,10 +100,10 @@ await client.rest
 	.put(Routes.applicationCommands(Config.discordBotId), {
 		body: commandsData,
 	})
-	.then(() => Logger.info('command has been registered!'))
+	.then(() => client.logger.info('command has been registered!'))
 	.catch((error_) => {
-		Logger.error(error_);
-		Logger.error('Could not register command :(');
+		client.logger.error(error_);
+		client.logger.error('Could not register command :(');
 		exit(1);
 	});
 await Promise.all(
@@ -108,22 +113,22 @@ await Promise.all(
 				.put(Routes.applicationGuildCommands(Config.discordBotId, command.guildId), {
 					body: [command.command.toJSON()],
 				})
-				.then(() => Logger.info('command has been registered!'))
+				.then(() => client.logger.info('command has been registered!'))
 				.catch((error_) => {
-					Logger.error(error_);
-					Logger.error('Could not register command :(');
+					client.logger.error(error_);
+					client.logger.error('Could not register command :(');
 					exit(1);
 				}),
 	),
 );
 
-// client.on(Events.Debug, (message) => Logger.info(message));
+// client.on(Events.Debug, (message) => client.logger.info(message));
 await dataSource.initialize();
 
 await client
 	.login(client.config.discordToken)
-	.then(() => Logger.info('Login Success.'))
+	.then(() => client.logger.info('Login Success.'))
 	.catch((error_) => {
-		Logger.error(error_);
+		client.logger.error(error_);
 		exit(1);
 	});
