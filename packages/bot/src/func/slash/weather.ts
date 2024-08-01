@@ -96,7 +96,7 @@ export default class implements SlashCommandClass {
 			});
 		} catch (error) {
 			await interaction.editReply({ content: `データ取得にエラーが発生しました` });
-			Logger.error(error);
+			interaction.client.logger.error(error);
 		}
 	}
 	async autoComplete(interaction: AutocompleteInteraction) {

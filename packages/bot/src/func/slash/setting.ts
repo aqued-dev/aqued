@@ -11,12 +11,14 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	ButtonInteraction,
+	ChannelType,
 } from 'discord.js';
 import { Ai } from '../../lib/db/entities/Ai.js';
 import { dataSource } from '../../lib/db/dataSource.js';
 import { EarthQuakeAlert } from '../../lib/db/entities/EarthQuakeAlert.js';
+import { AutoPublish } from '../../lib/db/entities/AutoPublish.js';
 
-export default class AutoPublish implements SlashCommandClass {
+export default class Setting implements SlashCommandClass {
 	command = new SlashCommandBuilder()
 		.setName('setting')
 		.setDescription('Aquedの設定をします。')
@@ -30,6 +32,7 @@ export default class AutoPublish implements SlashCommandClass {
 		)
 		.setDMPermission(false);
 	channelId: string;
+	channelType: ChannelType;
 	makeMessage(first: boolean, bool?: boolean, content?: string): MessagePayload | BaseMessageOptions {
 		const func = new StringSelectMenuBuilder()
 			.setPlaceholder('機能を選択')
@@ -45,6 +48,15 @@ export default class AutoPublish implements SlashCommandClass {
 					.setValue('earthquake'),
 			)
 			.setMaxValues(1);
+
+		if (this.channelType === ChannelType.GuildAnnouncement)
+			func.addOptions(
+				new StringSelectMenuOptionBuilder()
+					.setLabel('publish')
+					.setDescription('ニュースチャンネルでの、自動公開機能を有効・無効にします')
+					.setValue('publish'),
+			);
+
 		const boolButton = new ButtonBuilder();
 		if (!bool) boolButton.setLabel('有効にする').setCustomId('setting_button_false').setStyle(ButtonStyle.Success);
 		else boolButton.setLabel('無効にする').setCustomId('setting_button_true').setStyle(ButtonStyle.Danger);
@@ -58,6 +70,7 @@ export default class AutoPublish implements SlashCommandClass {
 		if (interaction.options.getSubcommand() !== 'channel') return;
 		const channel = interaction.options.getChannel('チャンネル');
 		this.channelId = channel.id;
+		this.channelType = channel.type;
 		await interaction.reply(this.makeMessage(true, false, '設定する項目をお選びください'));
 	}
 	async button(interaction: ButtonInteraction) {
@@ -70,6 +83,9 @@ export default class AutoPublish implements SlashCommandClass {
 			} else if (interaction.message.content.includes('地震速報')) {
 				const bool = await this.eqRegister();
 				await this.response('地震速報', bool, interaction);
+			} else if (interaction.message.content.includes('自動公開')) {
+				const bool = await this.apRegister();
+				await this.response('自動公開', bool, interaction);
 			}
 		}
 	}
@@ -95,7 +111,16 @@ export default class AutoPublish implements SlashCommandClass {
 
 					break;
 				}
+				case 'publish': {
+					if (!this.channelId)
+						return await interaction.update({ content: '設定パネルの使用期限が切れています', components: [] });
+					const { bool } = await this.apRegistered();
+					await interaction.update(
+						this.makeMessage(false, bool, bool ? '**自動公開: __登録__**' : '**自動公開: __未登録__**'),
+					);
 
+					break;
+				}
 				default:
 					break;
 			}
@@ -155,6 +180,31 @@ export default class AutoPublish implements SlashCommandClass {
 				return false;
 			} else {
 				const data = new EarthQuakeAlert();
+				data.channelId = this.channelId;
+				repo.save(data);
+				return true;
+			}
+		});
+	}
+	private async apRegistered(): Promise<{ bool: boolean; data: AutoPublish | undefined }> {
+		return dataSource.transaction(async (em) => {
+			const channelId = this.channelId;
+			const repo = em.getRepository(AutoPublish);
+			const data = await repo.findOneBy({ channelId });
+
+			if (!data) return { bool: false, data: undefined };
+			return { bool: true, data };
+		});
+	}
+	private async apRegister() {
+		return dataSource.transaction(async (em) => {
+			const registered = await this.eqRegistered();
+			const repo = em.getRepository(AutoPublish);
+			if (registered.bool) {
+				repo.delete(registered.data);
+				return false;
+			} else {
+				const data = new AutoPublish();
 				data.channelId = this.channelId;
 				repo.save(data);
 				return true;
