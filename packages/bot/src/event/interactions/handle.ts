@@ -1,5 +1,6 @@
 import { BaseInteraction, ChannelType, Client, Colors, EmbedBuilder, SnowflakeUtil } from 'discord.js';
-import { InteractionEventClass, Logger } from '../../lib/index.js';
+import { InteractionEventClass } from '../../lib/index.js';
+import { userFormat } from '../../lib/template/format.js';
 
 export default class implements InteractionEventClass {
 	async run(interaction: BaseInteraction, client: Client) {
@@ -34,12 +35,7 @@ export default class implements InteractionEventClass {
 								.addFields({ name: 'ギルド', value: `${interaction.guild.name}(${interaction.guildId})` })
 								.addFields({
 									name: 'ユーザー',
-									value:
-										interaction.user.discriminator === '0'
-											? interaction.user.globalName
-												? `${interaction.user.globalName} (@${interaction.user.username})`
-												: ` **@${interaction.user.username}`
-											: `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,
+									value: userFormat(interaction.user),
 								})
 								.addFields({ name: 'パーミッション', value: `${interaction.guild.members.me.permissions.bitfield}` })
 								.setColor(Colors.Blue),
@@ -47,8 +43,8 @@ export default class implements InteractionEventClass {
 					});
 					message.reply('```js\n' + error + '\n```');
 				}
-				Logger.error(`Error id: ${id}`);
-				Logger.error(error);
+				client.logger.error(`Error id: ${id}`);
+				client.logger.error(error);
 
 				const embed = new EmbedBuilder()
 					.setAuthor({

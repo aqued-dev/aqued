@@ -1,11 +1,12 @@
-import { EventClass } from '../lib/index.js';
+import { EventClass, userFormat } from '../lib/index.js';
 import { ActivityType, Client, Events } from 'discord.js';
 
 export default class implements EventClass<Events.ClientReady> {
 	name = Events.ClientReady;
 	once = false;
 	async run(client: Client) {
-		client.logger.info('ready!!');
+		client.logger.info('ready!!')
+		client.logger.info(`bot: ${userFormat(client.user)}`)
 		client.user.setPresence({
 			status: 'idle',
 			activities: [
