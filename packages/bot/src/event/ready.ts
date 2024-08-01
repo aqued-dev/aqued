@@ -5,8 +5,8 @@ export default class implements EventClass<Events.ClientReady> {
 	name = Events.ClientReady;
 	once = false;
 	async run(client: Client) {
-		client.logger.info('ready!!')
-		client.logger.info(`bot: ${userFormat(client.user)}`)
+		client.logger.info('ready!!');
+		client.logger.info(`bot: ${userFormat(client.user)}`);
 		client.user.setPresence({
 			status: 'idle',
 			activities: [

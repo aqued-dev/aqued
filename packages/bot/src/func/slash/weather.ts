@@ -1,4 +1,4 @@
-import { Logger, SlashCommandClass } from '../../lib/bot/index.js';
+import {  SlashCommandClass } from '../../lib/bot/index.js';
 import {
 	AutocompleteInteraction,
 	ChatInputCommandInteraction,
