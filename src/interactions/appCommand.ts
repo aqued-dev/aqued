@@ -37,11 +37,11 @@ import {
 				{
 				  name: "ユーザー",
 				  value:
-					interaction.user.discriminator === "0"
+					(interaction.user.discriminator === "0"
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`)+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
@@ -211,11 +211,11 @@ import {
 				{
 				  name: "ユーザー",
 				  value:
-					interaction.user.discriminator === "0"
+					(interaction.user.discriminator === "0"
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`)+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
@@ -385,11 +385,11 @@ import {
 				{
 				  name: "ユーザー",
 				  value:
-					interaction.user.discriminator === "0"
+					(interaction.user.discriminator === "0"
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`)+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
