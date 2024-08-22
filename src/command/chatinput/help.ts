@@ -1,6 +1,5 @@
 import {
 	ActionRowBuilder,
-	ApplicationCommandType,
 	ButtonBuilder,
 	ButtonStyle,
 	ChatInputCommandInteraction,
@@ -9,7 +8,6 @@ import {
 	EmbedBuilder,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('help')
