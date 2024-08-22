@@ -29,7 +29,7 @@ export default {
 						new EmbedBuilder()
 							.setTitle(command.name)
 							.setDescription(
-								command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
+								command.data.type === ApplicationCommandType.ChatInput ? command.data.description : '説明がありません。',
 							)
 							.setColor(Colors.Blue),
 					],
@@ -58,7 +58,7 @@ export default {
 				const endIndex = Math.min(startIndex + pageSize, commands.length);
 				const lists = commands.slice(startIndex, endIndex).map((command) => ({
 					name: command.name,
-					description: command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
+					description: command.data.type === ApplicationCommandType.ChatInput ? command.data.description : '説明がありません。',
 				}));
 
 				embeds.push(
