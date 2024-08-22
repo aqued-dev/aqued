@@ -41,7 +41,7 @@ import {
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
@@ -215,7 +215,7 @@ import {
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
@@ -389,7 +389,7 @@ import {
 					  ? interaction.user.globalName
 						? `${interaction.user.globalName} (@${interaction.user.username})`
 						: ` @${interaction.user.username}`
-					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`,
+					  : `${interaction.user.globalName ?? interaction.user.username} (${interaction.user.username}#${interaction.user.discriminator})`+`[id: ${interaction.user.id}]`,
 				},
 				{
 				  name: "サーバー",
