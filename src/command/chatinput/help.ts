@@ -56,7 +56,7 @@ export default {
 				const endIndex = Math.min(startIndex + pageSize, commands.length);
 				const lists = commands.slice(startIndex, endIndex).map((command) => ({
 					name: command.name,
-					description: command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
+					description: command["description"] ?? "説明がありません。",
 				}));
 
 				embeds.push(
