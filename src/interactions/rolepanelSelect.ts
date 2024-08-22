@@ -1,4 +1,4 @@
-import { BaseInteraction, Colors, EmbedBuilder } from 'discord.js';
+import { BaseInteraction, Colors, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
@@ -15,6 +15,21 @@ export default async function (interaction: BaseInteraction) {
 				.setColor(Colors.Blue)
 				.setTitle('✅ 付与しました。')
 				.setDescription('ロールの付与に成功しました。'),
+		],
+	});
+	await interaction.update({
+		components: [
+			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+				new StringSelectMenuBuilder()
+					.setPlaceholder('取得したいロールを選択してください...')
+					.setCustomId('rolepanelselect')
+					.setMaxValues(interaction.values.length)
+					.addOptions(
+						interaction.values
+							.filter((value) => interaction.guild.roles.cache.has(value))
+							.map((value) => ({ label: interaction.guild.roles.cache.get(value).name, value: value })),
+					),
+			),
 		],
 	});
 }
