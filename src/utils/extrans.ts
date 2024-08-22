@@ -71,27 +71,6 @@ declare module 'discord.js' {
 function setGuildOnly() {
 	return this.setDMPermission(false);
 }
-function setContexts(...contexts: InteractionContextType[]){
-	Reflect.set(this, "contexts", contexts);
-	return this;
-}
-function setIntegrationTypes(...integrationTypes:ApplicationIntegrationType[]) {
-	Reflect.set(this, 'integration_types', integrationTypes);
-	return this;
-}
-export enum ApplicationIntegrationType  {
-    GuildInstall = 0,
-    UserInstall = 1,
-}
-export enum InteractionContextType {
-	Guild = 0,
-	BotDM = 1,
-	PrivateChannel = 2,
-}
 
 SlashCommandBuilder.prototype.setGuildOnly = setGuildOnly;
 ContextMenuCommandBuilder.prototype.setGuildOnly = setGuildOnly;
-SlashCommandBuilder.prototype.setContexts = setContexts;
-ContextMenuCommandBuilder.prototype.setContexts = setContexts;
-SlashCommandBuilder.prototype.setIntegrationTypes = setIntegrationTypes;
-ContextMenuCommandBuilder.prototype.setIntegrationTypes = setIntegrationTypes;
