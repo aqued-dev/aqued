@@ -27,7 +27,7 @@ export default {
 		});
 		info(`Ready! Logged in as ${client.user.username}#${client.user.discriminator}.`);
 		const logChannel = client.channels.cache.get(client.botData.botLogChannelId);
-		if (!logChannel.isThread()) return;
+//		if (!logChannel.isThread()) return;
 		const users: string[] | undefined = await client.botData.commandExecutors.users.get('users');
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const commandExecNumber: Array<number | any> = await client.botData.commandExecutors.number.values();
