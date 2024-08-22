@@ -17,7 +17,7 @@ export default async function (interaction: BaseInteraction) {
 				.setDescription('ロールの付与に成功しました。'),
 		],
 	});
-	await interaction.update({
+	await interaction.message.edit({
 		components: [
 			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 				new StringSelectMenuBuilder()
