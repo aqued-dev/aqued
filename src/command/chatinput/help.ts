@@ -28,9 +28,7 @@ export default {
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(command.name)
-							.setDescription(
-								command.type === ApplicationCommandType.ChatInput ? command.description : '説明がありません。',
-							)
+							.setDescription(command["description"] ?? '説明がありません。')
 							.setColor(Colors.Blue),
 					],
 				});
