@@ -13,7 +13,6 @@ import {
 	SnowflakeUtil,
 } from 'discord.js';
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
-// @ts-expect-error file not founc
 import config from '../config.json' with { type: 'json' };
 import packageJson from '../package.json' with { type: 'json' };
 
