@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User Installのサポート
 - MySQLへの移行準備
 - Docker導入
+- URLチェッカー(メッセージコンテキストコマンド)
 
 ### Fixed
 
