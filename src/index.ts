@@ -116,7 +116,7 @@ info('repository: https://github.com/aqued-dev/aqued');
 info('Create By gx1285');
 const users: string[] | undefined = await commandExecutors.users.get('users');
 info(`Number of users using bot: ${users ? users.length : '0'}`);
- 
+
 const commandExecNumber: Array<number | any> = await commandExecutors.number.values();
 info(
 	`Total number of commands executed: ${
