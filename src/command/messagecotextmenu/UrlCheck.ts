@@ -33,14 +33,14 @@ export default {
 
 				const data = await response.text();
 
-				if (data.includes('安全性')) {
+				if (data.includes('安全')) {
 					return new EmbedBuilder()
 						.setTitle('このサイトは安全です')
 						.setDescription('ノートン セーフウェブが分析して安全性とセキュリティの問題を調べました。')
 						.setColor(Colors.Green)
 						.setAuthor({ name: url, url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });
-				} else if (data.includes('［注意］')) {
+				} else if (data.includes('注意')) {
 					return new EmbedBuilder()
 						.setTitle('このサイトは注意が必要です')
 						.setDescription(
@@ -56,10 +56,17 @@ export default {
 						.setColor(Colors.Red)
 						.setAuthor({ name: url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });
-				} else {
+				} else if (data.includes('未評価')) {
 					return new EmbedBuilder()
 						.setTitle('このサイトは未評価です')
 						.setDescription('このサイトはまだ評価されていません。')
+						.setColor(Colors.Grey)
+						.setAuthor({ name: url })
+						.setFooter({ text: 'Powered by Norton Safeweb' });
+				} else {
+					return new EmbedBuilder()
+						.setTitle('このサイトは不明です')
+						.setDescription('仕様変更等により確認ができませんでした。')
 						.setColor(Colors.Grey)
 						.setAuthor({ name: url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });

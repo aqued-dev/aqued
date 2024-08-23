@@ -26,7 +26,7 @@ export default {
 					],
 				});
 			const data: string = await value.text();
-			if (data.includes('安全性')) {
+			if (data.includes('安全')) {
 				return await interaction.editReply({
 					embeds: [
 						new EmbedBuilder()
@@ -37,7 +37,7 @@ export default {
 							.setFooter({ text: 'Powered by Norton Safeweb' }),
 					],
 				});
-			} else if (data.includes('［注意］')) {
+			} else if (data.includes('注意')) {
 				return await interaction.editReply({
 					embeds: [
 						new EmbedBuilder()
@@ -59,16 +59,18 @@ export default {
 							.setFooter({ text: 'Powered by Norton Safeweb' }),
 					],
 				});
+			} else if (data.includes('未評価')) {
+				return new EmbedBuilder()
+					.setTitle('このサイトは未評価です')
+					.setDescription('このサイトはまだ評価されていません。')
+					.setColor(Colors.Grey)
+					.setFooter({ text: 'Powered by Norton Safeweb' });
 			} else {
-				return await interaction.editReply({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('このサイトは未評価です')
-							.setDescription(`このサイトはまだ評価されていません。`)
-							.setColor(Colors.Grey)
-							.setFooter({ text: 'Powered by Norton Safeweb' }),
-					],
-				});
+				return new EmbedBuilder()
+					.setTitle('このサイトは不明です')
+					.setDescription('仕様変更等により確認ができませんでした。')
+					.setColor(Colors.Grey)
+					.setFooter({ text: 'Powered by Norton Safeweb' });
 			}
 		});
 	},
