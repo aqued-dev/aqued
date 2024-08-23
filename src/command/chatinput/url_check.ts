@@ -13,6 +13,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		return await interaction.error('実行できません', '仕様変更により、現在無効化しています。', true);
 		await interaction.deferReply();
 		const url = interaction.options.getString('url');
 		fetch(`https://safeweb.norton.com/report/show?url=${encodeURI(url)}&ulang=jpn`).then(async (value) => {

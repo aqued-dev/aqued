@@ -13,6 +13,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {
+		return await interaction.error('実行できません', '仕様変更により、現在無効化しています。', true);
 		if (!interaction.targetMessage.cleanContent)
 			return await interaction.error('エラー', 'メッセージの内容がありません', true);
 		const urls = interaction.targetMessage.cleanContent.match(/(https?:\/\/[^\s]+)/g);
@@ -32,7 +33,6 @@ export default {
 				}
 
 				const data = await response.text();
-                console.log(data)
 				if (data.includes('安全')) {
 					return new EmbedBuilder()
 						.setTitle('このサイトは安全です')
