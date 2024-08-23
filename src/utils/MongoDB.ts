@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import { parse, stringify } from 'json-bigint';
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
+// @ts-expect-error file not founc
 import config from '../../config.json' with { type: 'json' };
 
 /**
