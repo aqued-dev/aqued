@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker導入
 - URLチェッカー(メッセージコンテキストコマンド)
 
-### 無効化
+### Removed
 
 - URLチェッカー
 - Artifacter
