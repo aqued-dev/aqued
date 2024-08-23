@@ -8,6 +8,7 @@ import {
 	PermissionFlagsBits,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -23,7 +24,9 @@ export default {
 		.addRoleOption((input) => input.setName('role7').setDescription('ロール7').setRequired(false))
 		.addRoleOption((input) => input.setName('role8').setDescription('ロール8').setRequired(false))
 		.addRoleOption((input) => input.setName('role9').setDescription('ロール9').setRequired(false))
-		.addRoleOption((input) => input.setName('role10').setDescription('ロール10').setRequired(false)),
+		.addRoleOption((input) => input.setName('role10').setDescription('ロール10').setRequired(false))
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageRoles],

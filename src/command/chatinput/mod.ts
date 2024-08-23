@@ -1,5 +1,6 @@
 import { ChannelType, ChatInputCommandInteraction, Webhook } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -31,7 +32,9 @@ export default {
 				.setName('globalchataquedsystem')
 				.setDescription('(botモデレーター専用コマンド)Aqued System Messageを送信します。')
 				.addStringOption((input) => input.setName('content').setDescription('内容').setRequired(true)),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: true,
 	permissions: false,

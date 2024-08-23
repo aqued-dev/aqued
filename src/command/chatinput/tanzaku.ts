@@ -8,12 +8,15 @@ import {
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('tanzaku')
 		.setDescription('短冊を生成します。')
-		.addStringOption((input) => input.setName('text').setDescription('短冊の内容').setRequired(true)),
+		.addStringOption((input) => input.setName('text').setDescription('短冊の内容').setRequired(true))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

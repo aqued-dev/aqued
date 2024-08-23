@@ -8,11 +8,14 @@ import {
 	EmbedBuilder,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('bot_invite')
 		.setDescription('指定したbotの招待リンクを生成します。')
-		.addUserOption((input) => input.setName('bot').setDescription('bot').setRequired(false)),
+		.addUserOption((input) => input.setName('bot').setDescription('bot').setRequired(false))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

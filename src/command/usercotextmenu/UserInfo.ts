@@ -1,8 +1,13 @@
 import { ApplicationCommandType, Colors, EmbedBuilder, time, UserContextMenuCommandInteraction } from 'discord.js';
 import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
-	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),
+	command: new ContextMenuCommandBuilder()
+		.setName('UserInfo')
+		.setType(ApplicationCommandType.User)
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

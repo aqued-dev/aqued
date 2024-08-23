@@ -1,4 +1,6 @@
-import { ActivityType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ActivityType, ChatInputCommandInteraction } from 'discord.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -15,7 +17,9 @@ export default {
 				.setName('version')
 				.setDescription('(bot管理者専用コマンド)バージョンを変更します。')
 				.addStringOption((input) => input.setName('version').setDescription('バージョン').setRequired(true)),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: true,
 	modOnly: false,
 	permissions: false,

@@ -1,10 +1,13 @@
 import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('afk')
 		.setDescription('afkが設定または解除されます。')
-		.addStringOption((input) => input.setName('reason').setDescription('理由').setRequired(false)),
+		.addStringOption((input) => input.setName('reason').setDescription('理由').setRequired(false))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

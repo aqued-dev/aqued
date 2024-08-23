@@ -1,10 +1,13 @@
 import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('message_expander')
 		.setDescription('メッセージリンク展開を有効/無効にします。')
-		.setGuildOnly(),
+		.setGuildOnly()
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],

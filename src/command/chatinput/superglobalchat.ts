@@ -1,6 +1,7 @@
 import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -9,7 +10,9 @@ export default {
 		.setGuildOnly()
 		.addChannelOption((input) =>
 			input.addChannelTypes(ChannelType.GuildText).setName('channel').setDescription('チャンネル').setRequired(true),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: true,
 	modOnly: false,
 	permissions: false,

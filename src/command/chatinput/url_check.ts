@@ -1,9 +1,13 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('url_check')
 		.setDescription('URLの安全性を確認します。')
-		.addStringOption((input) => input.setName('url').setDescription('確認したいurl').setRequired(true)),
+		.addStringOption((input) => input.setName('url').setDescription('確認したいurl').setRequired(true))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

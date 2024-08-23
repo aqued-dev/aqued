@@ -9,9 +9,14 @@ import {
 } from 'discord.js';
 import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
-	command: new ContextMenuCommandBuilder().setName('短冊').setType(ApplicationCommandType.Message),
+	command: new ContextMenuCommandBuilder()
+		.setName('短冊')
+		.setType(ApplicationCommandType.Message)
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

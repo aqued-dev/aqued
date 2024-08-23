@@ -14,9 +14,15 @@ import {
 } from 'discord.js';
 import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { ForcePinDataType } from '../../utils/ForcePinDataType.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
-	command: new ContextMenuCommandBuilder().setName('Force Pin').setType(ApplicationCommandType.Message).setGuildOnly(),
+	command: new ContextMenuCommandBuilder()
+		.setName('Force Pin')
+		.setType(ApplicationCommandType.Message)
+		.setGuildOnly()
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],

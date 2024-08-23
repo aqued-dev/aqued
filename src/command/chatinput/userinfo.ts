@@ -1,12 +1,15 @@
 import { ChatInputCommandInteraction, Colors, EmbedBuilder, time } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('userinfo')
 		.setDescription('ユーザーの情報を表示します。')
-		.addUserOption((input) => input.setName('user').setDescription('ユーザー')),
+		.addUserOption((input) => input.setName('user').setDescription('ユーザー'))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

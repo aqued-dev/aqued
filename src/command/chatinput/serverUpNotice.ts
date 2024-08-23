@@ -8,12 +8,15 @@ import {
 	PermissionFlagsBits,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('server_up_notice')
 		.setDescription('サーバーUP(ディス速、ディスボード)の通知の設定ができます。')
-		.setGuildOnly(),
+		.setGuildOnly()
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.MentionEveryone],

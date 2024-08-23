@@ -1,8 +1,13 @@
 import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { setTimeout } from 'node:timers/promises';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
-	command: new SlashCommandBuilder().setName('slot').setDescription('スロットができます。').setGuildOnly(),
+	command: new SlashCommandBuilder()
+		.setName('slot')
+		.setDescription('スロットができます。')
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.MentionEveryone],

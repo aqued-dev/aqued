@@ -8,11 +8,14 @@ import {
 	PermissionFlagsBits,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('verify')
 		.setDescription('認証パネルを生成します。')
 		.setGuildOnly()
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild])
 		.addStringOption((input) =>
 			input
 				.setName('type')

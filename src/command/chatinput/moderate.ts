@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, Colors, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -63,7 +64,9 @@ export default {
 				.addStringOption((input) =>
 					input.setName('reason').setDescription('タイムアウトを解除する理由').setRequired(false),
 				),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.Guild]),
 
 	ownersOnly: true,
 	modOnly: false,
