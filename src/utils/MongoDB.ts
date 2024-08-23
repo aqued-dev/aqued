@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import { parse, stringify } from 'json-bigint';
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
-import config from '../../config.json' assert { type: 'json' };
+import config from '../../config.json' with { type: 'json' };
 
 /**
  * Options for configuring the MongoDB class.

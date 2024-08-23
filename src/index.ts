@@ -14,8 +14,8 @@ import {
 } from 'discord.js';
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
 
-import config from '../config.json' assert { type: 'json' };
-import packageJson from '../package.json' assert { type: 'json' };
+import config from '../config.json' with { type: 'json' };
+import packageJson from '../package.json' with { type: 'json' };
 
 import './utils/extrans.js';
 import { info, error } from './utils/log.js';
