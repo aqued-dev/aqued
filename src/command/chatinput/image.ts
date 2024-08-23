@@ -9,7 +9,7 @@ export default {
 		.addSubcommand((input) => input.setName('cat').setDescription('猫の画像を表示します。'))
 		.addSubcommand((input) => input.setName('dog').setDescription('犬の画像を表示します。'))
 		.setIntegrationTypes([ApplicationIntegrationType.UserInstall])
-		.setContexts([InteractionContextType.PrivateChannel | InteractionContextType.BotDM | InteractionContextType.Guild]),
+		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
 
 	ownersOnly: false,
 	modOnly: false,
