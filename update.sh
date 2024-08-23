@@ -1,2 +1,2 @@
 git pull origin main
-docker-compose restart
+docker compose restart
