@@ -22,7 +22,7 @@ export default {
 
 		const returnEmbeds = urls.map(async (url) => {
 			try {
-				const response = await fetch(`https://safeweb.norton.com/report/show?url=${encodeURI(url)}&ulang=jpn`);
+				const response = await fetch(`https://safeweb.norton.com/report?url=${encodeURI(url)}&ulang=jpn`);
 				if (!response.ok) {
 					return new EmbedBuilder()
 						.setTitle('❌ 確認失敗')
