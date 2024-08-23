@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import { TextInputStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, BaseInteraction } from 'discord.js';
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
@@ -17,7 +16,7 @@ export default async function (interaction: BaseInteraction) {
 								.setCustomId('title')
 								.setPlaceholder('タイトルを入力...')
 								.setStyle(TextInputStyle.Short)
-								.setValue(interaction.message.embeds.length > 0 ? interaction.message.embeds[0].title ?? '' : '')
+								.setValue(interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].title ?? '') : '')
 								.setRequired(true),
 						),
 					),
@@ -37,7 +36,9 @@ export default async function (interaction: BaseInteraction) {
 								.setCustomId('description')
 								.setPlaceholder('説明を入力...')
 								.setStyle(TextInputStyle.Paragraph)
-								.setValue(interaction.message.embeds.length > 0 ? interaction.message.embeds[0].description ?? '' : '')
+								.setValue(
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].description ?? '') : '',
+								)
 								.setRequired(true),
 						),
 					),
@@ -56,7 +57,7 @@ export default async function (interaction: BaseInteraction) {
 								.setCustomId('url')
 								.setPlaceholder('urlを入力...')
 								.setStyle(TextInputStyle.Short)
-								.setValue(interaction.message.embeds.length > 0 ? interaction.message.embeds[0].url ?? '' : '')
+								.setValue(interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].url ?? '') : '')
 								.setRequired(true),
 						),
 					),
@@ -98,7 +99,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].footer
 											? interaction.message.embeds[0].footer.text
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -112,8 +113,8 @@ export default async function (interaction: BaseInteraction) {
 								.setValue(
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].footer
-											? interaction.message.embeds[0].footer.iconURL ?? ''
-											: '' ?? ''
+											? (interaction.message.embeds[0].footer.iconURL ?? '')
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -138,7 +139,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].image
 											? interaction.message.embeds[0].image.url
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -163,7 +164,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].thumbnail
 											? interaction.message.embeds[0].thumbnail.url
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -188,7 +189,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].author
 											? interaction.message.embeds[0].author.name
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -203,7 +204,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].author
 											? interaction.message.embeds[0].author.iconURL
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),
@@ -218,7 +219,7 @@ export default async function (interaction: BaseInteraction) {
 									interaction.message.embeds.length > 0
 										? interaction.message.embeds[0].author
 											? interaction.message.embeds[0].author.url
-											: '' ?? ''
+											: ('' ?? '')
 										: '',
 								)
 								.setRequired(true),

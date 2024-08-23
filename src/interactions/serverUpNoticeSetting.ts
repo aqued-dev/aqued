@@ -299,7 +299,7 @@ export default async function (interaction: BaseInteraction) {
 										),
 									],
 									embeds: [new EmbedBuilder().setTitle('ディス速').setColor(Colors.Blue)],
-							  })
+								})
 							: interaction.reply({
 									fetchReply: true,
 									content: 'ロール選択または解除してください。',
@@ -313,7 +313,7 @@ export default async function (interaction: BaseInteraction) {
 										),
 									],
 									embeds: [new EmbedBuilder().setTitle('ディス速').setColor(Colors.Blue)],
-							  }));
+								}));
 						await interaction.client.botData.commandExecutors.serverUpNotice.set(message.id, interaction.user.id);
 
 						break;
@@ -340,7 +340,7 @@ export default async function (interaction: BaseInteraction) {
 										),
 									],
 									embeds: [new EmbedBuilder().setTitle('DISBOARD').setColor(Colors.Blue)],
-							  })
+								})
 							: interaction.reply({
 									fetchReply: true,
 									content: 'ロール選択または解除してください。',
@@ -354,7 +354,7 @@ export default async function (interaction: BaseInteraction) {
 										),
 									],
 									embeds: [new EmbedBuilder().setTitle('DISBOARD').setColor(Colors.Blue)],
-							  }));
+								}));
 						await interaction.client.botData.commandExecutors.serverUpNotice.set(message.id, interaction.user.id);
 
 						break;

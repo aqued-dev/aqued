@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/no-null */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	ImageURLOptions,
 	calculateUserDefaultAvatarIndex,

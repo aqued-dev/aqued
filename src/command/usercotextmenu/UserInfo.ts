@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import {
 	ApplicationCommandType,
 	Colors,

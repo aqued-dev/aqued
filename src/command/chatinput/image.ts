@@ -19,7 +19,7 @@ export default {
 				await (response.ok
 					? interaction.reply({
 							embeds: [new EmbedBuilder().setTitle('🐈｜猫').setImage(data[0].url).setColor(Colors.Blue)],
-					  })
+						})
 					: interaction.reply({
 							embeds: [
 								new EmbedBuilder()
@@ -27,7 +27,7 @@ export default {
 									.setDescription('画像を取得できませんでした。')
 									.setColor(Colors.Blue),
 							],
-					  }));
+						}));
 
 				break;
 			}
@@ -37,7 +37,7 @@ export default {
 				await (response.ok
 					? interaction.reply({
 							embeds: [new EmbedBuilder().setTitle('🐶｜犬').setImage(data.message).setColor(Colors.Blue)],
-					  })
+						})
 					: interaction.reply({
 							embeds: [
 								new EmbedBuilder()
@@ -45,7 +45,7 @@ export default {
 									.setDescription('画像を取得できませんでした。')
 									.setColor(Colors.Blue),
 							],
-					  }));
+						}));
 				break;
 			}
 			default: {

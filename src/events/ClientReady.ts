@@ -10,7 +10,7 @@ export default {
 		for (const file of files) {
 			const filePath = `src/interactions/artifacter/${file}`;
 			const fileExtension = file.split('.').pop();
-			// eslint-disable-next-line unicorn/no-await-expression-member
+
 			if ((await stat(filePath)).isFile() && fileExtension === 'png') {
 				await unlink(filePath);
 			}

@@ -1,4 +1,3 @@
-// eslint-disable-next-line unicorn/prevent-abbreviations
 import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, Webhook } from 'discord.js';
 
 export default {

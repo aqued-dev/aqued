@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import {
 	ChannelType,
 	Colors,
@@ -100,7 +99,7 @@ export default async function (message: Message) {
 								message.author.discriminator === '0'
 									? calculateUserDefaultAvatarIndex(message.author.id)
 									: Number(message.author.discriminator) % 5,
-						  ),
+							),
 					embeds,
 					username: `${message.author.username}${
 						message.author.discriminator === '0' ? '' : `#${message.author.discriminator}`

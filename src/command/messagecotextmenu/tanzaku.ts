@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/number-literal-case */
-/* eslint-disable unicorn/numeric-separators-style */
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
@@ -36,7 +34,7 @@ export default {
 								.setCustomId('tanzaku_delete'),
 						),
 					],
-			  })
+				})
 			: await interaction.error('内容がありません。', '内容が無いため短冊を生成できません。', true);
 	},
 };
