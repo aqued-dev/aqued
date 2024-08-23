@@ -32,7 +32,7 @@ export default {
 				}
 
 				const data = await response.text();
-
+                console.log(data)
 				if (data.includes('安全')) {
 					return new EmbedBuilder()
 						.setTitle('このサイトは安全です')
