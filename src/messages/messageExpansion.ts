@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import { EmbedBuilder, Message, Colors, Webhook, AttachmentBuilder, StickerFormatType, APIEmbed } from 'discord.js';
 
 export default async function (message: Message) {
@@ -11,7 +10,6 @@ export default async function (message: Message) {
 	if (!urlChannel) return;
 	if (urlChannel.isDMBased() || !urlChannel.isTextBased()) return;
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	const urlMessage = await urlChannel.messages.fetch(discordMessageMatch[6]);
 	if (message.channel.isDMBased() || !message.channel.isTextBased()) return;
 	const webhooks = message.channel.isThread()

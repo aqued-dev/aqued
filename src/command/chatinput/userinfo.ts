@@ -1,5 +1,5 @@
-/* eslint-disable unicorn/no-nested-ternary */
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder, time } from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, time } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
 
 export default {

@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/number-literal-case */
-/* eslint-disable unicorn/numeric-separators-style */
 export function TanzakuGenerate(text: string): string {
 	const replaceList = {
 		ｶﾞ: 'ガ',

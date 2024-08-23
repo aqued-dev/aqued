@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import {
 	Message,
 	ChannelType,
@@ -85,7 +84,7 @@ export default async function (message: Message) {
 										this.user.discriminator === '0'
 											? calculateUserDefaultAvatarIndex(message.author.id)
 											: Number(message.author.discriminator) % 5,
-								  )}`,
+									)}`,
 						})
 						.then(async (value) => {
 							const array: { channelId: string; messageId: string }[] =

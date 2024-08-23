@@ -6,14 +6,14 @@ import {
 	Client,
 	Collection,
 	Colors,
-	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GatewayIntentBits,
 	REST,
 	Routes,
-	SlashCommandBuilder,
 	SnowflakeUtil,
 } from 'discord.js';
+import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
+
 import config from '../config.json' assert { type: 'json' };
 import packageJson from '../package.json' assert { type: 'json' };
 
@@ -116,7 +116,7 @@ info('repository: https://github.com/aqued-dev/aqued');
 info('Create By gx1285');
 const users: string[] | undefined = await commandExecutors.users.get('users');
 info(`Number of users using bot: ${users ? users.length : '0'}`);
-// eslint-disable-next-line unicorn/no-await-expression-member, @typescript-eslint/no-explicit-any
+
 const commandExecNumber: Array<number | any> = await commandExecutors.number.values();
 info(
 	`Total number of commands executed: ${

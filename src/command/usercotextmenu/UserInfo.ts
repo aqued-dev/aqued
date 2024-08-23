@@ -1,12 +1,5 @@
-/* eslint-disable unicorn/no-nested-ternary */
-import {
-	ApplicationCommandType,
-	Colors,
-	ContextMenuCommandBuilder,
-	EmbedBuilder,
-	time,
-	UserContextMenuCommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandType, Colors, EmbedBuilder, time, UserContextMenuCommandInteraction } from 'discord.js';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
 export default {
 	command: new ContextMenuCommandBuilder().setName('UserInfo').setType(ApplicationCommandType.User),

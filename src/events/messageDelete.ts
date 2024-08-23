@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-nested-ternary */
 import { ChannelType, Events, Message, Webhook } from 'discord.js';
 import { MessageDeleteData } from '../utils/SuperGlobalChatType.js';
 async function gchat(message: Message) {

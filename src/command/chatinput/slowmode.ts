@@ -1,12 +1,12 @@
 import {
 	ChatInputCommandInteraction,
-	SlashCommandBuilder,
 	PermissionFlagsBits,
 	ModalBuilder,
 	ActionRowBuilder,
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
 
 export default {

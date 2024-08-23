@@ -4,14 +4,15 @@ import {
 	EmbedBuilder,
 	ActionRowBuilder,
 	ChatInputCommandInteraction,
-	SlashCommandBuilder,
 	Colors,
 	PermissionFlagsBits,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('verify')
 		.setDescription('認証パネルを生成します。')
+		.setGuildOnly()
 		.addStringOption((input) =>
 			input
 				.setName('type')
@@ -28,8 +29,7 @@ export default {
 		)
 		.addRoleOption((input) =>
 			input.setName('role').setDescription('認証が完了した時に付与するロール').setRequired(true),
-		)
-		.setGuildOnly(),
+		),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageRoles],

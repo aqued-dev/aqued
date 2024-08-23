@@ -3,9 +3,9 @@ import {
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
-	SlashCommandBuilder,
 	StringSelectMenuBuilder,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder().setName('embed').setDescription('embedを生成します。'),

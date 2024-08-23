@@ -1,6 +1,5 @@
 import {
 	ChatInputCommandInteraction,
-	SlashCommandBuilder,
 	ActionRowBuilder,
 	ModalBuilder,
 	TextInputBuilder,
@@ -8,10 +7,12 @@ import {
 	SnowflakeUtil,
 	PermissionFlagsBits,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('rolepanel')
+		.setGuildOnly()
 		.setDescription('ロールパネルを生成します。')
 		.addRoleOption((input) => input.setName('role1').setDescription('ロール1').setRequired(true))
 		.addRoleOption((input) => input.setName('role2').setDescription('ロール2').setRequired(false))
@@ -22,8 +23,7 @@ export default {
 		.addRoleOption((input) => input.setName('role7').setDescription('ロール7').setRequired(false))
 		.addRoleOption((input) => input.setName('role8').setDescription('ロール8').setRequired(false))
 		.addRoleOption((input) => input.setName('role9').setDescription('ロール9').setRequired(false))
-		.addRoleOption((input) => input.setName('role10').setDescription('ロール10').setRequired(false))
-		.setGuildOnly(),
+		.addRoleOption((input) => input.setName('role10').setDescription('ロール10').setRequired(false)),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageRoles],

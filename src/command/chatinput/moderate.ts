@@ -1,10 +1,5 @@
-import {
-	ChatInputCommandInteraction,
-	Colors,
-	EmbedBuilder,
-	PermissionFlagsBits,
-	SlashCommandBuilder,
-} from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -87,7 +82,6 @@ export default {
 						)
 						.join('\n') || 'Banされたユーザーはいません。';
 				if (users.length > 4096) {
-					// eslint-disable-next-line unicorn/prefer-string-slice
 					const users2 = users.substring(4096, users.length);
 					await interaction.reply({
 						embeds: [
@@ -136,12 +130,12 @@ export default {
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`
+								}`
 							: `Banコマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`,
+								}`,
 						deleteMessageSeconds: interaction.options.getInteger('delete_message') || 0,
 					})
 					.then(
@@ -190,12 +184,12 @@ export default {
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`
+								}`
 							: `kickコマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`,
+								}`,
 					)
 					.then(
 						async () =>
@@ -244,12 +238,12 @@ export default {
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`
+								}`
 							: `ban解除コマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`,
+								}`,
 					)
 					.then(
 						async () =>
@@ -299,12 +293,12 @@ export default {
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`
+								}`
 							: `タイムアウトコマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`,
+								}`,
 					)
 					.then(
 						async () =>
@@ -347,19 +341,18 @@ export default {
 					);
 				await member
 					.timeout(
-						// eslint-disable-next-line unicorn/no-null
 						null,
 						interaction.options.getString('reason')
 							? `${interaction.options.getString('reason')} | タイムアウト解除コマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`
+								}`
 							: `タイムアウト解除コマンド実行者: ${
 									interaction.user.discriminator === '0'
 										? `@${interaction.user.username}`
 										: `${interaction.user.username}#${interaction.user.discriminator}`
-							  }`,
+								}`,
 					)
 					.then(
 						async () =>

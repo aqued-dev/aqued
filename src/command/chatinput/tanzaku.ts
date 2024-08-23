@@ -5,8 +5,8 @@ import {
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
-	SlashCommandBuilder,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
 
 export default {

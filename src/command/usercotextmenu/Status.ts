@@ -1,11 +1,5 @@
-/* eslint-disable unicorn/no-nested-ternary */
-import {
-	ApplicationCommandType,
-	Colors,
-	ContextMenuCommandBuilder,
-	EmbedBuilder,
-	UserContextMenuCommandInteraction,
-} from 'discord.js';
+import { ApplicationCommandType, Colors, EmbedBuilder, UserContextMenuCommandInteraction } from 'discord.js';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 export default {
 	command: new ContextMenuCommandBuilder().setName('UserStatus').setType(ApplicationCommandType.User),
 	ownersOnly: false,

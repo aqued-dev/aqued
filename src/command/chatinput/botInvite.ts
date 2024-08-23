@@ -1,14 +1,13 @@
 import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
-	EmbedBuilder,
+	ButtonStyle,
 	PermissionsBitField,
-	SlashCommandBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	EmbedBuilder,
 } from 'discord.js';
-
+import { SlashCommandBuilder } from '@discordjs/builders';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('bot_invite')

@@ -1,6 +1,5 @@
 import {
 	ChatInputCommandInteraction,
-	SlashCommandBuilder,
 	PermissionFlagsBits,
 	ChannelType,
 	ActionRowBuilder,
@@ -8,10 +7,12 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('free_channel')
+		.setGuildOnly()
 		.setDescription('誰でもチャンネルを作れるパネルを生成します。')
 		.addChannelOption((input) =>
 			input
@@ -19,8 +20,7 @@ export default {
 				.setName('channel')
 				.setDescription('テキストチャンネルを作成するカテゴリ')
 				.setRequired(true),
-		)
-		.setGuildOnly(),
+		),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.ManageChannels],

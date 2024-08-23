@@ -1,10 +1,10 @@
 import {
 	ApplicationCommandType,
 	ChannelType,
-	ContextMenuCommandBuilder,
 	MessageContextMenuCommandInteraction,
 	PermissionFlagsBits,
 } from 'discord.js';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new ContextMenuCommandBuilder()

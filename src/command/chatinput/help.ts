@@ -6,15 +6,19 @@ import {
 	Colors,
 	ComponentType,
 	EmbedBuilder,
-	SlashCommandBuilder,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+
 export default {
 	command: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('helpを表示します。(コマンド名が指定されている場合はそのコマンドの情報を表示します。)')
 		.addStringOption((input) =>
 			input.setName('name').setDescription('コマンド名').setAutocomplete(true).setRequired(false),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall | ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,
@@ -27,7 +31,7 @@ export default {
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(command.name)
-							.setDescription(command["description"] ?? '説明がありません。')
+							.setDescription(command['description'] ?? '説明がありません。')
 							.setColor(Colors.Blue),
 					],
 				});
@@ -55,7 +59,7 @@ export default {
 				const endIndex = Math.min(startIndex + pageSize, commands.length);
 				const lists = commands.slice(startIndex, endIndex).map((command) => ({
 					name: command.name,
-					description: command["description"] ?? "説明がありません。",
+					description: command['description'] ?? '説明がありません。',
 				}));
 
 				embeds.push(
