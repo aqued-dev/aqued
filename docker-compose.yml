@@ -5,7 +5,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 1644:3306
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: Yes
       MYSQL_USER: user
@@ -21,7 +21,7 @@ services:
     container_name: bot
     image: node:22.7.0
     working_dir: /usr/src/app
-    command: bash -c 'npm install -g pnpm && pnpm bot i && pnpm bot build && pnpm bot start'
+    command: bash -c 'npm install -g pnpm && pnpm i && pnpm build && pnpm start'
 volumes:
   mysql-data:
   bot:
