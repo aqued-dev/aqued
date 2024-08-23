@@ -1,11 +1,15 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('image')
 		.setDescription('画像を表示する系コマンド。')
 		.addSubcommand((input) => input.setName('cat').setDescription('猫の画像を表示します。'))
-		.addSubcommand((input) => input.setName('dog').setDescription('犬の画像を表示します。')),
+		.addSubcommand((input) => input.setName('dog').setDescription('犬の画像を表示します。'))
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall])
+		.setContexts([InteractionContextType.PrivateChannel | InteractionContextType.BotDM | InteractionContextType.Guild]),
 
 	ownersOnly: false,
 	modOnly: false,
