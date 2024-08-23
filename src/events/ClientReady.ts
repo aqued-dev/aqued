@@ -29,7 +29,7 @@ export default {
 		const logChannel = await client.channels.fetch(client.botData.botLogChannelId);
 		if (!logChannel.isThread()) return;
 		const users: string[] | undefined = await client.botData.commandExecutors.users.get('users');
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		 
 		const commandExecNumber: Array<number | any> = await client.botData.commandExecutors.number.values();
 
 		logChannel.send({
