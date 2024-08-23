@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
-
+import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('message_expander')

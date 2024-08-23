@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { setTimeout } from 'node:timers/promises';
 export default {
 	command: new SlashCommandBuilder().setName('slot').setDescription('スロットができます。').setGuildOnly(),

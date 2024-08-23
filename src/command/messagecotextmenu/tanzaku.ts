@@ -3,11 +3,11 @@ import {
 	ApplicationCommandType,
 	ButtonBuilder,
 	ButtonStyle,
-	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	MessageContextMenuCommandInteraction,
 	Colors,
 } from 'discord.js';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
 
 export default {

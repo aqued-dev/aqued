@@ -1,6 +1,6 @@
 {
 	"name": "aqued",
-	"version": "3.3.0",
+	"version": "3.4.0",
 	"description": "Discord Bot",
 	"main": "dist/index.js",
 	"author": "aqued-dev",
@@ -14,6 +14,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@discordjs/builders": "1.9.0-dev.1724371849-e2e71b4d0",
 		"discord.js": "^14.15.3",
 		"enka-network-api": "^4.4.0",
 		"json-bigint": "^1.0.0",

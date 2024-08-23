@@ -4,10 +4,10 @@ import {
 	Colors,
 	EmbedBuilder,
 	PermissionFlagsBits,
-	SlashCommandBuilder,
 	Webhook,
 } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()

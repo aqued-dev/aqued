@@ -5,10 +5,11 @@ import {
 	Colors,
 	EmbedBuilder,
 	SelectMenuComponentOptionData,
-	SlashCommandBuilder,
 	StringSelectMenuBuilder,
 	StringSelectMenuOptionBuilder,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+
 import { EnkaClient } from 'enka-network-api';
 export default {
 	command: new SlashCommandBuilder()
@@ -46,12 +47,12 @@ export default {
 				.then(async (user) => {
 					const list: Array<StringSelectMenuOptionBuilder | SelectMenuComponentOptionData | APISelectMenuOption> = [];
 					for (const [index, v] of user.charactersPreview.entries()) {
-						if (index === 0) first = v.character.characterData.name.get('jp');
+						if (index === 0) first = v.costume.getCharacterData().name.get('jp');
 
 						list.push({
-							label: v.character.characterData.name.get('jp'),
-							description: v.character.characterData.name.get('jp'),
-							value: v.character.characterData.name.get('jp'),
+							label: v.costume.getCharacterData().name.get('jp'),
+							description: v.costume.getCharacterData().name.get('jp'),
+							value: v.costume.getCharacterData().name.get('jp'),
 						});
 					}
 					if (!first) {

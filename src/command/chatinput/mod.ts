@@ -1,4 +1,5 @@
-import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, Webhook } from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, Webhook } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()

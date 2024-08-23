@@ -1,10 +1,5 @@
-import {
-	ChatInputCommandInteraction,
-	Colors,
-	EmbedBuilder,
-	PermissionFlagsBits,
-	SlashCommandBuilder,
-} from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
 	command: new SlashCommandBuilder()

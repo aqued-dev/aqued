@@ -4,7 +4,6 @@ import {
 	AttachmentBuilder,
 	ChannelType,
 	Colors,
-	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GuildMember,
 	MessageContextMenuCommandInteraction,
@@ -13,6 +12,7 @@ import {
 	User,
 	Webhook,
 } from 'discord.js';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { ForcePinDataType } from '../../utils/ForcePinDataType.js';
 
 export default {

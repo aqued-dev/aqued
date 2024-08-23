@@ -6,15 +6,19 @@ import {
 	Colors,
 	ComponentType,
 	EmbedBuilder,
-	SlashCommandBuilder,
 } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+
 export default {
 	command: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('helpを表示します。(コマンド名が指定されている場合はそのコマンドの情報を表示します。)')
 		.addStringOption((input) =>
 			input.setName('name').setDescription('コマンド名').setAutocomplete(true).setRequired(false),
-		),
+		)
+		.setIntegrationTypes([ApplicationIntegrationType.UserInstall | ApplicationIntegrationType.GuildInstall])
+		.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild]),
 	ownersOnly: false,
 	modOnly: false,
 	permissions: false,

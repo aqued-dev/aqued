@@ -2,10 +2,10 @@ import {
 	Collection,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	REST,
-	SlashCommandBuilder,
-	ContextMenuCommandBuilder,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody,
 } from 'discord.js';
+import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
+
 import { MongoDB } from './MongoDB.js';
 import './userExtrans.js';
 import './interactionExtrans.js';
@@ -60,6 +60,8 @@ declare module 'discord.js' {
 			clientId: string;
 		};
 	}
+}
+declare module '@discordjs/builders' {
 	interface SlashCommandBuilder {
 		setGuildOnly(): SlashCommandBuilder;
 	}
@@ -70,6 +72,14 @@ declare module 'discord.js' {
 function setGuildOnly() {
 	return this.setDMPermission(false);
 }
-
+export enum ApplicationIntegrationType {
+	GuildInstall = 0,
+	UserInstall = 1,
+}
+export enum InteractionContextType {
+	Guild = 0,
+	BotDM = 1,
+	PrivateChannel = 2,
+}
 SlashCommandBuilder.prototype.setGuildOnly = setGuildOnly;
 ContextMenuCommandBuilder.prototype.setGuildOnly = setGuildOnly;

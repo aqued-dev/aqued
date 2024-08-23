@@ -6,14 +6,14 @@ import {
 	Client,
 	Collection,
 	Colors,
-	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GatewayIntentBits,
 	REST,
 	Routes,
-	SlashCommandBuilder,
 	SnowflakeUtil,
 } from 'discord.js';
+import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
+
 import config from '../config.json' assert { type: 'json' };
 import packageJson from '../package.json' assert { type: 'json' };
 
