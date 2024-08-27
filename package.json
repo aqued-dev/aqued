@@ -31,7 +31,7 @@
 		"@types/xml2js": "^0.4.14",
 		"@yarnpkg/pnpify": "4.1.1",
 		"@yarnpkg/sdks": "^3.2.0",
-		"eslint": "^9.9.0",
+		"eslint": "^9.9.1",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-formatter-pretty": "^6.0.1",
 		"eslint-plugin-unicorn": "^55.0.0",
