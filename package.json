@@ -14,7 +14,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"@discordjs/builders": "1.9.0-dev.1724371849-e2e71b4d0",
+		"@discordjs/builders": "1.9.0-dev.1724544714-437437461",
 		"discord.js": "^14.15.3",
 		"enka-network-api": "^4.4.0",
 		"json-bigint": "^1.0.0",
