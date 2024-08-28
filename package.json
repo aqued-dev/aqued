@@ -1,6 +1,6 @@
 {
 	"name": "aqued",
-	"version": "3.4.0",
+	"version": "3.5.0",
 	"description": "Discord Bot",
 	"main": "dist/index.js",
 	"author": "aqued-dev",
@@ -19,14 +19,17 @@
 		"enka-network-api": "^4.4.0",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^8.5.4",
+		"mysql2": "^3.11.0",
+		"reflect-metadata": "^0.2.2",
+		"typeorm": "^0.3.20",
 		"typescript": "^5.5.4",
 		"ws": "^8.18.0"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.4.0",
-		"@commitlint/config-conventional": "^19.2.2",
+		"@commitlint/cli": "^19.4.1",
+		"@commitlint/config-conventional": "^19.4.1",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^22.5.0",
+		"@types/node": "^22.5.1",
 		"@types/ws": "^8.5.12",
 		"@types/xml2js": "^0.4.14",
 		"@yarnpkg/pnpify": "4.1.1",
@@ -47,6 +50,6 @@
 	"packageManager": "pnpm@9.8.0",
 	"volta": {
 		"node": "22.7.0",
-		"pnpm": "9.8.0"
+		"pnpm": "9.9.0"
 	}
 }
