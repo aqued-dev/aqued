@@ -1,6 +1,7 @@
 import { EmbedBuilder, Message, Colors, Webhook, AttachmentBuilder, StickerFormatType, APIEmbed } from 'discord.js';
 
 export default async function (message: Message) {
+	if (message.author.bot || message.system) return;
 	if (!(await message.client.botData.messageExpansion.get(message.guildId))) return;
 	if (message.cleanContent.startsWith('<') && message.cleanContent.endsWith('>')) return;
 	const discordMessageRegex = /https?:\/\/(www\.)?(canary|ptb\.)?discord(app)?\.com\/channels\/(\d+)\/(\d+)\/(\d+)/;
