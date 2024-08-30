@@ -4,6 +4,7 @@ import globals from 'globals';
 import unicorn from 'eslint-plugin-unicorn';
 import { parser } from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
+import type { Linter } from 'eslint';
 export default [
 	eslint.configs.recommended,
 	prettier,
@@ -43,4 +44,4 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'off',
 		},
 	},
-];
+] satisfies Linter.FlatConfig[];

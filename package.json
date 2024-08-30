@@ -7,8 +7,8 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"lint": "prettier --check . && eslint src --ext .ts --format=pretty",
-		"lint:fix": "prettier --write . && eslint src --fix --format=pretty",
+		"lint": "prettier --check . && eslint src --ext .ts --flag unstable_ts_config --format=pretty",
+		"lint:fix": "prettier --write . && eslint src --fix --flag unstable_ts_config --format=pretty",
 		"build": "rimraf dist && tsc",
 		"start": "node dist/src/index.js",
 		"prepare": "husky"
@@ -18,7 +18,7 @@
 		"discord.js": "^14.15.3",
 		"enka-network-api": "^4.4.0",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.5.4",
+		"mongoose": "^8.6.0",
 		"mysql2": "^3.11.0",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "^0.3.20",
@@ -40,6 +40,7 @@
 		"eslint-plugin-unicorn": "^55.0.0",
 		"globals": "^15.9.0",
 		"husky": "^9.1.5",
+		"jiti": "^1.21.6",
 		"prettier": "3.3.3",
 		"rimraf": "^6.0.1",
 		"typescript-eslint": "^8.3.0"

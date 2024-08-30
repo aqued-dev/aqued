@@ -16,5 +16,11 @@
 	},
 	"sgcJsonChannelId": "",
 	"sgcJsonChannelIdv2": "",
-	"key": ""
+	"key": "",
+	"mysql": {
+		"host": "db",
+		"port": 1644,
+		"user": "user",
+		"password": "password"
+	}
 }

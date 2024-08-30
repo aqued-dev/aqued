@@ -14,14 +14,14 @@ import {
 export default async function (interaction: BaseInteraction) {
 	if (interaction.isButton()) {
 		if (interaction.customId.startsWith('freechannelcreatebtn_')) {
-			const userchannelnumber = interaction.customId.replace('freechannelcreatebtn_', '');
+			const userChannelLimit = interaction.customId.replace('freechannelcreatebtn_', '');
 			const cooldowns = interaction.client.botData.cooldowns;
 			const categoryId = await interaction.client.botData.aquedFreeChannel.get(interaction.channelId);
 
-			if (userchannelnumber !== '0000') {
+			if (userChannelLimit !== '0000') {
 				const categoryId = await interaction.client.botData.aquedFreeChannel.get(interaction.channelId);
 				const users = await interaction.client.botData.aquedFreeChannelUser.get(categoryId);
-				if (users && Number(userchannelnumber) === users.filter((item) => item === interaction.user.id).length) {
+				if (users && Number(userChannelLimit) === users.filter((item) => item === interaction.user.id).length) {
 					return await interaction.error(
 						'作成できませんでした。',
 						'これ以上チャンネルを作成できないよう管理者に設定されています。',
