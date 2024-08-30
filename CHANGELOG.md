@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2023-08-23
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
+
+### Added
+
+- 1000兆円欲しい
+
+### Fixed
+
+- メッセージ展開でbotをはじく
+- 短冊を作成者以外削除出来なくする
+
+## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2024-08-23
 
 ### Added
 
@@ -25,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 最新のNode.jsで動作しない
 
-## [3.3.0](https://github.com/aqued-dev/aqued/compare/3.2.1...3.3.0) - 2023-08-23
+## [3.3.0](https://github.com/aqued-dev/aqued/compare/3.2.1...3.3.0) - 2024-08-23
 
 ### Fixed
 
@@ -38,13 +49,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ロールパネルでロール付与時にセレクトメニューを再構築します
 - 各ライブラリをアップデート
 
-## [3.2.1](https://github.com/aqued-dev/aqued/compare/3.2.0...3.2.1) - 2023-08-19
+## [3.2.1](https://github.com/aqued-dev/aqued/compare/3.2.0...3.2.1) - 2024-08-19
 
 ### Fixed
 
 - ロールパネルでロールが付与できない
 
-## [3.2.0](https://github.com/aqued-dev/aqued/compare/3.1.2...3.2.0) - 2023-07-30
+## [3.2.0](https://github.com/aqued-dev/aqued/compare/3.1.2...3.2.0) - 2024-07-30
 
 ### Added
 

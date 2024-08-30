@@ -36,7 +36,7 @@ export default {
 								.setLabel('短冊を削除する')
 								.setEmoji('🗑️')
 								.setStyle(ButtonStyle.Danger)
-								.setCustomId('tanzaku_delete'),
+								.setCustomId('tanzaku_delete' + interaction.user.id),
 						),
 					],
 				})
