@@ -3,6 +3,7 @@ import { exit } from 'node:process';
 import { inspect } from 'node:util';
 import {
 	ActivityType,
+	ChannelType,
 	Client,
 	Collection,
 	Colors,
@@ -199,15 +200,16 @@ process.on('uncaughtException', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (!channel.isTextBased()) return;
-		channel.send({
-			embeds: [
-				new EmbedBuilder()
-					.setColor(Colors.Red)
-					.setTitle(':x: エラーが発生しました。')
-					.setDescription('Id: ' + errorId.toString()),
-			],
-		});
+		if (channel.type === ChannelType.GuildText) {
+			channel.send({
+				embeds: [
+					new EmbedBuilder()
+						.setColor(Colors.Red)
+						.setTitle(':x: エラーが発生しました。')
+						.setDescription('Id: ' + errorId.toString()),
+				],
+			});
+		}
 	});
 });
 process.on('unhandledRejection', (error) => {
@@ -216,14 +218,15 @@ process.on('unhandledRejection', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (!channel.isTextBased()) return;
-		channel.send({
-			embeds: [
-				new EmbedBuilder()
-					.setColor(Colors.Red)
-					.setTitle(':x: エラーが発生しました。')
-					.setDescription('Id: ' + errorId.toString()),
-			],
-		});
+		if (channel.type === ChannelType.GuildText) {
+			channel.send({
+				embeds: [
+					new EmbedBuilder()
+						.setColor(Colors.Red)
+						.setTitle(':x: エラーが発生しました。')
+						.setDescription('Id: ' + errorId.toString()),
+				],
+			});
+		}
 	});
 });

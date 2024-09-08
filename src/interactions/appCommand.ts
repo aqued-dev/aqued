@@ -1,4 +1,12 @@
-import { BaseInteraction, Collection, PermissionFlags, EmbedBuilder, SnowflakeUtil, Colors } from 'discord.js';
+import {
+	BaseInteraction,
+	Collection,
+	PermissionFlags,
+	EmbedBuilder,
+	SnowflakeUtil,
+	Colors,
+	ChannelType,
+} from 'discord.js';
 import { inspect } from 'node:util';
 import { translatePermission } from '../utils/permission.js';
 export default async function (interaction: BaseInteraction) {
@@ -107,7 +115,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.isTextBased())
+				if (Errorchannel.type === ChannelType.GuildText)
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -128,7 +136,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.isTextBased())
+			if (Errorchannel.type === ChannelType.GuildText)
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -239,7 +247,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.isTextBased())
+				if (Errorchannel.type === ChannelType.GuildText)
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -260,7 +268,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.isTextBased())
+			if (Errorchannel.type === ChannelType.GuildText)
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -371,7 +379,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.isTextBased())
+				if (Errorchannel.type === ChannelType.GuildText)
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -392,7 +400,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.isTextBased())
+			if (Errorchannel.type === ChannelType.GuildText)
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()

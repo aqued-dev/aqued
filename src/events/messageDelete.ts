@@ -46,8 +46,7 @@ async function sgc(message: Message) {
 		webhook.deleteMessage(value.messageId);
 	}
 	const channel = message.client.channels.cache.get(message.client.botData.sgcJsonChannelIdv2);
-	if (channel && channel.isTextBased()) {
-		if (message.channel.type !== ChannelType.GuildText) return;
+	if (channel && channel.type === ChannelType.GuildText) {
 		const data: MessageDeleteData = { type: 'delete', messageId: message.id };
 		channel.send(JSON.stringify(data));
 	}

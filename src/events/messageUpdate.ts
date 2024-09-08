@@ -18,36 +18,39 @@ async function dissoku(newMessage: Message) {
 		newMessage.embeds[0].fields[0] &&
 		newMessage.embeds[0].fields[0].value.includes('ActiveLevel')
 	) {
-		newMessage.channel.send({
-			embeds: [
-				new EmbedBuilder()
-					.setTitle('UPしました！')
-					.setDescription(`<t:${Math.floor(Date.now() / 1000) + 3600}:F> にお知らせします。`)
-					.setColor(Colors.Blue),
-			],
-		});
+		if (newMessage.channel.type === ChannelType.GuildText)
+			newMessage.channel.send({
+				embeds: [
+					new EmbedBuilder()
+						.setTitle('UPしました！')
+						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 3600}:F> にお知らせします。`)
+						.setColor(Colors.Blue),
+				],
+			});
 		setTimeout(async () => {
 			const role = await newMessage.client.botData.guildUpNotice.dissoku.get(newMessage.guildId + '_role');
 			if (role) {
-				newMessage.channel.send({
-					content: `<@&${role}>`,
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('UPできます！')
-							.setDescription('</dissoku up:828002256690610256> でupできます。')
-							.setColor(Colors.Blue),
-					],
-					allowedMentions: { parse: ['roles'] },
-				});
+				if (newMessage.channel.type === ChannelType.GuildText)
+					newMessage.channel.send({
+						content: `<@&${role}>`,
+						embeds: [
+							new EmbedBuilder()
+								.setTitle('UPできます！')
+								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setColor(Colors.Blue),
+						],
+						allowedMentions: { parse: ['roles'] },
+					});
 			} else {
-				newMessage.channel.send({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('UPできます！')
-							.setDescription('</dissoku up:828002256690610256> でupできます。')
-							.setColor(Colors.Blue),
-					],
-				});
+				if (newMessage.channel.type === ChannelType.GuildText)
+					newMessage.channel.send({
+						embeds: [
+							new EmbedBuilder()
+								.setTitle('UPできます！')
+								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setColor(Colors.Blue),
+						],
+					});
 			}
 		}, 3_600_000);
 	}
@@ -144,7 +147,7 @@ async function superGlobalChat(newMessage: Message) {
 		});
 	}
 	const channel = newMessage.client.channels.cache.get(newMessage.client.botData.sgcJsonChannelIdv2);
-	if (channel && channel.isTextBased()) {
+	if (channel && channel.type === ChannelType.GuildText) {
 		if (newMessage.channel.type !== ChannelType.GuildText) return;
 		const data: MessageEditData = { type: 'edit', messageId: newMessage.id, content: newMessage.content };
 		channel.send(JSON.stringify(data));

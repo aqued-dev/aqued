@@ -161,7 +161,7 @@ export default async function (message: Message) {
 		message.client.botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 		const Errorchannel = message.client.channels.cache.get(message.client.botData.errorChannelId);
-		if (Errorchannel.isTextBased())
+		if (Errorchannel.type === ChannelType.GuildText)
 			Errorchannel.send({
 				embeds: [
 					new EmbedBuilder()
