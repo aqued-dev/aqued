@@ -8,7 +8,7 @@ export const dataSource = new DataSource({
 	host: config.mysql.host,
 	username: config.mysql.user,
 	password: config.mysql.password,
-	port: 3306,
+	port: config.mysql.port,
 	database: 'aqued',
 	synchronize: false, // for "develop"
 	dropSchema: false, // for "develop"
