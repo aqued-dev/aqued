@@ -35,13 +35,13 @@ export default async function (message: Message) {
 				} else {
 					if (message.channel.type === ChannelType.GuildText)
 						message.channel.send({
-						embeds: [
-							new EmbedBuilder()
-								.setTitle('Bumpできます！')
-								.setDescription('</bump:947088344167366698> でbumpできます。')
-								.setColor(Colors.Blue),
-						],
-					});
+							embeds: [
+								new EmbedBuilder()
+									.setTitle('Bumpできます！')
+									.setDescription('</bump:947088344167366698> でbumpできます。')
+									.setColor(Colors.Blue),
+							],
+						});
 				}
 			}, 7_200_000);
 		}
