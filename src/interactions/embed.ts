@@ -1,6 +1,4 @@
 import { TextInputStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, BaseInteraction } from 'discord.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
 	if (interaction.customId !== 'embed_edit_select') return;
@@ -98,11 +96,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('フッターテキストを入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].footer
-											? interaction.message.embeds[0].footer.text
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].footer?.text ?? '') : '',
 								)
 								.setRequired(true),
 						),
@@ -113,11 +107,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('フッターアイコンのurlを入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].footer
-											? (interaction.message.embeds[0].footer.iconURL ?? '')
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].footer?.iconURL ?? '') : '',
 								)
 								.setRequired(true),
 						),
@@ -137,13 +127,7 @@ export default async function (interaction: BaseInteraction) {
 								.setCustomId('image')
 								.setPlaceholder('画像urlを入力...')
 								.setStyle(TextInputStyle.Short)
-								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].image
-											? interaction.message.embeds[0].image.url
-											: ('' ?? '')
-										: '',
-								)
+								.setValue(interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].image?.url ?? '') : '')
 								.setRequired(true),
 						),
 					),
@@ -163,11 +147,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('サムネイル画像urlを入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].thumbnail
-											? interaction.message.embeds[0].thumbnail.url
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].thumbnail?.url ?? '') : '',
 								)
 								.setRequired(true),
 						),
@@ -188,11 +168,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('名前を入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].author
-											? interaction.message.embeds[0].author.name
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].author?.name ?? '') : '',
 								)
 								.setRequired(true),
 						),
@@ -203,11 +179,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('アイコンurlを入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].author
-											? interaction.message.embeds[0].author.iconURL
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].author?.iconURL ?? '') : '',
 								)
 								.setRequired(true),
 						),
@@ -218,11 +190,7 @@ export default async function (interaction: BaseInteraction) {
 								.setPlaceholder('urlを入力...')
 								.setStyle(TextInputStyle.Short)
 								.setValue(
-									interaction.message.embeds.length > 0
-										? interaction.message.embeds[0].author
-											? interaction.message.embeds[0].author.url
-											: ('' ?? '')
-										: '',
+									interaction.message.embeds.length > 0 ? (interaction.message.embeds[0].author?.url ?? '') : '',
 								)
 								.setRequired(true),
 						),
