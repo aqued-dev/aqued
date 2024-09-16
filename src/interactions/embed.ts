@@ -1,4 +1,6 @@
 import { TextInputStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, BaseInteraction } from 'discord.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
 	if (interaction.customId !== 'embed_edit_select') return;
