@@ -31,7 +31,7 @@
 		"@commitlint/cli": "^19.4.1",
 		"@commitlint/config-conventional": "^19.4.1",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^22.5.4",
+		"@types/node": "^22.6.1",
 		"@types/ws": "^8.5.12",
 		"@types/xml2js": "^0.4.14",
 		"@yarnpkg/pnpify": "4.1.1",
