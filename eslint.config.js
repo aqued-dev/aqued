@@ -28,19 +28,6 @@ export default [
 			'typescript-eslint': tseslint,
 			unicorn: unicorn,
 		},
-		rules: {
-			'unicorn/filename-case': 'off',
-			'unicorn/prefer-node-protocol': 'error',
-			'no-console': 'off', //Loggerを入れた後はerrorに。
-			'unicorn/no-await-expression-member': 'off',
-			'@typescript-eslint/no-unused-vars': 'warn',
-			'unicorn/empty-brace-spaces': 'warn',
-			'unicorn/prevent-abbreviations': 'off',
-			'unicorn/consistent-function-scoping': 'off',
-			// 仮
-			'@typescript-eslint/no-unused-expressions': 'off',
-			'no-constant-binary-expression': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-		},
+		rules: {},
 	},
 ];
