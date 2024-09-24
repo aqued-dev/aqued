@@ -21,6 +21,7 @@
 		"mongoose": "^8.6.3",
 		"mysql2": "^3.11.3",
 		"reflect-metadata": "^0.2.2",
+		"signale": "^1.4.0",
 		"typeorm": "^0.3.20",
 		"typescript": "5.5.4"
 	},
