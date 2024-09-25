@@ -1,6 +1,7 @@
 import { readdir } from 'node:fs/promises';
-import { extname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { Logger } from './Logger.js';
 import type { ChatInputCommand } from './types/ChatInputCommand.js';
 
 export class CommandLoader {
@@ -19,8 +20,10 @@ export class CommandLoader {
 			if (file.startsWith('__')) continue;
 			const filePath = resolve('dist/refactor/', this.commandDirectory, file);
 			const url = pathToFileURL(filePath).href + '?t=' + Date.now();
-			const module: ChatInputCommand = (await import(url)).default;
-			this.commands.set(file.replace(extname(file), ''), module);
+			const module = (await import(url)).default;
+			const chatInput: ChatInputCommand = new module();
+			this.commands.set(chatInput.command.name, chatInput);
+			Logger.info(`Loading ${chatInput.command.name}.`);
 		}
 	}
 
@@ -32,6 +35,7 @@ export class CommandLoader {
 	}
 	unloadCommand(name: string): void {
 		this.commands.delete(name);
+		Logger.info(`Unloading ${name}.`);
 	}
 
 	async reloadCommand(name: string): Promise<void> {
@@ -40,7 +44,9 @@ export class CommandLoader {
 		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
 		const module = await import(url);
 		if (module && typeof module.run === 'function') {
-			this.commands.set(name, module);
+			const chatInput: ChatInputCommand = new module();
+			this.commands.set(chatInput.command.name, chatInput);
+			Logger.info(`Reloading ${chatInput.command.name}.`);
 		}
 	}
 }

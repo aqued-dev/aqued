@@ -1,26 +1,20 @@
 import configData from '../../config.json' with { type: 'json' };
+import { constants } from './constants.js';
 
 class Config {
-	public bot: { id: string; admins: string[]; token: string; mods: string[] } = {
-		id: '',
-		admins: [],
-		token: '',
-		mods: [],
-	};
-	public channels: { error: string; log: string; command: string } = { error: '', log: '', command: '' };
-	public mongo: { url: string; key: string } = { url: '', key: '' };
-	public loads: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean } = {
-		chatInput: true,
-		messageContextMenu: true,
-		userContextMenu: true,
-	};
-	public sgcJsonChannels: { v1: string; v2: string } = { v1: '', v2: '' };
-	public mysql: { host: string; port: number; user: string; password: string } = {
-		host: 'db',
-		port: 1644,
-		user: 'user',
-		password: 'password',
-	};
+	public bot: { id: string; admins: string[]; token: string; mods: string[] } = constants.defaultConfigs.bot;
+	public channels: { error: string; log: string; command: string } = constants.defaultConfigs.channels;
+	public mongo: { url: string; key: string } = constants.defaultConfigs.mongo;
+	public loads: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean } =
+		constants.defaultConfigs.loads;
+	/**
+	 * @deprecated 本番環境に移動次第廃止予定
+	 */
+	public sgcJsonChannels: { v1: string; v2: string } = constants.defaultConfigs.sgcJsonChannels;
+	public sgcJsonChannel: string = constants.defaultConfigs.sgcJsonChannel;
+	public mysql: { host: string; port: number; user: string; password: string } = constants.defaultConfigs.mysql;
+	public loggerWebhook: { id: string; token: string } = constants.defaultConfigs.loggerWebhook;
+	public loggerThreadId: string = constants.defaultConfigs.loggerThreadId;
 	setId(id: string) {
 		this.bot.id = id;
 	}
@@ -59,9 +53,17 @@ class Config {
 	setLoads(data: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean }) {
 		this.loads = data;
 	}
-
-	setSgcJsonChannel(data: { v1: string; v2: string }) {
+	/**
+	 * @deprecated 本番環境に移動次第廃止予定
+	 */
+	setSgcJsonChannels(data: { v1: string; v2: string }) {
+		process.emitWarning('本番環境に移動次第廃止されます。setSgcJsonChannelを使用してください。', {
+			type: 'DeprecationWarning',
+		});
 		this.sgcJsonChannels = data;
+	}
+	setSgcJsonChannel(channelId: string) {
+		this.sgcJsonChannel = channelId;
 	}
 	setMySQLHost(host: string) {
 		this.mysql.host = host;
@@ -74,6 +76,17 @@ class Config {
 	}
 	setMySQLPassword(password: string) {
 		this.mysql.password = password;
+	}
+	setLoggerUrl(webhookUrl: string) {
+		const webhookSplit = webhookUrl.match(constants.webhookRegex);
+		if (webhookSplit)
+			this.loggerWebhook = {
+				id: webhookSplit[1] ?? '',
+				token: webhookSplit[2] ?? '',
+			};
+	}
+	setLoggerThreadId(threadId: string) {
+		this.loggerThreadId = threadId;
 	}
 }
 
@@ -93,12 +106,15 @@ config.setLoads({
 	messageContextMenu: configData.load.messagecotextmenu,
 	userContextMenu: configData.load.usercotextmenu,
 });
-config.setSgcJsonChannel({
+config.setSgcJsonChannels({
 	v1: configData.sgcJsonChannelId,
 	v2: configData.sgcJsonChannelIdv2,
 });
+config.setSgcJsonChannel(configData.sgcJsonChannelId);
 config.setMySQLHost(configData.mysql.host);
 config.setMySQLPort(configData.mysql.port);
 config.setMySQLUser(configData.mysql.user);
 config.setMySQLPassword(configData.mysql.password);
+config.setLoggerUrl(configData.loggerUrl);
+config.setLoggerThreadId(configData.loggerThreadId);
 export { config };
