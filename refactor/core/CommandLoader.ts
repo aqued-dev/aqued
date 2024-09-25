@@ -12,10 +12,10 @@ export class CommandLoader {
 
 	constructor(commandDirectory: string) {
 		this.commandDirectory = commandDirectory;
-		this.loadCommands().catch((reason) => console.error(reason));
+		this.loadAllCommands().catch((reason) => console.error(reason));
 	}
 
-	private async loadCommands(): Promise<void> {
+	private async loadAllCommands(): Promise<void> {
 		const files = await readdir(resolve('dist/refactor/', this.commandDirectory));
 
 		for (const file of files) {
@@ -27,9 +27,9 @@ export class CommandLoader {
 			this.commands.set(chatInput.command.name, chatInput);
 			Logger.info(`Loading ${chatInput.command.name}.`);
 		}
-		await this.regist();
+		await this.registerCommands();
 	}
-	private async regist() {
+	private async registerCommands() {
 		const rest = new REST().setToken(config.bot.token);
 		await rest.put(Routes.applicationCommands(config.bot.id), {
 			body: Array.from(this.commands.values()).map((item) => item.command.toJSON()),
@@ -46,15 +46,10 @@ export class CommandLoader {
 		Logger.info(`Unloading ${name}.`);
 	}
 
-	async reloadCommand(name: string): Promise<void> {
-		this.unloadCommand(name);
-		const filePath = resolve(this.commandDirectory, `${name}.js`);
-		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
-		const module = await import(url);
-		if (module && typeof module.run === 'function') {
-			const chatInput: ChatInputCommand = new module();
-			this.commands.set(chatInput.command.name, chatInput);
-			Logger.info(`Reloading ${chatInput.command.name}.`);
+	async reloadAllCommands(): Promise<void> {
+		for (const name of this.commands.keys()) {
+			this.unloadCommand(name);
 		}
+		await this.loadAllCommands();
 	}
 }

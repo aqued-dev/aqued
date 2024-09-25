@@ -5,12 +5,17 @@ export default class InteractionCommandHandler implements EventListener<Events.I
 	public once: boolean;
 	constructor() {
 		this.name = Events.InteractionCreate;
-		this.once = true;
+		this.once = false;
 	}
 	async execute(interaction: BaseInteraction) {
 		if (interaction.isChatInputCommand()) {
 			const command = interaction.client.aqued.commands.chatInput.getCommand(interaction.commandName);
 			if (command) await command.run(interaction);
+			else
+				await interaction.reply({
+					content: 'コマンドをリロード中です。',
+					ephemeral: true,
+				});
 		}
 	}
 }

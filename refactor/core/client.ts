@@ -32,4 +32,4 @@ client.aqued = {
 	},
 };
 
-await client.aqued.events.allLoad();
+await client.aqued.events.loadAllEvents();

@@ -10,6 +10,6 @@ export default class Ping implements ChatInputCommand {
 		this.settings = {};
 	}
 	async run(interaction: ChatInputCommandInteraction) {
-		await interaction.reply('pong');
+		await interaction.reply('pong!');
 	}
 }

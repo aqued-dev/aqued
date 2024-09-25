@@ -15,14 +15,14 @@ export class EventLoader {
 		this.directory = directory;
 	}
 
-	public async allLoad(): Promise<void> {
+	public async loadAllEvents(): Promise<void> {
 		const files = await readdir(resolve('dist/refactor/', this.directory));
 		const listeners: EventListener[] = [];
 
 		Logger.info(`Loading event files from directory: ${this.directory}`);
 		for (const file of files) {
 			if (!file.startsWith('__')) {
-				const listener = await this.load(file);
+				const listener = await this.loadEvent(file);
 				if (listener) {
 					listeners.push(listener);
 				}
@@ -38,7 +38,7 @@ export class EventLoader {
 		Logger.info(`Successfully loaded ${listeners.length} event listeners.`);
 	}
 
-	public async load(file: string): Promise<EventListener | null> {
+	public async loadEvent(file: string): Promise<EventListener | null> {
 		const filePath = resolve('dist/refactor/', this.directory, file);
 		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
 		const module = (await import(url)).default;
@@ -65,7 +65,7 @@ export class EventLoader {
 		this.events.get(eventName)!.push(listener);
 	}
 
-	public unload(): void {
+	public unloadAllEvents(): void {
 		for (const eventName of this.events.keys()) {
 			this.client.removeAllListeners(eventName);
 			Logger.info(`Removed all listeners for event: ${eventName}`);
@@ -74,9 +74,9 @@ export class EventLoader {
 		Logger.info(`Unloading events.`);
 	}
 
-	public async reload(): Promise<void> {
-		this.unload();
-		await this.allLoad();
+	public async reloadAllEvents(): Promise<void> {
+		this.unloadAllEvents();
+		await this.loadAllEvents();
 		Logger.info(`Reloading events.`);
 	}
 }
