@@ -1,6 +1,8 @@
+import { REST, Routes } from 'discord.js';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { config } from '../config/config.js';
 import { Logger } from './Logger.js';
 import type { ChatInputCommand } from './types/ChatInputCommand.js';
 
@@ -25,8 +27,14 @@ export class CommandLoader {
 			this.commands.set(chatInput.command.name, chatInput);
 			Logger.info(`Loading ${chatInput.command.name}.`);
 		}
+		await this.regist();
 	}
-
+	private async regist() {
+		const rest = new REST().setToken(config.bot.token);
+		await rest.put(Routes.applicationCommands(config.bot.id), {
+			body: Array.from(this.commands.values()).map((item) => item.command.toJSON()),
+		});
+	}
 	getCommand(name: string): ChatInputCommand | undefined {
 		return this.commands.get(name);
 	}
