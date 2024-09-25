@@ -4,13 +4,16 @@ import globals from 'globals';
 import unicorn from 'eslint-plugin-unicorn';
 import { parser } from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
+/** @type { import("eslint").Linter.Config[] } */
 export default [
 	eslint.configs.recommended,
 	prettier,
 	...tseslint.configs.recommended,
 	{
 		files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
-		ignores: ['./dist/*'],
+		ignores: ['**/dist/**'],
+	},
+	{
 		languageOptions: {
 			parser,
 			parserOptions: {
@@ -24,10 +27,14 @@ export default [
 				...globals.node,
 			},
 		},
+	},
+	{
 		plugins: {
 			'typescript-eslint': tseslint,
 			unicorn: unicorn,
 		},
-		rules: {},
+	},
+	{
+		rules: { '@typescript-eslint/no-unused-vars': 'off' },
 	},
 ];
