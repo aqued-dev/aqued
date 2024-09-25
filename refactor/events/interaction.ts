@@ -1,4 +1,5 @@
 import { BaseInteraction, Events } from 'discord.js';
+import { oldButtonPaginationDisable } from '../components/button/pagenation.js';
 import type { EventListener } from '../core/types/EventListener.js';
 export default class InteractionCommandHandler implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;
@@ -16,6 +17,8 @@ export default class InteractionCommandHandler implements EventListener<Events.I
 					content: 'コマンドをリロード中です。',
 					ephemeral: true,
 				});
+		} else if (interaction.isButton()) {
+			await oldButtonPaginationDisable(interaction);
 		}
 	}
 }
