@@ -2,6 +2,7 @@ import { ActivityType, Client, GatewayIntentBits, SnowflakeUtil } from 'discord.
 import { config } from '../config/config.js';
 import { CommandLoader } from './CommandLoader.js';
 import { EventLoader } from './EventLoader.js';
+import { dataSource } from './typeorm.config.js';
 export const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -22,6 +23,7 @@ declare module 'discord.js' {
 			config: typeof config;
 			commands: { chatInput: CommandLoader };
 			readyId: string;
+			cooldown: Map<string, Map<string, number>>;
 		};
 	}
 }
@@ -32,6 +34,8 @@ client.aqued = {
 		chatInput: new CommandLoader('commands/chatInput'),
 	},
 	readyId: SnowflakeUtil.generate().toString(),
+	cooldown: new Map(),
 };
 
 await client.aqued.events.loadAllEvents();
+await dataSource.initialize();

@@ -7,11 +7,13 @@ export default class Ping implements ChatInputCommand {
 	public settings: CommandSetting;
 	constructor() {
 		this.command = new SlashCommandBuilder().setName('ping').setDescription('ping!!!');
-		this.settings = {};
+		this.settings = { enable: true };
 	}
 	async run(interaction: ChatInputCommandInteraction) {
 		await interaction.reply({
-			embeds: [new EmbedBuilder().setTitle(':ping_pong: | Pong!').setDescription(`\`${interaction.client.ws.ping} ms\``)],
+			embeds: [
+				new EmbedBuilder().setTitle(':ping_pong: | Pong!').setDescription(`\`${interaction.client.ws.ping} ms\``),
+			],
 		});
 	}
 }

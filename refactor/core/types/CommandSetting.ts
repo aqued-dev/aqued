@@ -4,11 +4,7 @@ import { ChannelType } from 'discord.js';
  */
 export interface CommandSetting {
 	/**
-	 * 実行前に評価する関数
-	 */
-	check?: () => boolean;
-	/**
-	 * 必須権限(実行時にもチェックします)
+	 * 必須権限(実行時にBotと実行ユーザー側でチェックします)
 	 */
 	permissions?: bigint[];
 	/**
@@ -31,16 +27,4 @@ export interface CommandSetting {
 	 * 実行できるチャンネルのタイプ
 	 */
 	channelTypes?: ChannelType[];
-	/**
-	 * クールダウン
-	 */
-	cooldown?: number;
-	/**
-	 * クールダウンの対象
-	 */
-	cooldownTargets?: 'guild' | 'user' | 'channel' | 'bot';
-	/**
-	 * クールダウンになるまでの回数
-	 */
-	cooldownLimit?: number;
 }
