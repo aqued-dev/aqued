@@ -9,14 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
 
-### Added
+これはAquedの大規模リファクタリングアップデートも含まれています
 
-- 1000兆円欲しい
+## Added
 
-### Fixed
+- 1000兆円欲しいを生成するコマンド
+- リファクタリングを実施
+- デバッグログの追加
+- コンソールログをWebhookで送信
+- MySQLへの移行を完了
+- 起動時にSnowFlakeを生成
+- ページネーションの有効期限が切れる前にボットが終了した際のボタン無効化
 
-- メッセージ展開でbotをはじく
-- 短冊を作成者以外削除出来なくする
+## Fixed
+
+- メッセージ展開でボットをブロックする問題を修正
+- 短冊を作成者以外が削除できないように制限
+
+## Changed
+
+- Artifacter・URLチェッカーを休止
+- MongoDBを廃止
+- TypeScriptの設定を見直し
+- DockerのNode.jsイメージを更新
+- フォルダ構成を見直し
+- 設定ファイルの読み込み方法を変更
+- クライアントの拡張方法を改善
+- 使用ライブラリのアップデート
+- 一部のメッセージコンポーネントのcustomIdを変更
+- 一部のメッセージコンポーネントを再利用可能に
+- ボットを再起動せずにコマンドやイベントを再読み込み可能に
+- ロガーにPinoを採用
 
 ## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2024-08-23
 
