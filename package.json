@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@discordjs/builders": "1.9.0",
 		"discord.js": "^14.16.1",
-		"enka-network-api": "^4.5.1",
+		"enka-network-api": "^4.6.1",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^8.6.1",
 		"mysql2": "^3.11.0",
