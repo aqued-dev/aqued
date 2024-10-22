@@ -1,8 +1,14 @@
-import { ChatInputCommandInteraction, EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	SlashCommandBuilder
+} from 'discord.js';
 import { inspect } from 'util';
 import { Logger } from '../../core/Logger.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
+import { failEmbed, infoEmbed } from '../../embeds/infosEmbed.js';
 
 export default class Top implements ChatInputCommand {
 	public command: SlashCommandBuilder;
@@ -10,7 +16,8 @@ export default class Top implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('top')
-			.setDescription('top!!!')
+			.setDescription('チャンネルの一番上のメッセージへのリンクを表示します')
+			.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
 			.setContexts(InteractionContextType.Guild);
 		this.settings = { enable: true };
 	}
@@ -21,17 +28,17 @@ export default class Top implements ChatInputCommand {
 			const message = messages.first();
 			if (message) {
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setDescription(`[**一番上のメッセージへジャンプ！**](${message.url})`)]
+					embeds: [infoEmbed(`[**一番上のメッセージへジャンプ！**](${message.url})`)]
 				});
 			} else {
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })]
+					embeds: [failEmbed('メッセージの取得に失敗しました')]
 				});
 			}
 		} catch (error) {
 			Logger.error(inspect(error));
 			await interaction.reply({
-				embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })]
+				embeds: [failEmbed('メッセージの取得に失敗しました')]
 			});
 		}
 	}
