@@ -9,7 +9,7 @@ import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { successEmbed } from '../../embeds/infosEmbed.js';
 
-export default class Ping implements ChatInputCommand {
+export default class Gosen implements ChatInputCommand {
 	public command: SlashCommandOptionsOnlyBuilder;
 	public settings: CommandSetting;
 	constructor() {
