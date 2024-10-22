@@ -1,6 +1,6 @@
-import { dataSource } from '../core/typeorm.config.js';
 import { ChannelSetting } from '../database/entities/ChannelSetting.js';
 import { GuildSetting } from '../database/entities/GuildSetting.js';
+import { dataSource } from './typeorm.config.js';
 interface Ids {
 	channelId?: string;
 	guildId?: string;
