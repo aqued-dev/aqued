@@ -12,9 +12,17 @@ const iconMap = {
 
 function baseEmbed(message: string, type: EmbedType, title?: string, customTitle?: string) {
 	const embed = new EmbedBuilder();
+	let color: number = Colors.Blue;
+	if (type === '失敗') {
+		color = Colors.Red;
+	} else if (type === '成功') {
+		color = Colors.Green;
+	} else if (type === '注意') {
+		color = Colors.Yellow;
+	}
 	embed.setAuthor({ name: customTitle ?? type, iconURL: iconMap[type] });
 	embed.setDescription(message);
-	embed.setColor(Colors.Blue);
+	embed.setColor(color);
 	embed.setFooter({ text: 'Aqued' });
 	embed.setTimestamp();
 	if (title) embed.setTitle(title);
