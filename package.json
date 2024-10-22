@@ -10,7 +10,7 @@
 		"lint": "prettier --check . && eslint --ext .ts --format=pretty",
 		"lint:fix": "prettier --write . && eslint --fix --format=pretty",
 		"build": "rimraf dist && tsc",
-		"start": "node dist/src/index.js",
+		"start": "node dist/src/main.js",
 		"prepare": "husky"
 	},
 	"dependencies": {

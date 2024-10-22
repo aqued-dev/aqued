@@ -18,7 +18,7 @@ export class CommandLoader {
 
 	private async loadAllCommands(): Promise<void> {
 		Logger.info(`Loading commands from directory: ${this.commandDirectory}`);
-		await this.loadDirectory(resolve('dist/refactor/', this.commandDirectory));
+		await this.loadDirectory(resolve('dist/src/', this.commandDirectory));
 		await this.registerCommands();
 	}
 

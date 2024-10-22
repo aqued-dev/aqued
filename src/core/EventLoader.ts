@@ -20,7 +20,7 @@ export class EventLoader {
 		const listeners: EventListener[] = [];
 
 		Logger.info(`Loading event files from directory: ${this.directory}`);
-		await this.loadDirectory(resolve('dist/refactor/', this.directory), listeners);
+		await this.loadDirectory(resolve('dist/src/', this.directory), listeners);
 
 		for (const listener of listeners) {
 			this.registerEvent(listener.name, listener);
