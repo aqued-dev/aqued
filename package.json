@@ -15,32 +15,32 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"discord.js": "^14.16.2",
-		"enka-network-api": "^4.6.0",
+		"discord.js": "^14.16.3",
+		"enka-network-api": "^4.6.1",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.6.3",
+		"mongoose": "^8.7.2",
 		"mysql2": "^3.11.3",
-		"pino": "^9.4.0",
+		"pino": "^9.5.0",
 		"pino-abstract-transport": "^2.0.0",
-		"pino-pretty": "^11.2.2",
+		"pino-pretty": "^11.3.0",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "^0.3.20",
-		"typescript": "5.5.4"
+		"typescript": "5.6.3"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^22.6.1",
-		"eslint": "^9.11.1",
+		"@types/node": "^22.7.8",
+		"eslint": "^9.13.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-formatter-pretty": "^6.0.1",
-		"eslint-plugin-unicorn": "^55.0.0",
-		"globals": "^15.9.0",
+		"eslint-plugin-unicorn": "^56.0.0",
+		"globals": "^15.11.0",
 		"husky": "^9.1.6",
 		"prettier": "3.3.3",
 		"rimraf": "^6.0.1",
-		"typescript-eslint": "^8.7.0"
+		"typescript-eslint": "^8.11.0"
 	},
 	"engines": {
 		"node": ">=20.11.0"
@@ -48,6 +48,6 @@
 	"packageManager": "pnpm@9.9.0",
 	"volta": {
 		"node": "22.7.0",
-		"pnpm": "9.9.0"
+		"pnpm": "9.12.2"
 	}
 }
