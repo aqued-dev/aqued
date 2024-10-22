@@ -32,21 +32,21 @@ function baseEmbed(message: string, type: EmbedType, title?: string, customTitle
 	return embed;
 }
 
-export function successEmbed(message: string, title?: string, customTitle?: string, footer?:string) {
-	return baseEmbed(message, '成功', title, customTitle,footer);
+export function successEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed(message, '成功', title, customTitle, footer);
 }
 
-export function failEmbed(message: string, title?: string, customTitle?: string, footer?:string) {
-	return baseEmbed(message, '失敗', title, customTitle,footer);
+export function failEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed(message, '失敗', title, customTitle, footer);
 }
 
-export function warnEmbed(message: string, title?: string, customTitle?: string, footer?:string) {
-	return baseEmbed(message, '注意', title, customTitle,footer);
+export function warnEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed(message, '注意', title, customTitle, footer);
 }
 
-export function infoEmbed(message: string, title?: string, customTitle?: string, footer?:string) {
-	return baseEmbed(message, '情報', title, customTitle,footer);
+export function infoEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed(message, '情報', title, customTitle, footer);
 }
-export function replyEmbed(message: string, title?: string, customTitle?: string, footer?:string) {
-	return baseEmbed(message, '返信', title, customTitle,footer);
+export function replyEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed(message, '返信', title, customTitle, footer);
 }
