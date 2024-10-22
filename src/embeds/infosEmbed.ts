@@ -11,7 +11,7 @@ const iconMap = {
 	返信: icons.reply
 };
 
-function baseEmbed(message: string, type: EmbedType, title?: string, customTitle?: string, footer?: string) {
+function baseEmbed(type: EmbedType, message?: string, title?: string, customTitle?: string, footer?: string) {
 	const embed = new EmbedBuilder();
 	let color: number = Colors.Blue;
 	if (type === '失敗') {
@@ -24,7 +24,7 @@ function baseEmbed(message: string, type: EmbedType, title?: string, customTitle
 		color = Colors.Orange;
 	}
 	embed.setAuthor({ name: customTitle ?? type, iconURL: iconMap[type] });
-	embed.setDescription(message);
+	embed.setDescription(message ?? '');
 	embed.setColor(color);
 	embed.setFooter({ text: footer ?? 'Aqued' });
 	embed.setTimestamp();
@@ -32,21 +32,21 @@ function baseEmbed(message: string, type: EmbedType, title?: string, customTitle
 	return embed;
 }
 
-export function successEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
-	return baseEmbed(message, '成功', title, customTitle, footer);
+export function successEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('成功', message, title, customTitle, footer);
 }
 
-export function failEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
-	return baseEmbed(message, '失敗', title, customTitle, footer);
+export function failEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('失敗', message, title, customTitle, footer);
 }
 
-export function warnEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
-	return baseEmbed(message, '注意', title, customTitle, footer);
+export function warnEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('注意', message, title, customTitle, footer);
 }
 
-export function infoEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
-	return baseEmbed(message, '情報', title, customTitle, footer);
+export function infoEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('情報', message, title, customTitle, footer);
 }
-export function replyEmbed(message: string, title?: string, customTitle?: string, footer?: string) {
-	return baseEmbed(message, '返信', title, customTitle, footer);
+export function replyEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('返信', message, title, customTitle, footer);
 }
