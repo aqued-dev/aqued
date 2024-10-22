@@ -1,4 +1,5 @@
 import { REST, Routes } from 'discord.js';
+import { Dirent } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -16,31 +17,52 @@ export class CommandLoader {
 	}
 
 	private async loadAllCommands(): Promise<void> {
-		const files = await readdir(resolve('dist/refactor/', this.commandDirectory));
-
-		for (const file of files) {
-			if (file.startsWith('__')) continue;
-			const filePath = resolve('dist/refactor/', this.commandDirectory, file);
-			const url = pathToFileURL(filePath).href + '?t=' + Date.now();
-			const module = (await import(url)).default;
-			const chatInput: ChatInputCommand = new module();
-			this.commands.set(chatInput.command.name, chatInput);
-			Logger.info(`Loading ${chatInput.command.name}.`);
-		}
+		Logger.info(`Loading commands from directory: ${this.commandDirectory}`);
+		await this.loadDirectory(resolve('dist/refactor/', this.commandDirectory));
 		await this.registerCommands();
 	}
+
+	private async loadDirectory(directory: string): Promise<void> {
+		const dirents: Dirent[] = await readdir(directory, { withFileTypes: true });
+		for (const dirent of dirents) {
+			const fullPath = resolve(directory, dirent.name);
+
+			if (dirent.isDirectory()) {
+				Logger.info(`Entering directory: ${dirent.name}`);
+				await this.loadDirectory(fullPath);
+			} else if (!dirent.name.startsWith('__') && dirent.name.endsWith('.js')) {
+				const chatInputCommand = await this.loadCommand(fullPath);
+				if (chatInputCommand) {
+					this.commands.set(chatInputCommand.command.name, chatInputCommand);
+					Logger.info(`Loading command: ${chatInputCommand.command.name}.`);
+				}
+			} else {
+				Logger.warn(`Skipping file: ${dirent.name} (starts with '__' or not a .js file)`);
+			}
+		}
+	}
+
+	private async loadCommand(filePath: string): Promise<ChatInputCommand | null> {
+		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
+		const module = (await import(url)).default;
+		return new module();
+	}
+
 	private async registerCommands() {
 		const rest = new REST().setToken(config.bot.token);
 		await rest.put(Routes.applicationCommands(config.bot.id), {
 			body: Array.from(this.commands.values()).map((item) => item.command.toJSON()),
 		});
 	}
+
 	getCommand(name: string): ChatInputCommand | undefined {
 		return this.commands.get(name);
 	}
+
 	hasCommand(name: string): boolean {
 		return this.commands.has(name);
 	}
+
 	unloadCommand(name: string): void {
 		this.commands.delete(name);
 		Logger.info(`Unloading ${name}.`);

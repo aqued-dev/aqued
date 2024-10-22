@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Logger } from './Logger.js';
 import type { EventListener } from './types/EventListener.js';
+import { Dirent } from 'node:fs';
 
 export class EventLoader {
 	private client: Client<boolean>;
@@ -16,20 +17,10 @@ export class EventLoader {
 	}
 
 	public async loadAllEvents(): Promise<void> {
-		const files = await readdir(resolve('dist/refactor/', this.directory));
 		const listeners: EventListener[] = [];
 
 		Logger.info(`Loading event files from directory: ${this.directory}`);
-		for (const file of files) {
-			if (!file.startsWith('__')) {
-				const listener = await this.loadEvent(file);
-				if (listener) {
-					listeners.push(listener);
-				}
-			} else {
-				Logger.warn(`Skipping file: ${file} (starts with '__')`);
-			}
-		}
+		await this.loadDirectory(resolve('dist/refactor/', this.directory), listeners);
 
 		for (const listener of listeners) {
 			this.registerEvent(listener.name, listener);
@@ -38,11 +29,29 @@ export class EventLoader {
 		Logger.info(`Successfully loaded ${listeners.length} event listeners.`);
 	}
 
-	public async loadEvent(file: string): Promise<EventListener | null> {
-		const filePath = resolve('dist/refactor/', this.directory, file);
+	private async loadDirectory(directory: string, listeners: EventListener[]): Promise<void> {
+		const dirents: Dirent[] = await readdir(directory, { withFileTypes: true });
+		for (const dirent of dirents) {
+			const fullPath = resolve(directory, dirent.name);
+
+			if (dirent.isDirectory()) {
+				Logger.info(`Entering directory: ${dirent.name}`);
+				await this.loadDirectory(fullPath, listeners);
+			} else if (!dirent.name.startsWith('__')) {
+				const listener = await this.loadEvent(fullPath);
+				if (listener) {
+					listeners.push(listener);
+				}
+			} else {
+				Logger.warn(`Skipping file: ${dirent.name} (starts with '__')`);
+			}
+		}
+	}
+
+	public async loadEvent(filePath: string): Promise<EventListener | null> {
 		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
 		const module = (await import(url)).default;
-		Logger.info(`Loading Event Listener: ${file}`);
+		Logger.info(`Loading Event Listener: ${filePath}`);
 		return new module();
 	}
 
