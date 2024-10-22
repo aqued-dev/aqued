@@ -3,6 +3,7 @@
 ## パッケージマネージャー
 
 package.jsonに書かれているバージョンのpnpmを使用してください。
+Node.js / pnpmはVoltaで導入することをおすすめします。
 
 ## Node.js
 
