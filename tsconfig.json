@@ -22,6 +22,5 @@
 		"verbatimModuleSyntax": true,
 		"outDir": "dist"
 	},
-	"include": ["refactor"]
-	// src ディレクトリはリファクタリング完了までトランスコンパイル非対象
+	"include": ["src"]
 }
