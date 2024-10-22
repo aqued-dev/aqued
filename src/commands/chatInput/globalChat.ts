@@ -17,8 +17,8 @@ export default class GlobalChat implements ChatInputCommand {
 				ChannelType.GuildText,
 				ChannelType.GuildVoice,
 				ChannelType.GuildAnnouncement,
-				ChannelType.AnnouncementThread,
-			],
+				ChannelType.AnnouncementThread
+			]
 		};
 	}
 	async run(interaction: ChatInputCommandInteraction) {
@@ -27,12 +27,12 @@ export default class GlobalChat implements ChatInputCommand {
 		if (setting.globalChat) {
 			await settings.updateChannel({ globalChat: false });
 			await interaction.reply({
-				embeds: [disableEmbed('グローバルチャット')],
+				embeds: [disableEmbed('グローバルチャット')]
 			});
 		} else {
 			await settings.updateChannel({ globalChat: true });
 			await interaction.reply({
-				embeds: [enableEmbed('グローバルチャット')],
+				embeds: [enableEmbed('グローバルチャット')]
 			});
 		}
 	}

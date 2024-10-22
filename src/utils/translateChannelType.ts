@@ -18,7 +18,7 @@ export const translateChannelType = (flags: bigint[]): string[] => {
 		GuildNews: 'アナウンスチャンネル',
 		GuildNewsThread: 'アナウンススレッド',
 		GuildPublicThread: '公開スレッド',
-		GuildPrivateThread: 'プライベートスレッド',
+		GuildPrivateThread: 'プライベートスレッド'
 	};
 	const grantedTypes: string[] = [];
 	flags.forEach((flag) => {

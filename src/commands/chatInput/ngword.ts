@@ -7,7 +7,7 @@ import {
 	InteractionContextType,
 	PermissionFlagsBits,
 	SlashCommandBuilder,
-	type SlashCommandSubcommandsOnlyBuilder,
+	type SlashCommandSubcommandsOnlyBuilder
 } from 'discord.js';
 import { constants } from '../../config/constants.js';
 import { SettingManager } from '../../core/SettingManager.js';
@@ -27,7 +27,7 @@ export default class NgWord implements ChatInputCommand {
 			{ name: '招待リンク(おすすめ)', value: 'invite-link' },
 			{ name: 'トークン(おすすめ)', value: 'token' },
 			{ name: '全員メンション', value: 'mention' },
-			{ name: 'メールアドレス', value: 'email' },
+			{ name: 'メールアドレス', value: 'email' }
 		];
 	}
 	getRuleRegex(ruleName: 'invite-link' | 'token' | 'mention' | 'email') {
@@ -39,11 +39,11 @@ export default class NgWord implements ChatInputCommand {
 				constants.regexs.inviteUrls.discord,
 				constants.regexs.inviteUrls.discordCafe,
 				constants.regexs.inviteUrls.dissoku,
-				constants.regexs.inviteUrls.sabach,
+				constants.regexs.inviteUrls.sabach
 			],
-			token: [constants.regexs.discordToken],
-			mention: [constants.regexs.mention],
-			email: [constants.regexs.email],
+			'token': [constants.regexs.discordToken],
+			'mention': [constants.regexs.mention],
+			'email': [constants.regexs.email]
 		};
 		return data[ruleName].map((regex) => `${regex}`);
 	}
@@ -56,16 +56,16 @@ export default class NgWord implements ChatInputCommand {
 					.setName('add')
 					.setDescription('AutoModにAquedが提供するルールを追加します')
 					.addStringOption((input) =>
-						input.setName('rule').setDescription('ルール').addChoices(this.rules).setRequired(true),
-					),
+						input.setName('rule').setDescription('ルール').addChoices(this.rules).setRequired(true)
+					)
 			)
 			.addSubcommand((input) =>
 				input
 					.setName('remove')
 					.setDescription('AutoModからAquedが提供するルールを削除します')
 					.addStringOption((input) =>
-						input.setName('rule').setDescription('ルール').addChoices(this.rules).setRequired(true),
-					),
+						input.setName('rule').setDescription('ルール').addChoices(this.rules).setRequired(true)
+					)
 			)
 			.setContexts(InteractionContextType.Guild)
 			.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
@@ -93,11 +93,11 @@ export default class NgWord implements ChatInputCommand {
 					eventType: AutoModerationRuleEventType.MessageSend,
 					triggerType: AutoModerationRuleTriggerType.Keyword,
 					triggerMetadata: {
-						regexPatterns: this.getRuleRegex(ruleName).map((value) => String(value)),
+						regexPatterns: this.getRuleRegex(ruleName).map((value) => String(value))
 					},
 					actions: [{ type: AutoModerationActionType.BlockMessage }],
 					enabled: true,
-					reason: `${userFormat(interaction.member)}によって作成されました。`,
+					reason: `${userFormat(interaction.member)}によって作成されました。`
 				});
 
 				const autoMods: string[] = setting.autoMods ?? [];
@@ -114,7 +114,7 @@ export default class NgWord implements ChatInputCommand {
 				let removedCount = 0;
 				for (const id of setting.autoMods) {
 					const rule = interaction.guild.autoModerationRules.cache.find(
-						(value) => value.id === id && value.name === `${ruleName} By Aqued`,
+						(value) => value.id === id && value.name === `${ruleName} By Aqued`
 					);
 
 					if (rule) {

@@ -11,30 +11,30 @@ export default [
 	...tseslint.configs.recommended,
 	{
 		files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
-		ignores: ['**/dist/**'],
+		ignores: ['**/dist/**']
 	},
 	{
 		languageOptions: {
 			parser,
 			parserOptions: {
 				ecmaVersion: 'latest',
-				sourceType: 'module',
+				sourceType: 'module'
 			},
 			ecmaVersion: 'latest',
 			sourceType: 'module',
 			globals: {
 				...globals.es2024,
-				...globals.node,
-			},
-		},
+				...globals.node
+			}
+		}
 	},
 	{
 		plugins: {
 			'typescript-eslint': tseslint,
-			unicorn: unicorn,
-		},
+			'unicorn': unicorn
+		}
 	},
 	{
-		rules: { '@typescript-eslint/no-unused-vars': 'off' },
-	},
+		rules: { '@typescript-eslint/no-unused-vars': 'off' }
+	}
 ];

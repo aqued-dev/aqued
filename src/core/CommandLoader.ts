@@ -51,7 +51,7 @@ export class CommandLoader {
 	private async registerCommands() {
 		const rest = new REST().setToken(config.bot.token);
 		await rest.put(Routes.applicationCommands(config.bot.id), {
-			body: Array.from(this.commands.values()).map((item) => item.command.toJSON()),
+			body: Array.from(this.commands.values()).map((item) => item.command.toJSON())
 		});
 	}
 

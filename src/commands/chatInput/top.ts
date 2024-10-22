@@ -21,17 +21,17 @@ export default class Top implements ChatInputCommand {
 			const message = messages.first();
 			if (message) {
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setDescription(`[**一番上のメッセージへジャンプ！**](${message.url})`)],
+					embeds: [new EmbedBuilder().setDescription(`[**一番上のメッセージへジャンプ！**](${message.url})`)]
 				});
 			} else {
 				await interaction.reply({
-					embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })],
+					embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })]
 				});
 			}
 		} catch (error) {
 			Logger.error(inspect(error));
 			await interaction.reply({
-				embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })],
+				embeds: [new EmbedBuilder().setAuthor({ name: 'メッセージの取得に失敗' })]
 			});
 		}
 	}

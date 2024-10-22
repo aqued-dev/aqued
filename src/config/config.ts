@@ -58,7 +58,7 @@ class Config {
 	 */
 	setSgcJsonChannels(data: { v1: string; v2: string }) {
 		process.emitWarning('本番環境に移動次第廃止されます。setSgcJsonChannelを使用してください。', {
-			type: 'DeprecationWarning',
+			type: 'DeprecationWarning'
 		});
 		this.sgcJsonChannels = data;
 	}
@@ -82,7 +82,7 @@ class Config {
 		if (webhookSplit)
 			this.loggerWebhook = {
 				id: webhookSplit[1] ?? '',
-				token: webhookSplit[2] ?? '',
+				token: webhookSplit[2] ?? ''
 			};
 	}
 	setLoggerThreadId(threadId: string) {
@@ -104,11 +104,11 @@ config.setMongoKey(configData.key);
 config.setLoads({
 	chatInput: configData.load.chatinput,
 	messageContextMenu: configData.load.messagecotextmenu,
-	userContextMenu: configData.load.usercotextmenu,
+	userContextMenu: configData.load.usercotextmenu
 });
 config.setSgcJsonChannels({
 	v1: configData.sgcJsonChannelId,
-	v2: configData.sgcJsonChannelIdv2,
+	v2: configData.sgcJsonChannelIdv2
 });
 config.setSgcJsonChannel(configData.sgcJsonChannelId);
 config.setMySQLHost(configData.mysql.host);

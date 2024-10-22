@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed
 
+- グローバルチャットの最大文字数を1900文字に
+- グローバルチャットのエラーを分かりやすく
 - Artifacter・URLチェッカーを休止
 - MongoDBを廃止
 - TypeScriptの設定を見直し

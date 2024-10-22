@@ -51,7 +51,7 @@ export const translatePermission = (flags: bigint[]): string[] => {
 		UseExternalSounds: '外部のサウンドの使用',
 		SendVoiceMessages: 'ボイスメッセージを送信',
 		SendPolls: '投票を作成',
-		UseExternalApps: '外部のアプリを使用',
+		UseExternalApps: '外部のアプリを使用'
 	};
 	const grantedPermissions: string[] = [];
 	flags.forEach((flag) => {

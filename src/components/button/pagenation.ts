@@ -7,7 +7,7 @@ import {
 	ComponentType,
 	EmbedBuilder,
 	Message,
-	type BaseMessageOptions,
+	type BaseMessageOptions
 } from 'discord.js';
 
 /**
@@ -22,7 +22,7 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 	const customIds = {
 		before: `components_button_pagination_before_id_${interaction.client.aqued.readyId}`,
 		stop: `components_button_pagination_stop_id_${interaction.client.aqued.readyId}`,
-		after: `components_button_pagination_after_id_${interaction.client.aqued.readyId}`,
+		after: `components_button_pagination_after_id_${interaction.client.aqued.readyId}`
 	};
 	const createButtonRow = (disable: boolean = false) => {
 		return new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -37,16 +37,12 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 				.setStyle(ButtonStyle.Danger)
 				.setLabel(`Page ${currentPage + 1}/${datas.length}`)
 				.setDisabled(disable),
-			new ButtonBuilder()
-				.setEmoji('▶️')
-				.setCustomId(customIds.after)
-				.setStyle(ButtonStyle.Primary)
-				.setDisabled(disable),
+			new ButtonBuilder().setEmoji('▶️').setCustomId(customIds.after).setStyle(ButtonStyle.Primary).setDisabled(disable)
 		);
 	};
 
 	const sendData: BaseMessageOptions = {
-		components: [createButtonRow()],
+		components: [createButtonRow()]
 	};
 
 	if (datas.length > 0) {
@@ -65,7 +61,7 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 			filter: (buttonInteraction) => buttonInteraction.user.id === interaction.user.id,
 			componentType: ComponentType.Button,
 			time: 2 * 60 * 1000,
-			max: 1000000,
+			max: 1000000
 		});
 
 		collector.on('collect', async (buttonInteraction) => {
@@ -116,7 +112,7 @@ export const oldButtonPaginationDisable = async (interaction: ButtonInteraction)
 	const customIds = [
 		`components_button_pagination_before_id_`,
 		`components_button_pagination_stop_id_`,
-		`components_button_pagination_after_id_`,
+		`components_button_pagination_after_id_`
 	];
 	if (!customIds.some((id) => interaction.customId.startsWith(id))) return;
 	const customId = customIds.reduce((id, prefix) => id.replace(prefix, ''), interaction.customId);
@@ -128,9 +124,9 @@ export const oldButtonPaginationDisable = async (interaction: ButtonInteraction)
 				const buttonData = component.toJSON();
 				buttonData.disabled = true;
 				return ButtonBuilder.from(buttonData);
-			}),
+			})
 	);
 	await interaction.update({
-		components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)],
+		components: [new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)]
 	});
 };

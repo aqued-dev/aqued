@@ -8,11 +8,11 @@ export const Logger = pino({
 				target: 'pino/file',
 				options: {
 					destination: `logs/${Date.now()}.log`,
-					mkdir: true,
-				},
+					mkdir: true
+				}
 			},
 			{ target: './LogSend.js' },
-			{ target: 'pino-pretty', options: { colorize: true } },
-		],
-	},
+			{ target: 'pino-pretty', options: { colorize: true } }
+		]
+	}
 });

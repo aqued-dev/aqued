@@ -7,31 +7,32 @@ import {
 	StageChannel,
 	ThreadChannel,
 	Webhook,
+	WebhookType,
 	type Channel,
-	type PartialDMChannel,
+	type PartialDMChannel
 } from 'discord.js';
 import { Logger } from '../core/Logger.js';
 export enum WebhookStatus {
 	UnknownError = 0,
 	PermissionError = 1,
-	ParentChannel = 2,
+	ParentChannel = 2
 }
 
 export async function getWebhook(
-	baseChannel: Exclude<Channel, CategoryChannel | StageChannel | DMChannel | PartialDMChannel | PartialGroupDMChannel>,
-): Promise<Webhook | WebhookStatus> {
+	baseChannel: Exclude<Channel, CategoryChannel | StageChannel | DMChannel | PartialDMChannel | PartialGroupDMChannel>
+): Promise<Webhook<WebhookType.Incoming> | WebhookStatus> {
 	const channel = baseChannel;
 
 	const createWebhook = async (
 		targetChannel: Exclude<
 			Channel,
 			DMChannel | CategoryChannel | PartialDMChannel | PartialGroupDMChannel | ThreadChannel
-		>,
+		>
 	) => {
 		try {
 			return await targetChannel.createWebhook({
 				name: 'Aqued Webhook',
-				reason: 'Aquedのウェブフックを使用する機能が使用されました。',
+				reason: 'Aquedのウェブフックを使用する機能が使用されました。'
 			});
 		} catch (error) {
 			Logger.error(error);
@@ -55,7 +56,7 @@ export async function getWebhook(
 			return await createWebhook(channel.parent);
 		}
 		const webhook = findWebhook(webhooks, channel.client.user.id);
-		return webhook ?? (await createWebhook(channel.parent));
+		return (webhook as Webhook<WebhookType.Incoming>) ?? (await createWebhook(channel.parent));
 	}
 
 	const webhooks = await channel.fetchWebhooks();
@@ -63,5 +64,5 @@ export async function getWebhook(
 		return await createWebhook(channel);
 	}
 	const webhook = findWebhook(webhooks, channel.client.user.id);
-	return webhook ?? (await createWebhook(channel));
+	return (webhook as Webhook<WebhookType.Incoming>) ?? (await createWebhook(channel));
 }

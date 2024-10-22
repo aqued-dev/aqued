@@ -28,7 +28,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					.send({
 						content: response.content + after,
 						avatarURL: message.client.user.displayAvatarURL(),
-						username: 'Aqued Notice',
+						username: 'Aqued Notice'
 					})
 					.then(() => waitMessage.edit('送信しました。'));
 			}

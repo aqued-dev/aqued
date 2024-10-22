@@ -19,8 +19,8 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						warnEmbed('Example', 'ExampleTitle'),
 						infoEmbed('Example', 'ExampleTitle'),
 						enableEmbed('Example'),
-						disableEmbed('Example'),
-					],
+						disableEmbed('Example')
+					]
 				});
 			}
 		}

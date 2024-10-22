@@ -12,8 +12,8 @@ export default class Ping implements ChatInputCommand {
 	async run(interaction: ChatInputCommandInteraction) {
 		await interaction.reply({
 			embeds: [
-				new EmbedBuilder().setTitle(':ping_pong: | Pong!').setDescription(`\`${interaction.client.ws.ping} ms\``),
-			],
+				new EmbedBuilder().setTitle(':ping_pong: | Pong!').setDescription(`\`${interaction.client.ws.ping} ms\``)
+			]
 		});
 	}
 }

@@ -12,5 +12,5 @@ export const dataSource = new DataSource({
 	database: 'aqued',
 	synchronize: true, // for "develop"
 	dropSchema: true, // for "develop"
-	entities: entities,
+	entities: entities
 });

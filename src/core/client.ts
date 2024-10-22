@@ -9,10 +9,10 @@ export const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildWebhooks,
-		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildPresences
 	],
 	allowedMentions: { repliedUser: false, parse: [] },
-	presence: { status: 'idle', activities: [{ name: 'v3.5 Refactor', type: ActivityType.Custom }] },
+	presence: { status: 'idle', activities: [{ name: 'v3.5 Refactor', type: ActivityType.Custom }] }
 });
 client.token = config.bot.token;
 
@@ -31,10 +31,10 @@ client.aqued = {
 	config: config,
 	events: new EventLoader(client, 'events'),
 	commands: {
-		chatInput: new CommandLoader('commands/chatInput'),
+		chatInput: new CommandLoader('commands/chatInput')
 	},
 	readyId: SnowflakeUtil.generate().toString(),
-	cooldown: new Map(),
+	cooldown: new Map()
 };
 
 await client.aqued.events.loadAllEvents();
