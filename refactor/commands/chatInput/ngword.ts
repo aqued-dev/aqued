@@ -10,10 +10,10 @@ import {
 	type SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 import { constants } from '../../config/constants.js';
+import { SettingManager } from '../../core/SettingManager.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { GuildSetting } from '../../database/entities/GuildSetting.js';
-import { GuildSettingManager } from '../../utils/GuildSettingManager.js';
 import { userFormat } from '../../utils/userFormat.js';
 type Rule = {
 	name: string;
@@ -84,9 +84,8 @@ export default class NgWord implements ChatInputCommand {
 		if (!this.isValidValue(ruleName)) {
 			return await interaction.reply({ content: 'ルールが存在しません。', ephemeral: true });
 		}
-
-		const settings = new GuildSettingManager(interaction.guildId);
-		const setting = (await settings.getSetting()) ?? new GuildSetting(interaction.guildId);
+		const settings = new SettingManager({ guildId: interaction.guildId });
+		const setting = (await settings.getGuild()) ?? new GuildSetting(interaction.guildId);
 		switch (commandName) {
 			case 'add': {
 				const rule = await interaction.guild.autoModerationRules.create({
@@ -103,7 +102,7 @@ export default class NgWord implements ChatInputCommand {
 
 				const autoMods: string[] = setting.autoMods ?? [];
 				autoMods.push(rule.id);
-				await settings.setSetting({ autoMods });
+				await settings.updateGuild({ autoMods });
 				return await interaction.reply('登録しました！');
 			}
 
@@ -129,7 +128,7 @@ export default class NgWord implements ChatInputCommand {
 				}
 
 				if (removedCount > 0) {
-					await settings.setSetting({ autoMods: setting.autoMods });
+					await settings.updateGuild({ autoMods: setting.autoMods });
 					return await interaction.reply(`削除しました (${removedCount} 件のルール)。`);
 				} else {
 					return await interaction.reply({ content: '削除するルールが見つかりませんでした。', ephemeral: true });
