@@ -20,7 +20,7 @@ export default class MinesweeperRegenerate implements EventListener<Events.Inter
 		await interaction.update({
 			embeds: [infoEmbed('再生成中です', 'マインスイーパ')]
 		});
-        
+
 		return await interaction.editReply({
 			embeds: [infoEmbed(minesweeper.generate(9, 9, 10), 'マインスイーパ')]
 		});

@@ -73,9 +73,7 @@ export default class Slot implements ChatInputCommand {
 					});
 				} else {
 					await interaction.editReply({
-						embeds: [
-							failEmbed('残念ながら今回は負けました...\nまたのご挑戦をお待ちしております', 'スロット', '負け')
-						]
+						embeds: [failEmbed('残念ながら今回は負けました...\nまたのご挑戦をお待ちしております', 'スロット', '負け')]
 					});
 				}
 			}

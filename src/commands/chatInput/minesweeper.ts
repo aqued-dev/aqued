@@ -75,7 +75,7 @@ export default class Minesweeper implements ChatInputCommand {
 			9: '||9⃣|| ',
 			'💣': '||💣|| '
 		};
-		return board.map((row) => row.map((value) => numberToEmoji[value]).join("")).join('\n');
+		return board.map((row) => row.map((value) => numberToEmoji[value]).join('')).join('\n');
 	}
 
 	async run(interaction: ChatInputCommandInteraction) {
