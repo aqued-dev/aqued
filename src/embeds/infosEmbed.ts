@@ -24,7 +24,12 @@ function baseEmbed(type: EmbedType, message?: string, title?: string, customTitl
 		color = Colors.Orange;
 	}
 	embed.setAuthor({ name: customTitle ?? type, iconURL: iconMap[type] });
-	embed.setDescription(message ?? '');
+	if (message) {
+		embed.setDescription(message);
+	}
+	if (title) {
+		embed.setTitle(title);
+	}
 	embed.setColor(color);
 	embed.setFooter({ text: footer ?? 'Aqued' });
 	embed.setTimestamp();

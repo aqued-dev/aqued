@@ -84,7 +84,7 @@ export default class Gosen implements ChatInputCommand {
 		url.searchParams.set('noalpha', interaction.options.getString('noalpha') ?? '');
 		url.searchParams.set('rainbow', interaction.options.getString('rainbow') ?? '');
 		await interaction.reply({
-			embeds: [successEmbed(undefined, undefined, undefined, 'Powered by 5000choyen-api').setImage(url.toString())]
+			embeds: [successEmbed(undefined, "5000兆円欲しい!!", undefined, 'Powered by 5000choyen-api').setImage(url.toString())]
 		});
 	}
 }
