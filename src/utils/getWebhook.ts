@@ -50,7 +50,9 @@ export async function getWebhook(
 	};
 
 	if (channel.isThread()) {
-		if (!channel.parent) return WebhookStatus.ParentChannel;
+		if (!channel.parent) {
+			return WebhookStatus.ParentChannel;
+		}
 		const webhooks = await channel.parent.fetchWebhooks();
 		if (webhooks.size === 0) {
 			return await createWebhook(channel.parent);

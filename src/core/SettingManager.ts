@@ -13,14 +13,18 @@ export class SettingManager {
 
 	async getGuild() {
 		const guildId = this.ids.guildId;
-		if (!guildId) return;
+		if (!guildId) {
+			return;
+		}
 		const repo = dataSource.getRepository(GuildSetting);
 		const guildSetting = await repo.findOne({ where: { guildId: guildId } });
 		return guildSetting;
 	}
 	async getChannel() {
 		const channelId = this.ids.channelId;
-		if (!channelId) return;
+		if (!channelId) {
+			return;
+		}
 		const repo = dataSource.getRepository(ChannelSetting);
 		const channelSetting = await repo.findOne({ where: { channelId: channelId } });
 		return channelSetting;
@@ -28,11 +32,15 @@ export class SettingManager {
 
 	async updateGuild(updated: Partial<GuildSetting>) {
 		const guildId = this.ids.guildId;
-		if (!guildId) return;
+		if (!guildId) {
+			return;
+		}
 		let guildSetting = await this.getGuild();
 		return dataSource.transaction(async (em) => {
 			const repo = em.getRepository(GuildSetting);
-			if (!guildSetting) guildSetting = new GuildSetting(guildId);
+			if (!guildSetting) {
+				guildSetting = new GuildSetting(guildId);
+			}
 			Object.assign(guildSetting, updated);
 			await repo.save(guildSetting);
 			return guildSetting;
@@ -40,11 +48,15 @@ export class SettingManager {
 	}
 	async updateChannel(updated: Partial<ChannelSetting>) {
 		const channelId = this.ids.channelId;
-		if (!channelId) return;
+		if (!channelId) {
+			return;
+		}
 		let channelSetting = await this.getChannel();
 		return dataSource.transaction(async (em) => {
 			const repo = em.getRepository(ChannelSetting);
-			if (!channelSetting) channelSetting = new ChannelSetting(channelId);
+			if (!channelSetting) {
+				channelSetting = new ChannelSetting(channelId);
+			}
 			Object.assign(channelSetting, updated);
 			await repo.save(channelSetting);
 			return channelSetting;

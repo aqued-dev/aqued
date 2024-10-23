@@ -69,9 +69,15 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 		const settings = new SettingManager({ channelId: message.channelId });
 		const setting = await settings.getChannel();
 
-		if (!setting) return false;
-		if (!setting.globalChat) return false;
-		if (message.author.id === message.client.user.id || message.author.discriminator === '0000') return false;
+		if (!setting) {
+			return false;
+		}
+		if (!setting.globalChat) {
+			return false;
+		}
+		if (message.author.id === message.client.user.id || message.author.discriminator === '0000') {
+			return false;
+		}
 		if (message.author.system || message.author.bot) {
 			await this.fail(failEmbed('BotやWebhookなどのメッセージは送信できません', '送信不可'), message);
 			return false;
@@ -149,15 +155,20 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 	async send(message: Message) {
 		const repo = dataSource.getRepository(ChannelSetting);
 		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
-		if (channelSettings.length === 0)
+		if (channelSettings.length === 0) {
 			return await this.fail(
 				failEmbed('グローバルチャットに参加しているチャンネルが他に一つもありません', '送信不可'),
 				message
 			);
+		}
 		for (const setting of channelSettings) {
 			const channel = message.client.channels.cache.get(setting.channelId);
-			if (!channel) continue;
-			if (!channel.isSendable() || channel.isDMBased() || channel.type === ChannelType.GuildStageVoice) continue;
+			if (!channel) {
+				continue;
+			}
+			if (!channel.isSendable() || channel.isDMBased() || channel.type === ChannelType.GuildStageVoice) {
+				continue;
+			}
 			const webhook = await getWebhook(channel);
 			const webhookCheck = this.webhookErrorEmbed(webhook);
 			if (webhookCheck) {

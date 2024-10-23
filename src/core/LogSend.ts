@@ -10,7 +10,9 @@ export default async function () {
 			if (logMessage.length > 1500) {
 				const attachment = new AttachmentBuilder(Buffer.from(logMessage)).setName('log.js');
 				await webhook.send({ threadId, files: [attachment] });
-			} else await webhook.send({ threadId, content: '```pwsh\n' + obj.msg + '\n```' });
+			} else {
+				await webhook.send({ threadId, content: '```pwsh\n' + obj.msg + '\n```' });
+			}
 		});
 	});
 }

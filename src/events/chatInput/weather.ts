@@ -156,8 +156,12 @@ export default class WeatherAutoComplete implements EventListener<Events.Interac
 		};
 	}
 	async execute(interaction: BaseInteraction): Promise<unknown> {
-		if (!interaction.isAutocomplete()) return;
-		if (interaction.commandName !== 'weather') return;
+		if (!interaction.isAutocomplete()) {
+			return;
+		}
+		if (interaction.commandName !== 'weather') {
+			return;
+		}
 
 		const focusedValue = interaction.options.getFocused();
 

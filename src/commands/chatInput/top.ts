@@ -23,7 +23,9 @@ export default class Top implements ChatInputCommand {
 	}
 	async run(interaction: ChatInputCommandInteraction) {
 		try {
-			if (!interaction.channel) return;
+			if (!interaction.channel) {
+				return;
+			}
 			const messages = await interaction.channel.messages.fetch({ after: '0', limit: 1 });
 			const message = messages.first();
 			if (message) {

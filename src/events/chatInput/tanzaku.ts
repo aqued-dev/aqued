@@ -17,8 +17,12 @@ export default class TanzakuDelete implements EventListener<Events.InteractionCr
 		});
 	}
 	async execute(interaction: BaseInteraction): Promise<unknown> {
-		if (!interaction.isButton()) return;
-		if (!interaction.customId.startsWith('chatinput_button_tanzaku_delete_userid')) return;
+		if (!interaction.isButton()) {
+			return;
+		}
+		if (!interaction.customId.startsWith('chatinput_button_tanzaku_delete_userid')) {
+			return;
+		}
 
 		const userId = interaction.customId.replace('chatinput_button_tanzaku_delete_userid', '');
 		if (userId !== interaction.user.id) {

@@ -80,7 +80,9 @@ export default class NgWord implements ChatInputCommand {
 	async run(interaction: ChatInputCommandInteraction) {
 		const commandName = interaction.options.getSubcommand();
 		const ruleName = interaction.options.getString('rule');
-		if (!ruleName || !commandName || !interaction.inCachedGuild()) return;
+		if (!ruleName || !commandName || !interaction.inCachedGuild()) {
+			return;
+		}
 		if (!this.isValidValue(ruleName)) {
 			return await interaction.reply({ content: 'ルールが存在しません。', ephemeral: true });
 		}

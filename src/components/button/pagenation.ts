@@ -114,9 +114,13 @@ export const oldButtonPaginationDisable = async (interaction: ButtonInteraction)
 		`components_button_pagination_stop_id_`,
 		`components_button_pagination_after_id_`
 	];
-	if (!customIds.some((id) => interaction.customId.startsWith(id))) return;
+	if (!customIds.some((id) => interaction.customId.startsWith(id))) {
+		return;
+	}
 	const customId = customIds.reduce((id, prefix) => id.replace(prefix, ''), interaction.customId);
-	if (customId === interaction.client.aqued.readyId) return;
+	if (customId === interaction.client.aqued.readyId) {
+		return;
+	}
 	const buttons = interaction.message.components.flatMap((row) =>
 		row.components
 			.filter((component) => component.type === ComponentType.Button)

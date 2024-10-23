@@ -12,7 +12,9 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 			if (message.content.startsWith('aq.notice')) {
 				const channel = message.channel;
 				if (channel.type !== ChannelType.GuildText) {
-					if (channel.isSendable()) return message.reply('テキストチャンネル以外では実行できません');
+					if (channel.isSendable()) {
+						return message.reply('テキストチャンネル以外では実行できません');
+					}
 					return;
 				}
 				message.reply('内容を送信してください。(2分以内)');
@@ -21,7 +23,9 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 				const filter = (msg: Message) => msg.author.id === message.author.id;
 				const collected = await channel.awaitMessages({ filter, max: 1, time: 120000 });
 				const response = collected.first();
-				if (!response) return message.reply('タイムアウトしました。');
+				if (!response) {
+					return message.reply('タイムアウトしました。');
+				}
 				const waitMessage = await message.reply('送信します！');
 				const after = `\n====================\nAqued Notice Team 一同\nPublish Date: ${time(new Date(), 'F')}\nMention : ${args[2]}`;
 				return await webhook

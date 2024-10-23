@@ -12,8 +12,12 @@ export default class MinesweeperRegenerate implements EventListener<Events.Inter
 		this.once = false;
 	}
 	async execute(interaction: BaseInteraction): Promise<unknown> {
-		if (!interaction.isButton()) return;
-		if (interaction.customId !== 'chatInput_button_minesweeper_regenerate') return;
+		if (!interaction.isButton()) {
+			return;
+		}
+		if (interaction.customId !== 'chatInput_button_minesweeper_regenerate') {
+			return;
+		}
 
 		const minesweeper = new Minesweeper();
 

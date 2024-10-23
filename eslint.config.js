@@ -35,6 +35,6 @@ export default [
 		}
 	},
 	{
-		rules: { '@typescript-eslint/no-unused-vars': 'off' }
+		rules: { '@typescript-eslint/no-unused-vars': 'off', 'curly': 'error' }
 	}
 ];

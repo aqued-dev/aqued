@@ -34,7 +34,9 @@ function baseEmbed(type: EmbedType, message?: string, title?: string, customTitl
 	embed.setColor(color);
 	embed.setFooter({ text: footer ?? 'Aqued' });
 	embed.setTimestamp();
-	if (title) embed.setTitle(title);
+	if (title) {
+		embed.setTitle(title);
+	}
 	return embed;
 }
 

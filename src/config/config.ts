@@ -79,11 +79,12 @@ class Config {
 	}
 	setLoggerUrl(webhookUrl: string) {
 		const webhookSplit = webhookUrl.match(constants.webhookRegex);
-		if (webhookSplit)
+		if (webhookSplit) {
 			this.loggerWebhook = {
 				id: webhookSplit[1] ?? '',
 				token: webhookSplit[2] ?? ''
 			};
+		}
 	}
 	setLoggerThreadId(threadId: string) {
 		this.loggerThreadId = threadId;

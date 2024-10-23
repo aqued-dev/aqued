@@ -11,11 +11,15 @@ function baseEmbed(message: string) {
 }
 export function enableEmbed(name?: string) {
 	let base = `\`\`有効\`\`になりました`;
-	if (name) base = `${name}が` + base;
+	if (name) {
+		base = `${name}が` + base;
+	}
 	return baseEmbed(base);
 }
 export function disableEmbed(name?: string) {
 	let base = `\`\`無効\`\`になりました`;
-	if (name) base = `${name}が` + base;
+	if (name) {
+		base = `${name}が` + base;
+	}
 	return baseEmbed(base);
 }
