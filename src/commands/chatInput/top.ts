@@ -19,7 +19,7 @@ export default class Top implements ChatInputCommand {
 			.setDescription('チャンネルの一番上のメッセージへのリンクを表示します')
 			.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
 			.setContexts(InteractionContextType.Guild);
-		this.settings = { enable: true };
+		this.settings = { enable: true, guildOnly: true };
 	}
 	async run(interaction: ChatInputCommandInteraction) {
 		try {

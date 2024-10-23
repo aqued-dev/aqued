@@ -36,7 +36,7 @@ export const constants = {
 			dissoku: /dissoku\.net/g,
 			disboard: /disboard\.org/g,
 			discoparty: /discoparty\.jp/g,
-			discord: /(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g,
+			discord: /^(?:https?:\/\/)?(?:[a-z0-9-]+\.)?(?:discord(?:app)?\.com|discord\.gg)(?:\/invite)?\/[^@\s/]+/,
 			discordCafe: /discordcafe\.app/g,
 			dicoall: /dicoall\.com/g,
 			sabach: /sabach\.jp/g

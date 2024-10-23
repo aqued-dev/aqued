@@ -35,10 +35,10 @@ export async function getWebhook(
 				reason: 'Aquedのウェブフックを使用する機能が使用されました。'
 			});
 		} catch (error) {
-			Logger.error(error);
-			if (error instanceof DiscordAPIError && error.code === 403) {
+			if (error instanceof DiscordAPIError && error.status === 403) {
 				return WebhookStatus.PermissionError;
 			}
+			Logger.error(error);
 			return WebhookStatus.UnknownError;
 		}
 	};

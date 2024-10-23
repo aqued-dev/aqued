@@ -71,7 +71,7 @@ export default class NgWord implements ChatInputCommand {
 			.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
 			.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
 
-		this.settings = { enable: true, permissions: [PermissionFlagsBits.ManageGuild] };
+		this.settings = { enable: true, permissions: [PermissionFlagsBits.ManageGuild], guildOnly: true };
 	}
 	isValidValue(value: string): value is Rule['value'] {
 		return this.rules.some((rule) => rule.value === value);

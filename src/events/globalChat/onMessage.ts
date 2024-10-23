@@ -12,6 +12,7 @@ import {
 	type SendableChannels
 } from 'discord.js';
 import { Not } from 'typeorm';
+import { constants } from '../../config/constants.js';
 import { Logger } from '../../core/Logger.js';
 import { SettingManager } from '../../core/SettingManager.js';
 import { dataSource } from '../../core/typeorm.config.js';
@@ -42,7 +43,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 				embeds: [embed]
 			});
 		} catch (error) {
-			if (error instanceof DiscordAPIError && error.code === 403) {
+			if (error instanceof DiscordAPIError && error.status === 403) {
 				return;
 			} else {
 				Logger.error(error);
@@ -88,6 +89,18 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 		if (embed) {
 			await this.fail(embed, message);
 			return false;
+		}
+		const regexMatchesAll = [
+			constants.regexs.inviteUrls.dicoall,
+			constants.regexs.inviteUrls.disboard,
+			constants.regexs.inviteUrls.discoparty,
+			constants.regexs.inviteUrls.discord,
+			constants.regexs.inviteUrls.discordCafe,
+			constants.regexs.inviteUrls.dissoku,
+			constants.regexs.inviteUrls.sabach
+		].every((regex) => regex.test(message.cleanContent));
+		if (regexMatchesAll) {
+			return await this.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
 		}
 		return true;
 	}
