@@ -122,7 +122,7 @@ export default class Tanzaku implements ChatInputCommand {
 			result = text.replaceAll(new RegExp(key, 'g'), value);
 		}
 		result = result.replaceAll(/[\dA-Za-z]/g, function (s) {
-			return String.fromCodePoint(s.codePointAt(0) as number + 0xfee0);
+			return String.fromCodePoint((s.codePointAt(0) as number) + 0xfee0);
 		});
 
 		return `┏┷┓\n${[...result].map((text) => `┃${text}┃\n`).join('')}┗━☆彡`;
