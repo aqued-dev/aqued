@@ -13,12 +13,7 @@ export default class GlobalChat implements ChatInputCommand {
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageChannels],
-			channelTypes: [
-				ChannelType.GuildText,
-				ChannelType.GuildVoice,
-				ChannelType.GuildAnnouncement,
-				ChannelType.AnnouncementThread
-			]
+			channelTypes: [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildAnnouncement]
 		};
 	}
 	async run(interaction: ChatInputCommandInteraction) {
