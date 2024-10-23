@@ -1,20 +1,21 @@
 import { Colors, EmbedBuilder } from 'discord.js';
 import { icons } from '../config/icons.js';
 
-type EmbedType = '成功' | '失敗' | '注意' | '情報' | '返信';
+type EmbedType = '成功' | '失敗' | '注意' | '情報' | '返信' | '削除';
 
 const iconMap = {
 	成功: icons.check,
 	失敗: icons.no,
 	注意: icons.warn,
 	情報: icons.info,
-	返信: icons.reply
+	返信: icons.reply,
+	削除: icons.delete
 };
 
 function baseEmbed(type: EmbedType, message?: string, title?: string, customTitle?: string, footer?: string) {
 	const embed = new EmbedBuilder();
 	let color: number = Colors.Blue;
-	if (type === '失敗') {
+	if (type === '失敗' || type === '削除') {
 		color = Colors.Red;
 	} else if (type === '成功') {
 		color = Colors.Green;
@@ -54,4 +55,7 @@ export function infoEmbed(message?: string, title?: string, customTitle?: string
 }
 export function replyEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
 	return baseEmbed('返信', message, title, customTitle, footer);
+}
+export function deleteEmbed(message?: string, title?: string, customTitle?: string, footer?: string) {
+	return baseEmbed('削除', message, title, customTitle, footer);
 }

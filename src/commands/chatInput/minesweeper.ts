@@ -82,7 +82,7 @@ export default class Minesweeper implements ChatInputCommand {
 		const button = new ButtonBuilder()
 			.setLabel('再生成')
 			.setStyle(ButtonStyle.Success)
-			.setCustomId('chatInput_button_minesweeper_regenerate');
+			.setCustomId('chatinput_button_minesweeper_regenerate');
 
 		await interaction.reply({
 			embeds: [infoEmbed(this.generate(9, 9, 10), 'マインスイーパ')],
