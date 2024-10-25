@@ -18,9 +18,9 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					await promisify(exec)('pnpm build');
 					await Promise.all([
 						wait.edit('Wait(2/3)...'),
-						message.client.aqued.events.reloadAllEvents(),
+						await message.client.aqued.events.reloadAllEvents(),
 						wait.edit('Wait(3/3)...'),
-						message.client.aqued.commands.chatInput.reloadAllCommands(),
+						await message.client.aqued.commands.chatInput.reloadAllCommands(),
 						wait.edit('Reloaded!')
 					]);
 				} catch (e) {

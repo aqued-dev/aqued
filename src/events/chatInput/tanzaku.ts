@@ -1,4 +1,4 @@
-import { BaseInteraction, ButtonInteraction, Events, GuildMember, PermissionFlagsBits } from 'discord.js';
+import { BaseInteraction, ButtonInteraction, Events, GuildMember, MessageFlags, PermissionFlagsBits } from 'discord.js';
 import type { EventListener } from '../../core/types/EventListener.js';
 import { deleteEmbed, failEmbed } from '../../embeds/infosEmbed.js';
 
@@ -37,7 +37,7 @@ export default class TanzakuDelete implements EventListener<Events.InteractionCr
 			} else {
 				return await interaction.reply({
 					embeds: [failEmbed('削除は実行者またはメッセージ管理権限を持っている人のみです')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			}
 		}

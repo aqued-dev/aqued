@@ -123,9 +123,9 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 			embeds.push(embed);
 		}
 
-		const attachments = message.attachments
-			.toJSON()
-			.map((value) => new AttachmentBuilder(value.url).setSpoiler(value.spoiler));
+		const attachments = message.attachments.toJSON().map((value) => {
+			return new AttachmentBuilder(value.url);
+		});
 
 		const username = userFormat(message.author);
 		let content: string | null = message.cleanContent;

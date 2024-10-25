@@ -5,6 +5,7 @@ import {
 	AutoModerationRuleTriggerType,
 	ChatInputCommandInteraction,
 	InteractionContextType,
+	MessageFlags,
 	PermissionFlagsBits,
 	SlashCommandBuilder,
 	type SlashCommandSubcommandsOnlyBuilder
@@ -84,7 +85,7 @@ export default class NgWord implements ChatInputCommand {
 			return;
 		}
 		if (!this.isValidValue(ruleName)) {
-			return await interaction.reply({ content: 'ルールが存在しません。', ephemeral: true });
+			return await interaction.reply({ content: 'ルールが存在しません。', flags: [MessageFlags.Ephemeral] });
 		}
 		const settings = new SettingManager({ guildId: interaction.guildId });
 		const setting = (await settings.getGuild()) ?? new GuildSetting(interaction.guildId);
@@ -110,7 +111,10 @@ export default class NgWord implements ChatInputCommand {
 
 			case 'remove': {
 				if (!setting.autoMods || setting.autoMods.length === 0) {
-					return await interaction.reply({ content: 'AutoModがAquedによって登録されていません', ephemeral: true });
+					return await interaction.reply({
+						content: 'AutoModがAquedによって登録されていません',
+						flags: [MessageFlags.Ephemeral]
+					});
 				}
 
 				let removedCount = 0;
@@ -133,7 +137,10 @@ export default class NgWord implements ChatInputCommand {
 					await settings.updateGuild({ autoMods: setting.autoMods });
 					return await interaction.reply(`削除しました (${removedCount} 件のルール)。`);
 				} else {
-					return await interaction.reply({ content: '削除するルールが見つかりませんでした。', ephemeral: true });
+					return await interaction.reply({
+						content: '削除するルールが見つかりませんでした。',
+						flags: [MessageFlags.Ephemeral]
+					});
 				}
 			}
 
