@@ -1,12 +1,21 @@
-import { ChatInputCommandInteraction, GuildMember, MessageFlags } from 'discord.js';
+import {
+	ChatInputCommandInteraction,
+	GuildMember,
+	MessageComponentInteraction,
+	MessageContextMenuCommandInteraction,
+	MessageFlags,
+	UserContextMenuCommandInteraction
+} from 'discord.js';
 import { config } from '../config/config.js';
+import type { ChatInputCommand } from '../core/types/ChatInputCommand.js';
+import type { MessageContextMenuCommand, UserContextMenuCommand } from '../core/types/ContextCommand.js';
 import { failEmbed } from '../embeds/infosEmbed.js';
 import { translateChannelType } from '../utils/translateChannelType.js';
 import { translatePermission } from '../utils/translatePermission.js';
-
-export const chatInputExecuter = async (interaction: ChatInputCommandInteraction) => {
-	const command = interaction.client.aqued.commands.chatInput.getCommand(interaction.commandName);
-
+export const commandExecuter = async (
+	interaction: ChatInputCommandInteraction | MessageContextMenuCommandInteraction | UserContextMenuCommandInteraction
+) => {
+	const command = interaction.client.aqued.commands.getCommand(interaction.commandName);
 	if (command) {
 		const setting = command.settings;
 		if (!setting.enable) {
@@ -124,8 +133,24 @@ export const chatInputExecuter = async (interaction: ChatInputCommandInteraction
 
 		timestamps.set(interaction.user.id, now);
 		setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-
-		return await command.run(interaction);
+		if (interaction.isChatInputCommand()) {
+			const { run } = command as ChatInputCommand;
+			return await run(interaction);
+		} else if (interaction.isMessageContextMenuCommand()) {
+			const { run } = command as MessageContextMenuCommand;
+			return await run(interaction);
+		} else if (interaction.isUserContextMenuCommand()) {
+			const { run } = command as UserContextMenuCommand;
+			return await run(interaction);
+		}
+		const unknownInteraction = interaction as MessageComponentInteraction;
+		if (!unknownInteraction['reply']) {
+			return;
+		}
+		return await unknownInteraction.reply({
+			embeds: [failEmbed('このコマンドの処理が読み込まれていません', 'コマンドが存在しません')],
+			flags: [MessageFlags.Ephemeral]
+		});
 	} else {
 		return await interaction.reply({
 			embeds: [failEmbed('このコマンドの処理が読み込まれていません', 'コマンドが存在しません')],

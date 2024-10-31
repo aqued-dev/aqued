@@ -3,6 +3,8 @@ import { config } from '../config/config.js';
 import { CommandLoader } from './CommandLoader.js';
 import { EventLoader } from './EventLoader.js';
 import { dataSource } from './typeorm.config.js';
+import type { ChatInputCommand } from './types/ChatInputCommand.js';
+import type { MessageContextMenuCommand, UserContextMenuCommand } from './types/ContextCommand.js';
 export const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -21,7 +23,7 @@ declare module 'discord.js' {
 		aqued: {
 			events: EventLoader;
 			config: typeof config;
-			commands: { chatInput: CommandLoader };
+			commands: CommandLoader<ChatInputCommand | MessageContextMenuCommand | UserContextMenuCommand>;
 			readyId: string;
 			cooldown: Map<string, Map<string, number>>;
 		};
@@ -30,9 +32,7 @@ declare module 'discord.js' {
 client.aqued = {
 	config: config,
 	events: new EventLoader(client, 'events'),
-	commands: {
-		chatInput: new CommandLoader('commands/chatInput')
-	},
+	commands: new CommandLoader('commands'),
 	readyId: SnowflakeUtil.generate().toString(),
 	cooldown: new Map()
 };

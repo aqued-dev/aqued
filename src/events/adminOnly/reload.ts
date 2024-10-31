@@ -20,7 +20,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						wait.edit('Wait(2/3)...'),
 						await message.client.aqued.events.reloadAllEvents(),
 						wait.edit('Wait(3/3)...'),
-						await message.client.aqued.commands.chatInput.reloadAllCommands(),
+						await message.client.aqued.commands.reloadAllCommands(),
 						wait.edit('Reloaded!')
 					]);
 				} catch (e) {

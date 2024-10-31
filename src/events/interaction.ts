@@ -1,7 +1,7 @@
 import { BaseInteraction, Events } from 'discord.js';
 import { oldButtonPaginationDisable } from '../components/button/pagenation.js';
 import type { EventListener } from '../core/types/EventListener.js';
-import { chatInputExecuter } from '../middlewares/chatInputExecuter.js';
+import { commandExecuter } from '../middlewares/commandExecuter.js';
 
 export default class InteractionCommandHandler implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;
@@ -13,8 +13,12 @@ export default class InteractionCommandHandler implements EventListener<Events.I
 	}
 
 	async execute(interaction: BaseInteraction) {
-		if (interaction.isChatInputCommand()) {
-			await chatInputExecuter(interaction);
+		if (
+			interaction.isUserContextMenuCommand() ||
+			interaction.isMessageContextMenuCommand() ||
+			interaction.isChatInputCommand()
+		) {
+			await commandExecuter(interaction);
 		} else if (interaction.isButton()) {
 			return await oldButtonPaginationDisable(interaction);
 		} else {

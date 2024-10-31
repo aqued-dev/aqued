@@ -6,9 +6,11 @@ import { pathToFileURL } from 'node:url';
 import { config } from '../config/config.js';
 import { Logger } from './Logger.js';
 import type { ChatInputCommand } from './types/ChatInputCommand.js';
+import type { MessageContextMenuCommand, UserContextMenuCommand } from './types/ContextCommand.js';
 
-export class CommandLoader {
-	private commands: Map<string, ChatInputCommand> = new Map();
+type CommandType = ChatInputCommand | MessageContextMenuCommand | UserContextMenuCommand;
+export class CommandLoader<T extends CommandType> {
+	private commands: Map<string, T> = new Map();
 	private commandDirectory: string;
 
 	constructor(commandDirectory: string) {
@@ -42,7 +44,7 @@ export class CommandLoader {
 		}
 	}
 
-	private async loadCommand(filePath: string): Promise<ChatInputCommand | null> {
+	private async loadCommand(filePath: string): Promise<T | null> {
 		const url = pathToFileURL(filePath).href + '?t=' + Date.now();
 		const module = (await import(url)).default;
 		return new module();
@@ -55,7 +57,7 @@ export class CommandLoader {
 		});
 	}
 
-	getCommand(name: string): ChatInputCommand | undefined {
+	getCommand(name: string): T | undefined {
 		return this.commands.get(name);
 	}
 
