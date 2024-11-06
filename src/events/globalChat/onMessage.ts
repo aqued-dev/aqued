@@ -18,6 +18,7 @@ import { SettingManager } from '../../core/SettingManager.js';
 import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
 import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
+import { GlobalChatMessage, type GlobalChatMessages } from '../../database/entities/GlobalChatMessage.js';
 import { failEmbed, replyEmbed } from '../../embeds/infosEmbed.js';
 import { getWebhook, WebhookStatus } from '../../utils/getWebhook.js';
 import { userFormat } from '../../utils/userFormat.js';
@@ -110,7 +111,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		}
 		return true;
 	}
-	async messageInit(message: Message) {
+	async messageInit(message: Message, guildId?: string, channelId?: string) {
 		let icon = message.author.displayAvatarURL({ extension: 'webp' });
 		if (message.author.avatar && message.author.avatar.startsWith('a_')) {
 			icon = message.author.displayAvatarURL({ extension: 'gif' });
@@ -133,13 +134,27 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		if (content !== splitContent) {
 			content = `${splitContent}...(メッセージ省略)`;
 		}
-		if (message.reference) {
+		if (message.reference && guildId && channelId) {
 			const repliedMessage = await message.fetchReference();
 			const content = repliedMessage.content ?? 'メッセージの内容なし';
-			// Todo: Reply URLを各自で変える
-			embeds.push(
-				replyEmbed(`[${content}](${repliedMessage.url})`, undefined, undefined, userFormat(repliedMessage.author))
-			);
+			const repo = dataSource.getRepository(GlobalChatMessage);
+			const baseData = await repo.findOne({ where: { id: repliedMessage.id } });
+			const webhookData: { id: string; channelId: string; guildId: string; messages: GlobalChatMessages[] }[] =
+				await repo.query(`SELECT * FROM GLOBAL_CHAT_MESSAGE WHERE JSON_SEARCH(messages, 'one', ?) IS NOT NULL`, [
+					repliedMessage.id
+				]);
+			const data = baseData ?? webhookData[0];
+			const messages = data?.messages;
+			if (data && messages) {
+				const webhookMessage = messages.find((data) => data.channelId === channelId);
+				if (webhookMessage) {
+					const url = `https://discord.com/channels/${guildId}/${channelId}/${webhookMessage.messageId}`;
+					embeds.push(replyEmbed(`[${content}](${url})`, undefined, undefined, userFormat(repliedMessage.author)));
+				} else {
+					const url = `https://discord.com/channels/${data.guildId}/${data.channelId}/${data.id}`;
+					embeds.push(replyEmbed(`[${content}](${url})`, undefined, undefined, userFormat(repliedMessage.author)));
+				}
+			}
 		}
 		embeds.push(
 			new EmbedBuilder().setDescription(`uId: ${message.author.id} / mId: ${message.id}`).setColor(Colors.Blue)
@@ -152,7 +167,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			embeds: embeds
 		};
 	}
-	async send(message: Message) {
+	async send(message: Message<true>) {
 		const repo = dataSource.getRepository(ChannelSetting);
 		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
 		if (channelSettings.length === 0) {
@@ -161,6 +176,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 				message
 			);
 		}
+		const messagesData: GlobalChatMessages[] = [];
 		for (const setting of channelSettings) {
 			const channel = message.client.channels.cache.get(setting.channelId);
 			if (!channel) {
@@ -175,12 +191,22 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 				await this.remoteFail(webhookCheck, channel);
 				continue;
 			}
-			const data = await this.messageInit(message);
-			await (webhook as Webhook<WebhookType.Incoming>).send(data);
+			const data = await this.messageInit(message, channel.guildId, channel.id);
+			const webhookMessage = await (webhook as Webhook<WebhookType.Incoming>).send(data);
+			messagesData.push({
+				messageId: webhookMessage.id,
+				webhookUrl: (webhook as Webhook<WebhookType.Incoming>).url,
+				channelId: channel.id
+			});
 		}
+		dataSource.transaction(async (em) => {
+			const repo = em.getRepository(GlobalChatMessage);
+			const globalChatMessage = new GlobalChatMessage(message.id, message.channelId, message.guildId, messagesData);
+			await repo.save(globalChatMessage);
+		});
 		return await message.react('✅');
 	}
-	async execute(message: Message) {
+	async execute(message: Message<true>) {
 		const check = await this.beforeCheck(message);
 		if (check) {
 			try {
