@@ -1,7 +1,7 @@
 {
 	"$scheme": "https://json.schemastore.org/package.json",
 	"name": "aqued",
-	"version": "3.5.0",
+	"version": "3.5.0-beta",
 	"description": "Discord Bot",
 	"author": "aqued-dev",
 	"license": "MIT",
@@ -45,7 +45,7 @@
 	},
 	"packageManager": "pnpm@9.9.0",
 	"volta": {
-		"node": "22.7.0",
-		"pnpm": "9.12.2"
+		"node": "22.11.0",
+		"pnpm": "9.12.3"
 	}
 }

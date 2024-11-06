@@ -1,5 +1,6 @@
-import { ActivityType, Client, GatewayIntentBits, SnowflakeUtil } from 'discord.js';
+import { ActivityType, Client, Events, GatewayIntentBits, SnowflakeUtil } from 'discord.js';
 import { config } from '../config/config.js';
+import { constants } from '../config/constants.js';
 import { CommandLoader } from './CommandLoader.js';
 import { EventLoader } from './EventLoader.js';
 import { dataSource } from './typeorm.config.js';
@@ -36,6 +37,17 @@ client.aqued = {
 	readyId: SnowflakeUtil.generate().toString(),
 	cooldown: new Map()
 };
-
+client.on(Events.GuildCreate, () =>
+	client.user?.setActivity({
+		name: `/help | ${client.guilds.cache.size} Servers | v${constants.version}`,
+		type: ActivityType.Custom
+	})
+);
+client.on(Events.GuildDelete, () =>
+	client.user?.setActivity({
+		name: `/help | ${client.guilds.cache.size} Servers | v${constants.version}`,
+		type: ActivityType.Custom
+	})
+);
 await client.aqued.events.loadAllEvents();
 await dataSource.initialize();

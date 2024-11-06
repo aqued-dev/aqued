@@ -1,4 +1,6 @@
+import packageJson from '../../package.json' with { type: 'json' };
 export const constants = {
+	version: packageJson.version,
 	webhookRegex: /https:\/\/(?:.+\.)?(?:discord\.com|discordapp\.com)\/api\/webhooks\/([^\\/]+)\/([^\\/]+)/,
 	defaultConfigs: {
 		bot: {
