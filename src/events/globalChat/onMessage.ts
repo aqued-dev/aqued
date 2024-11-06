@@ -149,10 +149,24 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 				const webhookMessage = messages.find((data) => data.channelId === channelId);
 				if (webhookMessage) {
 					const url = `https://discord.com/channels/${guildId}/${channelId}/${webhookMessage.messageId}`;
-					embeds.push(replyEmbed(`[${content}](${url})`, undefined, undefined, userFormat(repliedMessage.author)));
+					embeds.push(
+						replyEmbed(
+							`[${content}](${url})`,
+							undefined,
+							undefined,
+							userFormat(repliedMessage.author).replace('#0000', '')
+						)
+					);
 				} else {
 					const url = `https://discord.com/channels/${data.guildId}/${data.channelId}/${data.id}`;
-					embeds.push(replyEmbed(`[${content}](${url})`, undefined, undefined, userFormat(repliedMessage.author)));
+					embeds.push(
+						replyEmbed(
+							`[${content}](${url})`,
+							undefined,
+							undefined,
+							userFormat(repliedMessage.author).replace('#0000', '')
+						)
+					);
 				}
 			}
 		}
