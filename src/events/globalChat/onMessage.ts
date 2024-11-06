@@ -9,6 +9,8 @@ import {
 	StickerFormatType,
 	Webhook,
 	WebhookType,
+	type OmitPartialGroupDMChannel,
+	type PartialMessage,
 	type SendableChannels
 } from 'discord.js';
 import { Not } from 'typeorm';
@@ -18,6 +20,7 @@ import { SettingManager } from '../../core/SettingManager.js';
 import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
 import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
+import { GlobalChatBan } from '../../database/entities/GlobalChatBan.js';
 import { GlobalChatMessage, type GlobalChatMessages } from '../../database/entities/GlobalChatMessage.js';
 import { failEmbed, replyEmbed } from '../../embeds/infosEmbed.js';
 import { getWebhook, WebhookStatus } from '../../utils/getWebhook.js';
@@ -32,7 +35,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		this.name = Events.MessageCreate;
 		this.once = false;
 	}
-	async fail(embed: EmbedBuilder, message: Message) {
+	async fail(embed: EmbedBuilder, message: Message | OmitPartialGroupDMChannel<Message | PartialMessage>) {
 		await message.react('❌');
 		return await message.reply({
 			embeds: [embed]
@@ -66,14 +69,25 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			return null;
 		}
 	}
-	async beforeCheck(message: Message) {
+	async beforeCheck(message: Message | OmitPartialGroupDMChannel<Message | PartialMessage>) {
 		const settings = new SettingManager({ channelId: message.channelId });
 		const setting = await settings.getChannel();
-
+		const repo = dataSource.getRepository(GlobalChatBan);
 		if (!setting) {
 			return false;
 		}
 		if (!setting.globalChat) {
+			return false;
+		}
+		if (!message.author) {
+			return false;
+		}
+		const block = await repo.findOne({ where: { id: message.author.id } });
+		if (block) {
+			await this.fail(
+				failEmbed(`あなたは送信ブロック処置がされています。\n**理由**\n${block.reason}`, '送信不可'),
+				message
+			);
 			return false;
 		}
 		if (message.author.id === message.client.user.id || message.author.discriminator === '0000') {
@@ -105,7 +119,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			constants.regexs.inviteUrls.discordCafe,
 			constants.regexs.inviteUrls.dissoku,
 			constants.regexs.inviteUrls.sabach
-		].every((regex) => regex.test(message.cleanContent));
+		].every((regex) => regex.test(message.cleanContent ?? ''));
 		if (regexMatchesAll) {
 			return await this.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
 		}
