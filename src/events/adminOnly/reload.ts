@@ -23,8 +23,8 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						await message.client.aqued.commands.reloadAllCommands(),
 						wait.edit('Reloaded!')
 					]);
-				} catch (e) {
-					Logger.error(inspect(e));
+				} catch (error) {
+					Logger.error(inspect(error));
 					wait.edit('Error...');
 				}
 			}

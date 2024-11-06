@@ -24,7 +24,7 @@ import { userFormat } from '../../utils/userFormat.js';
 /***
  * グローバルチャットメッセージ送受信
  */
-export default class MessageCreate implements EventListener<Events.MessageCreate> {
+export default class GlobalChatOnMessage implements EventListener<Events.MessageCreate> {
 	public name: Events.MessageCreate;
 	public once: boolean;
 	constructor() {
