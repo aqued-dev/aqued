@@ -1,6 +1,6 @@
 import { BaseInteraction, ButtonInteraction, Events, GuildMember, MessageFlags, PermissionFlagsBits } from 'discord.js';
-import type { EventListener } from '../../core/types/EventListener.js';
-import { deleteEmbed, failEmbed } from '../../embeds/infosEmbed.js';
+import type { EventListener } from '../../../core/types/EventListener.js';
+import { deleteEmbed, failEmbed } from '../../../embeds/infosEmbed.js';
 
 export default class TanzakuDelete implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;

@@ -1,7 +1,7 @@
 import { BaseInteraction, Events } from 'discord.js';
-import Minesweeper from '../../commands/chatInput/minesweeper.js';
-import type { EventListener } from '../../core/types/EventListener.js';
-import { infoEmbed } from '../../embeds/infosEmbed.js';
+import Minesweeper from '../../../commands/chatInput/minesweeper.js';
+import type { EventListener } from '../../../core/types/EventListener.js';
+import { infoEmbed } from '../../../embeds/infosEmbed.js';
 
 export default class MinesweeperRegenerate implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;

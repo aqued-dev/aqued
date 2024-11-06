@@ -10,7 +10,7 @@ import type { MessageContextMenuCommand, UserContextMenuCommand } from './types/
 
 type CommandType = ChatInputCommand | MessageContextMenuCommand | UserContextMenuCommand;
 export class CommandLoader<T extends CommandType> {
-	private commands: Map<string, T> = new Map();
+	public commands: Map<string, T> = new Map();
 	private commandDirectory: string;
 
 	constructor(commandDirectory: string) {

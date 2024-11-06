@@ -1,9 +1,9 @@
 import { BaseInteraction, DiscordAPIError, Events, GuildMember, MessageFlags, User } from 'discord.js';
-import slowmode from '../../commands/chatInput/slowmode.js';
-import { Logger } from '../../core/Logger.js';
-import { type EventListener } from '../../core/types/EventListener.js';
-import { failEmbed, successEmbed } from '../../embeds/infosEmbed.js';
-import { userFormat } from '../../utils/userFormat.js';
+import slowmode from '../../../commands/chatInput/slowmode.js';
+import { Logger } from '../../../core/Logger.js';
+import { type EventListener } from '../../../core/types/EventListener.js';
+import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { userFormat } from '../../../utils/userFormat.js';
 
 export default class SlowModeModal implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;

@@ -1,5 +1,5 @@
 import { BaseInteraction, Events } from 'discord.js';
-import { type EventListener } from '../../core/types/EventListener.js';
+import { type EventListener } from '../../../core/types/EventListener.js';
 
 export default class WeatherAutoComplete implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;
