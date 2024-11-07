@@ -79,12 +79,13 @@ export default class NgWord implements ChatInputCommand {
 	}
 
 	async run(interaction: ChatInputCommandInteraction) {
+		const my = new NgWord();
 		const commandName = interaction.options.getSubcommand();
 		const ruleName = interaction.options.getString('rule');
 		if (!ruleName || !commandName || !interaction.inCachedGuild()) {
 			return;
 		}
-		if (!this.isValidValue(ruleName)) {
+		if (!my.isValidValue(ruleName)) {
 			return await interaction.reply({ content: 'ルールが存在しません。', flags: [MessageFlags.Ephemeral] });
 		}
 		const settings = new SettingManager({ guildId: interaction.guildId });
@@ -96,7 +97,7 @@ export default class NgWord implements ChatInputCommand {
 					eventType: AutoModerationRuleEventType.MessageSend,
 					triggerType: AutoModerationRuleTriggerType.Keyword,
 					triggerMetadata: {
-						regexPatterns: this.getRuleRegex(ruleName).map((value) => String(value))
+						regexPatterns: my.getRuleRegex(ruleName).map((value) => String(value))
 					},
 					actions: [{ type: AutoModerationActionType.BlockMessage }],
 					enabled: true,
