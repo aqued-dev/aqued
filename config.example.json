@@ -2,6 +2,7 @@
 	"token": "",
 	"owners": [""],
 	"mods": [""],
+	"stable": false,
 	"channelIds": {
 		"error": "",
 		"botLog": "",

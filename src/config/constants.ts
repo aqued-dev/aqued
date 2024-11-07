@@ -7,7 +7,8 @@ export const constants = {
 			id: '',
 			admins: [],
 			token: '',
-			mods: []
+			mods: [],
+			stable: false
 		},
 		channels: { error: '', log: '', command: '' },
 		mongo: { url: '', key: '' },

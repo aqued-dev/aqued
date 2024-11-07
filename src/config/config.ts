@@ -2,7 +2,8 @@ import configData from '../../config.json' with { type: 'json' };
 import { constants } from './constants.js';
 
 class Config {
-	public bot: { id: string; admins: string[]; token: string; mods: string[] } = constants.defaultConfigs.bot;
+	public bot: { id: string; admins: string[]; token: string; mods: string[]; stable: boolean } =
+		constants.defaultConfigs.bot;
 	public channels: { error: string; log: string; command: string } = constants.defaultConfigs.channels;
 	public mongo: { url: string; key: string } = constants.defaultConfigs.mongo;
 	public loads: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean } =
@@ -17,6 +18,9 @@ class Config {
 	public loggerThreadId: string = constants.defaultConfigs.loggerThreadId;
 	setId(id: string) {
 		this.bot.id = id;
+	}
+	setStable(stable: boolean) {
+		this.bot.stable = stable;
 	}
 	setToken(token: string) {
 		this.bot.token = token;
@@ -96,6 +100,7 @@ const config = new Config();
 config.setId(configData.clientId);
 config.setToken(configData.token);
 config.setAdmins(configData.owners);
+config.setStable(configData.stable);
 config.setMods(configData.mods);
 config.setErrorChannel(configData.channelIds.error);
 config.setLogChannel(configData.channelIds.botLog);
