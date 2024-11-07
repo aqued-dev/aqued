@@ -17,7 +17,7 @@ export function getStatusEmoji(status: PresenceStatus) {
 }
 export function getStatusEmojiText(status: PresenceStatus) {
 	const emoji = getStatusEmoji(status);
-    if (status === 'online') {
+	if (status === 'online') {
 		return `${emoji} オンライン`;
 	} else if (status === 'idle') {
 		return `${emoji} 離席中`;
