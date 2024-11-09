@@ -5,7 +5,8 @@ import {
 	ButtonStyle,
 	ContextMenuCommandBuilder,
 	InteractionContextType,
-	MessageContextMenuCommandInteraction
+	MessageContextMenuCommandInteraction,
+	MessageFlags
 } from 'discord.js';
 import { type CommandSetting } from '../../../core/types/CommandSetting.js';
 import type { MessageContextMenuCommand } from '../../../core/types/ContextCommand.js';
@@ -30,7 +31,10 @@ export default class TanzakuContext implements MessageContextMenuCommand {
 	async run(interaction: MessageContextMenuCommandInteraction) {
 		const text = interaction.targetMessage.cleanContent;
 		if (!text) {
-			await interaction.reply({ embeds: [failEmbed('指定したメッセージに内容がありません')], ephemeral: true });
+			await interaction.reply({
+				embeds: [failEmbed('指定したメッセージに内容がありません')],
+				flags: [MessageFlags.Ephemeral]
+			});
 		}
 		const base = new Tanzaku();
 		const button = new ButtonBuilder()

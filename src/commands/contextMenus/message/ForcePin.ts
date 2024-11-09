@@ -5,6 +5,7 @@ import {
 	DiscordAPIError,
 	InteractionContextType,
 	MessageContextMenuCommandInteraction,
+	MessageFlags,
 	PermissionFlagsBits,
 	Webhook,
 	WebhookType
@@ -98,7 +99,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 							'Force Pinを解除しました'
 						)
 					],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			} else {
 				await interaction.editReply({
