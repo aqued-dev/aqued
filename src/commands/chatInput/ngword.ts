@@ -88,7 +88,7 @@ export default class NgWord implements ChatInputCommand {
 			return;
 		}
 		if (!my.isValidValue(ruleName)) {
-			return await interaction.reply({ content: 'ルールが存在しません。', flags: [MessageFlags.Ephemeral] });
+			return await interaction.reply({ content: 'ルールが存在しません', flags: [MessageFlags.Ephemeral] });
 		}
 		const settings = new SettingManager({ guildId: interaction.guildId });
 		const setting = (await settings.getGuild()) ?? new GuildSetting(interaction.guildId);
@@ -103,7 +103,7 @@ export default class NgWord implements ChatInputCommand {
 					},
 					actions: [{ type: AutoModerationActionType.BlockMessage }],
 					enabled: true,
-					reason: `${userFormat(interaction.member)}によって作成されました。`
+					reason: `${userFormat(interaction.member)}によって作成されました`
 				});
 
 				const autoMods: string[] = setting.autoMods ?? [];
@@ -138,10 +138,10 @@ export default class NgWord implements ChatInputCommand {
 
 				if (removedCount > 0) {
 					await settings.updateGuild({ autoMods: setting.autoMods });
-					return await interaction.reply(`削除しました (${removedCount} 件のルール)。`);
+					return await interaction.reply(`削除しました (${removedCount} 件のルール)`);
 				} else {
 					return await interaction.reply({
-						content: '削除するルールが見つかりませんでした。',
+						content: '削除するルールが見つかりませんでした',
 						flags: [MessageFlags.Ephemeral]
 					});
 				}

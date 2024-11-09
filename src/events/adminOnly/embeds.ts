@@ -1,7 +1,7 @@
 import { Events, Message } from 'discord.js';
 import type { EventListener } from '../../core/types/EventListener.js';
 import { disableEmbed, enableEmbed } from '../../embeds/booleanEmbed.js';
-import { failEmbed, infoEmbed, successEmbed, warnEmbed } from '../../embeds/infosEmbed.js';
+import { deleteEmbed, failEmbed, infoEmbed, replyEmbed, successEmbed, warnEmbed } from '../../embeds/infosEmbed.js';
 export default class MessageCreate implements EventListener<Events.MessageCreate> {
 	public name: Events.MessageCreate;
 	public once: boolean;
@@ -19,7 +19,9 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						warnEmbed('Example', 'ExampleTitle'),
 						infoEmbed('Example', 'ExampleTitle'),
 						enableEmbed('Example'),
-						disableEmbed('Example')
+						disableEmbed('Example'),
+						replyEmbed('Example', 'ExampleTitle'),
+						deleteEmbed('Example', 'ExampleTitle')
 					]
 				});
 			}

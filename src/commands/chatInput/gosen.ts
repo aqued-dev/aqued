@@ -15,7 +15,7 @@ export default class Gosen implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('5000')
-			.setDescription('5000兆円欲しい!!を生成します。')
+			.setDescription('5000兆円欲しい!!を生成します')
 			.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild])
 			.addStringOption((input) => input.setName('top').setDescription('上部文字列').setRequired(true))

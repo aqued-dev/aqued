@@ -17,14 +17,14 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					}
 					return;
 				}
-				message.reply('内容を送信してください。(2分以内)');
+				message.reply('内容を送信してください(2分以内)');
 				const args = message.content.split(' ');
 				const webhook = new WebhookClient({ url: args[1] ?? '' });
 				const filter = (msg: Message) => msg.author.id === message.author.id;
 				const collected = await channel.awaitMessages({ filter, max: 1, time: 120000 });
 				const response = collected.first();
 				if (!response) {
-					return message.reply('タイムアウトしました。');
+					return message.reply('タイムアウトしました');
 				}
 				const waitMessage = await message.reply('送信します！');
 				const after = `\n====================\nAqued Notice Team 一同\nPublish Date: ${time(new Date(), 'F')}\nMention : ${args[2]}`;
@@ -34,7 +34,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						avatarURL: message.client.user.displayAvatarURL(),
 						username: 'Aqued Notice'
 					})
-					.then(() => waitMessage.edit('送信しました。'));
+					.then(() => waitMessage.edit('送信しました'));
 			}
 		}
 		return;

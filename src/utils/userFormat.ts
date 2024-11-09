@@ -19,5 +19,5 @@ export const userFormat = (user: User | GuildMember): string => {
 		return nickname ? `${nickname} (${formattedName})` : formattedName;
 	}
 
-	return '不明なユーザー(これはバグです。Aqued開発者に報告してください)';
+	return '不明なユーザー(これはバグですので、開発者に報告してください)';
 };

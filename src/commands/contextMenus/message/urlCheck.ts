@@ -23,11 +23,11 @@ export default class UrlCheck implements MessageContextMenuCommand {
 	}
 	async run(interaction: MessageContextMenuCommandInteraction) {
 		if (!interaction.targetMessage.cleanContent) {
-			return await interaction.reply({ embeds: [failEmbed('メッセージの内容がありません。')], ephemeral: true });
+			return await interaction.reply({ embeds: [failEmbed('メッセージの内容がありません')], ephemeral: true });
 		}
 		const urls = interaction.targetMessage.cleanContent.match(/(https?:\/\/[^\s]+)/g);
 		if (!urls || urls.length === 0) {
-			return await interaction.reply({ embeds: [failEmbed('メッセージ内にURLがありません。')], ephemeral: true });
+			return await interaction.reply({ embeds: [failEmbed('メッセージ内にURLがありません')], ephemeral: true });
 		}
 		await interaction.deferReply();
 		const embeds: EmbedBuilder[] = [infoEmbed(`${urls.length} 個のURLをチェックしました`)];

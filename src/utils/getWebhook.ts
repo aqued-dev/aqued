@@ -32,7 +32,7 @@ export async function getWebhook(
 		try {
 			return await targetChannel.createWebhook({
 				name: 'Aqued Webhook',
-				reason: 'Aquedのウェブフックを使用する機能が使用されました。'
+				reason: 'Aquedのウェブフックを使用する機能が使用されました'
 			});
 		} catch (error) {
 			if (error instanceof DiscordAPIError && error.status === 403) {

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024/11
 
 これはAquedの大規模リファクタリングアップデートも含まれています
 
@@ -114,27 +114,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- help コマンド。
-- userstatus コマンド。
+- help コマンド
+- userstatus コマンド
 
 ### Changed
 
-- userinfo でステータスを確認できるように。
-- グローバルチャット、スーパーグローバルチャットでのメッセージ返信の時の返信先メッセージを embed にするように。
+- userinfo でステータスを確認できるように
+- グローバルチャット、スーパーグローバルチャットでのメッセージ返信の時の返信先メッセージを embed にするように
 
 ## [3.0.1](https://github.com/aqued-dev/aqued/compare/3.0.0...3.0.1) - 2023-07-14
 
 ### Added
 
-- グローバルチャットで招待リンクは送信できないように。
+- グローバルチャットで招待リンクは送信できないように
 
 ### Fixed
 
-- afk の理由が表示されない。
-- webhook が送信したメッセージを force pin するとエラーが発生する。
+- afk の理由が表示されない
+- webhook が送信したメッセージを force pin するとエラーが発生する
 
 ### Changed
 
-- エラー ID をコードスパンで囲みます。
+- エラー ID をコードスパンで囲みます
 
 ## [3.0.0](https://github.com/aqued-dev/aqued/releases/tag/3.0.0) - 2023-07-14

@@ -85,7 +85,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		const block = await repo.findOne({ where: { id: message.author.id } });
 		if (block) {
 			await this.fail(
-				failEmbed(`あなたは送信ブロック処置がされています。\n**理由**\n${block.reason}`, '送信不可'),
+				failEmbed(`あなたは送信ブロック処置がされています\n**理由**\n${block.reason}`, '送信不可'),
 				message
 			);
 			return false;

@@ -61,7 +61,7 @@ class Config {
 	 * @deprecated 本番環境に移動次第廃止予定
 	 */
 	setSgcJsonChannels(data: { v1: string; v2: string }) {
-		process.emitWarning('本番環境に移動次第廃止されます。setSgcJsonChannelを使用してください。', {
+		process.emitWarning('本番環境に移動次第廃止されますので、setSgcJsonChannelを使用してください', {
 			type: 'DeprecationWarning'
 		});
 		this.sgcJsonChannels = data;

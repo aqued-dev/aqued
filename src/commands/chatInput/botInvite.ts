@@ -21,7 +21,7 @@ export default class BotInvite implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('bot_invite')
-			.setDescription('指定したbotの招待リンクを生成します。')
+			.setDescription('指定したbotの招待リンクを生成します')
 			.addUserOption((input) => input.setName('bot').setDescription('bot').setRequired(false))
 			.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]);

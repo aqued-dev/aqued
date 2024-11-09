@@ -15,7 +15,7 @@ export default class UrlCheck implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('url_check')
-			.setDescription('URLの安全性を確認します。')
+			.setDescription('URLの安全性を確認します')
 			.addStringOption((input) => input.setName('url').setDescription('確認したいurl').setRequired(true))
 			.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]);

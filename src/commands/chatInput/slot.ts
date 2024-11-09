@@ -16,7 +16,7 @@ export default class Slot implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('slot')
-			.setDescription('スロットができます。')
+			.setDescription('スロットができます')
 			.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild]);
 		this.settings = { enable: true };

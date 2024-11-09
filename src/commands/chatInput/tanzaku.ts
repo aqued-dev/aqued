@@ -19,7 +19,7 @@ export default class Tanzaku implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('tanzaku')
-			.setDescription('短冊を生成します。')
+			.setDescription('短冊を生成します')
 			.addStringOption((input) => input.setName('text').setDescription('短冊の内容').setRequired(true))
 			.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]);
