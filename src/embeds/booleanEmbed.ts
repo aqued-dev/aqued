@@ -16,8 +16,8 @@ export function enableEmbed(name?: string) {
 	}
 	return baseEmbed(base);
 }
-export function disableEmbed(name?: string) {
-	let base = `\`\`無効\`\`になりました`;
+export function disableEmbed(name?: string, customText: string = '無効', endText: string = 'になりました') {
+	let base = `\`\`${customText}\`\`${endText}`;
 	if (name) {
 		base = `${name}が` + base;
 	}

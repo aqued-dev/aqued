@@ -5,6 +5,7 @@ import { GlobalChatBan } from '../../database/entities/GlobalChatBan.js';
 import { GlobalChatMessage } from '../../database/entities/GlobalChatMessage.js';
 import { getWebhook } from '../../utils/getWebhook.js';
 import GlobalChatOnMessage from '../globalChat/onMessage.js';
+import { emojis } from '../../config/emojis.js';
 export default class MessageCreate implements EventListener<Events.MessageCreate> {
 	public name: Events.MessageCreate;
 	public once: boolean;
@@ -38,17 +39,17 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					}
 					await (webhook as Webhook<WebhookType.Incoming>).deleteMessage(globalMessage.messageId);
 				}
-				await message.react('✅');
+				await message.react(emojis().check);
 			} else if (message.content.startsWith('aq.gchat ban')) {
 				const userId = message.content.replace('aq.gchat ban ', '').split(' ');
 				const repo = dataSource.getRepository(GlobalChatBan);
 				await repo.insert({ id: userId[0] ?? '', reason: userId[1] ?? 'なし' });
-				await message.react('✅');
+				await message.react(emojis().check);
 			} else if (message.content.startsWith('aq.gchat unban')) {
 				const userId = message.content.replace('aq.gchat unban ', '');
 				const repo = dataSource.getRepository(GlobalChatBan);
 				await repo.delete(userId);
-				await message.react('✅');
+				await message.react(emojis().check);
 			}
 		}
 	}

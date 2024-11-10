@@ -12,6 +12,8 @@ export class ChannelSetting {
 	channelId: string;
 	@Column({ name: 'GLOBAL_CHAT', type: 'boolean', comment: 'グローバルチャット参加の有無', nullable: true })
 	globalChat?: boolean | null;
+	@Column({ name: 'AUTO_NEWS', type: 'boolean', comment: 'ニュース自動公開の有無', nullable: true })
+	autoNews?: boolean | null;
 	@Column({ name: 'FORCE_PIN', type: 'json', comment: 'メッセージを下に固定', nullable: true })
 	forcePin?: ForcePin | null;
 

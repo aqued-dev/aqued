@@ -15,6 +15,7 @@ import {
 } from 'discord.js';
 import { Not } from 'typeorm';
 import { constants } from '../../config/constants.js';
+import { emojis } from '../../config/emojis.js';
 import { Logger } from '../../core/Logger.js';
 import { SettingManager } from '../../core/SettingManager.js';
 import { dataSource } from '../../core/typeorm.config.js';
@@ -36,7 +37,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		this.once = false;
 	}
 	async fail(embed: EmbedBuilder, message: Message | OmitPartialGroupDMChannel<Message | PartialMessage>) {
-		await message.react('❌');
+		await message.react(emojis().no);
 		return await message.reply({
 			embeds: [embed]
 		});
@@ -232,7 +233,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			const globalChatMessage = new GlobalChatMessage(message.id, message.channelId, message.guildId, messagesData);
 			await repo.save(globalChatMessage);
 		});
-		return await message.react('✅');
+		return await message.react(emojis().check);
 	}
 	async execute(message: Message<true>) {
 		const check = await this.beforeCheck(message);

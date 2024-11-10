@@ -10,6 +10,6 @@ export default class logging implements EventListener<Events.Error> {
 		this.once = false;
 	}
 	async execute(error: Error) {
-		Logger.info(inspect(error));
+		Logger.error(inspect(error));
 	}
 }

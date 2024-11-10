@@ -9,7 +9,8 @@ import { SettingManager } from '../../core/SettingManager.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import type { AFKMentionData, UserSetting } from '../../database/entities/UserSetting.js';
-import { infoEmbed, successEmbed } from '../../embeds/infosEmbed.js';
+import { disableEmbed, enableEmbed } from '../../embeds/booleanEmbed.js';
+import { infoEmbed } from '../../embeds/infosEmbed.js';
 
 export default class Afk implements ChatInputCommand {
 	public command: SlashCommandOptionsOnlyBuilder;
@@ -68,14 +69,14 @@ export default class Afk implements ChatInputCommand {
 		await setting.updateUser(options);
 		const base = new Afk();
 		if (options.afk) {
-			await interaction.reply({ embeds: [successEmbed('AFKになりました')] });
+			await interaction.reply({ embeds: [enableEmbed('AFK')] });
 		} else {
 			let mentions: AFKMentionData[] = [];
 			if (userSetting && userSetting.afkMentions) {
 				mentions = userSetting.afkMentions;
 			}
 			await interaction.reply({
-				embeds: [successEmbed('AFKを解除しました'), base.mentionData(mentions ?? [])]
+				embeds: [disableEmbed('AFK', '解除', 'されました'), base.mentionData(mentions ?? [])]
 			});
 		}
 	}

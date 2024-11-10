@@ -10,8 +10,5 @@ export const dataSource = new DataSource({
 	password: config.mysql.password,
 	port: config.mysql.port,
 	database: 'aqued',
-	synchronize: !config.bot.stable,
-	dropSchema: false,
 	entities: entities,
-	migrations: ['migrations/*.ts']
 });
