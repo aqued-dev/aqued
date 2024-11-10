@@ -22,7 +22,7 @@
 	"key": "",
 	"mysql": {
 		"host": "appdb",
-		"port": 1855,
+		"port": 3306,
 		"user": "user",
 		"password": "password"
 	}
