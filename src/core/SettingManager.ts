@@ -1,9 +1,11 @@
 import { ChannelSetting } from '../database/entities/ChannelSetting.js';
 import { GuildSetting } from '../database/entities/GuildSetting.js';
+import { UserSetting } from '../database/entities/UserSetting.js';
 import { dataSource } from './typeorm.config.js';
 interface Ids {
 	channelId?: string;
 	guildId?: string;
+	userId?: string;
 }
 export class SettingManager {
 	ids: Ids;
@@ -29,7 +31,15 @@ export class SettingManager {
 		const channelSetting = await repo.findOne({ where: { channelId: channelId } });
 		return channelSetting;
 	}
-
+	async getUser() {
+		const userId = this.ids.userId;
+		if (!userId) {
+			return;
+		}
+		const repo = dataSource.getRepository(UserSetting);
+		const guildSetting = await repo.findOne({ where: { userId: userId } });
+		return guildSetting;
+	}
 	async updateGuild(updated: Partial<GuildSetting>) {
 		const guildId = this.ids.guildId;
 		if (!guildId) {
@@ -60,6 +70,22 @@ export class SettingManager {
 			Object.assign(channelSetting, updated);
 			await repo.save(channelSetting);
 			return channelSetting;
+		});
+	}
+	async updateUser(updated: Partial<UserSetting>) {
+		const userId = this.ids.userId;
+		if (!userId) {
+			return;
+		}
+		let userSetting = await this.getUser();
+		return dataSource.transaction(async (em) => {
+			const repo = em.getRepository(UserSetting);
+			if (!userSetting) {
+				userSetting = new UserSetting(userId);
+			}
+			Object.assign(userSetting, updated);
+			await repo.save(userSetting);
+			return userSetting;
 		});
 	}
 }
