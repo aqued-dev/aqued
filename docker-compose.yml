@@ -1,6 +1,6 @@
 services:
   appdb:
-    container_name: app-db
+    container_name: appdb
     image: mysql:8.4.2
     volumes:
       - mysql-data:/var/lib/mysql

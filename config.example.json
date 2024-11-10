@@ -21,7 +21,7 @@
 	"sgcJsonChannelIdv2": "",
 	"key": "",
 	"mysql": {
-		"host": "db",
+		"host": "appdb",
 		"port": 1855,
 		"user": "user",
 		"password": "password"
