@@ -1,11 +1,11 @@
 services:
-  db:
-    container_name: bot-db
+  appdb:
+    container_name: app-db
     image: mysql:8.4.2
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - 1644:3306
+      - 0855:3306
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: Yes
       MYSQL_USER: user
@@ -14,14 +14,14 @@ services:
       TZ: 'Asia/Tokyo'
     command: mysqld
     depends_on:
-      - app
-  app:
+      - appcore
+  appcore:
     volumes:
       - .:/usr/src/app
-    container_name: bot
+    container_name: appcore
     image: node:22.11.0-slim
     working_dir: /usr/src/app
     command: bash -c 'npm install -g pnpm && pnpm i && pnpm build && pnpm start'
 volumes:
   mysql-data:
-  bot:
+  appcore:
