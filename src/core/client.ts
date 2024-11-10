@@ -15,7 +15,7 @@ export const client = new Client({
 		GatewayIntentBits.GuildPresences
 	],
 	allowedMentions: { repliedUser: false, parse: [] },
-	presence: { status: 'idle', activities: [{ name: 'v3.5 Refactor', type: ActivityType.Custom }] }
+	presence: { status: 'idle', activities: [{ name: 'Wake Up...', type: ActivityType.Custom }] }
 });
 client.token = config.bot.token;
 

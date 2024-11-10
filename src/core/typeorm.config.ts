@@ -10,5 +10,5 @@ export const dataSource = new DataSource({
 	password: config.mysql.password,
 	port: config.mysql.port,
 	database: 'aqued',
-	entities: entities,
+	entities: entities
 });
