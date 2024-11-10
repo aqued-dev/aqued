@@ -13,5 +13,5 @@ export const dataSource = new DataSource({
 	synchronize: !config.bot.stable,
 	dropSchema: false, // for "develop"
 	entities: entities,
-	migrations: ["migrations/*.ts"] 
+	migrations: ['migrations/*.ts']
 });
