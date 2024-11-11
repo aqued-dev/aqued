@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from 'discord.js';
 
-export const translatePermission = (flags: bigint[]): string[] => {
+export const translatePermission = (flags: Array<bigint | string>): string[] => {
 	const PermissionNames: { [key in keyof typeof PermissionFlagsBits]: string } = {
 		CreateInstantInvite: '招待を作成',
 		KickMembers: 'メンバーをキック',
@@ -32,7 +32,6 @@ export const translatePermission = (flags: bigint[]): string[] => {
 		ManageNicknames: 'ニックネームの管理',
 		ManageRoles: 'ロールの管理',
 		ManageWebhooks: 'ウェブフックの管理',
-		ManageEmojisAndStickers: '絵文字の管理',
 		ManageGuildExpressions: '絵文字の管理',
 		UseApplicationCommands: 'アプリコマンドを使う',
 		RequestToSpeak: 'スピーカー参加をリクエスト',
@@ -51,16 +50,26 @@ export const translatePermission = (flags: bigint[]): string[] => {
 		UseExternalSounds: '外部のサウンドの使用',
 		SendVoiceMessages: 'ボイスメッセージを送信',
 		SendPolls: '投票を作成',
-		UseExternalApps: '外部のアプリを使用'
+		UseExternalApps: '外部のアプリを使用',
+		/**
+		 * @deprecated
+		 */
+		ManageEmojisAndStickers: '絵文字の管理'
 	};
-	const grantedPermissions: string[] = [];
+
+	const grantedPermissions: Set<string> = new Set();
+
 	flags.forEach((flag) => {
-		for (const [key, value] of Object.entries(PermissionFlagsBits)) {
-			if ((flag & value) === value) {
-				grantedPermissions.push(PermissionNames[key as keyof typeof PermissionFlagsBits]);
+		if (typeof flag === 'bigint') {
+			for (const [key, value] of Object.entries(PermissionFlagsBits)) {
+				if ((flag & value) === value) {
+					grantedPermissions.add(PermissionNames[key as keyof typeof PermissionFlagsBits] || '不明な権限');
+				}
 			}
+		} else if (typeof flag === 'string' && PermissionNames[flag as keyof typeof PermissionFlagsBits]) {
+			grantedPermissions.add(PermissionNames[flag as keyof typeof PermissionFlagsBits]);
 		}
 	});
 
-	return grantedPermissions.length > 0 ? grantedPermissions : ['不明な権限'];
+	return grantedPermissions.size > 0 ? Array.from(grantedPermissions) : ['不明な権限'];
 };
