@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 起動時にSnowFlakeを生成
 - ページネーションの有効期限が切れる前にボットが終了した際のボタン無効化
 - マインスイーパ
+- ウェルカムメッセージ
 
 ## Fixed
 
