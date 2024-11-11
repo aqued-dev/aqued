@@ -6,7 +6,10 @@ export class GuildSetting {
 	guildId: string;
 	@Column({ name: 'AUTO_MODS', type: 'simple-array', comment: 'Aquedにより設定されたAutoModのId配列', nullable: true })
 	autoMods?: string[];
-
+	@Column({ name: 'WELCOME_MESSAGE', type: 'text', comment: 'ウェルカムメッセージ', nullable: true })
+	welcomeMessage?: string;
+	@Column({ name: 'LEAVE_MESSAGE', type: 'text', comment: '退出メッセージ', nullable: true })
+	LeaveMessage?: string;
 	constructor(guildId: string) {
 		this.guildId = guildId;
 	}

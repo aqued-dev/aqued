@@ -54,7 +54,7 @@ export default class Ping implements ChatInputCommand {
 			if (member.joinedAt) {
 				memberFields.push(`**サーバー参加日時**: ${time(member.joinedAt, 'F')}`);
 			}
-			memberFields.push(`**権限**: \`${translatePermission(member.permissions.toArray()).join(", ")}\``);
+			memberFields.push(`**権限**: \`${translatePermission(member.permissions.toArray()).join(', ')}\``);
 			if (member.premiumSince) {
 				memberFields.push(`**最後にブーストした日時**: ${time(member.premiumSince, 'F')}`);
 			}

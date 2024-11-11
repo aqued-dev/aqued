@@ -23,5 +23,5 @@ export function getFlags(flags: Readonly<UserFlagsBitField> | null) {
 			.replaceAll('VerifiedBot', emoji.verifyBot)
 			.replaceAll('CertifiedModerator', emoji.verifyMod)
 	);
-	return map.join(" ");
+	return map.join(' ');
 }
