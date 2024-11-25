@@ -34,7 +34,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 		} else if (customId.startsWith('chatinput_button_welcome_delete_id_')) {
 			return base.deleteSetting(interaction, guild.id, 'welcomeMessage');
 		} else if (customId.startsWith('chatinput_button_leave_delete_id_')) {
-			return base.deleteSetting(interaction, guild.id, 'LeaveMessage');
+			return base.deleteSetting(interaction, guild.id, 'leaveMessage');
 		} else {
 			return;
 		}
@@ -86,7 +86,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 	private async deleteSetting(
 		interaction: ButtonInteraction,
 		guildId: string,
-		settingKey: 'welcomeMessage' | 'LeaveMessage'
+		settingKey: 'welcomeMessage' | 'leaveMessage'
 	) {
 		const manager = new SettingManager({ guildId });
 		const base = new WelcomeMessage();

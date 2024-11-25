@@ -12,7 +12,7 @@ export class GuildSetting {
 	@Column({ name: 'WELCOME_MESSAGE', type: 'json', comment: 'ウェルカムメッセージ', nullable: true })
 	welcomeMessage?: WelcomeMessageData | null;
 	@Column({ name: 'LEAVE_MESSAGE', type: 'json', comment: '退出メッセージ', nullable: true })
-	LeaveMessage?: WelcomeMessageData | null;
+	leaveMessage?: WelcomeMessageData | null;
 	constructor(guildId: string) {
 		this.guildId = guildId;
 	}

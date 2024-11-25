@@ -33,7 +33,7 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 			const message = interaction.fields.getTextInputValue('message');
 			try {
 				await manager.updateGuild({
-					LeaveMessage: { channelId: interaction.channelId, message: message }
+					leaveMessage: { channelId: interaction.channelId, message: message }
 				});
 				return await interaction.reply({ embeds: [successEmbed('退出メッセージを設定しました')], ephemeral: true });
 			} catch (error) {
