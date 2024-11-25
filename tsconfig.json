@@ -19,7 +19,7 @@
 		"noUnusedParameters": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"verbatimModuleSyntax": true,
+		"verbatimModuleSyntax": false,
 		"outDir": "dist"
 	},
 	"include": ["src"]
