@@ -27,10 +27,10 @@ export default class Welcome implements ChatInputCommand {
 		const texts = [
 			'サーバー名などをウェルカムメッセージに入れることができます',
 			'サーバー名: {{server.name}}',
-			'ユーザー名: {{user.name}}',
-			'フォーマット済みユーザー名: {{user.format_name}}',
+			'ユーザー名: {{member.name}}',
+			'フォーマット済みユーザー名: {{member.format_name}}',
 			'ユーザーメンション: {{user.mention}}',
-			'メンバー数: {{member.count}}'
+			'メンバー数: {{server.member.count}}'
 		];
 		const welcomeButton = new ButtonBuilder()
 			.setLabel('入室メッセージ')
@@ -39,10 +39,20 @@ export default class Welcome implements ChatInputCommand {
 		const leaveButton = new ButtonBuilder()
 			.setLabel('退出メッセージ')
 			.setCustomId(`chatinput_button_leave_id_${interaction.user.id}`)
+			.setStyle(ButtonStyle.Primary);
+		const deleteWelcome = new ButtonBuilder()
+			.setLabel('入室メッセージ解除')
+			.setCustomId(`chatinput_button_welcome_delete_id_${interaction.user.id}`)
+			.setStyle(ButtonStyle.Danger);
+		const deleteLeave = new ButtonBuilder()
+			.setLabel('退出メッセージ解除')
+			.setCustomId(`chatinput_button_leave_delete_id_${interaction.user.id}`)
 			.setStyle(ButtonStyle.Danger);
 		await interaction.reply({
 			embeds: [infoEmbed(texts.join('\n'), 'アクセサリー').setFooter({ text: 'Aqued App Language v0.1.0' })],
-			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(welcomeButton, leaveButton)]
+			components: [
+				new ActionRowBuilder<ButtonBuilder>().addComponents(welcomeButton, leaveButton, deleteWelcome, deleteLeave)
+			]
 		});
 	}
 }

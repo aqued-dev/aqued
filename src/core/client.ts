@@ -12,7 +12,8 @@ export const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildWebhooks,
-		GatewayIntentBits.GuildPresences
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildMembers
 	],
 	allowedMentions: { repliedUser: false, parse: [] },
 	presence: { status: 'idle', activities: [{ name: 'Wake Up...', type: ActivityType.Custom }] }

@@ -11,6 +11,8 @@
 		"lint:fix": "prettier --write . && eslint --fix --format=pretty",
 		"build": "rimraf dist && tsc",
 		"start": "node dist/src/main.js",
+		"migration:generate": "typeorm migration:generate -d dist/src/core/typeorm.config.js src/migration/DataBase",
+		"migration:run": "pnpm build && typeorm migration:run -d dist/src/core/typeorm.config.js",
 		"prepare": "husky"
 	},
 	"dependencies": {
