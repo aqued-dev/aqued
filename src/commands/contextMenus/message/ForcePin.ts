@@ -92,7 +92,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 				forcePin: null
 			});
 			if (followUp) {
-				await interaction.followUp({
+				return await interaction.followUp({
 					embeds: [
 						successEmbed(
 							'再登録は、`メッセージを右クリック(長押し) > アプリ > Force Pin` でできます' + deleteMessage,
@@ -102,7 +102,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 					flags: [MessageFlags.Ephemeral]
 				});
 			} else {
-				await interaction.editReply({
+				return await interaction.editReply({
 					embeds: [
 						successEmbed(
 							'再登録は、`メッセージを右クリック(長押し) > アプリ > Force Pin` でできます' + deleteMessage,
@@ -111,31 +111,32 @@ export default class ForcePin implements MessageContextMenuCommand {
 					]
 				});
 			}
-		}
-		const webhook = await getWebhook(interaction.channel);
-		const embed = util.webhookErrorEmbed(webhook);
+		} else {
+			const webhook = await getWebhook(interaction.channel);
+			const embed = util.webhookErrorEmbed(webhook);
 
-		if (embed) {
-			return await interaction.editReply({ embeds: [embed] });
-		}
-		const data = await util.messageInit(interaction.targetMessage);
-		data.embeds = [];
-		const WebhookMessage = await (webhook as Webhook<WebhookType.Incoming>).send(data);
-		await settings.updateChannel({
-			forcePin: {
-				attachments: data.files,
-				userId: interaction.targetMessage.author.id,
-				content: WebhookMessage.cleanContent ?? '(内容無し)',
-				latestMessageId: WebhookMessage.id
+			if (embed) {
+				return await interaction.editReply({ embeds: [embed] });
 			}
-		});
-		return await interaction.editReply({
-			embeds: [
-				successEmbed(
-					'解除は `メッセージを右クリック(長押し) > アプリ > Force Pin` でできます',
-					'Force Pinを登録しました'
-				)
-			]
-		});
+			const data = await util.messageInit(interaction.targetMessage);
+			data.embeds = [];
+			const WebhookMessage = await (webhook as Webhook<WebhookType.Incoming>).send(data);
+			await settings.updateChannel({
+				forcePin: {
+					attachments: data.files,
+					userId: interaction.targetMessage.author.id,
+					content: WebhookMessage.cleanContent ?? '(内容無し)',
+					latestMessageId: WebhookMessage.id
+				}
+			});
+			return await interaction.editReply({
+				embeds: [
+					successEmbed(
+						'解除は `メッセージを右クリック(長押し) > アプリ > Force Pin` でできます',
+						'Force Pinを登録しました'
+					)
+				]
+			});
+		}
 	}
 }
