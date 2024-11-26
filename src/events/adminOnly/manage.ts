@@ -15,11 +15,11 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 			if (message.content === 'aq.sync') {
 				const wait = await message.reply('Wait...');
 				try {
-					await promisify(exec)('git pull');
-					wait.edit('Success!');
+					const data = await promisify(exec)('git pull');
+					wait.edit('Success!\n```\n' + data.stdout + '\n```');
 				} catch (error) {
 					Logger.error(inspect(error));
-					wait.edit('Error...');
+					wait.edit('Error...\n```js\n' + inspect(error) + '\n```');
 				}
 			} else if (message.content === 'aq.re') {
 				const wait = await message.reply('Wait(1/3)...');
