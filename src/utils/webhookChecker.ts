@@ -1,3 +1,3 @@
 export const webhookChecker = (discriminator: string) => {
-	return discriminator === '0000';
+	return discriminator === '0';
 };

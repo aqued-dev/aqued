@@ -61,7 +61,10 @@ export default class BotInvite implements ChatInputCommand {
 			.setLabel('権限選択')
 			.setStyle(ButtonStyle.Link)
 			.setURL(this.getUrl(user.id, 'custom'));
-		const none = new ButtonBuilder().setLabel('権限なし').setStyle(ButtonStyle.Link).setURL(this.getUrl(user.id, 'none'));
+		const none = new ButtonBuilder()
+			.setLabel('権限なし')
+			.setStyle(ButtonStyle.Link)
+			.setURL(this.getUrl(user.id, 'none'));
 
 		return await interaction.reply({
 			embeds: [infoEmbed('下のボタンから招待できます', `${userFormat(user)} を招待`).setThumbnail(icon)],

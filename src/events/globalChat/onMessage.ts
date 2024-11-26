@@ -91,7 +91,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			);
 			return false;
 		}
-		if (message.author.id === message.client.user.id || message.author.discriminator === '0000') {
+		if (message.author.id === message.client.user.id || message.author.discriminator === '0') {
 			return false;
 		}
 		if (message.author.system || message.author.bot) {

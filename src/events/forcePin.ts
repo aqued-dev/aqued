@@ -24,13 +24,13 @@ export default class ForcePin implements EventListener<Events.MessageCreate> {
 		if (!setting.forcePin) {
 			return false;
 		}
-		if (message.author.id === message.client.user.id || message.author.discriminator === '0000') {
+		if (message.author.id === message.client.user.id || message.author.discriminator === '0') {
 			return false;
 		}
 		const channel = message.channel;
 		if (channel.isDMBased() || channel.type === ChannelType.GuildStageVoice || channel.isThread()) {
 			if (channel.isSendable()) {
-				await channel.send({ embeds: [failEmbed('グローバルチャットに非対応なチャンネルです', '使用不可')] });
+				await channel.send({ embeds: [failEmbed('Force Pinに非対応なチャンネルです', '使用不可')] });
 			}
 			return false;
 		}
