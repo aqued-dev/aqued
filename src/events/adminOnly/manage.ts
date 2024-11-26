@@ -12,7 +12,16 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 	}
 	async execute(message: Message) {
 		if (message.client.aqued.config.bot.admins.includes(message.author.id)) {
-			if (message.content === 'aq.re') {
+			if (message.content === 'aq.sync') {
+				const wait = await message.reply('Wait...');
+				try {
+					await promisify(exec)('git pull');
+					wait.edit('Success!');
+				} catch (error) {
+					Logger.error(inspect(error));
+					wait.edit('Error...');
+				}
+			} else if (message.content === 'aq.re') {
 				const wait = await message.reply('Wait(1/3)...');
 				try {
 					await promisify(exec)('pnpm build');

@@ -5,7 +5,7 @@ const threadId = config.loggerThreadId;
 export default async function () {
 	return build(async function (source) {
 		source.on('data', async (obj: { level: number; time: number; pid: number; hostname: string; msg: string }) => {
-			if (obj.level === 40) {
+			if (obj.level === 50) {
 				const webhook = new WebhookClient(config.loggerWebhook);
 				const logMessage = '```pwsh\n' + obj.msg + '\n```';
 				if (logMessage.length > 1500) {

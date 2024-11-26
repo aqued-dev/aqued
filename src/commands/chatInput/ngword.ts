@@ -4,6 +4,7 @@ import {
 	AutoModerationRuleEventType,
 	AutoModerationRuleTriggerType,
 	ChatInputCommandInteraction,
+	DiscordAPIError,
 	InteractionContextType,
 	MessageFlags,
 	PermissionFlagsBits,
@@ -11,10 +12,13 @@ import {
 	type SlashCommandSubcommandsOnlyBuilder
 } from 'discord.js';
 import { constants } from '../../config/constants.js';
+import { Logger } from '../../core/Logger.js';
 import { SettingManager } from '../../core/SettingManager.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { GuildSetting } from '../../database/entities/GuildSetting.js';
+import { failEmbed, successEmbed } from '../../embeds/infosEmbed.js';
+import { translatePermission } from '../../utils/translatePermission.js';
 import { userFormat } from '../../utils/userFormat.js';
 type Rule = {
 	name: string;
@@ -94,22 +98,54 @@ export default class NgWord implements ChatInputCommand {
 		const setting = (await settings.getGuild()) ?? new GuildSetting(interaction.guildId);
 		switch (commandName) {
 			case 'add': {
-				const rule = await interaction.guild.autoModerationRules.create({
-					name: `${ruleName} By Aqued`,
-					eventType: AutoModerationRuleEventType.MessageSend,
-					triggerType: AutoModerationRuleTriggerType.Keyword,
-					triggerMetadata: {
-						regexPatterns: my.getRuleRegex(ruleName).map((value) => String(value))
-					},
-					actions: [{ type: AutoModerationActionType.BlockMessage }],
-					enabled: true,
-					reason: `${userFormat(interaction.member)}によって作成されました`
-				});
-
-				const autoMods: string[] = setting.autoMods ?? [];
-				autoMods.push(rule.id);
-				await settings.updateGuild({ autoMods });
-				return await interaction.reply('登録しました！');
+				try {
+					const rule = await interaction.guild.autoModerationRules.create({
+						name: `${ruleName} By Aqued`,
+						eventType: AutoModerationRuleEventType.MessageSend,
+						triggerType: AutoModerationRuleTriggerType.Keyword,
+						triggerMetadata: {
+							regexPatterns: my.getRuleRegex(ruleName).map((value) => String(value))
+						},
+						actions: [{ type: AutoModerationActionType.BlockMessage }],
+						enabled: true,
+						reason: `${userFormat(interaction.member)}によって作成されました`
+					});
+					const autoMods: string[] = setting.autoMods ?? [];
+					autoMods.push(rule.id);
+					await settings.updateGuild({ autoMods });
+				} catch (error) {
+					if (error instanceof DiscordAPIError) {
+						if (error.message.includes('AUTO_MODERATION_MAX_RULES_OF_TYPE_EXCEEDED')) {
+							return await interaction.reply({
+								embeds: [failEmbed('このサーバーには既に6つのキーワードルールがあります', 'ルール数制限')],
+								ephemeral: true
+							});
+						} else if (error.status === 403) {
+							return await interaction.reply({
+								embeds: [
+									failEmbed(
+										`botに${translatePermission([PermissionFlagsBits.ManageGuild])}の権限がありません`,
+										'権限不足'
+									)
+								],
+								ephemeral: true
+							});
+						} else {
+							Logger.error(error);
+							return await interaction.reply({
+								embeds: [failEmbed('不明なエラーが発生しました')],
+								ephemeral: true
+							});
+						}
+					} else {
+						Logger.error(error);
+						return await interaction.reply({
+							embeds: [failEmbed('不明なエラーが発生しました')],
+							ephemeral: true
+						});
+					}
+				}
+				return await interaction.reply({ embeds: [successEmbed('設定しました!')], ephemeral: true });
 			}
 
 			case 'remove': {
