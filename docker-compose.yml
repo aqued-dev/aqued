@@ -21,7 +21,7 @@ services:
     container_name: appcore
     image: node:22.11.0-slim
     working_dir: /usr/src/app
-    command: bash -c 'apt-get update && apt-get install git && npm install -g pnpm && pnpm i && pnpm build && pnpm start'
+    command: bash -c 'apt-get update && apt-get -y install git && npm install -g pnpm && pnpm i && pnpm build && pnpm start'
 volumes:
   mysql-data:
   appcore:
