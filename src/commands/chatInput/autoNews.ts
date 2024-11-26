@@ -5,7 +5,7 @@ import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
 import { disableEmbed, enableEmbed } from '../../embeds/booleanEmbed.js';
 
-export default class GlobalChat implements ChatInputCommand {
+export default class AutoNews implements ChatInputCommand {
 	public command: SlashCommandBuilder;
 	public settings: CommandSetting;
 	constructor() {

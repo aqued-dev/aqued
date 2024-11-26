@@ -67,7 +67,6 @@ export default class Afk implements ChatInputCommand {
 		options.afkReason = null;
 		options.afkMentions = [];
 		await setting.updateUser(options);
-		const base = new Afk();
 		if (options.afk) {
 			await interaction.reply({ embeds: [enableEmbed('AFK')] });
 		} else {
@@ -76,7 +75,7 @@ export default class Afk implements ChatInputCommand {
 				mentions = userSetting.afkMentions;
 			}
 			await interaction.reply({
-				embeds: [disableEmbed('AFK', '解除', 'されました'), base.mentionData(mentions ?? [])]
+				embeds: [disableEmbed('AFK', '解除', 'されました'), this.mentionData(mentions ?? [])]
 			});
 		}
 	}

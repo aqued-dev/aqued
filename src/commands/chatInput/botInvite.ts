@@ -53,16 +53,15 @@ export default class BotInvite implements ChatInputCommand {
 			});
 		}
 		const icon = user.displayAvatarURL({ extension: 'webp' });
-		const my = new BotInvite();
 		const admin = new ButtonBuilder()
 			.setLabel('管理者権限')
 			.setStyle(ButtonStyle.Link)
-			.setURL(my.getUrl(user.id, 'admin'));
+			.setURL(this.getUrl(user.id, 'admin'));
 		const select = new ButtonBuilder()
 			.setLabel('権限選択')
 			.setStyle(ButtonStyle.Link)
-			.setURL(my.getUrl(user.id, 'custom'));
-		const none = new ButtonBuilder().setLabel('権限なし').setStyle(ButtonStyle.Link).setURL(my.getUrl(user.id, 'none'));
+			.setURL(this.getUrl(user.id, 'custom'));
+		const none = new ButtonBuilder().setLabel('権限なし').setStyle(ButtonStyle.Link).setURL(this.getUrl(user.id, 'none'));
 
 		return await interaction.reply({
 			embeds: [infoEmbed('下のボタンから招待できます', `${userFormat(user)} を招待`).setThumbnail(icon)],

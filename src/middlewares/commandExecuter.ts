@@ -134,14 +134,11 @@ export const commandExecuter = async (
 		timestamps.set(interaction.user.id, now);
 		setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 		if (interaction.isChatInputCommand()) {
-			const { run } = command as ChatInputCommand;
-			return await run(interaction);
+			return await (command as ChatInputCommand).run(interaction);
 		} else if (interaction.isMessageContextMenuCommand()) {
-			const { run } = command as MessageContextMenuCommand;
-			return await run(interaction);
+			return await (command as MessageContextMenuCommand).run(interaction);
 		} else if (interaction.isUserContextMenuCommand()) {
-			const { run } = command as UserContextMenuCommand;
-			return await run(interaction);
+			return await (command as UserContextMenuCommand).run(interaction);
 		}
 		const unknownInteraction = interaction as MessageComponentInteraction;
 		if (!unknownInteraction['reply']) {
