@@ -26,6 +26,7 @@ import { GlobalChatMessage, type GlobalChatMessages } from '../../database/entit
 import { failEmbed, replyEmbed } from '../../embeds/infosEmbed.js';
 import { getWebhook, WebhookStatus } from '../../utils/getWebhook.js';
 import { userFormat } from '../../utils/userFormat.js';
+import { webhookChecker } from '../../utils/webhookChecker.js';
 /***
  * グローバルチャットメッセージ送受信
  */
@@ -91,7 +92,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			);
 			return false;
 		}
-		if (message.author.id === message.client.user.id || message.author.discriminator === '0') {
+		if (message.author.id === message.client.user.id || webhookChecker(message.author.discriminator)) {
 			return false;
 		}
 		if (message.author.system || message.author.bot) {
@@ -144,7 +145,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 		});
 
 		const username = userFormat(message.author);
-		let content: string | null = message.cleanContent;
+		let content: string = message.cleanContent;
 		const splitContent = content.slice(0, 1900);
 		if (content !== splitContent) {
 			content = `${splitContent}...(メッセージ省略)`;
@@ -185,9 +186,6 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 				}
 			}
 		}
-		embeds.push(
-			new EmbedBuilder().setDescription(`uId: ${message.author.id} / mId: ${message.id}`).setColor(Colors.Blue)
-		);
 		return {
 			username: username,
 			content: content,

@@ -1,6 +1,34 @@
 import { config } from './config.js';
-
-const emojiData = {
+export interface EmojiData {
+	check: string;
+	warn: string;
+	reply: string;
+	no: string;
+	info: string;
+	delete: string;
+	online: string;
+	offline: string;
+	idle: string;
+	dnd: string;
+	verifyMod: string;
+	verifyBot: string;
+	activeDev: string;
+	botDev: string;
+	nitro: string;
+	boost: string;
+	partner: string;
+	bot: string;
+	interaction: string;
+	officialMod: string;
+	HypesquadEvent: string;
+	HypesquadBrilliance: string;
+	HypesquadBravery: string;
+	HypesquadBalance: string;
+	earlySupporter: string;
+	bugHanterLv2: string;
+	bugHanter: string;
+}
+const emojiData: { dev: EmojiData; stable: EmojiData } = {
 	dev: {
 		check: '<:check:1294246167416275037>',
 		warn: '<:warn:1298214735078228040>',
@@ -60,7 +88,7 @@ const emojiData = {
 		bugHanter: '<:bug:1304073480215466004>'
 	}
 };
-export function emojis() {
+export function emojis(): EmojiData {
 	if (config.bot.stable) {
 		return emojiData.stable;
 	} else {

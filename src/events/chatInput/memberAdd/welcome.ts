@@ -1,5 +1,4 @@
 import { ChannelType, Events, GuildMember } from 'discord.js';
-import { Logger } from '../../../core/Logger.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import type { EventListener } from '../../../core/types/EventListener.js';
 import { getWebhook } from '../../../utils/getWebhook.js';
@@ -24,11 +23,11 @@ export default class WelcomeMessage implements EventListener<Events.GuildMemberA
 		const manager = new SettingManager({ guildId: member.guild.id });
 		const data = await manager.getGuild();
 		if (!data) {
-			return Logger.info('1');
+			return;
 		}
 		const setting = data.welcomeMessage;
 		if (!setting) {
-			return Logger.info('2');
+			return;
 		}
 		const channel = member.client.channels.cache.get(setting.channelId);
 		if (
@@ -37,14 +36,14 @@ export default class WelcomeMessage implements EventListener<Events.GuildMemberA
 			(channel && channel.isDMBased()) ||
 			(channel && channel.type === ChannelType.GuildStageVoice)
 		) {
-			return Logger.info('3');
+			return;
 		}
 		const util = new GlobalChatOnMessage();
 		const webhook = await getWebhook(channel);
 		const embed = util.webhookErrorEmbed(webhook);
 
 		if (embed) {
-			return Logger.info('4');
+			return;
 		}
 		return await channel.send({ content: this.parser(setting.message, member) });
 	}

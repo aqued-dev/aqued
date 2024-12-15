@@ -5,6 +5,7 @@ import type { EventListener } from '../core/types/EventListener.js';
 import { failEmbed } from '../embeds/infosEmbed.js';
 import { getWebhook } from '../utils/getWebhook.js';
 import { userFormat } from '../utils/userFormat.js';
+import { webhookChecker } from '../utils/webhookChecker.js';
 import GlobalChatOnMessage from './globalChat/onMessage.js';
 
 export default class ForcePin implements EventListener<Events.MessageCreate> {
@@ -24,7 +25,7 @@ export default class ForcePin implements EventListener<Events.MessageCreate> {
 		if (!setting.forcePin) {
 			return false;
 		}
-		if (message.author.id === message.client.user.id || message.author.discriminator === '0') {
+		if (message.author.id === message.client.user.id || webhookChecker(message.author.discriminator)) {
 			return false;
 		}
 		const channel = message.channel;

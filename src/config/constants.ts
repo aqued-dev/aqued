@@ -2,6 +2,8 @@ import packageJson from '../../package.json' with { type: 'json' };
 export const constants = {
 	version: packageJson.version,
 	webhookRegex: /https:\/\/(?:.+\.)?(?:discord\.com|discordapp\.com)\/api\/webhooks\/([^\\/]+)\/([^\\/]+)/,
+	messageLinkRegex:
+		/^(?:https:\/\/)?(?:\*.)?discord(?:app)?\.com\/channels\/(?<guildId>\d{17,20})\/(?<channelId>\d{17,20})\/(?<messageId>\d{17,20})$/,
 	defaultConfigs: {
 		bot: {
 			id: '',

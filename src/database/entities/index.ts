@@ -5,4 +5,4 @@ import { GlobalChatMessage } from './GlobalChatMessage.js';
 import { GuildSetting } from './GuildSetting.js';
 import { UserSetting } from './UserSetting.js';
 
-export const entities = [UserSetting, GuildSetting, ChannelSetting, GlobalChatMessage, GlobalChatBan, Error];
+export const entities = [ChannelSetting, Error, GlobalChatBan, GlobalChatMessage, GuildSetting, UserSetting];

@@ -112,10 +112,6 @@ config.setLoads({
 	messageContextMenu: configData.load.messagecotextmenu,
 	userContextMenu: configData.load.usercotextmenu
 });
-config.setSgcJsonChannels({
-	v1: configData.sgcJsonChannelId,
-	v2: configData.sgcJsonChannelIdv2
-});
 config.setSgcJsonChannel(configData.sgcJsonChannelId);
 config.setMySQLHost(configData.mysql.host);
 config.setMySQLPort(configData.mysql.port);
