@@ -1,4 +1,4 @@
-	import type { AttachmentBuilder } from 'discord.js';
+import type { AttachmentBuilder } from 'discord.js';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 interface ForcePin {
 	attachments: AttachmentBuilder[];
