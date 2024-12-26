@@ -1,6 +1,5 @@
 import { ChannelType, Events, Message } from 'discord.js';
 import { emojis } from '../../../config/emojis.js';
-import { Logger } from '../../../core/Logger.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import type { EventListener } from '../../../core/types/EventListener.js';
 export default class autoNews implements EventListener<Events.MessageCreate> {

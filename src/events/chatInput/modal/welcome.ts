@@ -1,5 +1,4 @@
 import { BaseInteraction, Events } from 'discord.js';
-import { Logger } from '../../../core/Logger.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';

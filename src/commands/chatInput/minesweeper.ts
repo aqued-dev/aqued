@@ -7,7 +7,6 @@ import {
 	InteractionContextType,
 	SlashCommandBuilder
 } from 'discord.js';
-import { Logger } from '../../core/Logger.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { infoEmbed } from '../../embeds/infosEmbed.js';
