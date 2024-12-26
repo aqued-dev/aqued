@@ -38,7 +38,6 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 				});
 				return await interaction.reply({ embeds: [successEmbed('退出メッセージを設定しました')], ephemeral: true });
 			} catch (error) {
-				Logger.error(error);
 				if (interaction.replied) {
 					return await interaction.followUp({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
 				} else {
@@ -54,7 +53,6 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 				});
 				return await interaction.reply({ embeds: [successEmbed('入室メッセージを設定しました')], ephemeral: true });
 			} catch (error) {
-				Logger.error(error);
 				if (interaction.replied) {
 					return await interaction.followUp({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
 				} else {

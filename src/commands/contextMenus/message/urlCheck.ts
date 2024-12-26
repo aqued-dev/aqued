@@ -6,10 +6,10 @@ import {
 	MessageContextMenuCommandInteraction,
 	MessageFlags
 } from 'discord.js';
-import { Logger } from '../../../core/Logger.js';
 import { type CommandSetting } from '../../../core/types/CommandSetting.js';
 import type { MessageContextMenuCommand } from '../../../core/types/ContextCommand.js';
 import { failEmbed, infoEmbed, successEmbed, warnEmbed } from '../../../embeds/infosEmbed.js';
+import { Logger } from '../../../core/Logger.js';
 
 export default class UrlCheck implements MessageContextMenuCommand {
 	public command: ContextMenuCommandBuilder;
@@ -90,7 +90,7 @@ export default class UrlCheck implements MessageContextMenuCommand {
 					);
 				}
 			} catch (error) {
-				Logger.error(error);
+				Logger.error(error)
 				embeds.push(failEmbed('安全性の確認に失敗しました', undefined, undefined, 'Powered by Norton Safeweb'));
 			}
 		}

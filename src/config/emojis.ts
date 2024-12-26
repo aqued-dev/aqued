@@ -1,5 +1,6 @@
 import { config } from './config.js';
 export interface EmojiData {
+	setting: string;
 	check: string;
 	warn: string;
 	reply: string;
@@ -30,6 +31,7 @@ export interface EmojiData {
 }
 const emojiData: { dev: EmojiData; stable: EmojiData } = {
 	dev: {
+		setting: '<:setting:1321707471105953814>',
 		check: '<:check:1294246167416275037>',
 		warn: '<:warn:1298214735078228040>',
 		reply: '<:reply:1298249673534079008>',
@@ -59,6 +61,7 @@ const emojiData: { dev: EmojiData; stable: EmojiData } = {
 		bugHanter: '<:bug:1304625167263072287>'
 	},
 	stable: {
+		setting: '<:setting:1321707232030752788>',
 		check: '<:check:1304621806069612625>',
 		warn: '<:warn:1304621664494948433>',
 		reply: '<:reply:1304621652407095387>',

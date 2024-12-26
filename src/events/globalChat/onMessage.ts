@@ -14,6 +14,7 @@ import {
 	type SendableChannels
 } from 'discord.js';
 import { Not } from 'typeorm';
+import { fileURLToPath } from 'url';
 import { constants } from '../../config/constants.js';
 import { emojis } from '../../config/emojis.js';
 import { Logger } from '../../core/Logger.js';
@@ -24,6 +25,7 @@ import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
 import { GlobalChatBan } from '../../database/entities/GlobalChatBan.js';
 import { GlobalChatMessage, type GlobalChatMessages } from '../../database/entities/GlobalChatMessage.js';
 import { failEmbed, replyEmbed } from '../../embeds/infosEmbed.js';
+import { errorReport } from '../../utils/errorReporter.js';
 import { getWebhook, WebhookStatus } from '../../utils/getWebhook.js';
 import { userFormat } from '../../utils/userFormat.js';
 import { webhookChecker } from '../../utils/webhookChecker.js';
@@ -60,7 +62,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 	webhookErrorEmbed(webhook: Webhook<WebhookType.Incoming> | WebhookStatus): EmbedBuilder | null {
 		if (webhook === WebhookStatus.UnknownError) {
 			return failEmbed(
-				'Webhookの取得中に、原因不明のエラーが発生しました\nサポートサーバーにてお問い合わせください',
+				'Webhookの取得中に、原因不明のエラーが発生しました',
 				'不明'
 			);
 		} else if (webhook === WebhookStatus.PermissionError) {
@@ -239,10 +241,18 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			try {
 				await this.send(message);
 			} catch (error) {
-				Logger.error(error);
+				const errorId = errorReport(
+					fileURLToPath(import.meta.url),
+					message.channel,
+					message.author,
+					error,
+					'globalchat',
+					Events.MessageCreate
+				);
 				await this.fail(
 					failEmbed(
-						'メッセージ送信中に、原因不明のエラーが発生しました\nサポートサーバーにてお問い合わせください',
+						'メッセージ送信中に、原因不明のエラーが発生しました\nサポートサーバーにてお問い合わせください\nエラーID: ' +
+							errorId,
 						'不明'
 					),
 					message

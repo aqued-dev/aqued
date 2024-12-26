@@ -1,13 +1,14 @@
 import { ChannelType, DiscordAPIError, Events, Message, Webhook, WebhookType } from 'discord.js';
 import { Not } from 'typeorm';
+import { fileURLToPath } from 'url';
 import { emojis } from '../../config/emojis.js';
-import { Logger } from '../../core/Logger.js';
 import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
 import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
 import { GlobalChatBan } from '../../database/entities/GlobalChatBan.js';
 import { GlobalChatMessage, GlobalChatMessages } from '../../database/entities/GlobalChatMessage.js';
 import { failEmbed } from '../../embeds/infosEmbed.js';
+import { errorReport } from '../../utils/errorReporter.js';
 import { getWebhook } from '../../utils/getWebhook.js';
 import GlobalChatOnMessage from '../globalChat/onMessage.js';
 export default class MessageCreate implements EventListener<Events.MessageCreate> {
@@ -54,7 +55,20 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 							if (error instanceof DiscordAPIError) {
 								warn = true;
 							} else {
-								Logger.error(error);
+								const errorId = errorReport(
+									fileURLToPath(import.meta.url),
+									message.channel,
+									message.author,
+									error,
+									'aq.gchat delete'
+								);
+								await message.reply({
+									embeds: [
+										failEmbed(
+											`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+										)
+									]
+								});
 								warn = true;
 							}
 						}
@@ -81,7 +95,20 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						if (error instanceof DiscordAPIError) {
 							warn = true;
 						} else {
-							Logger.error(error);
+							const errorId = errorReport(
+								fileURLToPath(import.meta.url),
+								message.channel,
+								message.author,
+								error,
+								'aq.gchat delete'
+							);
+							await message.reply({
+								embeds: [
+									failEmbed(
+										`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+									)
+								]
+							});
 							warn = true;
 						}
 					}

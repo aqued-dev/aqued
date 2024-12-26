@@ -11,7 +11,6 @@ export const Logger = pino({
 					mkdir: true
 				}
 			},
-			{ target: './LogSend.js' },
 			{ target: 'pino-pretty', options: { colorize: true } }
 		]
 	}

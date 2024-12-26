@@ -1,8 +1,9 @@
 import { Events, Message } from 'discord.js';
 import { exec } from 'node:child_process';
-import { inspect, promisify } from 'node:util';
-import { Logger } from '../../core/Logger.js';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import type { EventListener } from '../../core/types/EventListener.js';
+import { errorReport } from '../../utils/errorReporter.js';
 export default class MessageCreate implements EventListener<Events.MessageCreate> {
 	public name: Events.MessageCreate;
 	public once: boolean;
@@ -18,8 +19,14 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					const data = await promisify(exec)('git pull');
 					wait.edit('Success!\n```\n' + data.stdout + '\n```');
 				} catch (error) {
-					Logger.error(inspect(error));
-					wait.edit('Error...\n```js\n' + inspect(error) + '\n```');
+					const errorId = errorReport(
+						fileURLToPath(import.meta.url),
+						message.channel,
+						message.author,
+						error,
+						'aq.sync'
+					);
+					wait.edit('Error...\nId: ' + errorId);
 				}
 			} else if (message.content === 'aq.re') {
 				const wait = await message.reply('Wait(1/3)...');
@@ -33,8 +40,8 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						wait.edit('Reloaded!')
 					]);
 				} catch (error) {
-					Logger.error(inspect(error));
-					wait.edit('Error...');
+					const errorId = errorReport(fileURLToPath(import.meta.url), message.channel, message.author, error, 'aq.re');
+					wait.edit('Error...\nId: ' + errorId);
 				}
 			}
 		}

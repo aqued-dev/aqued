@@ -37,7 +37,6 @@ export default class Minesweeper implements ChatInputCommand {
 			const col = Math.floor(Math.random() * cols);
 
 			if (typeof board[row] === 'undefined') {
-				Logger.error('row is out of range.');
 				continue;
 			}
 

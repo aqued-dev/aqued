@@ -10,12 +10,13 @@ import {
 	Webhook,
 	WebhookType
 } from 'discord.js';
-import { Logger } from '../../../core/Logger.js';
+import { fileURLToPath } from 'node:url';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type CommandSetting } from '../../../core/types/CommandSetting.js';
 import type { MessageContextMenuCommand } from '../../../core/types/ContextCommand.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
 import GlobalChatOnMessage from '../../../events/globalChat/onMessage.js';
+import { errorReport } from '../../../utils/errorReporter.js';
 import { getWebhook } from '../../../utils/getWebhook.js';
 
 export default class ForcePin implements MessageContextMenuCommand {
@@ -77,11 +78,39 @@ export default class ForcePin implements MessageContextMenuCommand {
 						});
 						followUp = true;
 					} else {
-						Logger.error(error);
+						const errorId = errorReport(
+							fileURLToPath(import.meta.url),
+							interaction.channel!,
+							interaction.user,
+							error,
+							interaction.commandName
+						);
+						followUp = true;
+						await interaction.editReply({
+							embeds: [
+								failEmbed(
+									`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+								)
+							]
+						});
 					}
 				} else {
 					deletable = false;
-					Logger.error(error);
+					const errorId = errorReport(
+						fileURLToPath(import.meta.url),
+						interaction.channel!,
+						interaction.user,
+						error,
+						interaction.commandName
+					);
+					followUp = true;
+					await interaction.editReply({
+						embeds: [
+							failEmbed(
+								`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+							)
+						]
+					});
 				}
 			}
 			let deleteMessage = '\n※Force Pinメッセージはエラーによって削除できませんでした';

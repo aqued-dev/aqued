@@ -1,8 +1,9 @@
 import { ChannelType, DiscordAPIError, Events, GuildMember, Message, User, Webhook, WebhookType } from 'discord.js';
-import { Logger } from '../core/Logger.js';
+import { fileURLToPath } from 'node:url';
 import { SettingManager } from '../core/SettingManager.js';
 import type { EventListener } from '../core/types/EventListener.js';
 import { failEmbed } from '../embeds/infosEmbed.js';
+import { errorReport } from '../utils/errorReporter.js';
 import { getWebhook } from '../utils/getWebhook.js';
 import { userFormat } from '../utils/userFormat.js';
 import { webhookChecker } from '../utils/webhookChecker.js';
@@ -93,7 +94,21 @@ export default class ForcePin implements EventListener<Events.MessageCreate> {
 					return;
 				}
 			} else {
-				Logger.error(error);
+				const errorId = errorReport(
+					fileURLToPath(import.meta.url),
+					message.channel,
+					message.client.user,
+					error,
+					'',
+					'ForcePin/MessageCreate'
+				);
+				await webhook.send({
+					embeds: [
+						failEmbed(
+							`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+						)
+					]
+				});
 			}
 		}
 		const WebhookMessage = await webhook.send({

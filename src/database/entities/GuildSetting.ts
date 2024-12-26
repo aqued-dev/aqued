@@ -3,6 +3,12 @@ export interface WelcomeMessageData {
 	message: string;
 	channelId: string;
 }
+interface MessageExpander {
+	inviteReplace: boolean;
+	useInThread: boolean;
+	channels: string[];
+	allChannel: boolean;
+}
 @Entity({ name: 'GUILD_SETTING' })
 export class GuildSetting {
 	@PrimaryColumn({ name: 'GUILD_ID', type: 'bigint', comment: 'ギルドID' })
@@ -13,6 +19,8 @@ export class GuildSetting {
 	welcomeMessage?: WelcomeMessageData | null;
 	@Column({ name: 'LEAVE_MESSAGE', type: 'json', comment: '退出メッセージ', nullable: true })
 	leaveMessage?: WelcomeMessageData | null;
+	@Column({ name: 'MESSAGE_EXPANDER', type: 'json', comment: 'メッセージ展開の設定', nullable: true })
+	messageExpander?: MessageExpander | null;
 	constructor(guildId: string) {
 		this.guildId = guildId;
 	}

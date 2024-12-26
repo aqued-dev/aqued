@@ -1,8 +1,9 @@
 import { BaseInteraction, DiscordAPIError, Events, GuildMember, MessageFlags, User } from 'discord.js';
+import { fileURLToPath } from 'url';
 import slowmode from '../../../commands/chatInput/slowmode.js';
-import { Logger } from '../../../core/Logger.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { errorReport } from '../../../utils/errorReporter.js';
 import { generateCustomId } from '../../../utils/generateCustomId.js';
 import { userFormat } from '../../../utils/userFormat.js';
 
@@ -56,8 +57,22 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 			if (error instanceof DiscordAPIError && error.status === 403) {
 				return await interaction.reply({ embeds: [failEmbed('Botに低速モードを設定する権限がありません')] });
 			}
-			Logger.error(error);
-			return await interaction.reply({ embeds: [failEmbed('不明なエラーが発生しました')] });
+			const errorId = errorReport(
+				fileURLToPath(import.meta.url),
+				interaction.channel,
+				interaction.user,
+				error,
+				'',
+				'slowmode/interactionCreate',
+				'chatinput_modal_slowmode_time'
+			);
+			return await interaction.reply({
+				embeds: [
+					failEmbed(
+						`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+					)
+				]
+			});
 		}
 	}
 }

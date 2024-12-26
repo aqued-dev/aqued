@@ -10,18 +10,15 @@ export const constants = {
 			admins: [],
 			token: '',
 			mods: [],
-			stable: false
+			stable: false,
+			syncDb: false
 		},
-		channels: { error: '', log: '', command: '' },
+		channels: { command: '' },
 		mongo: { url: '', key: '' },
 		loads: {
 			chatInput: true,
 			messageContextMenu: true,
 			userContextMenu: true
-		},
-		sgcJsonChannels: {
-			v1: '',
-			v2: ''
 		},
 		sgcJsonChannel: '',
 		mysql: {
@@ -34,7 +31,8 @@ export const constants = {
 			id: '',
 			token: ''
 		},
-		loggerThreadId: ''
+		loggerThreadId: '',
+		loggerGuildId: ''
 	},
 	regexs: {
 		inviteUrls: {

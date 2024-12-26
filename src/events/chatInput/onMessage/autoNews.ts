@@ -27,8 +27,7 @@ export default class autoNews implements EventListener<Events.MessageCreate> {
 			message
 				.crosspost()
 				.then(async () => message.react(emojis().check))
-				.catch((error) => {
-					Logger.error(error);
+				.catch(() => {
 					message.react(emojis().no);
 				});
 			if (message.reactions.cache.size === 0) {

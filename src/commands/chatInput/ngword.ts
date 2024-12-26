@@ -11,13 +11,14 @@ import {
 	SlashCommandBuilder,
 	type SlashCommandSubcommandsOnlyBuilder
 } from 'discord.js';
+import { fileURLToPath } from 'node:url';
 import { constants } from '../../config/constants.js';
-import { Logger } from '../../core/Logger.js';
 import { SettingManager } from '../../core/SettingManager.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { GuildSetting } from '../../database/entities/GuildSetting.js';
 import { failEmbed, successEmbed } from '../../embeds/infosEmbed.js';
+import { errorReport } from '../../utils/errorReporter.js';
 import { translatePermission } from '../../utils/translatePermission.js';
 import { userFormat } from '../../utils/userFormat.js';
 type Rule = {
@@ -130,16 +131,36 @@ export default class NgWord implements ChatInputCommand {
 								ephemeral: true
 							});
 						} else {
-							Logger.error(error);
+							const errorId = errorReport(
+								fileURLToPath(import.meta.url),
+								interaction.channel!,
+								interaction.user,
+								error,
+								interaction.commandName
+							);
 							return await interaction.reply({
-								embeds: [failEmbed('不明なエラーが発生しました')],
+								embeds: [
+									failEmbed(
+										`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+									)
+								],
 								ephemeral: true
 							});
 						}
 					} else {
-						Logger.error(error);
+						const errorId = errorReport(
+							fileURLToPath(import.meta.url),
+							interaction.channel!,
+							interaction.user,
+							error,
+							interaction.commandName
+						);
 						return await interaction.reply({
-							embeds: [failEmbed('不明なエラーが発生しました')],
+							embeds: [
+								failEmbed(
+									`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
+								)
+							],
 							ephemeral: true
 						});
 					}

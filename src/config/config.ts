@@ -2,22 +2,23 @@ import configData from '../../config.json' with { type: 'json' };
 import { constants } from './constants.js';
 
 class Config {
-	public bot: { id: string; admins: string[]; token: string; mods: string[]; stable: boolean } =
+	public bot: { id: string; admins: string[]; token: string; mods: string[]; stable: boolean; syncDb: boolean } =
 		constants.defaultConfigs.bot;
-	public channels: { error: string; log: string; command: string } = constants.defaultConfigs.channels;
+	public channels: { command: string } = constants.defaultConfigs.channels;
 	public mongo: { url: string; key: string } = constants.defaultConfigs.mongo;
 	public loads: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean } =
 		constants.defaultConfigs.loads;
-	/**
-	 * @deprecated 本番環境に移動次第廃止予定
-	 */
-	public sgcJsonChannels: { v1: string; v2: string } = constants.defaultConfigs.sgcJsonChannels;
 	public sgcJsonChannel: string = constants.defaultConfigs.sgcJsonChannel;
 	public mysql: { host: string; port: number; user: string; password: string } = constants.defaultConfigs.mysql;
 	public loggerWebhook: { id: string; token: string } = constants.defaultConfigs.loggerWebhook;
 	public loggerThreadId: string = constants.defaultConfigs.loggerThreadId;
+	public loggerGuildId: string = constants.defaultConfigs.loggerGuildId;
+
 	setId(id: string) {
 		this.bot.id = id;
+	}
+	setSyncDb(bool: boolean) {
+		this.bot.syncDb = bool;
 	}
 	setStable(stable: boolean) {
 		this.bot.stable = stable;
@@ -34,16 +35,8 @@ class Config {
 		this.bot.mods = users;
 	}
 
-	setErrorChannel(id: string) {
-		this.channels.error = id;
-	}
-
-	setLogChannel(id: string) {
-		this.channels.log = id;
-	}
-
 	setCommandLogChannel(id: string) {
-		this.channels.log = id;
+		this.channels.command = id;
 	}
 
 	setMongoUrl(url: string) {
@@ -56,15 +49,6 @@ class Config {
 
 	setLoads(data: { chatInput: boolean; messageContextMenu: boolean; userContextMenu: boolean }) {
 		this.loads = data;
-	}
-	/**
-	 * @deprecated 本番環境に移動次第廃止予定
-	 */
-	setSgcJsonChannels(data: { v1: string; v2: string }) {
-		process.emitWarning('本番環境に移動次第廃止されますので、setSgcJsonChannelを使用してください', {
-			type: 'DeprecationWarning'
-		});
-		this.sgcJsonChannels = data;
 	}
 	setSgcJsonChannel(channelId: string) {
 		this.sgcJsonChannel = channelId;
@@ -90,6 +74,9 @@ class Config {
 			};
 		}
 	}
+	setLoggerGuildId(guildId: string) {
+		this.loggerGuildId = guildId;
+	}
 	setLoggerThreadId(threadId: string) {
 		this.loggerThreadId = threadId;
 	}
@@ -102,15 +89,13 @@ config.setToken(configData.token);
 config.setAdmins(configData.owners);
 config.setStable(configData.stable);
 config.setMods(configData.mods);
-config.setErrorChannel(configData.channelIds.error);
-config.setLogChannel(configData.channelIds.botLog);
 config.setCommandLogChannel(configData.channelIds.commandLog);
 config.setMongoUrl(configData.mongoDBUrl);
 config.setMongoKey(configData.key);
 config.setLoads({
-	chatInput: configData.load.chatinput,
-	messageContextMenu: configData.load.messagecotextmenu,
-	userContextMenu: configData.load.usercotextmenu
+	chatInput: configData.load.chatInput,
+	messageContextMenu: configData.load.messageContextMenu,
+	userContextMenu: configData.load.userContextMenu
 });
 config.setSgcJsonChannel(configData.sgcJsonChannelId);
 config.setMySQLHost(configData.mysql.host);
@@ -118,5 +103,7 @@ config.setMySQLPort(configData.mysql.port);
 config.setMySQLUser(configData.mysql.user);
 config.setMySQLPassword(configData.mysql.password);
 config.setLoggerUrl(configData.loggerUrl);
+config.setLoggerGuildId(configData.loggerGuildId);
 config.setLoggerThreadId(configData.loggerThreadId);
+config.setSyncDb(configData.syncDb)
 export { config };

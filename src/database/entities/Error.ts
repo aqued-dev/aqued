@@ -4,11 +4,10 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 export class Error {
 	@PrimaryColumn({ name: 'id', type: 'bigint', comment: 'エラーSnowFlake' })
 	id: string;
-	@Column({ name: 'text', type: 'text', comment: 'エラー内容' })
-	text: string;
-
-	constructor(id: string, text: string) {
+	@Column({ name: 'url', type: 'text', comment: 'エラーのURL' })
+	url: string;
+	constructor(id: string, url: string) {
 		this.id = id;
-		this.text = text;
+		this.url = url;
 	}
 }

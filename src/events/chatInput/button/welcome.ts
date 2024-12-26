@@ -7,10 +7,11 @@ import {
 	TextInputBuilder,
 	TextInputStyle
 } from 'discord.js';
-import { Logger } from '../../../core/Logger.js';
+import { fileURLToPath } from 'url';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { errorReport } from '../../../utils/errorReporter.js';
 import { generateCustomId } from '../../../utils/generateCustomId.js';
 
 export default class WelcomeMessage implements EventListener<Events.InteractionCreate> {
@@ -104,8 +105,21 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 			await manager.updateGuild({ [settingKey]: null });
 			return await interaction.reply({ embeds: [successEmbed('登録を解除しました')], ephemeral: true });
 		} catch (error) {
-			Logger.error(error);
-			return await base.replyWithFail(interaction, '不明なエラーで解除できませんでした');
+			const errorId = errorReport(
+				fileURLToPath(import.meta.url),
+				interaction.channel!,
+				interaction.user,
+				error,
+				'',
+				Events.InteractionCreate,
+				settingKey + 'delete'
+			);
+			return await base.replyWithFail(
+				interaction,
+				'不明なエラーで解除できませんでした\nエラーID: ' +
+					errorId +
+					'サポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn'
+			);
 		}
 	}
 }
