@@ -7,7 +7,7 @@ import {
 	TextInputBuilder,
 	TextInputStyle
 } from 'discord.js';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';

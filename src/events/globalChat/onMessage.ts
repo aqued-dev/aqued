@@ -13,8 +13,8 @@ import {
 	type PartialMessage,
 	type SendableChannels
 } from 'discord.js';
+import { fileURLToPath } from 'node:url';
 import { Not } from 'typeorm';
-import { fileURLToPath } from 'url';
 import { constants } from '../../config/constants.js';
 import { emojis } from '../../config/emojis.js';
 import { Logger } from '../../core/Logger.js';
@@ -61,10 +61,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 	}
 	webhookErrorEmbed(webhook: Webhook<WebhookType.Incoming> | WebhookStatus): EmbedBuilder | null {
 		if (webhook === WebhookStatus.UnknownError) {
-			return failEmbed(
-				'Webhookの取得中に、原因不明のエラーが発生しました',
-				'不明'
-			);
+			return failEmbed('Webhookの取得中に、原因不明のエラーが発生しました', '不明');
 		} else if (webhook === WebhookStatus.PermissionError) {
 			return failEmbed('この機能には、Botに **`ウェブフックの管理`** 権限が必要です', '権限不足');
 		} else if (webhook === WebhookStatus.ParentChannel) {

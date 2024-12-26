@@ -90,7 +90,7 @@ export default class UrlCheck implements MessageContextMenuCommand {
 					);
 				}
 			} catch (error) {
-				Logger.error(error)
+				Logger.error(error);
 				embeds.push(failEmbed('安全性の確認に失敗しました', undefined, undefined, 'Powered by Norton Safeweb'));
 			}
 		}

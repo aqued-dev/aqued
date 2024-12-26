@@ -105,5 +105,5 @@ config.setMySQLPassword(configData.mysql.password);
 config.setLoggerUrl(configData.loggerUrl);
 config.setLoggerGuildId(configData.loggerGuildId);
 config.setLoggerThreadId(configData.loggerThreadId);
-config.setSyncDb(configData.syncDb)
+config.setSyncDb(configData.syncDb);
 export { config };

@@ -1,5 +1,5 @@
 import { BaseInteraction, DiscordAPIError, Events, GuildMember, MessageFlags, User } from 'discord.js';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import slowmode from '../../../commands/chatInput/slowmode.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';

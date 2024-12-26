@@ -1,6 +1,6 @@
 import { ChannelType, DiscordAPIError, Events, Message, Webhook, WebhookType } from 'discord.js';
+import { fileURLToPath } from 'node:url';
 import { Not } from 'typeorm';
-import { fileURLToPath } from 'url';
 import { emojis } from '../../config/emojis.js';
 import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
