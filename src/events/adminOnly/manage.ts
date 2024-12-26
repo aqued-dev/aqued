@@ -2,7 +2,10 @@ import { Events, Message } from 'discord.js';
 import { exec } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { emojis } from '../../config/emojis.js';
+import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
+import { Error } from '../../database/entities/Error.js';
 import { errorReport } from '../../utils/errorReporter.js';
 export default class MessageCreate implements EventListener<Events.MessageCreate> {
 	public name: Events.MessageCreate;
@@ -28,6 +31,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					);
 					wait.edit('Error...\nId: ' + errorId);
 				}
+				return;
 			} else if (message.content === 'aq.re') {
 				const wait = await message.reply('Wait(1/3)...');
 				try {
@@ -43,7 +47,27 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					const errorId = errorReport(fileURLToPath(import.meta.url), message.channel, message.author, error, 'aq.re');
 					wait.edit('Error...\nId: ' + errorId);
 				}
+				return;
+			} else if (message.content.startsWith('aq.error')) {
+				const id = message.content.replace('aq.error ', '');
+				if (!id) {
+					return await message.react(emojis().no);
+				} else {
+					return dataSource.transaction(async (em) => {
+						const repo = em.getRepository(Error);
+						const data = await repo.findOne({ where: { id } });
+						if (!data) {
+							return await message.react(emojis().no);
+						} else {
+							return await message.reply(data.url);
+						}
+					});
+				}
+			} else {
+				return;
 			}
+		} else {
+			return;
 		}
 	}
 }
