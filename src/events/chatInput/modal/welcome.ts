@@ -3,6 +3,7 @@ import { Logger } from '../../../core/Logger.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../../utils/generateCustomId.js';
 
 export default class SlowModeModal implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;
@@ -28,7 +29,7 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 		if (!interaction.channel.isSendable()) {
 			return;
 		}
-		if (interaction.customId === 'chatinput_modal_leave') {
+		if (interaction.customId === generateCustomId('chatinput', 'modal', 'leave', 'regist')) {
 			const manager = new SettingManager({ guildId: interaction.guildId });
 			const message = interaction.fields.getTextInputValue('message');
 			try {
@@ -44,7 +45,7 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 					return await interaction.reply({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
 				}
 			}
-		} else if (interaction.customId === 'chatinput_modal_welcome') {
+		} else if (interaction.customId === generateCustomId('chatinput', 'modal', 'welcome', 'regist')) {
 			const manager = new SettingManager({ guildId: interaction.guildId });
 			const message = interaction.fields.getTextInputValue('message');
 			try {

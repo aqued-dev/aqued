@@ -4,8 +4,6 @@ import { constants } from '../config/constants.js';
 import { CommandLoader } from './CommandLoader.js';
 import { EventLoader } from './EventLoader.js';
 import { dataSource } from './typeorm.config.js';
-import type { ChatInputCommand } from './types/ChatInputCommand.js';
-import type { MessageContextMenuCommand, UserContextMenuCommand } from './types/ContextCommand.js';
 
 export const client = new Client({
 	intents: [
@@ -25,17 +23,6 @@ function changeStatus() {
 		name: `/help | ${client.guilds.cache.size} Servers | v${constants.version}`,
 		type: ActivityType.Custom
 	});
-}
-declare module 'discord.js' {
-	interface Client {
-		aqued: {
-			events: EventLoader;
-			config: typeof config;
-			commands: CommandLoader<ChatInputCommand | MessageContextMenuCommand | UserContextMenuCommand>;
-			readyId: string;
-			cooldown: Map<string, Map<string, number>>;
-		};
-	}
 }
 client.aqued = {
 	config: config,

@@ -6,6 +6,10 @@ interface ForcePin {
 	content: string;
 	latestMessageId: string;
 }
+interface MessageExpander {
+	inviteReplace: boolean;
+	useInThread: boolean;
+}
 @Entity({ name: 'CHANNEL_SETTING' })
 export class ChannelSetting {
 	@PrimaryColumn({ name: 'CHANNEL_ID', type: 'bigint', comment: 'チャンネルID' })
@@ -18,7 +22,8 @@ export class ChannelSetting {
 	autoNews?: boolean | null;
 	@Column({ name: 'FORCE_PIN', type: 'json', comment: 'メッセージを下に固定', nullable: true })
 	forcePin?: ForcePin | null;
-
+	@Column({ name: 'MESSAGE_EXPANDER', type: 'json', comment: 'メッセージ展開の設定', nullable: true })
+	messageExpander?: MessageExpander | null;
 	constructor(channelId: string) {
 		this.channelId = channelId;
 	}

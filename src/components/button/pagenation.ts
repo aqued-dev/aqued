@@ -9,6 +9,7 @@ import {
 	Message,
 	type BaseMessageOptions
 } from 'discord.js';
+import { generateCustomId } from '../../utils/generateCustomId.js';
 
 /**
  * ボタンページネーション
@@ -20,9 +21,9 @@ import {
 export const buttonPagination = async (datas: (string | EmbedBuilder)[], interaction: CommandInteraction | Message) => {
 	let currentPage = 0;
 	const customIds = {
-		before: `components_button_pagination_before_id_${interaction.client.aqued.readyId}`,
-		stop: `components_button_pagination_stop_id_${interaction.client.aqued.readyId}`,
-		after: `components_button_pagination_after_id_${interaction.client.aqued.readyId}`
+		before: generateCustomId('components', 'button', 'pagination', 'before', 'id', interaction.client.aqued.readyId),
+		stop: generateCustomId('components', 'button', 'pagination', 'stop', 'id', interaction.client.aqued.readyId),
+		after: generateCustomId('components', 'button', 'pagination', 'after', 'id', interaction.client.aqued.readyId)
 	};
 	const createButtonRow = (disable: boolean = false) => {
 		return new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -110,9 +111,9 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 
 export const oldButtonPaginationDisable = async (interaction: ButtonInteraction) => {
 	const customIds = [
-		`components_button_pagination_before_id_`,
-		`components_button_pagination_stop_id_`,
-		`components_button_pagination_after_id_`
+		generateCustomId('components', 'button', 'pagination', 'before', 'id', ''),
+		generateCustomId('components', 'button', 'pagination', 'stop', 'id', ''),
+		generateCustomId('components', 'button', 'pagination', 'after', 'id', '')
 	];
 	if (!customIds.some((id) => interaction.customId.startsWith(id))) {
 		return;

@@ -1,6 +1,7 @@
 import { BaseInteraction, ButtonInteraction, Events, GuildMember, MessageFlags, PermissionFlagsBits } from 'discord.js';
 import type { EventListener } from '../../../core/types/EventListener.js';
 import { deleteEmbed, failEmbed } from '../../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../../utils/generateCustomId.js';
 
 export default class TanzakuDelete implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate;
@@ -20,11 +21,12 @@ export default class TanzakuDelete implements EventListener<Events.InteractionCr
 		if (!interaction.isButton()) {
 			return;
 		}
-		if (!interaction.customId.startsWith('chatinput_button_tanzaku_delete_userid')) {
+		const customId = generateCustomId('chatinput', 'button', 'tanzaku', 'delete', 'userid');
+		if (!interaction.customId.startsWith(customId)) {
 			return;
 		}
 
-		const userId = interaction.customId.replace('chatinput_button_tanzaku_delete_userid', '');
+		const userId = interaction.customId.replace(customId, '');
 		if (userId !== interaction.user.id) {
 			if (
 				interaction.member &&

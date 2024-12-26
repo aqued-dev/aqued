@@ -11,6 +11,7 @@ import { Logger } from '../../core/Logger.js';
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { infoEmbed } from '../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../utils/generateCustomId.js';
 
 export default class Minesweeper implements ChatInputCommand {
 	public command: SlashCommandBuilder;
@@ -82,7 +83,7 @@ export default class Minesweeper implements ChatInputCommand {
 		const button = new ButtonBuilder()
 			.setLabel('再生成')
 			.setStyle(ButtonStyle.Success)
-			.setCustomId('chatinput_button_minesweeper_regenerate');
+			.setCustomId(generateCustomId('chatinput', 'button', 'minesweeper', 'regenerate'));
 
 		await interaction.reply({
 			embeds: [infoEmbed(this.generate(9, 9, 10), 'マインスイーパ')],

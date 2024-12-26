@@ -14,6 +14,7 @@ import {
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { failEmbed } from '../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../utils/generateCustomId.js';
 
 export default class Slowmode implements ChatInputCommand {
 	public command: SlashCommandBuilder;
@@ -47,7 +48,7 @@ export default class Slowmode implements ChatInputCommand {
 		return await interaction.showModal(
 			new ModalBuilder()
 				.setTitle('低速モード')
-				.setCustomId('chatinput_modal_slowmode_time')
+				.setCustomId(generateCustomId('chatinput', 'modal', 'slowmode', 'time'))
 				.addComponents(
 					new ActionRowBuilder<TextInputBuilder>().addComponents(
 						new TextInputBuilder()

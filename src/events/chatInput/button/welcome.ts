@@ -11,6 +11,7 @@ import { Logger } from '../../../core/Logger.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../../utils/generateCustomId.js';
 
 export default class WelcomeMessage implements EventListener<Events.InteractionCreate> {
 	public name: Events.InteractionCreate = Events.InteractionCreate;
@@ -27,13 +28,13 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 			return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
 		}
 
-		if (customId.startsWith('chatinput_button_welcome_id_')) {
+		if (customId.startsWith(generateCustomId('chatinput', 'button', 'welcome', 'id', ''))) {
 			return base.showWelcomeModal(interaction);
-		} else if (customId.startsWith('chatinput_button_leave_id_')) {
+		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'leave', 'id', ''))) {
 			return base.showLeaveModal(interaction);
-		} else if (customId.startsWith('chatinput_button_welcome_delete_id_')) {
+		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'welcome', 'delete', 'id', ''))) {
 			return base.deleteSetting(interaction, guild.id, 'welcomeMessage');
-		} else if (customId.startsWith('chatinput_button_leave_delete_id_')) {
+		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'leave', 'delete', 'id', ''))) {
 			return base.deleteSetting(interaction, guild.id, 'leaveMessage');
 		} else {
 			return;
@@ -56,7 +57,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 		const base = new WelcomeMessage();
 		const modal = base.createModal(
 			'ウェルカムメッセージの登録',
-			'chatinput_modal_welcome',
+			generateCustomId('chatinput', 'modal', 'welcome', 'regist'),
 			'{{user.mention}}が参加しました'
 		);
 		return interaction.showModal(modal);
@@ -64,7 +65,11 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 
 	private async showLeaveModal(interaction: ButtonInteraction) {
 		const base = new WelcomeMessage();
-		const modal = base.createModal('退出メッセージの登録', 'chatinput_modal_leave', '{{user.mention}}が退出しました');
+		const modal = base.createModal(
+			'退出メッセージの登録',
+			generateCustomId('chatinput', 'modal', 'leave', 'regist'),
+			'{{user.mention}}が退出しました'
+		);
 		return interaction.showModal(modal);
 	}
 

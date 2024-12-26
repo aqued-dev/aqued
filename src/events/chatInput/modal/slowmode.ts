@@ -3,6 +3,7 @@ import slowmode from '../../../commands/chatInput/slowmode.js';
 import { Logger } from '../../../core/Logger.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../../utils/generateCustomId.js';
 import { userFormat } from '../../../utils/userFormat.js';
 
 export default class SlowModeModal implements EventListener<Events.InteractionCreate> {
@@ -17,7 +18,7 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 		if (!interaction.isModalSubmit()) {
 			return;
 		}
-		if (interaction.customId !== 'chatinput_modal_slowmode_time') {
+		if (interaction.customId !== generateCustomId('chatinput', 'modal', 'slowmode', 'time')) {
 			return;
 		}
 		if (!interaction.channel || interaction.channel.isDMBased()) {

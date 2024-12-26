@@ -11,6 +11,7 @@ import {
 import { type ChatInputCommand } from '../../core/types/ChatInputCommand.js';
 import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { infoEmbed } from '../../embeds/infosEmbed.js';
+import { generateCustomId } from '../../utils/generateCustomId.js';
 
 export default class Tanzaku implements ChatInputCommand {
 	public command: SlashCommandOptionsOnlyBuilder;
@@ -133,7 +134,7 @@ export default class Tanzaku implements ChatInputCommand {
 			.setLabel('短冊を削除する')
 			.setEmoji('🗑️')
 			.setStyle(ButtonStyle.Danger)
-			.setCustomId('chatinput_button_tanzaku_delete_userid' + interaction.user.id);
+			.setCustomId(generateCustomId('chatinput', 'button', 'tanzaku', 'delete', 'userid', interaction.user.id));
 		await interaction.reply({
 			embeds: [infoEmbed(this.generate(text), '🎋｜短冊')],
 			components: [new ActionRowBuilder<ButtonBuilder>().addComponents(button)]
