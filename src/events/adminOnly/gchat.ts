@@ -128,7 +128,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 				const base = new GlobalChatOnMessage();
 				const content = message.content.replace('aq.gchat system ', '');
 				const repo = dataSource.getRepository(ChannelSetting);
-				const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
+				const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), globalChat: true } });
 				if (channelSettings.length === 0) {
 					return await base.fail(
 						failEmbed('グローバルチャットに参加しているチャンネルが他に一つもありません', '送信不可'),

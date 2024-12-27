@@ -122,7 +122,8 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			constants.regexs.inviteUrls.sabach
 		].every((regex) => regex.test(message.cleanContent ?? ''));
 		if (regexMatchesAll) {
-			return await this.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
+			await this.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
+			return false;
 		}
 		return true;
 	}
@@ -195,7 +196,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 	}
 	async send(message: Message<true>) {
 		const repo = dataSource.getRepository(ChannelSetting);
-		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
+		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), globalChat: true } });
 		if (channelSettings.length === 0) {
 			return await this.fail(
 				failEmbed('グローバルチャットに参加しているチャンネルが他に一つもありません', '送信不可'),

@@ -29,7 +29,7 @@ export default class GlobalChatOnDelete implements EventListener<Events.MessageD
 			return;
 		}
 		const repo = dataSource.getRepository(ChannelSetting);
-		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
+		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), globalChat: true } });
 		if (channelSettings.length === 0) {
 			return;
 		}

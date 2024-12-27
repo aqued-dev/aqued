@@ -22,7 +22,7 @@ export default class GlobalChatOnEdit implements EventListener<Events.MessageUpd
 			return;
 		}
 		const repo = dataSource.getRepository(ChannelSetting);
-		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId) } });
+		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), globalChat: true } });
 		if (channelSettings.length === 0) {
 			return await util.fail(
 				failEmbed('グローバルチャットに参加しているチャンネルが他に一つもありません', '編集不可'),
