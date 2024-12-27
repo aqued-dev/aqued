@@ -423,7 +423,9 @@ export default class Moderate implements ChatInputCommand {
 					});
 				}
 			}
-			return await interaction.reply({ embeds: [successEmbed(`**${userFormat(user)}** のタイムアウトを解除しました`)] });
+			return await interaction.reply({
+				embeds: [successEmbed(`**${userFormat(user)}** のタイムアウトを解除しました`)]
+			});
 		} else {
 			return;
 		}
