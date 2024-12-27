@@ -5,7 +5,7 @@ import { type CommandSetting } from '../../core/types/CommandSetting.js';
 import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
 import { disableEmbed, enableEmbed } from '../../embeds/booleanEmbed.js';
 
-export default class GlobalChat implements ChatInputCommand {
+export default class SuperGlobalChat implements ChatInputCommand {
 	public command: SlashCommandBuilder;
 	public settings: CommandSetting;
 	constructor() {
@@ -13,7 +13,7 @@ export default class GlobalChat implements ChatInputCommand {
 			.setName('superglobalchat')
 			.setDescription('[使用不可] スーパーグローバルチャットの有効化・無効化');
 		this.settings = {
-			enable: false, // 機能完成まで封鎖
+			enable: true,
 			adminOnly: true,
 			permissions: [PermissionFlagsBits.ManageChannels],
 			channelTypes: [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildAnnouncement]
