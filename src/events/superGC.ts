@@ -1,10 +1,16 @@
-import { calculateUserDefaultAvatarIndex, Events, Message, Snowflake } from 'discord.js';
+import { calculateUserDefaultAvatarIndex, ChannelType, Events, Message, Snowflake } from 'discord.js';
 import { config } from '../config/config.js';
 import { constants } from '../config/constants.js';
 import { emojis } from '../config/emojis.js';
 import { Logger } from '../core/Logger.js';
 import { SettingManager } from '../core/SettingManager.js';
+import { dataSource } from '../core/typeorm.config.js';
 import { EventListener } from '../core/types/EventListener.js';
+import { GlobalChatBan } from '../database/entities/GlobalChatBan.js';
+import { failEmbed } from '../embeds/infosEmbed.js';
+import { getWebhook } from '../utils/getWebhook.js';
+import { webhookChecker } from '../utils/webhookChecker.js';
+import GlobalChatOnMessage from './globalChat/onMessage.js';
 interface MessageData {
 	/**
 	 * データの種類(必須)
@@ -166,17 +172,58 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 	}
 	async messageListen(message: Message<true>) {
 		const emoji = emojis();
-		if (message.author.bot) {
+		const globalChat = new GlobalChatOnMessage();
+		if (message.author.system || message.author.bot) {
 			return await message.react(emoji.no);
 		}
+		if (webhookChecker(message.author.discriminator)) {
+			return await message.react(emoji.no);
+		}
+		const channel = message.channel;
+		if (channel.isDMBased() || channel.type === ChannelType.GuildStageVoice || channel.isThread()) {
+			return await globalChat.fail(
+				failEmbed('スーパーグローバルチャットに非対応なチャンネルです', '使用不可'),
+				message
+			);
+		}
+
+		const repo = dataSource.getRepository(GlobalChatBan);
+		const block = await repo.findOne({ where: { id: message.author.id } });
+		if (block) {
+			return await globalChat.fail(
+				failEmbed(`あなたは送信ブロック処置がされています\n**理由**\n${block.reason}`, '送信不可'),
+				message
+			);
+		}
+
+		const webhook = await getWebhook(channel);
+		const embed = globalChat.webhookErrorEmbed(webhook);
+
+		if (embed) {
+			return await globalChat.fail(embed, message);
+		}
+		const regexMatchesAll = [
+			constants.regexs.inviteUrls.dicoall,
+			constants.regexs.inviteUrls.disboard,
+			constants.regexs.inviteUrls.discoparty,
+			constants.regexs.inviteUrls.discord,
+			constants.regexs.inviteUrls.discordCafe,
+			constants.regexs.inviteUrls.dissoku,
+			constants.regexs.inviteUrls.sabach
+		].every((regex) => regex.test(message.cleanContent ?? ''));
+		if (regexMatchesAll) {
+			return await globalChat.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
+		}
+
+		// データ送信部
 		const data = this.dataGenerate(message);
 		const sgcChannel = message.client.channels.cache.get(config.sgcJsonChannel);
 		if (!sgcChannel || (sgcChannel && !sgcChannel.isSendable())) {
 			return await message.react(emoji.no);
-		} else {
-			await sgcChannel.send(data.replace(/\\\\/g, '\\'));
-			return await message.react(emoji.check);
 		}
+		await sgcChannel.send(data.replace(/\\\\/g, '\\'));
+
+		return await message.react(emoji.check);
 	}
 	async execute(message: Message<true>) {
 		if (message.channel.id === config.sgcJsonChannel) {

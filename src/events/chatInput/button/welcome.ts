@@ -25,17 +25,26 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 		const base = new WelcomeMessage();
 		const { customId, user, guild } = interaction;
 		const userId = base.extractUserId(customId);
-		if (!userId || user.id !== userId) {
-			return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
-		}
 
 		if (customId.startsWith(generateCustomId('chatinput', 'button', 'welcome', 'id', ''))) {
+			if (!userId || user.id !== userId) {
+				return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
+			}
 			return base.showWelcomeModal(interaction);
 		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'leave', 'id', ''))) {
+			if (!userId || user.id !== userId) {
+				return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
+			}
 			return base.showLeaveModal(interaction);
 		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'welcome', 'delete', 'id', ''))) {
+			if (!userId || user.id !== userId) {
+				return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
+			}
 			return base.deleteSetting(interaction, guild.id, 'welcomeMessage');
 		} else if (customId.startsWith(generateCustomId('chatinput', 'button', 'leave', 'delete', 'id', ''))) {
+			if (!userId || user.id !== userId) {
+				return base.replyWithFail(interaction, 'あなたはコマンド実行者ではないためボタン操作ができません', '操作不可');
+			}
 			return base.deleteSetting(interaction, guild.id, 'leaveMessage');
 		} else {
 			return;

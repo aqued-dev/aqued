@@ -21,7 +21,7 @@ export default class TanzakuDelete implements EventListener<Events.InteractionCr
 		if (!interaction.isButton()) {
 			return;
 		}
-		const customId = generateCustomId('chatinput', 'button', 'tanzaku', 'delete', 'userid');
+		const customId = generateCustomId('chatinput', 'button', 'tanzaku', 'delete', 'userid', '');
 		if (!interaction.customId.startsWith(customId)) {
 			return;
 		}

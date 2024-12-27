@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024/11
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024/12/
 
 これはAquedの大規模リファクタリングアップデートも含まれています
 
@@ -16,12 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1000兆円欲しいを生成するコマンド
 - リファクタリングを実施
 - デバッグログの追加
-- コンソールログをWebhookで送信
 - MySQLへの移行を完了
 - 起動時にSnowFlakeを生成
 - ページネーションの有効期限が切れる前にボットが終了した際のボタン無効化
 - マインスイーパ
 - ウェルカムメッセージ
+- UI変更
+- 分かりやすいエラー表示
+- Embedの操作メニューを非表示にできるように
 
 ## Fixed
 
