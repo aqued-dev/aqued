@@ -1,9 +1,8 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import globals from 'globals';
-import unicorn from 'eslint-plugin-unicorn';
-import { parser } from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
+import unicorn from 'eslint-plugin-unicorn';
+import globals from 'globals';
+import tseslint, { parser } from 'typescript-eslint';
 /** @type { import("eslint").Linter.Config[] } */
 export default [
 	eslint.configs.recommended,
