@@ -16,6 +16,7 @@ declare module 'discord.js' {
 			commands: CommandLoader<ChatInputCommand | MessageContextMenuCommand | UserContextMenuCommand>;
 			readyId: string;
 			cooldown: Map<string, Map<string, number>>;
+			freeChannelCooldown: Map<string, Map<string, number>>;
 		};
 	}
 }

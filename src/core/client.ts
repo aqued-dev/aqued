@@ -29,7 +29,8 @@ client.aqued = {
 	events: new EventLoader(client, 'events'),
 	commands: new CommandLoader('commands'),
 	readyId: SnowflakeUtil.generate().toString(),
-	cooldown: new Map()
+	cooldown: new Map(),
+	freeChannelCooldown: new Map()
 };
 
 client.on(Events.GuildCreate, () => changeStatus());
