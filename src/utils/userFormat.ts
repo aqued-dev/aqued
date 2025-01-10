@@ -1,4 +1,13 @@
 import { GuildMember, User } from 'discord.js';
+export const miniUserFormat = (username: string, discriminator: string, globalName: string | null | undefined) => {
+	if (discriminator === '0') {
+		return globalName ? `${globalName} (@${username})` : `@${username}`;
+	} else if (discriminator === '0000') {
+		return username;
+	} else {
+		return globalName ? `${globalName} (${username}#${discriminator})` : `${username}#${discriminator}`;
+	}
+};
 
 export const userFormat = (user: User | GuildMember): string => {
 	const getUserName = (u: User) => {
