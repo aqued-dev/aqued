@@ -131,7 +131,7 @@ export default class NgWord implements ChatInputCommand {
 								ephemeral: true
 							});
 						} else {
-							const errorId = errorReport(
+							const errorId = await errorReport(
 								fileURLToPath(import.meta.url),
 								interaction.channel!,
 								interaction.user,
@@ -148,7 +148,7 @@ export default class NgWord implements ChatInputCommand {
 							});
 						}
 					} else {
-						const errorId = errorReport(
+						const errorId = await errorReport(
 							fileURLToPath(import.meta.url),
 							interaction.channel!,
 							interaction.user,

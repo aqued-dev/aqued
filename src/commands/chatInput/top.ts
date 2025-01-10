@@ -44,7 +44,7 @@ export default class Top implements ChatInputCommand {
 					embeds: [failEmbed('(おそらく)メッセージの取得に失敗しました')]
 				});
 			} else {
-				const errorId = errorReport(
+				const errorId = await errorReport(
 					fileURLToPath(import.meta.url),
 					interaction.channel!,
 					interaction.user,

@@ -55,7 +55,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 							if (error instanceof DiscordAPIError) {
 								warn = true;
 							} else {
-								const errorId = errorReport(
+								const errorId = await errorReport(
 									fileURLToPath(import.meta.url),
 									message.channel,
 									message.author,
@@ -95,7 +95,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						if (error instanceof DiscordAPIError) {
 							warn = true;
 						} else {
-							const errorId = errorReport(
+							const errorId = await errorReport(
 								fileURLToPath(import.meta.url),
 								message.channel,
 								message.author,

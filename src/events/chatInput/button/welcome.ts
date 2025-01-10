@@ -114,7 +114,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 			await manager.updateGuild({ [settingKey]: null });
 			return await interaction.reply({ embeds: [successEmbed('登録を解除しました')], ephemeral: true });
 		} catch (error) {
-			const errorId = errorReport(
+			const errorId = await errorReport(
 				fileURLToPath(import.meta.url),
 				interaction.channel!,
 				interaction.user,

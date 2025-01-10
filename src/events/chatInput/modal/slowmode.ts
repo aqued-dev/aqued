@@ -57,7 +57,7 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 			if (error instanceof DiscordAPIError && error.status === 403) {
 				return await interaction.reply({ embeds: [failEmbed('Botに低速モードを設定する権限がありません')] });
 			}
-			const errorId = errorReport(
+			const errorId = await errorReport(
 				fileURLToPath(import.meta.url),
 				interaction.channel,
 				interaction.user,

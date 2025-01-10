@@ -78,7 +78,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 						});
 						followUp = true;
 					} else {
-						const errorId = errorReport(
+						const errorId = await errorReport(
 							fileURLToPath(import.meta.url),
 							interaction.channel!,
 							interaction.user,
@@ -96,7 +96,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 					}
 				} else {
 					deletable = false;
-					const errorId = errorReport(
+					const errorId = await errorReport(
 						fileURLToPath(import.meta.url),
 						interaction.channel!,
 						interaction.user,

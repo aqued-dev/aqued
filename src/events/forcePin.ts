@@ -94,7 +94,7 @@ export default class ForcePin implements EventListener<Events.MessageCreate> {
 					return;
 				}
 			} else {
-				const errorId = errorReport(
+				const errorId = await errorReport(
 					fileURLToPath(import.meta.url),
 					message.channel,
 					message.client.user,

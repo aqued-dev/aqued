@@ -239,7 +239,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			try {
 				await this.send(message);
 			} catch (error) {
-				const errorId = errorReport(
+				const errorId = await errorReport(
 					fileURLToPath(import.meta.url),
 					message.channel,
 					message.author,

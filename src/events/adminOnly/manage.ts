@@ -22,7 +22,7 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 					const data = await promisify(exec)('git pull');
 					wait.edit('Success!\n```\n' + data.stdout + '\n```');
 				} catch (error) {
-					const errorId = errorReport(
+					const errorId = await errorReport(
 						fileURLToPath(import.meta.url),
 						message.channel,
 						message.author,
@@ -44,7 +44,13 @@ export default class MessageCreate implements EventListener<Events.MessageCreate
 						wait.edit('Reloaded!')
 					]);
 				} catch (error) {
-					const errorId = errorReport(fileURLToPath(import.meta.url), message.channel, message.author, error, 'aq.re');
+					const errorId = await errorReport(
+						fileURLToPath(import.meta.url),
+						message.channel,
+						message.author,
+						error,
+						'aq.re'
+					);
 					wait.edit('Error...\nId: ' + errorId);
 				}
 				return;
