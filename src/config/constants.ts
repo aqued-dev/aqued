@@ -36,7 +36,7 @@ export const constants = {
 		loggerGuildId: ''
 	},
 	regexs: {
-		customEmoji: /<(a?):(\w{2,32}):(\d{17,20})>/,
+		customEmoji: /<(a?):(\w{2,32}):(\d{17,20})>/g,
 		inviteUrls: {
 			dissoku: /dissoku\.net/g,
 			disboard: /disboard\.org/g,

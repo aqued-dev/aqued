@@ -178,17 +178,15 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		if (!message.author.avatar) {
 			data['aq-defaultAvatar'] = displayAvatar;
 		}
-		const matches = message.content.match(constants.regexs.customEmoji);
-		if (matches) {
+
+		const matches = [...message.content.matchAll(constants.regexs.customEmoji)];
+
+		if (matches.length > 0) {
 			const emojis = matches
-				.map((emoji) => {
-					const data = emoji.match(constants.regexs.customEmoji);
-					if (!data) {
-						return null;
-					}
-					const [, animated, name, id] = data as [string, string, string, string];
+				.map((match) => {
+					const [, animated, name, id] = match as RegExpMatchArray;
 					return {
-						animated: animated === 'a' ? true : false,
+						animated: animated === 'a',
 						name,
 						id,
 						url: `${constants.cdnEmojiFormated}\\/${id}.${animated === 'a' ? 'gif' : 'png'}`
@@ -198,7 +196,8 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 
 			data['rin-emojis'] = emojis.reduce((acc: Record<string, string>, emoji) => {
 				if (emoji) {
-					acc[`${emoji.animated ? 'a' : ''}:${emoji.name}:`] = emoji.url;
+					const key = `${emoji.animated ? 'a' : ''}:${emoji.name}:`;
+					acc[key] = emoji.url;
 				}
 				return acc;
 			}, {});
@@ -411,7 +410,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 	}
 	async dataListen(message: Message<true>) {
 		const emoji = emojis();
-		Logger.info(message.content);
+		Logger.info(message.content); // 開発用
 		try {
 			const jsonData = JSON.parse(message.content) as BaseData;
 			if (this.isMessageData(jsonData)) {
