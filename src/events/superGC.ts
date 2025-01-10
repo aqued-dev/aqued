@@ -171,7 +171,6 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			'x-userGlobal_name': message.author.globalName,
 			'hm-globalName': message.author.globalName
 		};
-		const matches = message.content.match(constants.regexs.customEmoji);
 		let displayAvatar = calculateUserDefaultAvatarIndex(message.author.id).toString();
 		if (message.author.discriminator !== '0' && message.author.discriminator !== '0000') {
 			displayAvatar = (Number(message.author.discriminator) % 5).toString();
@@ -179,27 +178,32 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		if (!message.author.avatar) {
 			data['aq-defaultAvatar'] = displayAvatar;
 		}
+		const matches = message.content.match(constants.regexs.customEmoji);
 		if (matches) {
-			const emojis = matches.map((emoji) => {
-				const data = emoji.match(constants.regexs.customEmoji);
-				if (!data) {
-					return;
-				}
-				const [, animated, name, id] = data as [string, string, string, string];
-				return {
-					animated: animated === 'a' ? true : false,
-					name,
-					id,
-					url: `${constants.cdnEmojiFormated}\\/${id}.${animated === 'a' ? 'gif' : 'png'}`
-				};
-			});
-			data['rin-emojis'] = emojis
-				.filter((emoji) => emoji !== undefined)
-				.reduce((acc: Record<string, string>, emoji) => {
+			const emojis = matches
+				.map((emoji) => {
+					const data = emoji.match(constants.regexs.customEmoji);
+					if (!data) {
+						return null;
+					}
+					const [, animated, name, id] = data as [string, string, string, string];
+					return {
+						animated: animated === 'a' ? true : false,
+						name,
+						id,
+						url: `${constants.cdnEmojiFormated}\\/${id}.${animated === 'a' ? 'gif' : 'png'}`
+					};
+				})
+				.filter((emoji) => emoji !== null);
+
+			data['rin-emojis'] = emojis.reduce((acc: Record<string, string>, emoji) => {
+				if (emoji) {
 					acc[`${emoji.animated ? 'a' : ''}:${emoji.name}:`] = emoji.url;
-					return acc;
-				}, {});
+				}
+				return acc;
+			}, {});
 		}
+
 		if (message.reference && message.reference.messageId) {
 			data['reference'] = message.reference.messageId;
 		}
