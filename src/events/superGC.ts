@@ -275,11 +275,10 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			try {
 				dataSource.transaction(async (em) => {
 					const repo = em.getRepository(SuperGlobalChatData);
-					const referenceData = await repo.findOne({ where: { id: referenceId } });
+					const referenceData = await repo.findOne({ where: { messageId: referenceId } });
 					if (referenceData) {
 						try {
 							const referenceJsonData = await messageFetch(referenceData.id);
-
 							if (referenceJsonData) {
 								if (referenceData.editId) {
 									const referenceEditJsonData = await messageFetch(referenceData.editId);
@@ -386,11 +385,13 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		try {
 			dataSource.transaction(async (em) => {
 				const repo = em.getRepository(SuperGlobalChatData);
-				const registData = new SuperGlobalChatData(message.id, messageIds);
-				if (data.reference) {
-					const referenceData = await repo.findOne({ where: { id: data.reference } });
-					if (referenceData) {
-						registData.replyId = referenceData.id;
+				if (data.messageId) {
+					const registData = new SuperGlobalChatData(message.id, data.messageId, messageIds);
+					if (data.reference) {
+						const referenceData = await repo.findOne({ where: { messageId: data.reference } });
+						if (referenceData) {
+							registData.replyId = referenceData.id;
+						}
 					}
 				}
 			});
