@@ -1,0 +1,34 @@
+import { GuildMember, User } from 'discord.js';
+export const miniUserFormat = (username: string, discriminator: string, globalName: string | null | undefined) => {
+	if (discriminator === '0') {
+		return globalName ? `${globalName} (@${username})` : `@${username}`;
+	} else if (discriminator === '0000') {
+		return username;
+	} else {
+		return globalName ? `${globalName} (${username}#${discriminator})` : `${username}#${discriminator}`;
+	}
+};
+
+export const userFormat = (user: User | GuildMember): string => {
+	const getUserName = (u: User) => {
+		if (u.discriminator === '0') {
+			return u.globalName ? `${u.globalName} (@${u.username})` : `@${u.username}`;
+		} else if (u.discriminator === '0000') {
+			return u.username;
+		} else {
+			return u.globalName ? `${u.globalName} (${u.username}#${u.discriminator})` : `${u.username}#${u.discriminator}`;
+		}
+	};
+
+	if (user instanceof User) {
+		return getUserName(user);
+	}
+
+	if (user instanceof GuildMember) {
+		const { nickname, user: memberUser } = user;
+		const formattedName = getUserName(memberUser);
+		return nickname ? `${nickname} (${formattedName})` : formattedName;
+	}
+
+	return '不明なユーザー(これはバグですので、開発者に報告してください)';
+};

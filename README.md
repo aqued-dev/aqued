@@ -10,7 +10,7 @@
 
 ---
 
-自称高性能 DiscordBot です。
+自称高性能 DiscordBot です
 
 ## 招待
 

@@ -1,2 +1,3 @@
 pnpm --no -- commitlint --edit 
+pnpm rimraf dist
 pnpm lint:fix

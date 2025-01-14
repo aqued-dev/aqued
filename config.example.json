@@ -1,26 +1,28 @@
 {
-	"token": "",
-	"owners": [""],
-	"mods": [""],
 	"channelIds": {
-		"error": "",
-		"botLog": "",
 		"commandLog": ""
 	},
 	"clientId": "",
-	"mongoDBUrl": "",
-	"load": {
-		"chatinput": true,
-		"messagecotextmenu": true,
-		"usercotextmenu": true
-	},
-	"sgcJsonChannelId": "",
-	"sgcJsonChannelIdv2": "",
 	"key": "",
+	"load": {
+		"chatInput": true,
+		"messageContextMenu": true,
+		"userContextMenu": true
+	},
+	"loggerGuildId": "",
+	"loggerThreadId": "",
+	"loggerUrl": "",
+	"mods": [],
+	"mongoDBUrl": "",
 	"mysql": {
-		"host": "db",
-		"port": 1644,
-		"user": "user",
-		"password": "password"
-	}
+		"host": "appdb",
+		"password": "password",
+		"port": 3306,
+		"user": "user"
+	},
+	"owners": [],
+	"sgcJsonChannelId": "",
+	"stable": false,
+	"syncDb": false,
+	"token": ""
 }

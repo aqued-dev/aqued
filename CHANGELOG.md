@@ -7,16 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024/12/
 
-### Added
+これはAquedの大規模リファクタリングアップデートも含まれています
 
-- 1000兆円欲しい
+## Added
 
-### Fixed
+- 1000兆円欲しいを生成するコマンド
+- リファクタリングを実施
+- デバッグログの追加
+- MySQLへの移行を完了
+- 起動時にSnowFlakeを生成
+- ページネーションの有効期限が切れる前にボットが終了した際のボタン無効化
+- マインスイーパ
+- ウェルカムメッセージ
+- UI変更
+- 分かりやすいエラー表示
+- Embedの操作メニューを非表示にできるように
 
-- メッセージ展開でbotをはじく
-- 短冊を作成者以外削除出来なくする
+## Fixed
+
+- メッセージ展開でボットをブロックする問題を修正
+- 短冊を作成者以外が削除できないように制限
+
+## Changed
+
+- グローバルチャットの最大文字数を1900文字に
+- グローバルチャットのエラーを分かりやすく
+- Artifacter・URLチェッカーを休止
+- MongoDBを廃止
+- TypeScriptの設定を見直し
+- DockerのNode.jsイメージを更新
+- フォルダ構成を見直し
+- 設定ファイルの読み込み方法を変更
+- クライアントの拡張方法を改善
+- 使用ライブラリのアップデート
+- 一部のメッセージコンポーネントのcustomIdを変更
+- 一部のメッセージコンポーネントを再利用可能に
+- ボットを再起動せずにコマンドやイベントを再読み込み可能に
+- ロガーにPinoを採用
 
 ## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2024-08-23
 
@@ -88,27 +117,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- help コマンド。
-- userstatus コマンド。
+- help コマンド
+- userstatus コマンド
 
 ### Changed
 
-- userinfo でステータスを確認できるように。
-- グローバルチャット、スーパーグローバルチャットでのメッセージ返信の時の返信先メッセージを embed にするように。
+- userinfo でステータスを確認できるように
+- グローバルチャット、スーパーグローバルチャットでのメッセージ返信の時の返信先メッセージを embed にするように
 
 ## [3.0.1](https://github.com/aqued-dev/aqued/compare/3.0.0...3.0.1) - 2023-07-14
 
 ### Added
 
-- グローバルチャットで招待リンクは送信できないように。
+- グローバルチャットで招待リンクは送信できないように
 
 ### Fixed
 
-- afk の理由が表示されない。
-- webhook が送信したメッセージを force pin するとエラーが発生する。
+- afk の理由が表示されない
+- webhook が送信したメッセージを force pin するとエラーが発生する
 
 ### Changed
 
-- エラー ID をコードスパンで囲みます。
+- エラー ID をコードスパンで囲みます
 
 ## [3.0.0](https://github.com/aqued-dev/aqued/releases/tag/3.0.0) - 2023-07-14
