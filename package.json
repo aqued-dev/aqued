@@ -18,7 +18,7 @@
 		"discord.js": "^14.16.1",
 		"enka-network-api": "^4.5.1",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.6.1",
+		"mongoose": "^8.9.5",
 		"mysql2": "^3.11.0",
 		"pino": "^9.4.0",
 		"pino-pretty": "^11.2.2",
