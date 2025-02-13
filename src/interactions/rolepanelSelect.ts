@@ -13,8 +13,8 @@ export default async function (interaction: BaseInteraction) {
 		embeds: [
 			new EmbedBuilder()
 				.setColor(Colors.Blue)
-				.setTitle('✅ 付与しました。')
-				.setDescription('ロールの付与に成功しました。'),
+				.setTitle('✅ 成功')
+				.setDescription('ロールの付与又は解除に成功しました。'),
 		],
 	});
 	await interaction.message.edit({
