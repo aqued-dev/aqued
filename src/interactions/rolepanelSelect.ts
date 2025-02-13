@@ -7,7 +7,7 @@ export default async function (interaction: BaseInteraction) {
 	for (const value of interaction.values) {
 		const roles = interaction.guild.members.cache.get(interaction.user.id).roles.cache.has(value);
 		if (!roles) await interaction.guild.members.cache.get(interaction.user.id).roles.add(value);
-		else continue;
+		else await interaction.guild.members.cache.get(interaction.user.id).roles.remove(value);;
 	}
 	await interaction.editReply({
 		embeds: [
