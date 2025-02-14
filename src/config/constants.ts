@@ -46,7 +46,8 @@ export const constants = {
 			discordGg: /discord\.gg\/(?<code>[\w-]*)/gi,
 			discordCafe: /discordcafe\.app/g,
 			dicoall: /dicoall\.com/g,
-			sabach: /sabach\.jp/g
+			sabach: /sabach\.jp/g,
+			distopia: /distopia\.top/g
 		},
 		mention: /@everyone|@here/,
 		discordToken: /^(mfa\.[a-z0-9_-]{20,})|([a-z0-9_-]{23,28}\.[a-z0-9_-]{6,7}\.[a-z0-9_-]{27})$/gm,
