@@ -146,7 +146,7 @@ async function superGlobalChat(newMessage: Message) {
 			content: content,
 		});
 	}
-	const channel = newMessage.client.channels.cache.get(newMessage.client.botData.sgcJsonChannelIdv2);
+	const channel = newMessage.client.channels.cache.get(newMessage.client.botData.sgcJsonChannelId);
 	if (channel && channel.type === ChannelType.GuildText) {
 		if (newMessage.channel.type !== ChannelType.GuildText) return;
 		const data: MessageEditData = { type: 'edit', messageId: newMessage.id, content: newMessage.content };

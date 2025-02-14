@@ -15,7 +15,6 @@
 		"usercotextmenu": true
 	},
 	"sgcJsonChannelId": "",
-	"sgcJsonChannelIdv2": "",
 	"key": "",
 	"mysql": {
 		"host": "db",
