@@ -11,6 +11,5 @@ export const dataSource = new DataSource({
 	port: config.mysql.port,
 	database: 'aqued',
 	entities: entities,
-	synchronize: config.bot.syncDb,
-	migrations: [resolve('dist/src/migration/*.js')]
+	migrations: [resolve('dist/src/database/migration/*.js')]
 });

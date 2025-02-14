@@ -13,15 +13,28 @@ services:
       MYSQL_DATABASE: aqued
       TZ: 'Asia/Tokyo'
     command: mysqld
-    depends_on:
-      - appcore
+
   appcore:
+    container_name: appcore
+    image: node:22.14.0-slim
     volumes:
       - .:/usr/src/app
-    container_name: appcore
-    image: node:22.11.0-slim
+      - pnpm-store:/usr/src/app/.pnpm-store
     working_dir: /usr/src/app
-    command: bash -c 'apt-get update && apt-get -y install git && npm install -g pnpm && pnpm i && pnpm build && pnpm start'
+    environment:
+      - PNPM_HOME=/usr/src/app/.pnpm
+      - PATH=/usr/src/app/.pnpm:$PATH
+    command: >
+      bash -c "apt-get update && apt-get -y install git &&
+      npm install -g pnpm &&
+      pnpm config set store-dir /usr/src/app/.pnpm-store &&
+      pnpm i &&
+      pnpm build &&
+      pnpm start"
+    depends_on:
+      - appdb 
+
 volumes:
   mysql-data:
+  pnpm-store:
   appcore:

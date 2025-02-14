@@ -6,7 +6,7 @@ export class SuperGlobalChatData {
 	id: string;
 	@Column({ name: 'message_id', type: 'bigint', comment: '元メッセージのID' })
 	messageId: string;
-	@Column({ name: 'send_ids', type: 'simple-array', comment: '送信したメッセージIDら' })
+	@Column({ name: 'send_ids', type: 'json', comment: '送信したメッセージIDら' })
 	sendIds: string[];
 	@Column({ name: 'edit_id', type: 'bigint', comment: '編集のJSONメッセージID', nullable: true })
 	editId?: string;

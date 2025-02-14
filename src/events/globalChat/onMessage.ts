@@ -119,8 +119,9 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			constants.regexs.inviteUrls.discord,
 			constants.regexs.inviteUrls.discordCafe,
 			constants.regexs.inviteUrls.dissoku,
-			constants.regexs.inviteUrls.sabach
-		].every((regex) => regex.test(message.cleanContent ?? ''));
+			constants.regexs.inviteUrls.sabach,
+			constants.regexs.inviteUrls.distopia
+		].some((regex) => regex.test(message.cleanContent ?? ''));
 		if (regexMatchesAll) {
 			await this.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
 			return false;

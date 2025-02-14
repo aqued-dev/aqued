@@ -5,9 +5,9 @@ import {
 	DiscordAPIError,
 	Events,
 	Message,
+	MessageManager,
 	MessageMentionOptions,
 	MessagePayload,
-	SendableChannels,
 	Snowflake,
 	Webhook,
 	WebhookMessageCreateOptions,
@@ -27,6 +27,7 @@ import { SuperGlobalChatData } from '../database/entities/SuperGlobalChatData.js
 import { failEmbed, replyEmbed } from '../embeds/infosEmbed.js';
 import { getIconUrl } from '../utils/getIconUrl.js';
 import { getWebhook } from '../utils/getWebhook.js';
+import { JsonArrayContains } from '../utils/jsonArrayContains.js';
 import { miniUserFormat } from '../utils/userFormat.js';
 import { webhookChecker } from '../utils/webhookChecker.js';
 import GlobalChatOnMessage from './globalChat/onMessage.js';
@@ -147,12 +148,10 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		this.once = false;
 	}
 	isMessageData(data: BaseData): data is MessageData {
-		return (
-			data.type === CommonType.Message || data.type.startsWith('frt-message') || data.type.startsWith('rin-message')
-		);
+		return data.type === CommonType.Message;
 	}
 
-	dataGenerate(message: Message<true>) {
+	async dataGenerate(message: Message<true>) {
 		const data: MessageData = {
 			'type': CommonType.Message,
 			'version': '2.0.7',
@@ -167,7 +166,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			'channelId': message.channel.id,
 			'channelName': message.channel.name,
 			'messageId': message.id,
-			'content': message.content,
+			'content': message.cleanContent,
 			'x-userGlobal_name': message.author.globalName,
 			'hm-globalName': message.author.globalName
 		};
@@ -179,37 +178,26 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			data['aq-defaultAvatar'] = displayAvatar;
 		}
 
-		const matches = [...message.content.matchAll(constants.regexs.customEmoji)];
-
-		if (matches.length > 0) {
-			const emojis = matches
-				.map((match) => {
-					const [, animated, name, id] = match as RegExpMatchArray;
-					return {
-						animated: animated === 'a',
-						name,
-						id,
-						url: `${constants.cdnEmojiFormated}\\/${id}.${animated === 'a' ? 'gif' : 'png'}`
-					};
-				})
-				.filter((emoji) => emoji !== null);
-
-			data['rin-emojis'] = emojis.reduce((acc: Record<string, string>, emoji) => {
-				if (emoji) {
-					const key = `${emoji.animated ? 'a' : ''}:${emoji.name}:`;
-					acc[key] = emoji.url;
-				}
-				return acc;
-			}, {});
-		}
+		const repo = dataSource.getRepository(SuperGlobalChatData);
 
 		if (message.reference && message.reference.messageId) {
-			data['reference'] = message.reference.messageId;
+			let jsonData = await repo.findOne({ where: { sendIds: JsonArrayContains(message.reference.messageId) } });
+			if (!jsonData) {
+				jsonData = await repo.findOne({ where: { messageId: message.reference.messageId } });
+			}
+			if (jsonData) {
+				data['reference'] = jsonData.messageId;
+			}
 		}
+
 		if (message.attachments.size > 0) {
 			data['attachmentsUrl'] = message.attachments.map((data) => data.url);
 		}
-		return JSON.stringify(data);
+		const regexMatchesAll = Object.values(constants.regexs.inviteUrls).some((regex) => regex.test(data.content));
+		if (regexMatchesAll) {
+			return false;
+		}
+		return JSON.stringify(data).replace(/\\\\/g, '\\');
 	}
 	async sgcChannel(channelId: string) {
 		const manager = new SettingManager({ channelId });
@@ -236,13 +224,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		);
 		return embed;
 	}
-	messageGenerate(
-		messageFetch: SendableChannels['messages']['fetch'],
-		byBot: boolean,
-		byIsMy: boolean,
-		by: string,
-		data: MessageData
-	) {
+	messageGenerate(messages: MessageManager, byBot: boolean, byIsMy: boolean, by: string, data: MessageData) {
 		const formatedName = miniUserFormat(
 			data.userName,
 			data.userDiscriminator,
@@ -278,10 +260,10 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 					const referenceData = await repo.findOne({ where: { messageId: referenceId } });
 					if (referenceData) {
 						try {
-							const referenceJsonData = await messageFetch(referenceData.id);
+							const referenceJsonData = await messages.fetch(referenceData.id);
 							if (referenceJsonData) {
 								if (referenceData.editId) {
-									const referenceEditJsonData = await messageFetch(referenceData.editId);
+									const referenceEditJsonData = await messages.fetch(referenceData.editId);
 									if (referenceEditJsonData) {
 										sendData['embeds'] = [
 											this.embedFromReference(
@@ -335,15 +317,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		const repo = dataSource.getRepository(ChannelSetting);
 		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), superGlobal: true } });
 		const messageIds: string[] = [];
-		const regexMatchesAll = [
-			constants.regexs.inviteUrls.dicoall,
-			constants.regexs.inviteUrls.disboard,
-			constants.regexs.inviteUrls.discoparty,
-			constants.regexs.inviteUrls.discord,
-			constants.regexs.inviteUrls.discordCafe,
-			constants.regexs.inviteUrls.dissoku,
-			constants.regexs.inviteUrls.sabach
-		].every((regex) => regex.test(data.content));
+		const regexMatchesAll = Object.values(constants.regexs.inviteUrls).some((regex) => regex.test(data.content));
 		if (regexMatchesAll) {
 			if (sendByNotMy) {
 				return await message.react(emoji.no);
@@ -352,7 +326,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			}
 		}
 		const messageData = this.messageGenerate(
-			message.channel.messages.fetch,
+			message.channel.messages,
 			message.author.bot,
 			message.author.id === message.client.user.id,
 			message.author.username,
@@ -391,8 +365,10 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 						const referenceData = await repo.findOne({ where: { messageId: data.reference } });
 						if (referenceData) {
 							registData.replyId = referenceData.id;
+							await repo.save(referenceData);
 						}
 					}
+					await repo.save(registData);
 				}
 			});
 		} catch (error) {
@@ -411,7 +387,6 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 	}
 	async dataListen(message: Message<true>) {
 		const emoji = emojis();
-		Logger.info(message.content); // 開発用
 		try {
 			const jsonData = JSON.parse(message.content) as BaseData;
 			if (this.isMessageData(jsonData)) {
@@ -465,26 +440,23 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		if (embed) {
 			return await globalChat.fail(embed, message);
 		}
-		const regexMatchesAll = [
-			constants.regexs.inviteUrls.dicoall,
-			constants.regexs.inviteUrls.disboard,
-			constants.regexs.inviteUrls.discoparty,
-			constants.regexs.inviteUrls.discord,
-			constants.regexs.inviteUrls.discordCafe,
-			constants.regexs.inviteUrls.dissoku,
-			constants.regexs.inviteUrls.sabach
-		].every((regex) => regex.test(message.content ?? ''));
+		const regexMatchesAll = Object.values(constants.regexs.inviteUrls).some((regex) =>
+			regex.test(message.cleanContent.replace(/\\\\/g, '\\'))
+		);
 		if (regexMatchesAll) {
 			return await globalChat.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
 		}
-
-		const data = this.dataGenerate(message);
+		const data = await this.dataGenerate(message);
 		const sgcChannel = message.client.channels.cache.get(config.sgcJsonChannel);
 		if (!sgcChannel || (sgcChannel && !sgcChannel.isSendable())) {
 			return await message.react(emoji.no);
 		}
-		await sgcChannel.send(data.replace(/\\\\/g, '\\'));
-		return await message.react(emoji.check);
+		if (data === false) {
+			return await globalChat.fail(failEmbed('メッセージに招待リンクが含まれています', '送信不可'), message);
+		} else {
+			await sgcChannel.send(data);
+			return await message.react(emoji.check);
+		}
 	}
 	async execute(message: Message<true>) {
 		if (message.channel.id === config.sgcJsonChannel) {

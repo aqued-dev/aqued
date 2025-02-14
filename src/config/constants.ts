@@ -12,7 +12,6 @@ export const constants = {
 			token: '',
 			mods: [],
 			stable: false,
-			syncDb: false
 		},
 		channels: { command: '' },
 		mongo: { url: '', key: '' },

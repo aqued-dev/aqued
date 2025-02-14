@@ -1,4 +1,4 @@
-import { ChannelType, Events, Message, Webhook, WebhookType } from 'discord.js';
+import { ChannelType, Events, Message, OmitPartialGroupDMChannel, Webhook, WebhookType } from 'discord.js';
 import { Not } from 'typeorm';
 import { dataSource } from '../../core/typeorm.config.js';
 import type { EventListener } from '../../core/types/EventListener.js';
@@ -15,7 +15,10 @@ export default class GlobalChatOnEdit implements EventListener<Events.MessageUpd
 		this.name = Events.MessageUpdate;
 		this.once = false;
 	}
-	async execute(_oldMessage: Message<boolean>, message: Message<boolean>): Promise<unknown> {
+	async execute(
+		_oldMessage: OmitPartialGroupDMChannel<Message>,
+		message: OmitPartialGroupDMChannel<Message>
+	): Promise<unknown> {
 		const util = new GlobalChatOnMessage();
 		const beforeCheck = await util.beforeCheck(message);
 		if (!beforeCheck) {

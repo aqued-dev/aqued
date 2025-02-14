@@ -2,7 +2,7 @@ import configData from '../../config.json' with { type: 'json' };
 import { constants } from './constants.js';
 
 class Config {
-	public bot: { id: string; admins: string[]; token: string; mods: string[]; stable: boolean; syncDb: boolean } =
+	public bot: { id: string; admins: string[]; token: string; mods: string[]; stable: boolean } =
 		constants.defaultConfigs.bot;
 	public channels: { command: string } = constants.defaultConfigs.channels;
 	public mongo: { url: string; key: string } = constants.defaultConfigs.mongo;
@@ -16,9 +16,6 @@ class Config {
 
 	setId(id: string) {
 		this.bot.id = id;
-	}
-	setSyncDb(bool: boolean) {
-		this.bot.syncDb = bool;
 	}
 	setStable(stable: boolean) {
 		this.bot.stable = stable;
@@ -93,9 +90,9 @@ config.setCommandLogChannel(configData.channelIds.commandLog);
 config.setMongoUrl(configData.mongoDBUrl);
 config.setMongoKey(configData.key);
 config.setLoads({
-	chatInput: configData.load.chatInput,
-	messageContextMenu: configData.load.messageContextMenu,
-	userContextMenu: configData.load.userContextMenu
+	chatInput: configData.load.chatinput,
+	messageContextMenu: configData.load.messagecotextmenu,
+	userContextMenu: configData.load.usercotextmenu
 });
 config.setSgcJsonChannel(configData.sgcJsonChannelId);
 config.setMySQLHost(configData.mysql.host);
@@ -105,5 +102,4 @@ config.setMySQLPassword(configData.mysql.password);
 config.setLoggerUrl(configData.loggerUrl);
 config.setLoggerGuildId(configData.loggerGuildId);
 config.setLoggerThreadId(configData.loggerThreadId);
-config.setSyncDb(configData.syncDb);
 export { config };

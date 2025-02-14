@@ -17,12 +17,11 @@
 	"mysql": {
 		"host": "appdb",
 		"password": "password",
-		"port": 3306,
+		"port": 1855,
 		"user": "user"
 	},
 	"owners": [],
 	"sgcJsonChannelId": "",
 	"stable": false,
-	"syncDb": false,
 	"token": ""
 }

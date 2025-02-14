@@ -47,7 +47,8 @@ export default class NgWord implements ChatInputCommand {
 				constants.regexs.inviteUrls.discord,
 				constants.regexs.inviteUrls.discordCafe,
 				constants.regexs.inviteUrls.dissoku,
-				constants.regexs.inviteUrls.sabach
+				constants.regexs.inviteUrls.sabach,
+				constants.regexs.inviteUrls.distopia
 			],
 			'token': [constants.regexs.discordToken],
 			'mention': [constants.regexs.mention],
