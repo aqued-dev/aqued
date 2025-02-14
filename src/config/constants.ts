@@ -11,7 +11,7 @@ export const constants = {
 			admins: [],
 			token: '',
 			mods: [],
-			stable: false,
+			stable: false
 		},
 		channels: { command: '' },
 		mongo: { url: '', key: '' },

@@ -32,7 +32,7 @@ services:
       pnpm build &&
       pnpm start"
     depends_on:
-      - appdb 
+      - appdb
 
 volumes:
   mysql-data:
