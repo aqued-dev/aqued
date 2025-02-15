@@ -4,6 +4,7 @@ import {
 	EmbedBuilder,
 	EmbedFooterOptions,
 	Events,
+	MessageFlags,
 	ModalSubmitInteraction,
 	StringSelectMenuBuilder
 } from 'discord.js';
@@ -123,7 +124,7 @@ export default class EmbedEdit implements EventListener<Events.InteractionCreate
 				} else {
 					return await interaction.reply({
 						embeds: [failEmbed('正しい16進数カラーコード(6桁)を入力してください')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				}
 			}
@@ -155,7 +156,7 @@ export default class EmbedEdit implements EventListener<Events.InteractionCreate
 					} catch {
 						await interaction.reply({
 							embeds: [failEmbed('フッターのアイコンURLが正しくありません')],
-							ephemeral: true
+							flags: [MessageFlags.Ephemeral]
 						});
 					}
 					await this.edit(embed, interaction);
@@ -177,7 +178,7 @@ export default class EmbedEdit implements EventListener<Events.InteractionCreate
 				} catch {
 					await interaction.reply({
 						embeds: [failEmbed('画像URLが正しくありません')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				}
 				await this.edit(embed, interaction);
@@ -198,7 +199,7 @@ export default class EmbedEdit implements EventListener<Events.InteractionCreate
 				} catch {
 					await interaction.reply({
 						embeds: [failEmbed('サムネイルURLが正しくありません')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				}
 				await this.edit(embed, interaction);
@@ -222,7 +223,7 @@ export default class EmbedEdit implements EventListener<Events.InteractionCreate
 				} catch {
 					await interaction.reply({
 						embeds: [failEmbed('サムネイルURLが正しくありません')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				}
 				await this.edit(embed, interaction);

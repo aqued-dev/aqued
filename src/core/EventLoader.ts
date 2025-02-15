@@ -1,10 +1,10 @@
-import { Client, type ClientEvents } from 'discord.js';
+import { Client, type ClientEventTypes } from 'discord.js';
+import { Dirent } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Logger } from './Logger.js';
 import type { EventListener } from './types/EventListener.js';
-import { Dirent } from 'node:fs';
 
 export class EventLoader {
 	private client: Client<boolean>;
@@ -56,7 +56,7 @@ export class EventLoader {
 	}
 
 	private registerEvent(eventName: string, listener: EventListener): void {
-		const executeListener = async (...args: ClientEvents[keyof ClientEvents]) => {
+		const executeListener = async (...args: ClientEventTypes[keyof ClientEventTypes]) => {
 			await listener.execute(...args);
 		};
 

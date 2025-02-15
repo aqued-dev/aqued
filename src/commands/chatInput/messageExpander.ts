@@ -19,7 +19,8 @@ export default class MessageExpander implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('message_expander')
-			.setDescription('メッセージリンクからメッセージの内容を展開する機能の設定');
+			.setDescription('メッセージリンクからメッセージの内容を展開する機能の設定')
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels);
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageMessages],

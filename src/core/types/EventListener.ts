@@ -1,7 +1,7 @@
-import { type ClientEvents } from 'discord.js';
+import { type ClientEventTypes } from 'discord.js';
 
-export interface EventListener<Event extends keyof ClientEvents = keyof ClientEvents> {
+export interface EventListener<Event extends keyof ClientEventTypes = keyof ClientEventTypes> {
 	name: Event;
 	once: boolean;
-	execute(...args: ClientEvents[Event]): Promise<unknown>;
+	execute(...args: ClientEventTypes[Event]): Promise<unknown>;
 }

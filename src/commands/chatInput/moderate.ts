@@ -80,7 +80,10 @@ export default class Moderate implements ChatInputCommand {
 					)
 			)
 			.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
-			.setContexts([InteractionContextType.Guild]);
+			.setContexts([InteractionContextType.Guild])
+			.setDefaultMemberPermissions(
+				PermissionFlagsBits.KickMembers | PermissionFlagsBits.BanMembers | PermissionFlagsBits.ModerateMembers
+			);
 		this.settings = {
 			enable: true,
 			guildOnly: true,

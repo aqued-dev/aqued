@@ -5,7 +5,9 @@ import {
 	ButtonStyle,
 	ChannelType,
 	Events,
+	MessageFlags,
 	ModalBuilder,
+	OverwriteType,
 	PermissionFlagsBits,
 	TextInputBuilder,
 	TextInputStyle
@@ -39,7 +41,7 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 				if (!data) {
 					return await interaction.reply({
 						embeds: [failEmbed('パネルを再作成するように管理者に報告してください', 'データベースエラー')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				} else {
 					const cooldowns = interaction.client.aqued.freeChannelCooldown;
@@ -53,7 +55,7 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 								embeds: [
 									failEmbed(`パネル作成者がチャンネル作成数制限を\`${data.userLimit}\`に設定しています`, '作成数制限')
 								],
-								ephemeral: true
+								flags: [MessageFlags.Ephemeral]
 							});
 						}
 					}
@@ -71,7 +73,7 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 							const timeLeft = (expirationTime - now) / 1000;
 							return await interaction.reply({
 								embeds: [failEmbed(`あと、\`${timeLeft.toFixed(1)}\`秒お待ちください`, 'クールダウン')],
-								ephemeral: true
+								flags: [MessageFlags.Ephemeral]
 							});
 						}
 					}
@@ -88,10 +90,16 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 					}
 					const channel = await category.children.create({
 						name: `${interaction.user.globalName ?? interaction.user.username}のチャンネル`,
-						permissionOverwrites: [{ id: interaction.user.id, allow: PermissionFlagsBits.ManageChannels }],
 						topic: `<@!${interaction.user.id}>のチャンネルです。`,
 						type: ChannelType.GuildText
 					});
+					channel.permissionOverwrites.set([
+						{
+							id: interaction.user.id,
+							allow: [PermissionFlagsBits.ManageChannels],
+							type: OverwriteType.Member
+						}
+					]);
 					await channel.send({
 						content: `<@!${interaction.user.id}>、チャンネルを作成しました\n名前等自由に変更できます`,
 						components: [
@@ -110,7 +118,7 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 					await repo.update({ id }, { userIds });
 					return await interaction.reply({
 						embeds: [infoEmbed(`チャンネルを作成しました: <#${channel.id}>`)],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				}
 			});
@@ -119,7 +127,7 @@ export default class FreeChannelCreate implements EventListener<Events.Interacti
 			if (id !== interaction.user.id) {
 				return await interaction.reply({
 					embeds: [failEmbed('チャンネル作成者以外は編集できません')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			}
 			if (!interaction.channel || (interaction.channel && interaction.channel.type !== ChannelType.GuildText)) {

@@ -20,9 +20,15 @@ export default class Welcome implements ChatInputCommand {
 		this.command = new SlashCommandBuilder()
 			.setName('welcome_message')
 			.setDescription('ユーザーが参加・退出した時に送信するメッセージを設定します')
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageWebhooks | PermissionFlagsBits.ManageGuild)
 			.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 			.setContexts([InteractionContextType.Guild]);
-		this.settings = { enable: true, guildOnly: true, permissions: [PermissionFlagsBits.ManageWebhooks] };
+		this.settings = {
+			enable: true,
+			guildOnly: true,
+			permissions: [PermissionFlagsBits.ManageWebhooks],
+			userPermissions: [PermissionFlagsBits.ManageGuild]
+		};
 	}
 	async run(interaction: ChatInputCommandInteraction) {
 		const texts = [

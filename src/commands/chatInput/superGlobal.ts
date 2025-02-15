@@ -11,7 +11,8 @@ export default class SuperGlobalChat implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('superglobalchat')
-			.setDescription('[使用不可] スーパーグローバルチャットの有効化・無効化');
+			.setDescription('[使用不可] スーパーグローバルチャットの有効化・無効化')
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels);
 		this.settings = {
 			enable: true,
 			adminOnly: true,

@@ -167,7 +167,7 @@ export default class WeatherAutoComplete implements EventListener<Events.Interac
 
 		return await interaction.respond(
 			Object.entries(this.datas)
-				.filter((choice) => choice[0].startsWith(focusedValue))
+				.filter((choice) => choice[0].startsWith(focusedValue.value))
 				.slice(0, 25)
 				.map((choice) => ({ name: choice[0], value: choice[1] }))
 		);

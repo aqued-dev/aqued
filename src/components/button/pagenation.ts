@@ -6,6 +6,7 @@ import {
 	CommandInteraction,
 	ComponentType,
 	EmbedBuilder,
+	InteractionCallbackResponse,
 	Message,
 	type BaseMessageOptions
 } from 'discord.js';
@@ -55,17 +56,16 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 		}
 	}
 
-	const reply = await interaction.reply(sendData);
-
+	const reply = await interaction.reply({ ...sendData, withResponse: true });
 	if (interaction instanceof CommandInteraction) {
-		const collector = reply.createMessageComponentCollector({
+		const collector = interaction.channel?.createMessageComponentCollector({
 			filter: (buttonInteraction) => buttonInteraction.user.id === interaction.user.id,
 			componentType: ComponentType.Button,
 			time: 2 * 60 * 1000,
 			max: 1000000
 		});
 
-		collector.on('collect', async (buttonInteraction) => {
+		collector?.on('collect', async (buttonInteraction) => {
 			if (buttonInteraction.customId === customIds.before) {
 				if (currentPage > 0) {
 					currentPage--;
@@ -103,8 +103,10 @@ export const buttonPagination = async (datas: (string | EmbedBuilder)[], interac
 				collector.stop();
 			}
 		});
-		collector.on('end', async () => {
-			await reply.edit({ components: [createButtonRow(true)] });
+		collector?.on('end', async () => {
+			if (reply instanceof InteractionCallbackResponse && reply.resource && reply.resource.message) {
+				await reply.resource.message.edit({ components: [createButtonRow(true)] });
+			}
 		});
 	}
 };

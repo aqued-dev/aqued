@@ -23,9 +23,9 @@ export default class Ping implements ChatInputCommand {
 		await interaction.reply({
 			embeds: [
 				infoEmbed(
-					interaction.client.ws.ping === Number('-1')
+					interaction.client.ping === Number('-1')
 						? '起動直後のため返すことができません'
-						: `\`${interaction.client.ws.ping}\`ms`
+						: `\`${interaction.client.ping}\`ms`
 				)
 			]
 		});

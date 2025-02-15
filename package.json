@@ -16,7 +16,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"discord.js": "14.18.0",
+		"discord.js": "15.0.0-dev.1739405525-4b63bb804",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^8.10.0",
 		"mysql2": "^3.12.0",

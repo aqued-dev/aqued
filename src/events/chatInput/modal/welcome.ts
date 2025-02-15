@@ -1,4 +1,4 @@
-import { BaseInteraction, Events } from 'discord.js';
+import { BaseInteraction, Events, MessageFlags } from 'discord.js';
 import { SettingManager } from '../../../core/SettingManager.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed, successEmbed } from '../../../embeds/infosEmbed.js';
@@ -35,12 +35,21 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 				await manager.updateGuild({
 					leaveMessage: { channelId: interaction.channelId, message: message }
 				});
-				return await interaction.reply({ embeds: [successEmbed('退出メッセージを設定しました')], ephemeral: true });
+				return await interaction.reply({
+					embeds: [successEmbed('退出メッセージを設定しました')],
+					flags: [MessageFlags.Ephemeral]
+				});
 			} catch (error) {
 				if (interaction.replied) {
-					return await interaction.followUp({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
+					return await interaction.followUp({
+						embeds: [failEmbed('データの保存に失敗しました')],
+						flags: [MessageFlags.Ephemeral]
+					});
 				} else {
-					return await interaction.reply({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
+					return await interaction.reply({
+						embeds: [failEmbed('データの保存に失敗しました')],
+						flags: [MessageFlags.Ephemeral]
+					});
 				}
 			}
 		} else if (interaction.customId === generateCustomId('chatinput', 'modal', 'welcome', 'regist')) {
@@ -50,12 +59,21 @@ export default class SlowModeModal implements EventListener<Events.InteractionCr
 				await manager.updateGuild({
 					welcomeMessage: { channelId: interaction.channelId, message: message }
 				});
-				return await interaction.reply({ embeds: [successEmbed('入室メッセージを設定しました')], ephemeral: true });
+				return await interaction.reply({
+					embeds: [successEmbed('入室メッセージを設定しました')],
+					flags: [MessageFlags.Ephemeral]
+				});
 			} catch (error) {
 				if (interaction.replied) {
-					return await interaction.followUp({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
+					return await interaction.followUp({
+						embeds: [failEmbed('データの保存に失敗しました')],
+						flags: [MessageFlags.Ephemeral]
+					});
 				} else {
-					return await interaction.reply({ embeds: [failEmbed('データの保存に失敗しました')], ephemeral: true });
+					return await interaction.reply({
+						embeds: [failEmbed('データの保存に失敗しました')],
+						flags: [MessageFlags.Ephemeral]
+					});
 				}
 			}
 		} else {

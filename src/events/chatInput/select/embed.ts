@@ -1,4 +1,12 @@
-import { ActionRowBuilder, BaseInteraction, Events, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import {
+	ActionRowBuilder,
+	BaseInteraction,
+	Events,
+	MessageFlags,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle
+} from 'discord.js';
 import type { EventListener } from '../../../core/types/EventListener.js';
 import { failEmbed } from '../../../embeds/infosEmbed.js';
 import { generateCustomId } from '../../../utils/generateCustomId.js';
@@ -52,7 +60,7 @@ export default class EmbedGenerate implements EventListener<Events.InteractionCr
 		if (!embed) {
 			return await interaction.reply({
 				embeds: [failEmbed('原因不明でメッセージ内の埋め込みが削除されているため、変更できません')],
-				ephemeral: true
+				flags: [MessageFlags.Ephemeral]
 			});
 		}
 		const { title, description, url, hexColor, footer, image, thumbnail, author } = embed;

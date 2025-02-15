@@ -17,6 +17,7 @@ declare module 'discord.js' {
 			readyId: string;
 			cooldown: Map<string, Map<string, number>>;
 			freeChannelCooldown: Map<string, Map<string, number>>;
+			rolePanelCache: Map<string, { id: string; name: string }[]>;
 		};
 	}
 }

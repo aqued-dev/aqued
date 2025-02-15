@@ -3,6 +3,7 @@ import {
 	ChatInputCommandInteraction,
 	DiscordAPIError,
 	InteractionContextType,
+	MessageFlags,
 	SlashCommandBuilder
 } from 'discord.js';
 import { fileURLToPath } from 'node:url';
@@ -57,7 +58,7 @@ export default class Top implements ChatInputCommand {
 							`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
 						)
 					],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			}
 		}

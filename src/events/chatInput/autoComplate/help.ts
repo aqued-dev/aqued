@@ -24,7 +24,7 @@ export default class HelpAutoComplate implements EventListener<Events.Interactio
 		);
 
 		for (const name of commandNames) {
-			if (!name.includes(focusedValue)) {
+			if (!name.includes(focusedValue.value)) {
 				continue;
 			}
 			choice.push({ name: name, value: name });

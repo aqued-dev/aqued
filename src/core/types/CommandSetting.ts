@@ -4,6 +4,10 @@ import { ChannelType } from 'discord.js';
  */
 export interface CommandSetting {
 	/**
+	 * 必須権限(ユーザー側のみチェックします)
+	 */
+	userPermissions?: bigint[];
+	/**
 	 * 必須権限(実行時にBotと実行ユーザー側でチェックします)
 	 */
 	permissions?: bigint[];

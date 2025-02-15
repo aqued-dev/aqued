@@ -1,4 +1,4 @@
-import { ActivityType, Client, Events, GatewayIntentBits, SnowflakeUtil } from 'discord.js';
+import { ActivityType, Client, Events, GatewayIntentBits, SnowflakeUtil, WebSocketShardEvents } from 'discord.js';
 import { config } from '../config/config.js';
 import { constants } from '../config/constants.js';
 import { CommandLoader } from './CommandLoader.js';
@@ -30,12 +30,13 @@ client.aqued = {
 	commands: new CommandLoader('commands'),
 	readyId: SnowflakeUtil.generate().toString(),
 	cooldown: new Map(),
-	freeChannelCooldown: new Map()
+	freeChannelCooldown: new Map(),
+	rolePanelCache: new Map()
 };
 
 client.on(Events.GuildCreate, () => changeStatus());
 client.on(Events.GuildDelete, () => changeStatus());
-client.on(Events.ShardResume, () => changeStatus());
+client.ws.on(WebSocketShardEvents.Resumed, () => changeStatus());
 
 await client.aqued.events.loadAllEvents();
 await dataSource.initialize();

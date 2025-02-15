@@ -27,7 +27,8 @@ export default class ForcePin implements MessageContextMenuCommand {
 			.setName('Force Pin')
 			.setType(3)
 			.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
-			.setContexts([InteractionContextType.Guild]);
+			.setContexts([InteractionContextType.Guild])
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages | PermissionFlagsBits.ManageWebhooks);
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageWebhooks],
@@ -37,7 +38,7 @@ export default class ForcePin implements MessageContextMenuCommand {
 	}
 
 	async run(interaction: MessageContextMenuCommandInteraction) {
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 		if (
 			!interaction.channel ||
 			interaction.channel.isDMBased() ||

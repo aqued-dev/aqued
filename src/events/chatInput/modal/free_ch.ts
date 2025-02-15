@@ -1,4 +1,12 @@
-import { ActionRowBuilder, BaseInteraction, ButtonBuilder, ButtonStyle, ChannelType, Events } from 'discord.js';
+import {
+	ActionRowBuilder,
+	BaseInteraction,
+	ButtonBuilder,
+	ButtonStyle,
+	ChannelType,
+	Events,
+	MessageFlags
+} from 'discord.js';
 import { emojis } from '../../../config/emojis.js';
 import { dataSource } from '../../../core/typeorm.config.js';
 import { type EventListener } from '../../../core/types/EventListener.js';
@@ -28,12 +36,12 @@ export default class FreeChannelPanelCreate implements EventListener<Events.Inte
 			if (Number.isNaN(Number(userLimit))) {
 				return await interaction.reply({
 					embeds: [failEmbed('数字以外は受け付けません', 'チャンネル数制限')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			} else if ((userLimit !== '0000' && Number(userLimit) < 1) || Number(userLimit) > 20) {
 				return await interaction.reply({
 					embeds: [failEmbed('1-20の数字ではありません', 'チャンネル数制限')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			}
 			return dataSource.transaction(async (em) => {
@@ -42,7 +50,7 @@ export default class FreeChannelPanelCreate implements EventListener<Events.Inte
 				if (!data) {
 					return await interaction.reply({
 						embeds: [failEmbed('最初からやり直してください', 'データベースエラー')],
-						ephemeral: true
+						flags: [MessageFlags.Ephemeral]
 					});
 				} else {
 					await repo.update({ id }, { userLimit });
@@ -75,18 +83,18 @@ export default class FreeChannelPanelCreate implements EventListener<Events.Inte
 			if (Number.isNaN(Number(slowmode))) {
 				return await interaction.reply({
 					embeds: [failEmbed('数字を入力してください', '低速モード')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			} else if (Number(slowmode) < 0 || Number(slowmode) > 21_600) {
 				return await interaction.reply({
 					embeds: [failEmbed('値が無効です', '低速モード')],
-					ephemeral: true
+					flags: [MessageFlags.Ephemeral]
 				});
 			}
 			await interaction.channel.edit({ name, topic, rateLimitPerUser: Number(slowmode) });
 			return await interaction.reply({
 				embeds: [successEmbed('変更に成功しました')],
-				ephemeral: true
+				flags: [MessageFlags.Ephemeral]
 			});
 		} else {
 			return;

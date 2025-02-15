@@ -1,5 +1,4 @@
 import {
-	AttachmentBuilder,
 	ChannelType,
 	Colors,
 	DiscordAPIError,
@@ -141,9 +140,7 @@ export default class GlobalChatOnMessage implements EventListener<Events.Message
 			embeds.push(embed);
 		}
 
-		const attachments = message.attachments.toJSON().map((value) => {
-			return new AttachmentBuilder(value.url);
-		});
+		const attachments = Array.from(message.attachments.values());
 
 		const username = userFormat(message.author);
 		let content: string = message.cleanContent;

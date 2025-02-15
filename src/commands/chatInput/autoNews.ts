@@ -11,7 +11,8 @@ export default class AutoNews implements ChatInputCommand {
 	constructor() {
 		this.command = new SlashCommandBuilder()
 			.setName('auto_news')
-			.setDescription('ニュースチャンネルの内容を自動的に公開の有効化・無効化');
+			.setDescription('ニュースチャンネルの内容を自動的に公開の有効化・無効化')
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages);
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageMessages],

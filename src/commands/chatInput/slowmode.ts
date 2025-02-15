@@ -24,7 +24,8 @@ export default class Slowmode implements ChatInputCommand {
 			.setName('slowmode')
 			.setDescription('低速モードを設定します')
 			.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
-			.setContexts([InteractionContextType.Guild]);
+			.setContexts([InteractionContextType.Guild])
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels);
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageChannels],

@@ -1,7 +1,7 @@
-import type { AttachmentBuilder } from 'discord.js';
+import { Attachment } from 'discord.js';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 interface ForcePin {
-	attachments: AttachmentBuilder[];
+	attachments: Attachment[];
 	userId: string;
 	content: string;
 	latestMessageId: string;

@@ -83,6 +83,32 @@ export const commandExecuter = async (
 				});
 			}
 		}
+		if (
+			interaction.member instanceof GuildMember &&
+			interaction.channel &&
+			!interaction.channel.isDMBased() &&
+			setting.userPermissions
+		) {
+			const insufficient: bigint[] = [];
+			for (const value of setting.userPermissions) {
+				if (!interaction.member.permissionsIn(interaction.channel).has(value)) {
+					insufficient.push(value);
+				}
+			}
+			if (insufficient.length !== 0) {
+				return await interaction.reply({
+					embeds: [
+						failEmbed(
+							`このコマンドは実行者に以下の権限が必要です\n${translatePermission(insufficient)
+								.map((value) => `\`\`${value}\`\``)
+								.join('\n')}`,
+							'実行前エラー'
+						)
+					],
+					flags: [MessageFlags.Ephemeral]
+				});
+			}
+		}
 		if (interaction.guild && interaction.channel && !interaction.channel.isDMBased() && setting.permissions) {
 			const bot = interaction.guild.members.cache.get(interaction.client.user.id);
 			if (!bot) {

@@ -119,7 +119,7 @@ export default class NgWord implements ChatInputCommand {
 						if (error.message.includes('AUTO_MODERATION_MAX_RULES_OF_TYPE_EXCEEDED')) {
 							return await interaction.reply({
 								embeds: [failEmbed('このサーバーには既に6つのキーワードルールがあります', 'ルール数制限')],
-								ephemeral: true
+								flags: [MessageFlags.Ephemeral]
 							});
 						} else if (error.status === 403) {
 							return await interaction.reply({
@@ -129,7 +129,7 @@ export default class NgWord implements ChatInputCommand {
 										'権限不足'
 									)
 								],
-								ephemeral: true
+								flags: [MessageFlags.Ephemeral]
 							});
 						} else {
 							const errorId = await errorReport(
@@ -145,7 +145,7 @@ export default class NgWord implements ChatInputCommand {
 										`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
 									)
 								],
-								ephemeral: true
+								flags: [MessageFlags.Ephemeral]
 							});
 						}
 					} else {
@@ -162,11 +162,11 @@ export default class NgWord implements ChatInputCommand {
 									`不明なエラーが発生しました\nエラーID: ${errorId}\nサポートサーバーにてエラーIDをご連絡ください\nhttps://discord.gg/PTPeAzwYdn`
 								)
 							],
-							ephemeral: true
+							flags: [MessageFlags.Ephemeral]
 						});
 					}
 				}
-				return await interaction.reply({ embeds: [successEmbed('設定しました!')], ephemeral: true });
+				return await interaction.reply({ embeds: [successEmbed('設定しました!')], flags: [MessageFlags.Ephemeral] });
 			}
 
 			case 'remove': {

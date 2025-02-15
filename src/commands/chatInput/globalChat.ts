@@ -9,7 +9,10 @@ export default class GlobalChat implements ChatInputCommand {
 	public command: SlashCommandBuilder;
 	public settings: CommandSetting;
 	constructor() {
-		this.command = new SlashCommandBuilder().setName('globalchat').setDescription('グローバルチャットの有効化・無効化');
+		this.command = new SlashCommandBuilder()
+			.setName('globalchat')
+			.setDescription('グローバルチャットの有効化・無効化')
+			.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels);
 		this.settings = {
 			enable: true,
 			permissions: [PermissionFlagsBits.ManageChannels],

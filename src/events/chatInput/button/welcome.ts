@@ -3,6 +3,7 @@ import {
 	BaseInteraction,
 	ButtonInteraction,
 	Events,
+	MessageFlags,
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle
@@ -59,7 +60,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 	private async replyWithFail(interaction: ButtonInteraction, description?: string, title?: string) {
 		return await interaction.reply({
 			embeds: [failEmbed(description, title)],
-			ephemeral: true
+			flags: [MessageFlags.Ephemeral]
 		});
 	}
 
@@ -112,7 +113,7 @@ export default class WelcomeMessage implements EventListener<Events.InteractionC
 				return await base.replyWithFail(interaction, '未登録です');
 			}
 			await manager.updateGuild({ [settingKey]: null });
-			return await interaction.reply({ embeds: [successEmbed('登録を解除しました')], ephemeral: true });
+			return await interaction.reply({ embeds: [successEmbed('登録を解除しました')], flags: [MessageFlags.Ephemeral] });
 		} catch (error) {
 			const errorId = await errorReport(
 				fileURLToPath(import.meta.url),
