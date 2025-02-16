@@ -14,23 +14,22 @@ import {
 	WebhookType
 } from 'discord.js';
 import { Not } from 'typeorm';
-import { config } from '../config/config.js';
-import { constants } from '../config/constants.js';
-import { EmojiData, emojis } from '../config/emojis.js';
-import { Logger } from '../core/Logger.js';
-import { SettingManager } from '../core/SettingManager.js';
-import { dataSource } from '../core/typeorm.config.js';
-import { EventListener } from '../core/types/EventListener.js';
-import { ChannelSetting } from '../database/entities/ChannelSetting.js';
-import { GlobalChatBan } from '../database/entities/GlobalChatBan.js';
-import { SuperGlobalChatData } from '../database/entities/SuperGlobalChatData.js';
-import { failEmbed, replyEmbed } from '../embeds/infosEmbed.js';
-import { getIconUrl } from '../utils/getIconUrl.js';
-import { getWebhook } from '../utils/getWebhook.js';
-import { JsonArrayContains } from '../utils/jsonArrayContains.js';
-import { miniUserFormat } from '../utils/userFormat.js';
-import { webhookChecker } from '../utils/webhookChecker.js';
-import GlobalChatOnMessage from './globalChat/onMessage.js';
+import { config } from '../../config/config.js';
+import { constants } from '../../config/constants.js';
+import { EmojiData, emojis } from '../../config/emojis.js';
+import { Logger } from '../../core/Logger.js';
+import { SettingManager } from '../../core/SettingManager.js';
+import { dataSource } from '../../core/typeorm.config.js';
+import { EventListener } from '../../core/types/EventListener.js';
+import { ChannelSetting } from '../../database/entities/ChannelSetting.js';
+import { GlobalChatBan } from '../../database/entities/GlobalChatBan.js';
+import { SuperGlobalChatData } from '../../database/entities/SuperGlobalChatData.js';
+import { failEmbed, replyEmbed } from '../../embeds/infosEmbed.js';
+import { getIconUrl } from '../../utils/getIconUrl.js';
+import { getWebhook } from '../../utils/getWebhook.js';
+import { miniUserFormat } from '../../utils/userFormat.js';
+import { webhookChecker } from '../../utils/webhookChecker.js';
+import GlobalChatOnMessage from '../globalChat/onMessage.js';
 
 type KensakuType = 'kensaku-complete' | 'kensaku-error';
 type PgType = 'pg-recovery';
@@ -150,6 +149,9 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 	isMessageData(data: BaseData): data is MessageData {
 		return data.type === CommonType.Message;
 	}
+	isEditData(data: BaseData): data is EditData {
+		return data.type === CommonType.Edit;
+	}
 
 	async dataGenerate(message: Message<true>) {
 		const data: MessageData = {
@@ -181,7 +183,12 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		const repo = dataSource.getRepository(SuperGlobalChatData);
 
 		if (message.reference && message.reference.messageId) {
-			let jsonData = await repo.findOne({ where: { sendIds: JsonArrayContains(message.reference.messageId) } });
+			let jsonData = await repo
+				.createQueryBuilder('data')
+				.innerJoin('data.sendIds', 'sendId')
+				.where('sendId.messageId = :messageId', { messageId: message.reference.messageId })
+				.getOne();
+
 			if (!jsonData) {
 				jsonData = await repo.findOne({ where: { messageId: message.reference.messageId } });
 			}
@@ -316,7 +323,7 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 		const globalChat = new GlobalChatOnMessage();
 		const repo = dataSource.getRepository(ChannelSetting);
 		const channelSettings = await repo.find({ where: { channelId: Not(message.channelId), superGlobal: true } });
-		const messageIds: string[] = [];
+		const messageIds: { webhookUrl: string; channelId: string; messageId: string }[] = [];
 		const regexMatchesAll = Object.values(constants.regexs.inviteUrls).some((regex) => regex.test(data.content));
 		if (regexMatchesAll) {
 			if (sendByNotMy) {
@@ -354,7 +361,11 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			}
 
 			const sendMessage = await (webhook as Webhook<WebhookType.Incoming>).send(messageData);
-			messageIds.push(sendMessage.id);
+			messageIds.push({
+				webhookUrl: (webhook as Webhook<WebhookType.Incoming>).url,
+				channelId: sendMessage.channelId,
+				messageId: sendMessage.id
+			});
 		}
 		try {
 			dataSource.transaction(async (em) => {
@@ -385,14 +396,19 @@ export default class SuperGlobalChatOnMessage implements EventListener<Events.Me
 			return;
 		}
 	}
+	async editEvent(emoji: EmojiData, data: EditData, message: Message<true>) {
+		const repo = dataSource.getRepository(SuperGlobalChatData);
+		const sentData = await repo.findOne({ where: { messageId: message.id } });
+		Logger.info(`${sentData} ${emoji.HypesquadBalance}${data}`);
+	}
 	async dataListen(message: Message<true>) {
 		const emoji = emojis();
 		try {
 			const jsonData = JSON.parse(message.content) as BaseData;
 			if (this.isMessageData(jsonData)) {
 				return await this.messageEvent(emoji, jsonData, message);
-			} else if (jsonData.type === 'edit') {
-				return await message.react(emoji.check);
+			} else if (this.isEditData(jsonData)) {
+				return await this.editEvent(emoji, jsonData, message);
 			} else if (jsonData.type === 'delete') {
 				return await message.react(emoji.check);
 			} else if (jsonData.type === 'empty') {

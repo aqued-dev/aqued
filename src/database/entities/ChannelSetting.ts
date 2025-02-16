@@ -18,6 +18,8 @@ export class ChannelSetting {
 	autoNews?: boolean | null;
 	@Column({ name: 'FORCE_PIN', type: 'json', comment: 'メッセージを下に固定', nullable: true })
 	forcePin?: ForcePin | null;
+	@Column({ name: 'URL_CHECK', type: 'boolean', comment: 'チャンネル内自動URLチェック', nullable: true })
+	urlCheck?: boolean | null;
 	constructor(channelId: string) {
 		this.channelId = channelId;
 	}
