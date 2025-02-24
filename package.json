@@ -31,7 +31,7 @@
 		"@commitlint/cli": "^19.7.1",
 		"@commitlint/config-conventional": "^19.7.1",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^22.13.4",
+		"@types/node": "^22.13.5",
 		"@types/xml2js": "^0.4.14",
 		"eslint": "^9.20.1",
 		"eslint-config-prettier": "^10.0.1",
