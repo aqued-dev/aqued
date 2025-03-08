@@ -12,7 +12,7 @@ export default {
     let userHands: HandState = { left: 1, right: 1 };
     let botHands: HandState = { left: 1, right: 1 };
 
-    // 最初のメッセージ送信
+    // 最初のメッセージ送信 
     const message = await interaction.reply({
       embeds: [generateEmbed(userHands, botHands, '攻撃する手を選んでください！')],
       components: [attackButtons()],
