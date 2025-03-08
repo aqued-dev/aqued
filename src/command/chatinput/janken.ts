@@ -24,7 +24,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
-		const userHand = interaction.options.getString('hand');
+		const userHand = interaction.options.getString('hand', true);
 		const hands = ['rock', 'scissors', 'paper'];
 		const botHand = hands[Math.floor(Math.random() * hands.length)];
 		const result = getResult(userHand, botHand);
