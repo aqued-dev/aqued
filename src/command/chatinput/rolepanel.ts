@@ -1,19 +1,19 @@
 import {
-	ChatInputCommandInteraction,
 	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
 	ModalBuilder,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+	SnowflakeUtil,
 	TextInputBuilder,
 	TextInputStyle,
-	SnowflakeUtil,
-	PermissionFlagsBits,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('rolepanel')
-		.setGuildOnly()
 		.setDescription('ロールパネルを生成します。')
 		.addRoleOption((input) => input.setName('role1').setDescription('ロール1').setRequired(true))
 		.addRoleOption((input) => input.setName('role2').setDescription('ロール2').setRequired(false))
@@ -36,20 +36,21 @@ export default {
 
 		for (let index = 1; index <= 10; index++) {
 			const rawRole = interaction.options.getRole(`role${index}`);
-			const role = interaction.guild.roles.cache.get(rawRole ? rawRole.id : '');
-			const member = interaction.guild.members.cache.get(interaction.user.id);
-			if (role && member && member.roles.highest.comparePositionTo(role) <= 0)
+			const role = interaction.guild?.roles.cache.get(rawRole ? rawRole.id : '');
+			const member = interaction.guild?.members.cache.get(interaction.user.id);
+			if (role && member && member.roles.highest.comparePositionTo(role) <= 0) {
 				return await interaction.error(
 					'実行者のロールよりも上位のロールを指定しています',
 					'指定したロールはあなたが持っているロールよりも上です。',
 					true,
 				);
+			}
 
 			roles.push(rawRole ? { id: rawRole.id, name: rawRole.name } : undefined);
 		}
 
 		await interaction.client.botData.rolePanel.set(id.toString(), roles);
-		await interaction.showModal(
+		return await interaction.showModal(
 			new ModalBuilder()
 				.setTitle('ロールパネル')
 				.setCustomId('role_panel_modal_' + id.toString())

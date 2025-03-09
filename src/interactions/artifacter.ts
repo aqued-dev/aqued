@@ -4,8 +4,12 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import './artifacter/keep.js';
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isStringSelectMenu()) return;
-	if (!interaction.customId.includes('select_build1_uid_')) return;
+	if (!interaction.isStringSelectMenu()) {
+		return;
+	}
+	if (!interaction.customId.includes('select_build1_uid_')) {
+		return;
+	}
 	try {
 		const database = interaction.client.botData.artifacter;
 		await interaction.deferReply();

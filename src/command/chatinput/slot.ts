@@ -1,7 +1,11 @@
-import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 import { setTimeout } from 'node:timers/promises';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('slot')
@@ -49,7 +53,7 @@ export default {
 		const result2 = array[random2];
 		const random3 = Math.floor(Math.random() * array.length);
 		const result3 = array[random3];
-		await interaction.reply(result + result2 + result3);
+		await interaction.reply(result! + result2 + result3);
 		let x = 0;
 		while (x < 10) {
 			x++;
@@ -60,7 +64,7 @@ export default {
 			const result2 = array[random2];
 			const random3 = Math.floor(Math.random() * array.length);
 			const result3 = array[random3];
-			await interaction.editReply(result + result2 + result3);
+			await interaction.editReply(result! + result2 + result3);
 			if (x == 10) {
 				await (result === result2 && result2 === result3
 					? interaction.followUp('あなたは勝利しました。')

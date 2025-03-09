@@ -1,15 +1,16 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	ButtonBuilder,
 	ButtonStyle,
-	EmbedBuilder,
-	MessageContextMenuCommandInteraction,
 	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	MessageContextMenuCommandInteraction,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
@@ -22,24 +23,26 @@ export default {
 	permissions: false,
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {
-		interaction.targetMessage.cleanContent
-			? await interaction.reply({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle('🎋短冊')
-							.setDescription(TanzakuGenerate(interaction.targetMessage.cleanContent))
-							.setColor(Colors.Blue),
-					],
-					components: [
-						new ActionRowBuilder<ButtonBuilder>().addComponents(
-							new ButtonBuilder()
-								.setLabel('短冊を削除する')
-								.setEmoji('🗑️')
-								.setStyle(ButtonStyle.Danger)
-								.setCustomId('tanzaku_delete' + interaction.user.id),
-						),
-					],
-				})
-			: await interaction.error('内容がありません。', '内容が無いため短冊を生成できません。', true);
+		if (interaction.targetMessage.cleanContent) {
+			await interaction.reply({
+				embeds: [
+					new EmbedBuilder()
+						.setTitle('🎋短冊')
+						.setDescription(TanzakuGenerate(interaction.targetMessage.cleanContent))
+						.setColor(Colors.Blue),
+				],
+				components: [
+					new ActionRowBuilder<ButtonBuilder>().addComponents(
+						new ButtonBuilder()
+							.setLabel('短冊を削除する')
+							.setEmoji('🗑️')
+							.setStyle(ButtonStyle.Danger)
+							.setCustomId('tanzaku_delete' + interaction.user.id),
+					),
+				],
+			});
+		} else {
+			await interaction.error('内容がありません。', '内容が無いため短冊を生成できません。', true);
+		}
 	},
 };

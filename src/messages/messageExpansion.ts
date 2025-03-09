@@ -1,38 +1,52 @@
-import { EmbedBuilder, Message, Colors, Webhook, AttachmentBuilder, StickerFormatType, APIEmbed } from 'discord.js';
+import { APIEmbed, AttachmentBuilder, Colors, EmbedBuilder, Message, StickerFormatType, Webhook } from 'discord.js';
 
 export default async function (message: Message) {
-	if (message.author.bot || message.system) return;
-	if (!(await message.client.botData.messageExpansion.get(message.guildId))) return;
-	if (message.cleanContent.startsWith('<') && message.cleanContent.endsWith('>')) return;
+	if (message.author.bot || message.system) {
+		return;
+	}
+	if (!(await message.client.botData.messageExpansion.get(message.guildId))) {
+		return;
+	}
+	if (message.cleanContent.startsWith('<') && message.cleanContent.endsWith('>')) {
+		return;
+	}
 	const discordMessageRegex = /https?:\/\/(www\.)?(canary|ptb\.)?discord(app)?\.com\/channels\/(\d+)\/(\d+)\/(\d+)/;
 	const discordMessageMatch = message.cleanContent.match(discordMessageRegex);
-	if (!discordMessageMatch) return;
+	if (!discordMessageMatch) {
+		return;
+	}
 	const urlChannel = message.client.channels.cache.get(discordMessageMatch[5]);
-	if (!urlChannel) return;
-	if (urlChannel.isDMBased() || !urlChannel.isTextBased()) return;
+	if (!urlChannel) {
+		return;
+	}
+	if (urlChannel.isDMBased() || !urlChannel.isTextBased()) {
+		return;
+	}
 
 	const urlMessage = await urlChannel.messages.fetch(discordMessageMatch[6]);
-	if (message.channel.isDMBased() || !message.channel.isTextBased()) return;
+	if (message.channel.isDMBased() || !message.channel.isTextBased()) {
+		return;
+	}
 	const webhooks = message.channel.isThread()
 		? await message.channel.parent.fetchWebhooks()
 		: await message.channel.fetchWebhooks();
 	const webhook: Webhook =
 		!webhooks.some((value) => value.name === 'Aqued') ||
-		webhooks.find((value) => value.name === 'Aqued').owner.id !== urlMessage.client.user.id
+		webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== urlMessage.client.user.id
 			? message.channel.isThread()
 				? await message.channel.parent.createWebhook({ name: 'Aqued' })
 				: await message.channel.createWebhook({ name: 'Aqued' })
 			: webhooks.find((value) => value.name === 'Aqued');
 	const stickerEmbeds: APIEmbed[] = [];
 	if (urlMessage.stickers.size > 0) {
-		if (urlMessage.stickers.first().format === StickerFormatType.Lottie)
+		if (urlMessage.stickers.first().format === StickerFormatType.Lottie) {
 			stickerEmbeds.push(
 				new EmbedBuilder()
 					.setColor(Colors.Blue)
 					.setDescription('このスタンプに対応していないため、表示できません。')
 					.toJSON(),
 			);
-		else
+		} else {
 			stickerEmbeds.push(
 				new EmbedBuilder()
 					.setTitle('スタンプ')
@@ -40,6 +54,7 @@ export default async function (message: Message) {
 					.setImage(urlMessage.stickers.first().url)
 					.toJSON(),
 			);
+		}
 	}
 	const urlMessageEmbed: APIEmbed[] = [];
 	if (urlMessage.embeds.length > 0) {
@@ -57,7 +72,7 @@ export default async function (message: Message) {
 		);
 	}
 	webhook.send({
-		avatarURL: urlMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+		avatarURL: urlMessage.author.displayAvatarURL({ extension: 'webp' }),
 		username: urlMessage.author.displayName,
 		embeds: [...urlMessageEmbed, ...stickerEmbeds],
 		content:

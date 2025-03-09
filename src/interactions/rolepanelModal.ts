@@ -1,11 +1,17 @@
 import { ActionRowBuilder, BaseInteraction, Colors, EmbedBuilder, StringSelectMenuBuilder } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isModalSubmit()) return;
-	if (!interaction.customId.startsWith('role_panel_modal_')) return;
+	if (!interaction.isModalSubmit()) {
+		return;
+	}
+	if (!interaction.customId.startsWith('role_panel_modal_')) {
+		return;
+	}
 	const id = interaction.customId.replace('role_panel_modal_', '');
 	let roles: undefined | ({ id: string; name: string } | null)[] = await interaction.client.botData.rolePanel.get(id);
-	if (!roles) return await interaction.error('ロールパネル生成失敗', 'データ参照エラーです。', true);
+	if (!roles) {
+		return await interaction.error('ロールパネル生成失敗', 'データ参照エラーです。', true);
+	}
 	const title = interaction.fields.getTextInputValue('title') || 'ロールパネル';
 	const description =
 		interaction.fields.getTextInputValue('description') || '以下のセレクトメニューで、ロールを取得できます。';

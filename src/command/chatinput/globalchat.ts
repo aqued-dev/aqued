@@ -1,20 +1,19 @@
 import {
+	ApplicationIntegrationType,
 	ChannelType,
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
+	InteractionContextType,
 	PermissionFlagsBits,
-	Webhook,
+	SlashCommandBuilder,
 } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('globalchat')
 		.setDescription('グローバルチャットに参加/退出します。')
-		.setGuildOnly()
 		.addChannelOption((input) =>
 			input.addChannelTypes(ChannelType.GuildText).setName('channel').setDescription('チャンネル').setRequired(true),
 		)
@@ -26,7 +25,14 @@ export default {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const permissions = [PermissionFlagsBits.ManageChannels];
-		const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+		if (!interaction.channel || (interaction.channel && interaction.channel.isDMBased()) || !interaction.guild) {
+			return;
+		}
+		const member = interaction.guild.members.cache.get(interaction.user.id);
+		if (!member) {
+			return await interaction.error('メンバー不明', 'あなたがサーバー内で見つかりませんでした', true);
+		}
+		const authorPerms = interaction.channel.permissionsFor(member);
 		if (!authorPerms || !permissions.every((permission) => authorPerms.has(permission))) {
 			const permission: bigint[] = permissions;
 			return await interaction.error(
@@ -37,9 +43,11 @@ export default {
 				true,
 			);
 		}
-		const botPerms = interaction.channel.permissionsFor(
-			interaction.guild.members.cache.get(interaction.client.user.id),
-		);
+		const bot = interaction.guild.members.cache.get(interaction.client.user.id);
+		if (!bot) {
+			return await interaction.error('メンバー不明', 'Botがサーバー内で見つかりませんでした', true);
+		}
+		const botPerms = interaction.channel.permissionsFor(bot);
 		if (!botPerms || !permissions.every((permission) => botPerms.has(permission))) {
 			const permission: bigint[] = permissions;
 			return await interaction.error(
@@ -57,13 +65,19 @@ export default {
 			const registers = await register.keys();
 			for (const value of registers) {
 				const channel = interaction.client.channels.cache.get(value);
-				if (!channel) continue;
-				if (channel.id === optionsChannel.id) continue;
-				if (channel.type !== ChannelType.GuildText) continue;
+				if (!channel) {
+					continue;
+				}
+				if (channel.id === optionsChannel.id) {
+					continue;
+				}
+				if (channel.type !== ChannelType.GuildText) {
+					continue;
+				}
 				const webhooks = await channel.fetchWebhooks();
-				const webhook: Webhook =
+				const webhook =
 					!webhooks.some((value) => value.name === 'Aqued') ||
-					webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+					webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== interaction.client.user.id
 						? await channel.createWebhook({ name: 'Aqued' })
 						: webhooks.find((value) => value.name === 'Aqued');
 				const embed = new EmbedBuilder()
@@ -72,20 +86,21 @@ export default {
 					.setDescription(
 						`${interaction.guild.name}がグローバルチャットから退出しました。\n現在のグローバルチャット参加数は\`${registers.length}\`です。`,
 					);
-				if (interaction.guild.icon)
+				if (interaction.guild.icon) {
 					embed.setThumbnail(
 						interaction.guild.icon.startsWith('a_')
 							? interaction.guild.iconURL({ extension: 'gif' })
 							: interaction.guild.iconURL({ extension: 'webp' }),
 					);
-				await webhook.send({
+				}
+				await webhook?.send({
 					embeds: [embed],
-					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 					username: 'Aqued System',
 				});
 			}
 		} else {
-			if (await blocks.get(interaction.user.id))
+			if (await blocks.get(interaction.user.id)) {
 				return await interaction.error(
 					'グローバルチャットに入室できません',
 					`あなたはグローバルチャットBanされている為、\n入室、グローバルチャットでの発言ができません。\nban理由: ${await blocks.get(
@@ -93,17 +108,22 @@ export default {
 					)}\n異論申し立てはサポートサーバーまで。`,
 					true,
 				);
+			}
 			await register.set(optionsChannel.id, true);
 			await interaction.ok('参加しました。', '参加が完了しました。', false);
 			const registers = await register.keys();
 			for (const value of registers) {
 				const channel = interaction.client.channels.cache.get(value);
-				if (!channel) continue;
-				if (channel.type !== ChannelType.GuildText) continue;
+				if (!channel) {
+					continue;
+				}
+				if (channel.type !== ChannelType.GuildText) {
+					continue;
+				}
 				const webhooks = await channel.fetchWebhooks();
-				const webhook: Webhook =
+				const webhook =
 					!webhooks.some((value) => value.name === 'Aqued') ||
-					webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+					webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== interaction.client.user.id
 						? await channel.createWebhook({ name: 'Aqued' })
 						: webhooks.find((value) => value.name === 'Aqued');
 				const embed = new EmbedBuilder()
@@ -112,19 +132,21 @@ export default {
 					.setDescription(
 						`${interaction.guild.name}がグローバルチャットに参加しました。\n現在のグローバルチャット参加数は\`${registers.length}\`です。`,
 					);
-				if (interaction.guild.icon)
+				if (interaction.guild.icon) {
 					embed.setThumbnail(
 						interaction.guild.icon.startsWith('a_')
 							? interaction.guild.iconURL({ extension: 'gif' })
 							: interaction.guild.iconURL({ extension: 'webp' }),
 					);
+				}
 
-				await webhook.send({
+				await webhook?.send({
 					embeds: [embed],
-					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 					username: 'Aqued System',
 				});
 			}
 		}
+		return;
 	},
 };

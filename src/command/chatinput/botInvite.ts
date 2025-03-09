@@ -1,14 +1,15 @@
 import {
+	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ButtonBuilder,
+	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
-	ButtonStyle,
-	PermissionsBitField,
-	ActionRowBuilder,
-	ButtonBuilder,
 	EmbedBuilder,
+	InteractionContextType,
+	PermissionsBitField,
+	SlashCommandBuilder,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('bot_invite')
@@ -21,14 +22,14 @@ export default {
 	permissions: false,
 	async execute(interaction: ChatInputCommandInteraction) {
 		const bot = interaction.options.getUser('bot');
-		if (!bot)
+		if (!bot) {
 			return await interaction.reply({
 				embeds: [
 					new EmbedBuilder()
 						.setTitle(`${interaction.client.user.tag}を招待する。`)
 						.setColor(Colors.Blue)
 						.setDescription('下のボタンから招待できます。')
-						.setThumbnail(interaction.client.user.extDefaultAvatarURL({ extension: 'webp' })),
+						.setThumbnail(interaction.client.user.displayAvatarURL({ extension: 'webp' })),
 				],
 				components: [
 					new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -57,14 +58,17 @@ export default {
 					),
 				],
 			});
-		if (!bot.bot) return await interaction.error('指定されたものはbotではありません', 'botを指定してください。', true);
-		await interaction.reply({
+		}
+		if (!bot.bot) {
+			return await interaction.error('指定されたものはbotではありません', 'botを指定してください。', true);
+		}
+		return await interaction.reply({
 			embeds: [
 				new EmbedBuilder()
 					.setTitle(`${bot.tag}を招待する。`)
 					.setColor(Colors.Blue)
 					.setDescription('下のボタンから招待できます。')
-					.setThumbnail(bot.extDefaultAvatarURL({ extension: 'webp' })),
+					.setThumbnail(bot.displayAvatarURL({ extension: 'webp' })),
 			],
 			components: [
 				new ActionRowBuilder<ButtonBuilder>().addComponents(

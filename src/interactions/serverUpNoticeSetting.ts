@@ -16,12 +16,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				switch (interaction.message.embeds[0].fields[0].name) {
 					case 'ディス速': {
 						await interaction.client.botData.guildUpNotice.dissoku.set(
@@ -144,12 +145,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				switch (interaction.message.embeds[0].title) {
 					case 'ディス速': {
 						await interaction.client.botData.guildUpNotice.dissoku.set(
@@ -178,12 +180,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				await interaction.update({
 					embeds: [
 						new EmbedBuilder()
@@ -224,12 +227,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				await interaction.update({
 					embeds: [
 						new EmbedBuilder()
@@ -270,12 +274,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				switch (interaction.message.embeds[0].fields[0].name) {
 					case 'ディス速': {
 						const role = await interaction.client.botData.guildUpNotice.dissoku.get(interaction.guildId + '_role');
@@ -366,12 +371,13 @@ export default async function (interaction: BaseInteraction) {
 				if (
 					(await interaction.client.botData.commandExecutors.serverUpNotice.get(interaction.message.id)) !==
 					interaction.user.id
-				)
+				) {
 					return await interaction.error(
 						'あなたはコマンドの実行者ではありません。',
 						'このコマンドはコマンド実行者以外の操作は許可されていません。',
 						true,
 					);
+				}
 				switch (interaction.message.embeds[0].title) {
 					case 'ディス速': {
 						await interaction.client.botData.guildUpNotice.dissoku.delete(interaction.guildId + '_role');

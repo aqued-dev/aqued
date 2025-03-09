@@ -1,17 +1,10 @@
 import {
-	APISelectMenuOption,
-	ActionRowBuilder,
+	ApplicationIntegrationType,
 	ChatInputCommandInteraction,
-	Colors,
-	EmbedBuilder,
-	SelectMenuComponentOptionData,
-	StringSelectMenuBuilder,
-	StringSelectMenuOptionBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { EnkaClient } from 'enka-network-api';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('build')
@@ -45,6 +38,7 @@ export default {
 			'画像生成のAPIに接続できない影響でコマンドを停止しています',
 			true,
 		);
+		/*
 		try {
 			await interaction.deferReply();
 			const database = interaction.client.botData.artifacter;
@@ -101,5 +95,6 @@ export default {
 				],
 			});
 		}
+		*/
 	},
 };
