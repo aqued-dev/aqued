@@ -11,20 +11,19 @@ import {
 	StringSelectMenuBuilder,
 	StringSelectMenuInteraction,
 } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+
 type HandState = { left: number; right: number };
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('finger-war')
-		.setDescription('指遊びの戦争を開始！')
-		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall) // 修正
-		.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel), // 修正
+		.setDescription('指遊びの戦争を開始！'),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
 		const botHands: HandState = { left: 1, right: 1 };
 
+		// 初回メッセージを送信
 		const message = await interaction.reply({
 			embeds: [generateEmbed(userHands, botHands, '指を分けるか、攻撃するか選んでください！')],
 			components: [mainButtons(userHands)],
@@ -41,7 +40,7 @@ export default {
 			if (action === 'redistribute') {
 				await interaction.editReply({
 					embeds: [generateEmbed(userHands, botHands, 'どのように指を分けますか？')],
-					components: [redistributeMenu(userHands)],
+					components: [redistributeMenu(userHands)], // 修正
 				});
 			} else if (action === 'attack') {
 				playTurn(userHands, botHands, value as keyof HandState);
@@ -85,7 +84,7 @@ export default {
 	},
 };
 
-// 指を分ける処理（0本の手も復活可能）
+// 🛠 指を分ける処理（0本の手も復活可能）
 function redistributeFingers(hands: HandState, from: keyof HandState, to: keyof HandState, amount: number) {
 	if (hands[from] >= amount && amount > 0) {
 		hands[from] -= amount;
@@ -93,7 +92,7 @@ function redistributeFingers(hands: HandState, from: keyof HandState, to: keyof 
 	}
 }
 
-// 指の増減を処理
+// 🎯 指の増減を処理
 function playTurn(attacker: HandState, defender: HandState, attackHand: keyof HandState) {
 	if (attacker[attackHand] > 0) {
 		defender[attackHand] += attacker[attackHand];
@@ -101,7 +100,7 @@ function playTurn(attacker: HandState, defender: HandState, attackHand: keyof Ha
 	}
 }
 
-// Botのターン
+// 🤖 Botのターン処理
 async function botTurn(
 	interaction: ChatInputCommandInteraction,
 	userHands: HandState,
@@ -128,7 +127,7 @@ async function botTurn(
 	if (userLose || botLose) collector.stop();
 }
 
-// Embedの生成
+// 📜 Embedの生成
 function generateEmbed(userHands: HandState, botHands: HandState, message: string) {
 	return new EmbedBuilder()
 		.setTitle('🖐️ 指遊びの戦争！！')
@@ -140,7 +139,7 @@ function generateEmbed(userHands: HandState, botHands: HandState, message: strin
 		.setColor(Colors.Blue);
 }
 
-// メインのボタン（指を分ける・攻撃）
+// 🎮 メインのボタン（指を分ける・攻撃）
 function mainButtons(hands: HandState) {
 	return new ActionRowBuilder<ButtonBuilder>().addComponents(
 		new ButtonBuilder().setCustomId('finger-war-redistribute').setLabel('指を分ける').setStyle(ButtonStyle.Secondary),
@@ -157,14 +156,14 @@ function mainButtons(hands: HandState) {
 	);
 }
 
-// 指の分け方を選択するメニュー（0本の手にも分けられる）
+// 🔄 指の分け方を選択するメニュー
 function redistributeMenu(hands: HandState) {
 	const options = [];
 
-	for (let i = 1; i < hands.left; i++) {
+	for (let i = 1; i <= hands.left; i++) {
 		options.push({ label: `左→右 ${i}本`, value: `left_right_${i}` });
 	}
-	for (let i = 1; i < hands.right; i++) {
+	for (let i = 1; i <= hands.right; i++) {
 		options.push({ label: `右→左 ${i}本`, value: `right_left_${i}` });
 	}
 
