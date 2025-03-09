@@ -50,7 +50,9 @@ export default {
 };
 
 function getResult(user, bot) {
-	if (user === bot) {return '引き分け！';}
+	if (user === bot) {
+		return '引き分け！';
+	}
 	if (
 		(user === 'rock' && bot === 'scissors') ||
 		(user === 'scissors' && bot === 'paper') ||

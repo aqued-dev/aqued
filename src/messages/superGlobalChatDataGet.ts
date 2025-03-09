@@ -5,8 +5,12 @@ import { EmptyData, MessageData, MessageDeleteData, MessageEditData } from '../u
 export default async function (message: Message) {
 	try {
 		const jsonChannelId = message.client.botData.sgcJsonChannelId;
-		if (message.channelId !== jsonChannelId) {return;}
-		if (message.author.id === message.client.user.id) {return;}
+		if (message.channelId !== jsonChannelId) {
+			return;
+		}
+		if (message.author.id === message.client.user.id) {
+			return;
+		}
 		const replyMessages = message.client.botData.superGlobalChat.replyMessages;
 		const registers = await message.client.botData.superGlobalChat.register.keys();
 		const data: MessageData | MessageDeleteData | MessageEditData | EmptyData = JSON.parse(message.content);
