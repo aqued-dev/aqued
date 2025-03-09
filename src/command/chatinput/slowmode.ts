@@ -1,20 +1,20 @@
 import {
-	ChatInputCommandInteraction,
-	PermissionFlagsBits,
-	ModalBuilder,
 	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	ModalBuilder,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('slowmode')
 		.setDescription('低速モードを設定します。')
-		.setGuildOnly()
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
@@ -22,8 +22,10 @@ export default {
 	permissions: false,
 	async execute(interaction: ChatInputCommandInteraction) {
 		const permissions = [PermissionFlagsBits.ManageChannels];
-		const author = interaction.guild.members.cache.get(interaction.user.id);
-		if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+		const author = interaction.guild?.members.cache.get(interaction.user.id);
+		if (!author) {
+			return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+		}
 		const authorPerms = author.permissions;
 		if (!authorPerms || !permissions.every((permission) => authorPerms.has(permission))) {
 			return await interaction.error(
@@ -34,8 +36,9 @@ export default {
 				true,
 			);
 		}
-		const botPerms = interaction.channel.permissionsFor(
-			interaction.guild.members.cache.get(interaction.client.user.id),
+		// @ts-expect-error error
+		const botPerms = interaction.channel?.permissionsFor(
+			interaction.guild?.members.cache.get(interaction.client.user.id),
 		);
 		if (!botPerms || !permissions.every((permission) => botPerms.has(permission))) {
 			return await interaction.error(
@@ -44,7 +47,7 @@ export default {
 				true,
 			);
 		}
-		await interaction.showModal(
+		return await interaction.showModal(
 			new ModalBuilder()
 				.setTitle('低速モード')
 				.setCustomId('slowmode_setting_modal')
@@ -57,7 +60,8 @@ export default {
 							.setCustomId('slowmode_sec')
 							.setRequired(true)
 							.setStyle(TextInputStyle.Short)
-							.setValue(interaction.channel.rateLimitPerUser ? String(interaction.channel.rateLimitPerUser) : ''),
+							// @ts-expect-error error
+							.setValue(interaction.channel?.rateLimitPerUser ? String(interaction.channel?.rateLimitPerUser) : ''),
 					),
 				),
 		);

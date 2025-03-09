@@ -1,7 +1,21 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
-
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
+interface DogCEO {
+	status: string;
+	message: string;
+}
+interface TheCat {
+	id: string;
+	url: string;
+	width: number;
+	height: number;
+}
 export default {
 	command: new SlashCommandBuilder()
 		.setName('image')
@@ -22,7 +36,12 @@ export default {
 
 				await (response.ok
 					? interaction.reply({
-							embeds: [new EmbedBuilder().setTitle('🐈｜猫').setImage(data[0].url).setColor(Colors.Blue)],
+							embeds: [
+								new EmbedBuilder()
+									.setTitle('🐈｜猫')
+									.setImage((data as TheCat[])[0]!.url)
+									.setColor(Colors.Blue),
+							],
 						})
 					: interaction.reply({
 							embeds: [
@@ -40,7 +59,12 @@ export default {
 				const data = await response.json();
 				await (response.ok
 					? interaction.reply({
-							embeds: [new EmbedBuilder().setTitle('🐶｜犬').setImage(data.message).setColor(Colors.Blue)],
+							embeds: [
+								new EmbedBuilder()
+									.setTitle('🐶｜犬')
+									.setImage((data as DogCEO).message)
+									.setColor(Colors.Blue),
+							],
 						})
 					: interaction.reply({
 							embeds: [

@@ -1,24 +1,25 @@
-import { readdir } from 'node:fs/promises';
-import { exit } from 'node:process';
-import { inspect } from 'node:util';
 import {
 	ActivityType,
 	ChannelType,
 	Client,
 	Collection,
 	Colors,
+	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GatewayIntentBits,
 	REST,
 	Routes,
+	SlashCommandBuilder,
 	SnowflakeUtil,
 } from 'discord.js';
-import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
+import { readdir } from 'node:fs/promises';
+import { exit } from 'node:process';
+import { inspect } from 'node:util';
 import config from '../config.json' with { type: 'json' };
 import packageJson from '../package.json' with { type: 'json' };
 
 import './utils/extrans.js';
-import { info, error } from './utils/log.js';
+import { error, info } from './utils/log.js';
 import { MongoDB } from './utils/MongoDB.js';
 function newMongoDB(name: string): MongoDB {
 	return new MongoDB({ url: config.mongoDBUrl, name });
@@ -100,11 +101,17 @@ const {
 const version = packageJson.version;
 const response = await fetch('https://api.github.com/repos/aqued-dev/aqued/tags');
 if (response.ok) {
-	const json = await response.json();
-	if (Number(version.replaceAll('.', '')) < Number(json[0].name.replaceAll('.', ''))) {
-		info('new version release: https://github.com/aqued-dev/aqued/releases/tag/' + json[0].name);
-	} else if (Number(version.replaceAll('.', '')) === Number(json[0].name.replaceAll('.', ''))) {
-		await infos.set('version', json[0].name);
+	const json = (await response.json()) as {
+		name: string;
+		zipball_url: string;
+		tarball_url: string;
+		commit: { sha: string; url: string };
+		node_id: string;
+	}[];
+	if (Number(version.replaceAll('.', '')) < Number(json[0]?.name.replaceAll('.', ''))) {
+		info('new version release: https://github.com/aqued-dev/aqued/releases/tag/' + json[0]?.name);
+	} else if (Number(version.replaceAll('.', '')) === Number(json[0]?.name.replaceAll('.', ''))) {
+		await infos.set('version', json[0]?.name);
 	}
 } else {
 	await infos.set('version', version);
@@ -117,7 +124,7 @@ info('Create By gx1285');
 const users: string[] | undefined = await commandExecutors.users.get('users');
 info(`Number of users using bot: ${users ? users.length : '0'}`);
 
-const commandExecNumber: Array<number | any> = await commandExecutors.number.values();
+const commandExecNumber: number[] = await commandExecutors.number.values();
 info(
 	`Total number of commands executed: ${
 		commandExecNumber.length > 0 ? commandExecNumber.reduce((a, b) => a + b, 0).toString() : '0'
@@ -200,7 +207,7 @@ process.on('uncaughtException', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (channel.type === ChannelType.GuildText) {
+		if (channel?.type === ChannelType.GuildText) {
 			channel.send({
 				embeds: [
 					new EmbedBuilder()
@@ -218,7 +225,7 @@ process.on('unhandledRejection', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (channel.type === ChannelType.GuildText) {
+		if (channel?.type === ChannelType.GuildText) {
 			channel.send({
 				embeds: [
 					new EmbedBuilder()

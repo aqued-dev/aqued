@@ -1,14 +1,16 @@
 import {
 	ActionRowBuilder,
+	ApplicationCommandType,
+	ApplicationIntegrationType,
 	ButtonBuilder,
 	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
 	ComponentType,
 	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -26,21 +28,28 @@ export default {
 		if (interaction.options.getString('name')) {
 			const commands = interaction.client.botData.commandDatas;
 			for (const command of commands) {
-				if (command.name !== interaction.options.getString('name')) continue;
+				if (command.name !== interaction.options.getString('name')) {
+					continue;
+				}
+				let description;
+				if (command.type === ApplicationCommandType.ChatInput) {
+					description = command.description;
+				}
 				await interaction.reply({
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(command.name)
-							.setDescription(command['description'] ?? '説明がありません。')
+							.setDescription(description ?? '説明がありません。')
 							.setColor(Colors.Blue),
 					],
 				});
 				return;
 			}
-			if (!interaction.replied)
+			if (!interaction.replied) {
 				await interaction.reply({
 					embeds: [new EmbedBuilder().setColor(Colors.Red).setTitle('このコマンドは存在しません。')],
 				});
+			}
 		} else {
 			const embeds = [
 				new EmbedBuilder()
@@ -57,10 +66,16 @@ export default {
 			for (let pageNumber = 0; pageNumber < pageCount; pageNumber++) {
 				const startIndex = pageNumber * pageSize;
 				const endIndex = Math.min(startIndex + pageSize, commands.length);
-				const lists = commands.slice(startIndex, endIndex).map((command) => ({
-					name: command.name,
-					description: command['description'] ?? '説明がありません。',
-				}));
+				const lists = commands.slice(startIndex, endIndex).map((command) => {
+					let description;
+					if (command.type === ApplicationCommandType.ChatInput) {
+						description = command.description;
+					}
+					return {
+						name: command.name,
+						description: description ?? '説明がありません。',
+					};
+				});
 
 				embeds.push(
 					new EmbedBuilder()
@@ -69,11 +84,15 @@ export default {
 						.setColor(Colors.Blue),
 				);
 			}
-			for (const [index, embed] of embeds.entries()) embed.setFooter({ text: `Page ${index + 1} / ${embeds.length}` });
+			for (const [index, embed] of embeds.entries()) {
+				embed.setFooter({ text: `Page ${index + 1} / ${embeds.length}` });
+			}
 
 			const message = await interaction.reply({
 				fetchReply: true,
-				embeds: [embeds[0]],
+				embeds: !embeds[0]
+					? [new EmbedBuilder().setTitle('エラー').setDescription('データを作成できませんでした').setColor(Colors.Red)]
+					: [embeds[0]],
 				components: [
 					new ActionRowBuilder<ButtonBuilder>().addComponents(
 						new ButtonBuilder().setEmoji('⏪').setCustomId('back').setStyle(ButtonStyle.Secondary),
@@ -88,14 +107,28 @@ export default {
 				max: 1_000_000,
 			});
 			interactionEvent.on('collect', async (buttonInteraction) => {
-				if (interaction.user.id !== buttonInteraction.user.id) await buttonInteraction.deferUpdate();
+				if (interaction.user.id !== buttonInteraction.user.id) {
+					await buttonInteraction.deferUpdate();
+				}
 				switch (buttonInteraction.customId) {
 					case 'back': {
 						for (const [index, embed] of embeds.entries()) {
-							if (buttonInteraction.message.embeds[0].toJSON().description !== embed.toJSON().description) continue;
+							if (buttonInteraction.message.embeds[0]?.toJSON().description !== embed.toJSON().description) {
+								continue;
+							}
+							const number = index - 1;
 							await (index === 0
 								? buttonInteraction.deferUpdate()
-								: buttonInteraction.update({ embeds: [embeds[index - 1]] }));
+								: buttonInteraction.update({
+										embeds: [
+											!embeds[number]
+												? new EmbedBuilder()
+														.setTitle('エラー')
+														.setDescription('データを作成できませんでした')
+														.setColor(Colors.Red)
+												: embeds[number],
+										],
+									}));
 							return;
 						}
 						break;
@@ -109,10 +142,22 @@ export default {
 					}
 					case 'forward': {
 						for (const [index, embed] of embeds.entries()) {
-							if (buttonInteraction.message.embeds[0].toJSON().description !== embed.toJSON().description) continue;
+							if (buttonInteraction.message.embeds[0]?.toJSON().description !== embed.toJSON().description) {
+								continue;
+							}
+							const number = index + 1;
 							await (embeds.length === index + 1
 								? buttonInteraction.deferUpdate()
-								: buttonInteraction.update({ embeds: [embeds[index + 1]] }));
+								: buttonInteraction.update({
+										embeds: [
+											!embeds[number]
+												? new EmbedBuilder()
+														.setTitle('エラー')
+														.setDescription('データを作成できませんでした')
+														.setColor(Colors.Red)
+												: embeds[number],
+										],
+									}));
 							return;
 						}
 						break;

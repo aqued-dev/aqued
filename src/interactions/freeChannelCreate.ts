@@ -29,7 +29,9 @@ export default async function (interaction: BaseInteraction) {
 					);
 				}
 			}
-			if (!cooldowns.has('freechannel')) cooldowns.set('freechannel', new Collection());
+			if (!cooldowns.has('freechannel')) {
+				cooldowns.set('freechannel', new Collection());
+			}
 			const now = Date.now();
 			const timestamps = cooldowns.get('freechannel');
 			const cooldownAmount = 30_000;
@@ -49,21 +51,24 @@ export default async function (interaction: BaseInteraction) {
 
 			timestamps.set(interaction.user.id, now);
 			setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-			if (!categoryId)
+			if (!categoryId) {
 				return await interaction.error(
 					'作成できませんでした。',
 					'チャンネル作成先カテゴリが設定されていません。',
 					true,
 				);
+			}
 			const category = interaction.client.channels.cache.get(categoryId);
-			if (!category)
+			if (!category) {
 				return await interaction.error('作成できませんでした。', 'チャンネル作成先カテゴリがありません。', true);
-			if (category.type !== ChannelType.GuildCategory)
+			}
+			if (category.type !== ChannelType.GuildCategory) {
 				return await interaction.error(
 					'作成できませんでした。',
 					'チャンネル作成先カテゴリがカテゴリではありません。',
 					true,
 				);
+			}
 
 			category.children
 				.create({
@@ -95,13 +100,16 @@ export default async function (interaction: BaseInteraction) {
 				});
 		} else if (interaction.customId.startsWith('free_channel_edit_')) {
 			const userId = interaction.customId.replace('free_channel_edit_', '');
-			if (interaction.user.id !== userId)
+			if (interaction.user.id !== userId) {
 				return await interaction.error(
 					'あなたはチャンネルの編集ができません。',
 					'あなたはこのチャンネルの作成者ではありません。',
 					true,
 				);
-			if (interaction.channel.type !== ChannelType.GuildText) return;
+			}
+			if (interaction.channel.type !== ChannelType.GuildText) {
+				return;
+			}
 			await interaction.showModal(
 				new ModalBuilder()
 					.addComponents(
@@ -139,7 +147,9 @@ export default async function (interaction: BaseInteraction) {
 			);
 		}
 	} else if (interaction.isModalSubmit() && interaction.customId === 'free_channel_edit_modal') {
-		if (interaction.channel.type !== ChannelType.GuildText) return;
+		if (interaction.channel.type !== ChannelType.GuildText) {
+			return;
+		}
 		const name = interaction.fields.getTextInputValue('name') || interaction.channel.name;
 		const topic = interaction.fields.getTextInputValue('topic') || interaction.channel.topic;
 		const slowmode =

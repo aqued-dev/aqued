@@ -1,14 +1,13 @@
 import {
-	ChatInputCommandInteraction,
-	EmbedBuilder,
-	UserContextMenuCommandInteraction,
-	MessageContextMenuCommandInteraction,
-	Colors,
-	StringSelectMenuInteraction,
 	ButtonInteraction,
-	RoleSelectMenuInteraction,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	MessageContextMenuCommandInteraction,
 	ModalSubmitInteraction,
-	Message,
+	RoleSelectMenuInteraction,
+	StringSelectMenuInteraction,
+	UserContextMenuCommandInteraction,
 } from 'discord.js';
 declare module 'discord.js' {
 	interface ChatInputCommandInteraction {
@@ -41,7 +40,9 @@ declare module 'discord.js' {
 	}
 }
 async function error(title: string, description: string, ephemeral: boolean) {
-	if (this.deferred || this.replied)
+	// @ts-expect-error any
+	if (this.deferred || this.replied) {
+		// @ts-expect-error any
 		return await this.followUp({
 			ephemeral,
 			embeds: [
@@ -51,6 +52,8 @@ async function error(title: string, description: string, ephemeral: boolean) {
 					.setDescription(description),
 			],
 		});
+	}
+	// @ts-expect-error any
 	return await this.reply({
 		fetchReply: true,
 		ephemeral,
@@ -63,7 +66,9 @@ async function error(title: string, description: string, ephemeral: boolean) {
 	});
 }
 async function ok(title: string, description: string, ephemeral: boolean) {
-	if (this.deferred || this.replied)
+	// @ts-expect-error any
+	if (this.deferred || this.replied) {
+		// @ts-expect-error any
 		return await this.followUp({
 			ephemeral,
 			embeds: [
@@ -73,6 +78,8 @@ async function ok(title: string, description: string, ephemeral: boolean) {
 					.setDescription(description),
 			],
 		});
+	}
+	// @ts-expect-error any
 	return await this.reply({
 		fetchReply: true,
 		ephemeral,

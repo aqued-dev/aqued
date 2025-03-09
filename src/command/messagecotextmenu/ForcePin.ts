@@ -1,26 +1,25 @@
 import {
 	APIEmbed,
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	AttachmentBuilder,
 	ChannelType,
 	Colors,
+	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GuildMember,
+	InteractionContextType,
 	MessageContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	StickerFormatType,
 	User,
-	Webhook,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { ForcePinDataType } from '../../utils/ForcePinDataType.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('Force Pin')
 		.setType(ApplicationCommandType.Message)
-		.setGuildOnly()
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
@@ -30,22 +29,28 @@ export default {
 	async execute(interaction: MessageContextMenuCommandInteraction) {
 		const { botData, user, users } = interaction.client;
 		const { forcePin } = botData;
-		if (interaction.targetMessage.channel.type !== ChannelType.GuildText)
+		if (interaction.targetMessage.channel.type !== ChannelType.GuildText) {
 			return await interaction.error('Force Pinを設定できませんでした。', 'テキストチャンネルでお試しください。', true);
+		}
 		const message = interaction.targetMessage;
 		const stickerEmbeds: APIEmbed[] = [];
 		if (message.stickers.size > 0) {
-			if (message.stickers.first().format === StickerFormatType.Lottie)
+			if (message.stickers.first()?.format === StickerFormatType.Lottie) {
 				stickerEmbeds.push(
 					new EmbedBuilder()
 						.setColor(Colors.Blue)
 						.setDescription('このスタンプに対応していないため、表示できません。')
 						.toJSON(),
 				);
-			else
+			} else {
 				stickerEmbeds.push(
-					new EmbedBuilder().setTitle('スタンプ').setColor(Colors.Blue).setImage(message.stickers.first().url).toJSON(),
+					new EmbedBuilder()
+						.setTitle('スタンプ')
+						.setColor(Colors.Blue)
+						.setImage(message.stickers.first()!.url)
+						.toJSON(),
 				);
+			}
 		}
 		const messageEmbed: APIEmbed[] = [];
 		if (message.embeds.length > 0) {
@@ -63,24 +68,25 @@ export default {
 			);
 		}
 		const webhooks = await interaction.targetMessage.channel.fetchWebhooks();
-		const webhook: Webhook =
+		const webhook =
 			!webhooks.some((value) => value.name === 'Aqued') ||
-			webhooks.find((value) => value.name === 'Aqued').owner.id !== user.id
+			webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== user.id
 				? await interaction.targetMessage.channel.createWebhook({ name: 'Aqued' })
 				: webhooks.find((value) => value.name === 'Aqued');
 
-		if (await forcePin.get(interaction.targetMessage.channelId))
+		if (await forcePin.get(interaction.targetMessage.channelId)) {
 			return await interaction.error(
 				'Force Pinを設定できませんでした。',
 				'`アプリ > Force Pin解除`で、Force Pinを解除してからもう一度お試しください。',
 				true,
 			);
+		}
 
 		if (interaction.targetMessage.author.discriminator === '0000') {
 			const messageUser: User = interaction.targetMessage.author;
 			webhook
-				.send({
-					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+				?.send({
+					avatarURL: messageUser.displayAvatarURL({ extension: 'webp' }),
 					username: messageUser.displayName,
 					embeds: [...messageEmbed, ...stickerEmbeds],
 					content: interaction.targetMessage.cleanContent,
@@ -99,12 +105,16 @@ export default {
 					await forcePin.set(interaction.targetMessage.channelId, data);
 				});
 		} else {
-			let messageUser: User | GuildMember = interaction.guild.members.cache.get(interaction.targetMessage.author.id);
-			if (!messageUser) messageUser = users.cache.get(interaction.targetMessage.author.id);
+			let messageUser: User | GuildMember | undefined = interaction.guild?.members.cache.get(
+				interaction.targetMessage.author.id,
+			);
+			if (!messageUser) {
+				messageUser = users.cache.get(interaction.targetMessage.author.id);
+			}
 			webhook
-				.send({
-					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
-					username: messageUser.displayName,
+				?.send({
+					avatarURL: messageUser!.displayAvatarURL({ extension: 'webp' }),
+					username: messageUser!.displayName,
 					embeds: [...messageEmbed, ...stickerEmbeds],
 					content: interaction.targetMessage.cleanContent,
 					files: attachments,
@@ -127,5 +137,6 @@ export default {
 			'Force Pinの解除は、`アプリ > Force Pin解除`で、いつでもできます。',
 			false,
 		);
+		return;
 	},
 };

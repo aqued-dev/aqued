@@ -1,20 +1,22 @@
 import {
 	Collection,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	REST,
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody,
 } from 'discord.js';
-import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
 
+import './interactionExtrans.js';
 import { MongoDB } from './MongoDB.js';
 import './userExtrans.js';
-import './interactionExtrans.js';
 declare module 'discord.js' {
 	interface Client {
 		botData: {
 			commands: {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				chatInput: Array<{ name: string; data: any }>;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				userCotextMenu: Array<{ name: string; data: any }>;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				messageCotextMenu: Array<{ name: string; data: any }>;
 			};
 			load: {
@@ -27,8 +29,10 @@ declare module 'discord.js' {
 			rolePanel: MongoDB;
 			rolePanelId: MongoDB;
 			commandExecutors: { serverUpNotice: MongoDB; number: MongoDB; users: MongoDB };
-			interactionFiles: any[];
-			messageFiles: any[];
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+			interactionFiles: Function[];
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+			messageFiles: Function[];
 			owners: string[];
 			gbans: MongoDB;
 			messageExpansion: MongoDB;
@@ -40,7 +44,7 @@ declare module 'discord.js' {
 			};
 			guildUpNotice: { dissoku: MongoDB; disboard: MongoDB };
 			mods: string[];
-			cooldowns?: Collection<string, any>;
+			cooldowns?: Collection<string, unknown>;
 			reboot: boolean;
 			errors: MongoDB;
 			artifacter: MongoDB;
@@ -61,25 +65,3 @@ declare module 'discord.js' {
 		};
 	}
 }
-declare module '@discordjs/builders' {
-	interface SlashCommandBuilder {
-		setGuildOnly(): SlashCommandBuilder;
-	}
-	interface ContextMenuCommandBuilder {
-		setGuildOnly(): ContextMenuCommandBuilder;
-	}
-}
-function setGuildOnly() {
-	return this.setDMPermission(false);
-}
-export enum ApplicationIntegrationType {
-	GuildInstall = 0,
-	UserInstall = 1,
-}
-export enum InteractionContextType {
-	Guild = 0,
-	BotDM = 1,
-	PrivateChannel = 2,
-}
-SlashCommandBuilder.prototype.setGuildOnly = setGuildOnly;
-ContextMenuCommandBuilder.prototype.setGuildOnly = setGuildOnly;

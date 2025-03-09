@@ -1,6 +1,11 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -67,13 +72,13 @@ export default {
 	permissions: false,
 	async execute(interaction: ChatInputCommandInteraction) {
 		const url = new URL('https://gsapi.cbrx.io/image');
-		url.searchParams.set('top', interaction.options.getString('top'));
-		url.searchParams.set('bottom', interaction.options.getString('bottom'));
-		url.searchParams.set('type', interaction.options.getString('type'));
-		url.searchParams.set('quality', interaction.options.getString('quality'));
-		url.searchParams.set('hoshii', interaction.options.getString('hoshii'));
-		url.searchParams.set('noalpha', interaction.options.getString('noalpha'));
-		url.searchParams.set('rainbow', interaction.options.getString('rainbow'));
+		url.searchParams.set('top', interaction.options.getString('top', true));
+		url.searchParams.set('bottom', interaction.options.getString('bottom', true));
+		url.searchParams.set('type', interaction.options.getString('type', true));
+		url.searchParams.set('quality', interaction.options.getString('quality', true));
+		url.searchParams.set('hoshii', interaction.options.getString('hoshii', true));
+		url.searchParams.set('noalpha', interaction.options.getString('noalpha', true));
+		url.searchParams.set('rainbow', interaction.options.getString('rainbow', true));
 		await interaction.reply({
 			embeds: [
 				new EmbedBuilder()

@@ -1,7 +1,10 @@
-import { ActivityType, ChatInputCommandInteraction } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-
+import {
+	ActivityType,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('owner')
@@ -30,7 +33,7 @@ export default {
 				await interaction.reply({
 					content:
 						'```xl\n' +
-						((await interaction.client.botData.errors.get(interaction.options.getString('id'))) ||
+						((await interaction.client.botData.errors.get(interaction.options.getString('id', true))) ||
 							'指定されたidのエラーは存在しません。') +
 						'\n```',
 					ephemeral: true,

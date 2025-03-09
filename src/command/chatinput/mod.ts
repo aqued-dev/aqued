@@ -1,6 +1,10 @@
-import { ChannelType, ChatInputCommandInteraction, Webhook } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChannelType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -43,27 +47,34 @@ export default {
 		switch (interaction.options.getSubcommand()) {
 			case 'globalmessagedelete': {
 				const messages: undefined | { channelId: string; messageId: string }[] =
-					await interaction.client.botData.globalChat.messages.get(interaction.options.getString('mid'));
-				if (!messages) await interaction.error('削除できません', 'メッセージが見つかりません。', true);
-				for (const value of messages) {
+					await interaction.client.botData.globalChat.messages.get(interaction.options.getString('mid', true));
+				if (!messages) {
+					await interaction.error('削除できません', 'メッセージが見つかりません。', true);
+				}
+				for (const value of messages!) {
 					const channel = interaction.client.channels.cache.get(value.channelId);
-					if (!channel) continue;
-					if (channel.type !== ChannelType.GuildText) continue;
+					if (!channel) {
+						continue;
+					}
+					if (channel.type !== ChannelType.GuildText) {
+						continue;
+					}
 					const webhooks = await channel.fetchWebhooks();
-					const webhook: Webhook =
+
+					const webhook =
 						!webhooks.some((value) => value.name === 'Aqued') ||
-						webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+						webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== interaction.client.user.id
 							? await channel.createWebhook({ name: 'Aqued' })
 							: webhooks.find((value) => value.name === 'Aqued');
 
-					webhook.deleteMessage(value.messageId);
+					webhook?.deleteMessage(value.messageId);
 				}
 				await interaction.ok('削除しました。', 'メッセージを削除しました。', true);
 				break;
 			}
 			case 'globalchatban': {
 				const { blocks } = interaction.client.botData.globalChat;
-				const user = interaction.options.getUser('user');
+				const user = interaction.options.getUser('user', true);
 				const reason = interaction.options.getString('reason');
 				await blocks.set(user.id, reason);
 				await interaction.ok('グローバルチャットBanに成功', 'グローバルチャットBanが完了しました。', true);
@@ -71,29 +82,33 @@ export default {
 			}
 			case 'globalchatunban': {
 				const { blocks } = interaction.client.botData.globalChat;
-				const user = interaction.options.getUser('user');
+				const user = interaction.options.getUser('user', true);
 				await blocks.delete(user.id);
 				await interaction.ok('グローバルチャットBan解除に成功', 'グローバルチャットBan解除が完了しました。', true);
 				break;
 			}
 			case 'globalchataquedsystem': {
-				const content = interaction.options.getString('content');
+				const content = interaction.options.getString('content', true);
 				const registers = await interaction.client.botData.globalChat.register.keys();
 				await interaction.ok('送信開始', '送信が開始しました。', true);
 				for (const value of registers) {
 					const channel = interaction.client.channels.cache.get(value);
-					if (!channel) continue;
-					if (channel.type !== ChannelType.GuildText) continue;
+					if (!channel) {
+						continue;
+					}
+					if (channel.type !== ChannelType.GuildText) {
+						continue;
+					}
 					const webhooks = await channel.fetchWebhooks();
-					const webhook: Webhook =
+					const webhook =
 						!webhooks.some((value) => value.name === 'Aqued') ||
-						webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
+						webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== interaction.client.user.id
 							? await channel.createWebhook({ name: 'Aqued' })
 							: webhooks.find((value) => value.name === 'Aqued');
 
-					await webhook.send({
+					await webhook?.send({
 						content,
-						avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+						avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 						username: 'Aqued System',
 					});
 				}

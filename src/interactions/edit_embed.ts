@@ -69,7 +69,9 @@ async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 	});
 }
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isModalSubmit()) return;
+	if (!interaction.isModalSubmit()) {
+		return;
+	}
 	switch (interaction.customId) {
 		case 'embed_modal_0': {
 			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
@@ -81,8 +83,9 @@ export default async function (interaction: BaseInteraction) {
 		}
 		case 'embed_modal_1': {
 			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
-			if (interaction.fields.getTextInputValue('description'))
+			if (interaction.fields.getTextInputValue('description')) {
 				embed.setDescription(interaction.fields.getTextInputValue('description'));
+			}
 			await edit(embed, interaction);
 			await interaction.deferUpdate();
 			break;

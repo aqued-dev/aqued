@@ -1,21 +1,19 @@
-import {
-	ChannelType,
-	Colors,
-	EmbedBuilder,
-	Message,
-	SnowflakeUtil,
-	Webhook,
-	calculateUserDefaultAvatarIndex,
-} from 'discord.js';
-import { MessageData } from '../utils/SuperGlobalChatType.js';
+import { ChannelType, Colors, EmbedBuilder, Message, SnowflakeUtil, calculateUserDefaultAvatarIndex } from 'discord.js';
 import { inspect } from 'node:util';
+import { MessageData } from '../utils/SuperGlobalChatType.js';
 
 export default async function (message: Message) {
 	try {
 		const channelDB = message.client.botData.superGlobalChat.register;
-		if (!(await channelDB.get(message.channelId))) return;
-		if (message.author.bot || message.author.system || message.author.discriminator === '0000') return;
-		if (message.channel.type !== ChannelType.GuildText) return;
+		if (!(await channelDB.get(message.channelId))) {
+			return;
+		}
+		if (message.author.bot || message.author.system || message.author.discriminator === '0000') {
+			return;
+		}
+		if (message.channel.type !== ChannelType.GuildText) {
+			return;
+		}
 		const LowerCaseContent = message.cleanContent.toLowerCase();
 
 		const discordRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|com|net)|discordapp\.(com|net)\/invite)\/[\dA-Za-z]+/g;
@@ -28,28 +26,33 @@ export default async function (message: Message) {
 			disboardRegex.test(LowerCaseContent) ||
 			discopartyRegex.test(LowerCaseContent) ||
 			dissokuRegex.test(LowerCaseContent)
-		)
+		) {
 			return message.react('❌');
+		}
 		const channels = await channelDB.keys();
-		if (!channels) return;
+		if (!channels) {
+			return;
+		}
 		const data: MessageData = {
 			type: 'message',
 			version: '2.1.7',
 			userId: message.author.id,
 			userName: message.author.username,
 			userDiscriminator: message.author.discriminator,
-			userAvatar: message.author.avatar,
+			userAvatar: message.author.avatar!,
 			isBot: message.author.bot,
-			guildId: message.guild.id,
-			guildName: message.guild.name,
-			guildIcon: message.guild.icon,
+			guildId: message.guild?.id ?? '',
+			guildName: message.guild?.name ?? '',
+			guildIcon: message.guild?.icon ?? '',
 			channelId: message.channel.id,
 			channelName: message.channel.name,
 			messageId: message.id,
 			content: message.content,
 		};
 
-		if (message.attachments.size > 0) data['attachmentsUrl'] = message.attachments.map((value) => value.proxyURL);
+		if (message.attachments.size > 0) {
+			data['attachmentsUrl'] = message.attachments.map((value) => value.proxyURL);
+		}
 		const content =
 			message.content.slice(0, 1500) === message.content ? message.content : `${message.content.slice(0, 1500)}...`;
 		const embeds: EmbedBuilder[] = [];
@@ -58,10 +61,12 @@ export default async function (message: Message) {
 				| {
 						content: string;
 						id: string;
-						user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+						user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
 				  }
-				| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
-			if (!repliedMessage) return;
+				| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId!);
+			if (!repliedMessage) {
+				return;
+			}
 			data['reference'] = repliedMessage.id;
 			const embed = new EmbedBuilder()
 				.setAuthor({
@@ -71,7 +76,7 @@ export default async function (message: Message) {
 								? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
 								: `@${repliedMessage.user.username}`
 							: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
-					iconURL: repliedMessage.user.extDefaultAvatarURL,
+					iconURL: repliedMessage.user.displayAvatarURL,
 				})
 				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 				.setColor(Colors.Blue);
@@ -80,17 +85,23 @@ export default async function (message: Message) {
 
 		for (const channel of channels) {
 			const Sendchannel = message.client.channels.cache.get(channel);
-			if (!Sendchannel) continue;
-			if (Sendchannel.type !== ChannelType.GuildText) continue;
-			if (message.channelId === Sendchannel.id) continue;
+			if (!Sendchannel) {
+				continue;
+			}
+			if (Sendchannel.type !== ChannelType.GuildText) {
+				continue;
+			}
+			if (message.channelId === Sendchannel.id) {
+				continue;
+			}
 			const webhooks = await Sendchannel.fetchWebhooks();
-			const webhook: Webhook =
+			const webhook =
 				!webhooks.some((value) => value.name === 'Aqued') ||
-				webhooks.find((value) => value.name === 'Aqued').owner.id !== message.client.user.id
+				webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== message.client.user.id
 					? await Sendchannel.createWebhook({ name: 'Aqued' })
 					: webhooks.find((value) => value.name === 'Aqued');
 			await webhook
-				.send({
+				?.send({
 					content,
 					files: data.attachmentsUrl || [],
 					avatarURL: message.author.avatar
@@ -118,10 +129,14 @@ export default async function (message: Message) {
 							| {
 									content: string;
 									id: string;
-									user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+									user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
 							  }
-							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId);
-						if (!repliedMessage) return;
+							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(
+							message.reference.messageId!,
+						);
+						if (!repliedMessage) {
+							return;
+						}
 						await message.client.botData.superGlobalChat.replyMessages.set(value.id, {
 							content: message.content,
 							id: message.id,
@@ -129,7 +144,7 @@ export default async function (message: Message) {
 								discriminator: message.author.discriminator,
 								globalName: message.author.globalName,
 								username: message.author.username,
-								extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+								displayAvatarURL: message.author.displayAvatarURL({ extension: 'webp' }),
 							},
 						});
 					}
@@ -142,7 +157,7 @@ export default async function (message: Message) {
 				discriminator: message.author.discriminator,
 				globalName: message.author.globalName,
 				username: message.author.username,
-				extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+				displayAvatarURL: message.author.displayAvatarURL({ extension: 'webp' }),
 			},
 		});
 		message.react('✅');
@@ -157,7 +172,7 @@ export default async function (message: Message) {
 		message.client.botData.errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 		const Errorchannel = message.client.channels.cache.get(message.client.botData.errorChannelId);
-		if (Errorchannel.type === ChannelType.GuildText)
+		if (Errorchannel?.type === ChannelType.GuildText) {
 			Errorchannel.send({
 				embeds: [
 					new EmbedBuilder()
@@ -166,6 +181,8 @@ export default async function (message: Message) {
 						.setColor(Colors.Red),
 				],
 			});
+		}
 		message.react('❌');
 	}
+	return;
 }

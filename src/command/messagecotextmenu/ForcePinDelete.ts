@@ -1,17 +1,17 @@
 import {
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	ChannelType,
+	ContextMenuCommandBuilder,
+	InteractionContextType,
 	MessageContextMenuCommandInteraction,
 	PermissionFlagsBits,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('Force Pin解除')
 		.setType(ApplicationCommandType.Message)
-		.setGuildOnly()
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,
@@ -21,12 +21,14 @@ export default {
 	async execute(interaction: MessageContextMenuCommandInteraction) {
 		const { botData } = interaction.client;
 		const { forcePin } = botData;
-		if (interaction.targetMessage.channel.type !== ChannelType.GuildText)
+		if (interaction.targetMessage.channel.type !== ChannelType.GuildText) {
 			return await interaction.error('Force Pinを解除できませんでした。', 'テキストチャンネルでお試しください。', true);
-		if (!(await forcePin.get(interaction.targetMessage.channelId)))
+		}
+		if (!(await forcePin.get(interaction.targetMessage.channelId))) {
 			return await interaction.error('Force Pinを解除できませんでした。', 'Force Pinが設定されていません。', true);
+		}
 		await forcePin.delete(interaction.targetMessage.channelId);
-		await interaction.ok(
+		return await interaction.ok(
 			'Force Pinを解除しました。',
 			'Force Pinの設定は、`アプリ > Force Pin`で、いつでもできます。',
 			false,

@@ -6,7 +6,9 @@ export default async function (interaction: BaseInteraction) {
 		const commandNames = interaction.client.botData.commands.chatInput.map((value) => value.name);
 		const choice: ApplicationCommandOptionChoiceData[] = [];
 		for (const name of commandNames) {
-			if (!name.includes(value)) continue;
+			if (!name.includes(value)) {
+				continue;
+			}
 			choice.push({ name: name, value: name });
 		}
 		await interaction.respond(choice);

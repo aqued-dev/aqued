@@ -1,13 +1,17 @@
-import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
+import {
+	ApplicationIntegrationType,
+	ChannelType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('superglobalchat')
 		.setDescription('スーパーグローバルチャットに参加/退出します。')
-		.setGuildOnly()
 		.addChannelOption((input) =>
 			input.addChannelTypes(ChannelType.GuildText).setName('channel').setDescription('チャンネル').setRequired(true),
 		)
@@ -19,7 +23,8 @@ export default {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const permissions = [PermissionFlagsBits.ManageChannels];
-		const authorPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
+		// @ts-expect-error error
+		const authorPerms = interaction.channel?.permissionsFor(interaction.guild.members.cache.get(interaction.user.id));
 		if (!authorPerms || !permissions.every((permission) => authorPerms.has(permission))) {
 			const permission: bigint[] = permissions;
 			return await interaction.error(
@@ -30,8 +35,9 @@ export default {
 				true,
 			);
 		}
+		// @ts-expect-error error
 		const botPerms = interaction.channel.permissionsFor(
-			interaction.guild.members.cache.get(interaction.client.user.id),
+			interaction.guild?.members.cache.get(interaction.client.user.id),
 		);
 		if (!botPerms || !permissions.every((permission) => botPerms.has(permission))) {
 			const permission: bigint[] = permissions;
@@ -51,5 +57,6 @@ export default {
 			await register.set(optionsChannel.id, true);
 			await interaction.ok('参加しました。', '参加が完了しました。', false);
 		}
+		return;
 	},
 };

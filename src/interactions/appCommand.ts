@@ -1,11 +1,12 @@
 import {
 	BaseInteraction,
-	Collection,
-	PermissionFlags,
-	EmbedBuilder,
-	SnowflakeUtil,
-	Colors,
 	ChannelType,
+	Collection,
+	Colors,
+	EmbedBuilder,
+	PermissionFlags,
+	PermissionFlagsBits,
+	SnowflakeUtil,
 } from 'discord.js';
 import { inspect } from 'node:util';
 import { translatePermission } from '../utils/permission.js';
@@ -13,9 +14,13 @@ export default async function (interaction: BaseInteraction) {
 	const { botData, channels, user } = interaction.client;
 	if (interaction.isChatInputCommand()) {
 		const command = botData.commands.chatInput.find((value) => value.name === interaction.commandName);
-		if (!command) return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		if (!command) {
+			return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		}
 		const logChannel = channels.cache.get(botData.commandLogChannelId);
-		if (!logChannel.isThread()) return;
+		if (!logChannel?.isThread()) {
+			return;
+		}
 		logChannel
 			.send({
 				embeds: [
@@ -54,26 +59,33 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
+		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
-		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
+		}
+		if (command.data.modOnly && !botData.mods.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
+		}
 
 		if (command.data.permissions) {
-			const author = interaction.guild.members.cache.get(interaction.user.id);
-			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			const author = interaction.guild?.members.cache.get(interaction.user.id);
+			if (!author) {
+				return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			}
 			const authorPerms = author.permissions;
-			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
+			if (
+				!authorPerms ||
+				!command.data.permissions.every((permission: keyof typeof PermissionFlagsBits) => authorPerms.has(permission))
+			) {
 				const permission: PermissionFlags[] = command.data.permissions;
 				return await interaction.error(
 					'権限不足',
 					'このコマンドを実行するためには、あなたに`' +
-						translatePermission(permission).join(', ') +
+						translatePermission(permission as unknown as bigint[]).join(', ') +
 						'`の権限が必要です。',
 					true,
 				);
 			}
-			const botPerms = interaction.channel.permissionsFor(interaction.guild.members.cache.get(user.id));
+			const botPerms = interaction.channel?.permissionsFor(interaction.guild.members.cache.get(user.id));
 			if (!botPerms || !command.data.permissions.every((permission) => botPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
 				return await interaction.error(
@@ -83,7 +95,9 @@ export default async function (interaction: BaseInteraction) {
 				);
 			}
 		}
-		if (!botData.cooldowns.has(command.name)) botData.cooldowns.set(command.name, new Collection());
+		if (!botData.cooldowns.has(command.name)) {
+			botData.cooldowns.set(command.name, new Collection());
+		}
 
 		const now = Date.now();
 		const timestamps = botData.cooldowns.get(command.name);
@@ -115,7 +129,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.type === ChannelType.GuildText)
+				if (Errorchannel.type === ChannelType.GuildText) {
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -124,6 +138,7 @@ export default async function (interaction: BaseInteraction) {
 								.setColor(Colors.Red),
 						],
 					});
+				}
 			});
 		} catch (error) {
 			console.error(error);
@@ -136,7 +151,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.type === ChannelType.GuildText)
+			if (Errorchannel.type === ChannelType.GuildText) {
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -145,13 +160,18 @@ export default async function (interaction: BaseInteraction) {
 							.setColor(Colors.Red),
 					],
 				});
+			}
 		}
 	} else if (interaction.isUserContextMenuCommand()) {
 		const command = botData.commands.userCotextMenu.find((value) => value.name === interaction.commandName);
 
-		if (!command) return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		if (!command) {
+			return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		}
 		const logChannel = channels.cache.get(botData.commandLogChannelId);
-		if (!logChannel.isThread()) return;
+		if (!logChannel.isThread()) {
+			return;
+		}
 		logChannel
 			.send({
 				embeds: [
@@ -186,14 +206,18 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
+		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
-		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
+		}
+		if (command.data.modOnly && !botData.mods.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
+		}
 
 		if (command.data.permissions) {
 			const author = interaction.guild.members.cache.get(interaction.user.id);
-			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			if (!author) {
+				return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			}
 			const authorPerms = author.permissions;
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
@@ -215,7 +239,9 @@ export default async function (interaction: BaseInteraction) {
 				);
 			}
 		}
-		if (!botData.cooldowns.has(command.name)) botData.cooldowns.set(command.name, new Collection());
+		if (!botData.cooldowns.has(command.name)) {
+			botData.cooldowns.set(command.name, new Collection());
+		}
 
 		const now = Date.now();
 		const timestamps = botData.cooldowns.get(command.name);
@@ -247,7 +273,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.type === ChannelType.GuildText)
+				if (Errorchannel.type === ChannelType.GuildText) {
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -256,6 +282,7 @@ export default async function (interaction: BaseInteraction) {
 								.setColor(Colors.Red),
 						],
 					});
+				}
 			});
 		} catch (error) {
 			console.error(error);
@@ -268,7 +295,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.type === ChannelType.GuildText)
+			if (Errorchannel.type === ChannelType.GuildText) {
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -277,13 +304,18 @@ export default async function (interaction: BaseInteraction) {
 							.setColor(Colors.Red),
 					],
 				});
+			}
 		}
 	} else if (interaction.isMessageContextMenuCommand()) {
 		const command = botData.commands.messageCotextMenu.find((value) => value.name === interaction.commandName);
 
-		if (!command) return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		if (!command) {
+			return await interaction.error('そのコマンドがありません', 'そのコマンドは存在しません。', true);
+		}
 		const logChannel = channels.cache.get(botData.commandLogChannelId);
-		if (!logChannel.isThread()) return;
+		if (!logChannel.isThread()) {
+			return;
+		}
 		logChannel
 			.send({
 				embeds: [
@@ -318,14 +350,18 @@ export default async function (interaction: BaseInteraction) {
 							: 1,
 					),
 			);
-		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id))
+		if (command.data.ownersOnly && !botData.owners.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', '管理者専用コマンドです', true);
-		if (command.data.modOnly && !botData.mods.includes(interaction.user.id))
+		}
+		if (command.data.modOnly && !botData.mods.includes(interaction.user.id)) {
 			return await interaction.error('あなたはこのコマンドを利用できません', 'モデレーター専用コマンドです', true);
+		}
 
 		if (command.data.permissions) {
 			const author = interaction.guild.members.cache.get(interaction.user.id);
-			if (!author) return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			if (!author) {
+				return await interaction.error('このメンバーは存在しません。', 'このメンバーは存在しません。', true);
+			}
 			const authorPerms = author.permissions;
 			if (!authorPerms || !command.data.permissions.every((permission) => authorPerms.has(permission))) {
 				const permission: PermissionFlags[] = command.data.permissions;
@@ -347,7 +383,9 @@ export default async function (interaction: BaseInteraction) {
 				);
 			}
 		}
-		if (!botData.cooldowns.has(command.name)) botData.cooldowns.set(command.name, new Collection());
+		if (!botData.cooldowns.has(command.name)) {
+			botData.cooldowns.set(command.name, new Collection());
+		}
 
 		const now = Date.now();
 		const timestamps = botData.cooldowns.get(command.name);
@@ -379,7 +417,7 @@ export default async function (interaction: BaseInteraction) {
 					true,
 				);
 				const Errorchannel = channels.cache.get(botData.errorChannelId);
-				if (Errorchannel.type === ChannelType.GuildText)
+				if (Errorchannel.type === ChannelType.GuildText) {
 					Errorchannel.send({
 						embeds: [
 							new EmbedBuilder()
@@ -388,6 +426,7 @@ export default async function (interaction: BaseInteraction) {
 								.setColor(Colors.Red),
 						],
 					});
+				}
 			});
 		} catch (error) {
 			console.error(error);
@@ -400,7 +439,7 @@ export default async function (interaction: BaseInteraction) {
 				true,
 			);
 			const Errorchannel = channels.cache.get(botData.errorChannelId);
-			if (Errorchannel.type === ChannelType.GuildText)
+			if (Errorchannel.type === ChannelType.GuildText) {
 				Errorchannel.send({
 					embeds: [
 						new EmbedBuilder()
@@ -409,6 +448,7 @@ export default async function (interaction: BaseInteraction) {
 							.setColor(Colors.Red),
 					],
 				});
+			}
 		}
 	}
 }

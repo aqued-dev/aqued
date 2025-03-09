@@ -1,7 +1,9 @@
 import { ActionRowBuilder, BaseInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isButton()) return;
+	if (!interaction.isButton()) {
+		return;
+	}
 	switch (interaction.customId) {
 		case 'verify_button_1': {
 			const number0 = Math.floor(Math.random() * 901),

@@ -1,6 +1,6 @@
 import { ActivityType, Client, Colors, EmbedBuilder, Events } from 'discord.js';
-import { info } from '../utils/log.js';
 import { readdir, stat, unlink } from 'node:fs/promises';
+import { info } from '../utils/log.js';
 
 export default {
 	name: Events.ClientReady,
@@ -16,7 +16,7 @@ export default {
 			}
 		}
 
-		client.user.setPresence({
+		client.user?.setPresence({
 			status: 'online',
 			activities: [
 				{
@@ -25,12 +25,14 @@ export default {
 				},
 			],
 		});
-		info(`Ready! Logged in as ${client.user.username}#${client.user.discriminator}.`);
+		info(`Ready! Logged in as ${client.user?.username}#${client.user?.discriminator}.`);
 		const logChannel = await client.channels.fetch(client.botData.botLogChannelId);
-		if (!logChannel.isThread()) return;
+		if (!logChannel?.isThread()) {
+			return;
+		}
 		const users: string[] | undefined = await client.botData.commandExecutors.users.get('users');
 
-		const commandExecNumber: Array<number | any> = await client.botData.commandExecutors.number.values();
+		const commandExecNumber: number[] = await client.botData.commandExecutors.number.values();
 
 		logChannel.send({
 			embeds: [

@@ -1,8 +1,12 @@
 import { ActionRowBuilder, BaseInteraction, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isModalSubmit()) return;
-	if (interaction.customId !== 'freeChannelPanel') return;
+	if (!interaction.isModalSubmit()) {
+		return;
+	}
+	if (interaction.customId !== 'freeChannelPanel') {
+		return;
+	}
 	const title = interaction.fields.getTextInputValue('title') || '🪧｜チャンネル作成';
 	const message =
 		interaction.fields.getTextInputValue('message') || '以下のボタンを押すことでチャンネル作成ができます。';

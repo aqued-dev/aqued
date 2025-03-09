@@ -12,9 +12,15 @@ import {
 export default async function (message: Message) {
 	try {
 		const user = message.author;
-		if (user.bot || user.system || user.discriminator === '0000') return;
-		if (message.channel.type !== ChannelType.GuildText) return;
-		if (!(await message.client.botData.globalChat.register.get(message.channelId))) return;
+		if (user.bot || user.system || user.discriminator === '0000') {
+			return;
+		}
+		if (message.channel.type !== ChannelType.GuildText) {
+			return;
+		}
+		if (!(await message.client.botData.globalChat.register.get(message.channelId))) {
+			return;
+		}
 		if (await message.client.botData.globalChat.blocks.get(user.id)) {
 			message.react('❌');
 			return;
@@ -31,18 +37,25 @@ export default async function (message: Message) {
 			disboardRegex.test(LowerCaseContent) ||
 			discopartyRegex.test(LowerCaseContent) ||
 			dissokuRegex.test(LowerCaseContent)
-		)
+		) {
 			return message.react('❌');
+		}
 		const registers = await message.client.botData.globalChat.register.keys();
 		for (const value of registers) {
 			const channel = message.client.channels.cache.get(value);
-			if (!channel) continue;
-			if (channel.id === message.channelId) continue;
-			if (channel.type !== ChannelType.GuildText) continue;
+			if (!channel) {
+				continue;
+			}
+			if (channel.id === message.channelId) {
+				continue;
+			}
+			if (channel.type !== ChannelType.GuildText) {
+				continue;
+			}
 			const webhooks = await channel.fetchWebhooks();
 			const webhook: Webhook =
 				!webhooks.some((value) => value.name === 'Aqued') ||
-				webhooks.find((value) => value.name === 'Aqued').owner.id !== message.client.user.id
+				webhooks.find((value) => value.name === 'Aqued')?.owner?.id !== message.client.user.id
 					? await channel.createWebhook({ name: 'Aqued' })
 					: webhooks.find((value) => value.name === 'Aqued');
 			const attachments: (string | AttachmentBuilder)[] = [];
@@ -55,23 +68,24 @@ export default async function (message: Message) {
 			}
 			const stickerEmbeds: EmbedBuilder[] = [];
 			if (message.stickers.size > 0) {
-				if (message.stickers.first().format === StickerFormatType.Lottie)
+				if (message.stickers.first().format === StickerFormatType.Lottie) {
 					stickerEmbeds.push(
 						new EmbedBuilder()
 							.setColor(Colors.Blue)
 							.setDescription('このスタンプに対応していないため、表示できません。'),
 					);
-				else
+				} else {
 					stickerEmbeds.push(
 						new EmbedBuilder().setTitle('スタンプ').setColor(Colors.Blue).setImage(message.stickers.first().url),
 					);
+				}
 			}
 			const messages: undefined | { channelId: string; messageId: string }[] =
 				await message.client.botData.globalChat.messages.get(message.id);
 			const content =
 				message.cleanContent.slice(0, 1500) === message.cleanContent
-					? message.cleanContent
-					: `${message.cleanContent.slice(0, 1500)}...` || '内容がありません。';
+					? (message.cleanContent ?? '内容がありません。')
+					: `${message.cleanContent.slice(0, 1500)}...`;
 			if (message.type === MessageType.Reply) {
 				const repliedMessage = await message.fetchReference();
 				const embed = new EmbedBuilder()
@@ -82,7 +96,7 @@ export default async function (message: Message) {
 									? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
 									: `@${repliedMessage.author.username}`
 								: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
-						iconURL: repliedMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+						iconURL: repliedMessage.author.displayAvatarURL({ extension: 'webp' }),
 					})
 					.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 					.setColor(Colors.Blue);
@@ -90,8 +104,8 @@ export default async function (message: Message) {
 			}
 			if (user.avatar) {
 				const avatar = user.avatar.startsWith('a_')
-					? user.extDefaultAvatarURL({ extension: 'gif' })
-					: user.extDefaultAvatarURL({ extension: 'webp' });
+					? user.displayAvatarURL({ extension: 'gif' })
+					: user.displayAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
 						content,
@@ -128,7 +142,7 @@ export default async function (message: Message) {
 						}
 					});
 			} else {
-				const avatar = user.extDefaultAvatarURL({ extension: 'webp' });
+				const avatar = user.displayAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
 						content,
