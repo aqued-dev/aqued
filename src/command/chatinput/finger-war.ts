@@ -15,9 +15,7 @@ import {
 type HandState = { left: number; right: number };
 
 export default {
-	command: new SlashCommandBuilder()
-		.setName('finger-war')
-		.setDescription('指遊びの戦争を開始！'),
+	command: new SlashCommandBuilder().setName('finger-war').setDescription('指遊びの戦争を開始！'),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
@@ -34,7 +32,6 @@ export default {
 		const collector = message.createMessageComponentCollector({ filter, time: 60000 });
 
 		collector.on('collect', async (btnInteraction: ButtonInteraction) => {
-
 			const [action, value] = btnInteraction.customId.split('_').slice(2);
 
 			if (action === 'redistribute') {
