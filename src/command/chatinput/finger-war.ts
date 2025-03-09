@@ -18,7 +18,7 @@ export default {
 	command: new SlashCommandBuilder()
 		.setName('finger-war')
 		.setDescription('指遊びの戦争を開始！')
-		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall) // 修正
 		.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel), // 修正
 
 	async execute(interaction: ChatInputCommandInteraction) {
