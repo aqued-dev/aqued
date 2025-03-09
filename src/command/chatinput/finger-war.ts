@@ -15,7 +15,11 @@ import {
 type HandState = { left: number; right: number };
 
 export default {
-	command: new SlashCommandBuilder().setName('finger-war').setDescription('指遊びの戦争を開始！'),
+  command: new SlashCommandBuilder()
+    .setName('finger-war')
+    .setDescription('指遊びの戦争を開始！')
+    .setIntegrationTypes(['guild', 'bot_dm']) // ギルド（サーバー）とボットとのDMで利用可能に設定
+    .setContexts(['guild', 'dm']), // サーバー内とDM内で使用可能に設定
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
