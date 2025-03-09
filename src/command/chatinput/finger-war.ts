@@ -11,11 +11,11 @@ import {
 	StringSelectMenuBuilder,
 	StringSelectMenuInteraction,
 } from 'discord.js';
-
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 type HandState = { left: number; right: number };
 
 export default {
-	command: new SlashCommandBuilder().setName('finger-war').setDescription('指遊びの戦争を開始！').setDMPermission(true),
+	command: new SlashCommandBuilder().setName('finger-war').setDescription('指遊びの戦争を開始！') .setIntegrationTypes(ApplicationIntegrationType.Guild, ApplicationIntegrationType.BotDM) .setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel), // 修正
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
