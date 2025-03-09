@@ -37,7 +37,7 @@ export default {
 			if (action === 'redistribute') {
 				await interaction.editReply({
 					embeds: [generateEmbed(userHands, botHands, 'どのように指を分けますか？')],
-					components: [redistributeMenu(userHands)], // 修正
+					components: [redistributeMenu(userHands)], // 修正した
 				});
 			} else if (action === 'attack') {
 				playTurn(userHands, botHands, value as keyof HandState);
