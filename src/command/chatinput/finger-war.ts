@@ -1,176 +1,138 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	ChatInputCommandInteraction,
-	Colors,
-	EmbedBuilder,
-	Interaction,
-	ButtonInteraction,
-	StringSelectMenuBuilder,
-	StringSelectMenuInteraction,
-} from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
-type HandState = { left: number; right: number };
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Colors, EmbedBuilder, Interaction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+
+const gameState = new Map();
 
 export default {
 	command: new SlashCommandBuilder()
-		.setName('finger-war')
-		.setDescription('指遊びの戦争を開始！')
-		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
-		.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel), // 修正
+		.setName('waribashi')
+		.setDescription('指遊びの割り箸ゲームを開始します。'),
 
 	async execute(interaction: ChatInputCommandInteraction) {
-		const userHands: HandState = { left: 1, right: 1 };
-		const botHands: HandState = { left: 1, right: 1 };
+		const userId = interaction.user.id;
+		gameState.set(userId, { left: 1, right: 1, botLeft: 1, botRight: 1 });
 
-		// 初回メッセージを送信
-		const message = await interaction.reply({
-			embeds: [generateEmbed(userHands, botHands, '指を分けるか、攻撃するか選んでください！')],
-			components: [mainButtons(userHands)],
-			fetchReply: true,
-		});
+		await this.updateGameMessage(interaction, userId);
+	},
 
-		const filter = (i: Interaction) => i.isButton() && i.user.id === interaction.user.id;
-		const collector = message.createMessageComponentCollector({ filter, time: 60000 });
+	async updateGameMessage(interaction, userId) {
+		const player = gameState.get(userId);
+		if (!player) return;
 
-		collector.on('collect', async (btnInteraction: ButtonInteraction) => {
-			const [action, value] = btnInteraction.customId.split('_').slice(2);
+		const embed = new EmbedBuilder()
+			.setTitle('🎴 割り箸ゲーム')
+			.setDescription(
+				`👋 ${interaction.user.username} の手\n左: ${player.left}本 | 右: ${player.right}本\n\n🤖 Bot の手\n左: ${player.botLeft}本 | 右: ${player.botRight}本`
+			)
+			.setColor(Colors.Blue);
 
-			if (action === 'redistribute') {
-				await interaction.editReply({
-					embeds: [generateEmbed(userHands, botHands, 'どのように指を分けますか？')],
-					components: [redistributeMenu(userHands)], // 修正した
-				});
-			} else if (action === 'attack') {
-				playTurn(userHands, botHands, value as keyof HandState);
+		const row = new ActionRowBuilder<ButtonBuilder>()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId(`attack_${userId}`)
+					.setLabel('攻撃')
+					.setStyle(ButtonStyle.Danger),
+				new ButtonBuilder()
+					.setCustomId(`split_${userId}`)
+					.setLabel('分割')
+					.setStyle(ButtonStyle.Primary)
+			);
 
-				const userLose = userHands.left === 0 && userHands.right === 0;
-				const botLose = botHands.left === 0 && botHands.right === 0;
-
-				let statusMessage = '👉 次のターンへ！';
-				if (userLose) statusMessage = '😢 **あなたの負け！**';
-				else if (botLose) statusMessage = '🎉 **あなたの勝ち！**';
-
-				await interaction.editReply({
-					embeds: [generateEmbed(userHands, botHands, statusMessage)],
-					components: userLose || botLose ? [] : [mainButtons(userHands)],
-				});
-
-				if (userLose || botLose) collector.stop();
-				else await botTurn(interaction, userHands, botHands, collector);
-			}
-		});
-
-		const selectFilter = (i: Interaction) => i.isStringSelectMenu() && i.user.id === interaction.user.id;
-		const selectCollector = message.createMessageComponentCollector({ filter: selectFilter, time: 60000 });
-
-		selectCollector.on('collect', async (selectInteraction: StringSelectMenuInteraction) => {
-			const [from, to, amount] = selectInteraction.values[0].split('_');
-			redistributeFingers(userHands, from as keyof HandState, to as keyof HandState, parseInt(amount));
-
-			await interaction.editReply({
-				embeds: [generateEmbed(userHands, botHands, '指を分けました！ターン終了です。')],
-				components: [],
-			});
-
-			await botTurn(interaction, userHands, botHands, collector);
-		});
-
-		collector.on('end', () => {
-			interaction.editReply({ components: [] }).catch(() => {});
+		await interaction.reply({
+			embeds: [embed],
+			components: [row],
 		});
 	},
+
+	async handleButtonInteraction(interaction: Interaction) {
+		if (!interaction.isButton()) return;
+
+		const userId = interaction.customId.split('_')[1];
+		if (interaction.user.id !== userId) {
+			await interaction.reply({ content: 'このボタンは実行者のみが操作できます。', ephemeral: true });
+			return;
+		}
+
+		const player = gameState.get(userId);
+		if (!player) return;
+
+		if (interaction.customId.startsWith('attack_')) {
+			player.botRight += player.left;
+			if (player.botRight >= 5) player.botRight = 0;
+
+			await this.checkGameOver(interaction, userId);
+		} else if (interaction.customId.startsWith('split_')) {
+			const modal = new ModalBuilder()
+				.setCustomId(`split_modal_${userId}`)
+				.setTitle('分割操作');
+
+			const splitInput = new TextInputBuilder()
+				.setCustomId('split_value')
+				.setLabel('移動する本数を入力してください (1 以上)')
+				.setStyle(TextInputStyle.Short)
+				.setRequired(true);
+
+			modal.addComponents(new ActionRowBuilder<TextInputBuilder>().addComponents(splitInput));
+
+			await interaction.showModal(modal);
+		}
+	},
+
+	async handleModalSubmit(interaction) {
+		if (!interaction.isModalSubmit()) return;
+		const userId = interaction.customId.split('_')[2];
+		if (interaction.user.id !== userId) return;
+
+		const player = gameState.get(userId);
+		if (!player) return;
+
+		const moveAmount = parseInt(interaction.fields.getTextInputValue('split_value'));
+		if (isNaN(moveAmount) || moveAmount <= 0 || moveAmount > player.left + player.right) {
+			await interaction.reply({ content: '無効な入力です。適切な本数を入力してください。', ephemeral: true });
+			return;
+		}
+
+		if (player.left >= moveAmount) {
+			player.left -= moveAmount;
+			player.right += moveAmount;
+		} else {
+			player.right -= moveAmount;
+			player.left += moveAmount;
+		}
+
+		await this.checkGameOver(interaction, userId);
+	},
+
+	async botTurn(interaction, userId) {
+		const player = gameState.get(userId);
+		if (!player) return;
+
+		// 簡単なBotのロジック: ランダムに攻撃または分割
+		const action = Math.random() < 0.7 ? 'attack' : 'split';
+		if (action === 'attack') {
+			player.right += player.botLeft;
+			if (player.right >= 5) player.right = 0;
+		} else {
+			// 分割: Botは均等に分ける
+			const total = player.botLeft + player.botRight;
+			player.botLeft = Math.floor(total / 2);
+			player.botRight = total - player.botLeft;
+		}
+
+		await this.checkGameOver(interaction, userId);
+	},
+
+	async checkGameOver(interaction, userId) {
+		const player = gameState.get(userId);
+		if (!player) return;
+
+		if ((player.left === 0 && player.right === 0) || (player.botLeft === 0 && player.botRight === 0)) {
+			const winner = player.left === 0 && player.right === 0 ? 'Bot' : interaction.user.username;
+			await interaction.reply({ content: `🎉 **${winner} の勝利！** 🎉`, ephemeral: false });
+			gameState.delete(userId);
+			return;
+		}
+
+		await this.updateGameMessage(interaction, userId);
+	}
 };
-
-// 🛠 指を分ける処理（0本の手も復活可能）
-function redistributeFingers(hands: HandState, from: keyof HandState, to: keyof HandState, amount: number) {
-	if (hands[from] >= amount && amount > 0) {
-		hands[from] -= amount;
-		hands[to] += amount;
-	}
-}
-
-// 🎯 指の増減を処理
-function playTurn(attacker: HandState, defender: HandState, attackHand: keyof HandState) {
-	if (attacker[attackHand] > 0) {
-		defender[attackHand] += attacker[attackHand];
-		if (defender[attackHand] >= 5) defender[attackHand] = 0;
-	}
-}
-
-// 🤖 Botのターン処理
-async function botTurn(
-	interaction: ChatInputCommandInteraction,
-	userHands: HandState,
-	botHands: HandState,
-	collector: any,
-) {
-	await new Promise((resolve) => setTimeout(resolve, 1000)); // 1秒待つ（演出）
-
-	const botAttack: keyof HandState = botHands.left > 0 ? 'left' : 'right';
-	playTurn(botHands, userHands, botAttack);
-
-	const userLose = userHands.left === 0 && userHands.right === 0;
-	const botLose = botHands.left === 0 && botHands.right === 0;
-
-	let statusMessage = '👉 次のターンへ！';
-	if (userLose) statusMessage = '😢 **あなたの負け！**';
-	else if (botLose) statusMessage = '🎉 **あなたの勝ち！**';
-
-	await interaction.editReply({
-		embeds: [generateEmbed(userHands, botHands, statusMessage)],
-		components: userLose || botLose ? [] : [mainButtons(userHands)],
-	});
-
-	if (userLose || botLose) collector.stop();
-}
-
-// 📜 Embedの生成
-function generateEmbed(userHands: HandState, botHands: HandState, message: string) {
-	return new EmbedBuilder()
-		.setTitle('🖐️ 指遊びの戦争！！')
-		.setDescription(
-			`**あなたの手:**\n👈 左手: ${userHands.left}本指 | 右手: ${userHands.right}本指 👉\n\n` +
-				`**Botの手:**\n👈 左手: ${botHands.left}本指 | 右手: ${botHands.right}本指 👉\n\n` +
-				`**${message}**`,
-		)
-		.setColor(Colors.Blue);
-}
-
-// 🎮 メインのボタン（指を分ける・攻撃）
-function mainButtons(hands: HandState) {
-	return new ActionRowBuilder<ButtonBuilder>().addComponents(
-		new ButtonBuilder().setCustomId('finger-war-redistribute').setLabel('指を分ける').setStyle(ButtonStyle.Secondary),
-		new ButtonBuilder()
-			.setCustomId('finger-war-attack-left')
-			.setLabel('左手で攻撃')
-			.setStyle(ButtonStyle.Primary)
-			.setDisabled(hands.left === 0),
-		new ButtonBuilder()
-			.setCustomId('finger-war-attack-right')
-			.setLabel('右手で攻撃')
-			.setStyle(ButtonStyle.Primary)
-			.setDisabled(hands.right === 0),
-	);
-}
-
-// 🔄 指の分け方を選択するメニュー
-function redistributeMenu(hands: HandState) {
-	const options = [];
-
-	for (let i = 1; i <= hands.left; i++) {
-		options.push({ label: `左→右 ${i}本`, value: `left_right_${i}` });
-	}
-	for (let i = 1; i <= hands.right; i++) {
-		options.push({ label: `右→左 ${i}本`, value: `right_left_${i}` });
-	}
-
-	return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-		new StringSelectMenuBuilder()
-			.setCustomId('finger-war-redistribute-select')
-			.setPlaceholder('分ける指の本数を選択')
-			.addOptions(options),
-	);
-}
