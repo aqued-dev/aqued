@@ -11,11 +11,16 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
+import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 const gameState = new Map();
 
 export default {
-	command: new SlashCommandBuilder().setName('waribashi').setDescription('指遊びの割り箸ゲームを開始します。'),
+	command: new SlashCommandBuilder()
+		.setName('waribashi')
+		.setDescription('指遊びの割り箸ゲームを開始します。')
+		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+		.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userId = interaction.user.id;
