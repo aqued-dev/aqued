@@ -121,7 +121,7 @@ async function botTurn(
 // Embedの生成
 function generateEmbed(userHands: HandState, botHands: HandState, message: string) {
   return new EmbedBuilder()
-    .setTitle('🖐️ 指遊びの戦争！')
+    .setTitle('🖐️ 指遊びの戦争！！')
     .setDescription(
       `**あなたの手:**\n👈 左手: ${userHands.left}本指 | 右手: ${userHands.right}本指 👉\n\n` +
       `**Botの手:**\n👈 左手: ${botHands.left}本指 | 右手: ${botHands.right}本指 👉\n\n` +
