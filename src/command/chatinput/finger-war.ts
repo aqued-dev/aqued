@@ -17,7 +17,7 @@ const gameState = new Map();
 
 export default {
 	command: new SlashCommandBuilder()
-		.setName('waribashi')
+		.setName('finger-war')
 		.setDescription('指遊びの割り箸ゲームを開始します。')
 		.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
 		.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel),
