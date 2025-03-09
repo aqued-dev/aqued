@@ -37,7 +37,6 @@ declare module 'discord.js' {
 			gbans: MongoDB;
 			messageExpansion: MongoDB;
 			sgcJsonChannelId: string;
-			sgcJsonChannelIdv2: string;
 			afk: {
 				afk: MongoDB;
 				mention: MongoDB;

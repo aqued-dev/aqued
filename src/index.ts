@@ -72,7 +72,6 @@ client.botData = {
 		replyMessages: newMongoDB('superGlobalReplyMessages'),
 	},
 	sgcJsonChannelId: config.sgcJsonChannelId,
-	sgcJsonChannelIdv2: config.sgcJsonChannelIdv2,
 	afk: { afk: newMongoDB('afk'), mention: newMongoDB('afkMention') },
 	messageExpansion: newMongoDB('messageExpansion'),
 	aquedAutoNews: newMongoDB('aquedAutoNews'),

@@ -1,4 +1,4 @@
-import { BaseInteraction, Colors, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
+import { ActionRowBuilder, BaseInteraction, Colors, EmbedBuilder, StringSelectMenuBuilder } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) {
@@ -20,8 +20,8 @@ export default async function (interaction: BaseInteraction) {
 		embeds: [
 			new EmbedBuilder()
 				.setColor(Colors.Blue)
-				.setTitle('✅ 付与しました。')
-				.setDescription('ロールの付与に成功しました。'),
+				.setTitle('✅ 成功')
+				.setDescription('ロールの付与又は解除に成功しました。'),
 		],
 	});
 	await interaction.message.edit({
