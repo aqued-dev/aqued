@@ -15,7 +15,9 @@ import {
 type HandState = { left: number; right: number };
 
 export default {
-	command: new SlashCommandBuilder().setName('finger-war').setDescription('指遊びの戦争を開始！'),
+	command: new SlashCommandBuilder()
+		.setName('finger-war')
+		.setDescription('指遊びの戦争を開始！'),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
@@ -28,19 +30,17 @@ export default {
 			fetchReply: true,
 		});
 
-		// 実行者のみボタンを押せるようにフィルターを設定
 		const filter = (i: Interaction) => i.isButton() && i.user.id === interaction.user.id;
 		const collector = message.createMessageComponentCollector({ filter, time: 60000 });
 
 		collector.on('collect', async (btnInteraction: ButtonInteraction) => {
-			if (btnInteraction.user.id !== interaction.user.id) return; // 実行者以外は無視
-			await btnInteraction.deferUpdate();
+
 			const [action, value] = btnInteraction.customId.split('_').slice(2);
 
 			if (action === 'redistribute') {
 				await interaction.editReply({
 					embeds: [generateEmbed(userHands, botHands, 'どのように指を分けますか？')],
-					components: [redistributeMenu(userHands)],
+					components: [redistributeMenu(userHands)], // 修正
 				});
 			} else if (action === 'attack') {
 				playTurn(userHands, botHands, value as keyof HandState);
@@ -62,13 +62,10 @@ export default {
 			}
 		});
 
-		// 実行者のみ選択メニューを操作できるようにフィルターを設定
 		const selectFilter = (i: Interaction) => i.isStringSelectMenu() && i.user.id === interaction.user.id;
 		const selectCollector = message.createMessageComponentCollector({ filter: selectFilter, time: 60000 });
 
 		selectCollector.on('collect', async (selectInteraction: StringSelectMenuInteraction) => {
-			if (selectInteraction.user.id !== interaction.user.id) return; // 実行者以外は無視
-			await selectInteraction.deferUpdate();
 			const [from, to, amount] = selectInteraction.values[0].split('_');
 			redistributeFingers(userHands, from as keyof HandState, to as keyof HandState, parseInt(amount));
 
