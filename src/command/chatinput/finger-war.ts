@@ -1,12 +1,21 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Colors, EmbedBuilder, Interaction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	Interaction,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+} from 'discord.js';
 
 const gameState = new Map();
 
 export default {
-	command: new SlashCommandBuilder()
-		.setName('waribashi')
-		.setDescription('指遊びの割り箸ゲームを開始します。'),
+	command: new SlashCommandBuilder().setName('waribashi').setDescription('指遊びの割り箸ゲームを開始します。'),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userId = interaction.user.id;
@@ -22,21 +31,14 @@ export default {
 		const embed = new EmbedBuilder()
 			.setTitle('🎴 割り箸ゲーム')
 			.setDescription(
-				`👋 ${interaction.user.username} の手\n左: ${player.left}本 | 右: ${player.right}本\n\n🤖 Bot の手\n左: ${player.botLeft}本 | 右: ${player.botRight}本`
+				`👋 ${interaction.user.username} の手\n左: ${player.left}本 | 右: ${player.right}本\n\n🤖 Bot の手\n左: ${player.botLeft}本 | 右: ${player.botRight}本`,
 			)
 			.setColor(Colors.Blue);
 
-		const row = new ActionRowBuilder<ButtonBuilder>()
-			.addComponents(
-				new ButtonBuilder()
-					.setCustomId(`attack_${userId}`)
-					.setLabel('攻撃')
-					.setStyle(ButtonStyle.Danger),
-				new ButtonBuilder()
-					.setCustomId(`split_${userId}`)
-					.setLabel('分割')
-					.setStyle(ButtonStyle.Primary)
-			);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+			new ButtonBuilder().setCustomId(`attack_${userId}`).setLabel('攻撃').setStyle(ButtonStyle.Danger),
+			new ButtonBuilder().setCustomId(`split_${userId}`).setLabel('分割').setStyle(ButtonStyle.Primary),
+		);
 
 		await interaction.reply({
 			embeds: [embed],
@@ -62,9 +64,7 @@ export default {
 
 			await this.checkGameOver(interaction, userId);
 		} else if (interaction.customId.startsWith('split_')) {
-			const modal = new ModalBuilder()
-				.setCustomId(`split_modal_${userId}`)
-				.setTitle('分割操作');
+			const modal = new ModalBuilder().setCustomId(`split_modal_${userId}`).setTitle('分割操作');
 
 			const splitInput = new TextInputBuilder()
 				.setCustomId('split_value')
@@ -134,5 +134,5 @@ export default {
 		}
 
 		await this.updateGameMessage(interaction, userId);
-	}
+	},
 };
