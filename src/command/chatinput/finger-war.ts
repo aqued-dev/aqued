@@ -18,8 +18,7 @@ export default {
   command: new SlashCommandBuilder()
     .setName('finger-war')
     .setDescription('指遊びの戦争を開始！')
-    .setIntegrationTypes(ApplicationIntegrationType.Guild, ApplicationIntegrationType.BotDM) // 修正
-    .setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel),
+    .setDMPermission(true),
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const userHands: HandState = { left: 1, right: 1 };
