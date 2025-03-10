@@ -32,8 +32,9 @@ export default {
 
 		const collector = message.createMessageComponentCollector({ time: 60000 });
 
-		collector.on('collect', async i => {
-			if (i.user.id !== interaction.user.id) return;
+		collector.on('collect', async (i) => {
+			// Todo: iだとESLintに怒られそうなのでinteractionに変える
+			if (i.user.id !== interaction.user.id) return await i.deferUpdate();
 
 			const playerCall = parseInt(i.customId.split('_')[1]);
 			const botRaise = Math.floor(Math.random() * 2) + 1;
