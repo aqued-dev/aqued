@@ -1,11 +1,19 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import {
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	ButtonInteraction,
+} from 'discord.js';
 import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	// 親指立てるゲームコマンドの設定
 	command: new SlashCommandBuilder()
-		.setName('oyayubitaterugame')
+		.setName('oyayubigame')
 		.setDescription('親指立てるゲームを開始します。')
 		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
@@ -13,10 +21,10 @@ export default {
 	async execute(interaction: ChatInputCommandInteraction) {
 		// プレイヤーとボットの指の本数（2本から開始）
 		let playerFingers = 2;
-		let botFingers = 2;
+		const botFingers = 2;
 
 		const embed = new EmbedBuilder()
-			.setTitle(':hand: 親指立てるゲーム！')
+			.setTitle('✋ 親指立てるゲーム！')
 			.setDescription('あなたの番です。数字を選んでください。')
 			.setColor(Colors.Blue);
 
@@ -25,37 +33,37 @@ export default {
 			new ButtonBuilder().setCustomId('call_1').setLabel('1').setStyle(ButtonStyle.Primary),
 			new ButtonBuilder().setCustomId('call_2').setLabel('2').setStyle(ButtonStyle.Primary),
 			new ButtonBuilder().setCustomId('call_3').setLabel('3').setStyle(ButtonStyle.Primary),
-			new ButtonBuilder().setCustomId('call_4').setLabel('4').setStyle(ButtonStyle.Primary)
+			new ButtonBuilder().setCustomId('call_4').setLabel('4').setStyle(ButtonStyle.Primary),
 		);
 
 		const message = await interaction.reply({ embeds: [embed], components: [row], fetchReply: true });
 
 		const collector = message.createMessageComponentCollector({ time: 60000 });
 
-		collector.on('collect', async i => {
-			if (i.user.id !== interaction.user.id) return;
+		collector.on('collect', async (buttonInteraction: ButtonInteraction) => {
+			if (buttonInteraction.user.id !== interaction.user.id) return;
 
-			const playerCall = parseInt(i.customId.split('_')[1]);
+			const playerCall = parseInt(buttonInteraction.customId.split('_')[1]);
 			const botRaise = Math.floor(Math.random() * 2) + 1;
 
 			const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
 				new ButtonBuilder().setCustomId('raise_1').setLabel('1本').setStyle(ButtonStyle.Success),
-				new ButtonBuilder().setCustomId('raise_2').setLabel('2本').setStyle(ButtonStyle.Success)
+				new ButtonBuilder().setCustomId('raise_2').setLabel('2本').setStyle(ButtonStyle.Success),
 			);
 
-			await i.update({
+			await buttonInteraction.update({
 				embeds: [
 					new EmbedBuilder()
-						.setTitle(':hand: 親指立てるゲーム！')
+						.setTitle('✋ 親指立てるゲーム！')
 						.setDescription(`あなたのコール: ${playerCall}\n指の本数を選んでください。`)
 						.setColor(Colors.Blue),
-			],
+				],
 				components: [buttonRow],
 			});
 
 			const raiseCollector = message.createMessageComponentCollector({ time: 30000 });
 
-			raiseCollector.on('collect', async raiseInteraction => {
+			raiseCollector.on('collect', async (raiseInteraction) => {
 				if (raiseInteraction.user.id !== interaction.user.id) return;
 				const playerRaise = parseInt(raiseInteraction.customId.split('_')[1]);
 				const totalRaised = playerRaise + botRaise;
@@ -65,7 +73,7 @@ export default {
 					await raiseInteraction.update({
 						embeds: [
 							new EmbedBuilder()
-								.setTitle(playerFingers === 0 ? ':trophy: あなたの勝ち！' : ':robot: ボットの勝ち！')
+								.setTitle(playerFingers === 0 ? '🏆 あなたの勝ち！' : '🤖 ボットの勝ち！')
 								.setColor(playerFingers === 0 ? Colors.Green : Colors.Red),
 						],
 						components: [],
@@ -74,7 +82,7 @@ export default {
 					await raiseInteraction.update({
 						embeds: [
 							new EmbedBuilder()
-								.setTitle(':robot: ボットのターン')
+								.setTitle('🤖 ボットのターン')
 								.setDescription(`ボットが指を ${botRaise} 本立てた！`)
 								.setColor(Colors.Red),
 						],
