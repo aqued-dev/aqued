@@ -82,7 +82,7 @@ export default {
 					await raiseInteraction.update({
 						embeds: [
 							new EmbedBuilder()
-								.setTitle('🤖 ボットのターン')
+								.setTitle('🤖 ボットのターン') // 修正
 								.setDescription(`ボットが指を ${botRaise} 本立てた！`)
 								.setColor(Colors.Red),
 						],
