@@ -46,7 +46,7 @@ export const translatePermission = (flags: Array<bigint | string>): string[] => 
 		ViewCreatorMonetizationAnalytics: 'ロールサブスクリプションのインサイトを見る',
 		UseSoundboard: 'サウンドボードを使用',
 		CreateGuildExpressions: 'エクスプレッションを作成',
-		CreateEvents: 'ボイスチャンネルステータスを設定',
+		CreateEvents: 'イベントを作成',
 		UseExternalSounds: '外部のサウンドの使用',
 		SendVoiceMessages: 'ボイスメッセージを送信',
 		SendPolls: '投票を作成',
