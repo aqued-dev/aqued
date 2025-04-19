@@ -61,7 +61,12 @@ export default async function (message: Message) {
 				| {
 						content: string;
 						id: string;
-						user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
+						user: {
+							discriminator: string;
+							globalName: string;
+							username: string;
+							displayAvatarURL: string;
+						};
 				  }
 				| undefined = await message.client.botData.superGlobalChat.replyMessages.get(message.reference.messageId!);
 			if (!repliedMessage) {
@@ -105,7 +110,9 @@ export default async function (message: Message) {
 					content,
 					files: data.attachmentsUrl || [],
 					avatarURL: message.author.avatar
-						? message.client.rest.cdn.avatar(message.author.id, message.author.avatar, { extension: 'webp' })
+						? message.client.rest.cdn.avatar(message.author.id, message.author.avatar, {
+								extension: 'webp',
+							})
 						: message.client.rest.cdn.defaultAvatar(
 								message.author.discriminator === '0'
 									? calculateUserDefaultAvatarIndex(message.author.id)
@@ -129,7 +136,12 @@ export default async function (message: Message) {
 							| {
 									content: string;
 									id: string;
-									user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
+									user: {
+										discriminator: string;
+										globalName: string;
+										username: string;
+										displayAvatarURL: string;
+									};
 							  }
 							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(
 							message.reference.messageId!,

@@ -34,7 +34,10 @@ export default async function (interaction: BaseInteraction) {
 					.addOptions(
 						interaction.values
 							.filter((value) => interaction.guild.roles.cache.has(value))
-							.map((value) => ({ label: interaction.guild.roles.cache.get(value).name, value: value })),
+							.map((value) => ({
+								label: interaction.guild.roles.cache.get(value).name,
+								value: value,
+							})),
 					),
 			),
 		],

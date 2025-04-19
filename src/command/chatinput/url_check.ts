@@ -8,7 +8,10 @@ import {
 } from 'discord.js';
 export function embed(type: string, message?: string, title?: string, customTitle?: string, footer?: string) {
 	const embed = new EmbedBuilder();
-	embed.setAuthor({ name: customTitle ?? type, iconURL: 'https://cdn.discordapp.com/emojis/1298214751645601792.png' });
+	embed.setAuthor({
+		name: customTitle ?? type,
+		iconURL: 'https://cdn.discordapp.com/emojis/1298214751645601792.png',
+	});
 	if (message) {
 		embed.setDescription(message);
 	}

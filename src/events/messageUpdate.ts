@@ -184,7 +184,11 @@ async function superGlobalChat(newMessage: Message) {
 		if (newMessage.channel.type !== ChannelType.GuildText) {
 			return;
 		}
-		const data: MessageEditData = { type: 'edit', messageId: newMessage.id, content: newMessage.content };
+		const data: MessageEditData = {
+			type: 'edit',
+			messageId: newMessage.id,
+			content: newMessage.content,
+		};
 		channel.send(JSON.stringify(data));
 	}
 }

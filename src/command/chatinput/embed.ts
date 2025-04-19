@@ -33,7 +33,11 @@ export default {
 						.setCustomId('embed_edit_select')
 						.setMaxValues(1)
 						.addOptions(
-							{ label: 'タイトル', description: interaction.options.getString('title') || 'タイトル', value: 'title' },
+							{
+								label: 'タイトル',
+								description: interaction.options.getString('title') || 'タイトル',
+								value: 'title',
+							},
 							{
 								label: '説明',
 								description: interaction.options.getString('description') || '説明',

@@ -51,7 +51,12 @@ export default async function (message: Message) {
 							| {
 									content: string;
 									id: string;
-									user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
+									user: {
+										discriminator: string;
+										globalName: string;
+										username: string;
+										displayAvatarURL: string;
+									};
 							  }
 							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(data.reference);
 						if (!repliedMessage) {
