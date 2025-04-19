@@ -72,7 +72,9 @@ const resolveWebhook = async (
 	const webhooks = await channel.fetchWebhooks();
 	const webhook = findWebhook(webhooks, channel.client.user.id);
 
-	if (webhook) return success(webhook);
+	if (webhook) {
+		return success(webhook);
+	}
 
 	const created = await createWebhook(channel);
 	return created;
