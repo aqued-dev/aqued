@@ -23,7 +23,7 @@ async function dissoku(newMessage: Message) {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle('UPしました！')
-						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 3600}:F> にお知らせします。`)
+						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 7200}:F> にお知らせします。`)
 						.setColor(Colors.Blue),
 				],
 			});
