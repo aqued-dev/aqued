@@ -52,7 +52,7 @@ async function dissoku(newMessage: Message) {
 						],
 					});
 			}
-		}, 3_600_000);
+		}, 7_200_000);
 	}
 }
 async function globalChat(newMessage: Message) {
