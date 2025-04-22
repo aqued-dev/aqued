@@ -1,7 +1,14 @@
-import { ApplicationCommandType, Colors, EmbedBuilder, time, UserContextMenuCommandInteraction } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
+import {
+	ApplicationCommandType,
+	ApplicationIntegrationType,
+	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	time,
+	UserContextMenuCommandInteraction,
+} from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('UserInfo')
@@ -35,7 +42,7 @@ export default {
 							.replace('idle', '<:idle:1125783726966722660> 離席中')
 							.replace('dnd', '<:dnd:1125783722571092112> 取り込み中')}\n**フラグ**: ${
 							user.flags
-								.toArray()
+								?.toArray()
 								.map((v) =>
 									v
 										.replaceAll('VerifiedDeveloper', '<:verified_bot_developer:1035780599404826645>')
@@ -62,7 +69,7 @@ export default {
 							member.communicationDisabledUntil
 								? `**タイムアウトが解除される日時**:${time(member.communicationDisabledUntil, 'F')}`
 								: ''
-						}\n**サーバー参加日時**: ${time(member.joinedAt, 'F')}\n**権限**: \`${translatePermission(
+						}\n**サーバー参加日時**: ${time(member.joinedAt!, 'F')}\n**権限**: \`${translatePermission(
 							member.permissions.toArray(),
 						).join(', ')}\`${
 							member.premiumSince ? `**最後にブーストした日時**: ${time(member.premiumSince, 'F')}` : ''
@@ -72,18 +79,24 @@ export default {
 				);
 
 			if (member.avatar) {
-				member.avatar.startsWith('a_')
-					? embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'webp' }));
-				user.avatar.startsWith('a_')
-					? embed.setImage(user.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setImage(user.extDefaultAvatarURL({ extension: 'webp' }));
+				if (member.avatar.startsWith('a_')) {
+					embed.setThumbnail(member.displayAvatarURL({ extension: 'gif' }));
+				} else {
+					embed.setThumbnail(member.displayAvatarURL({ extension: 'webp' }));
+				}
+				if (user.avatar?.startsWith('a_')) {
+					embed.setImage(user.displayAvatarURL({ extension: 'gif' }));
+				} else {
+					embed.setImage(user.displayAvatarURL({ extension: 'webp' }));
+				}
 			} else if (user.avatar) {
-				user.avatar.startsWith('a_')
-					? embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
+				if (user.avatar.startsWith('a_')) {
+					embed.setThumbnail(user.displayAvatarURL({ extension: 'gif' }));
+				} else {
+					embed.setThumbnail(user.displayAvatarURL({ extension: 'webp' }));
+				}
 			} else {
-				embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
+				embed.setThumbnail(user.displayAvatarURL({ extension: 'webp' }));
 			}
 
 			await interaction.reply({
@@ -109,7 +122,7 @@ export default {
 								.replace('idle', '<:idle:1125783726966722660> 離席中')
 								.replace('dnd', '<:dnd:1125783722571092112> 取り込み中')}\n**フラグ**: ${
 								user.flags
-									.toArray()
+									?.toArray()
 									.map((v) =>
 										v
 											.replaceAll('VerifiedDeveloper', '<:verified_bot_developer:1035780599404826645>')
@@ -133,9 +146,9 @@ export default {
 						.setThumbnail(
 							user.avatar
 								? user.avatar.startsWith('a_')
-									? user.extDefaultAvatarURL({ extension: 'gif' })
-									: user.extDefaultAvatarURL({ extension: 'webp' })
-								: user.extDefaultAvatarURL({ extension: 'webp' }),
+									? user.displayAvatarURL({ extension: 'gif' })
+									: user.displayAvatarURL({ extension: 'webp' })
+								: user.displayAvatarURL({ extension: 'webp' }),
 						),
 				],
 			});

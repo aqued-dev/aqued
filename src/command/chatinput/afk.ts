@@ -1,6 +1,11 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
 export default {
 	command: new SlashCommandBuilder()
 		.setName('afk')

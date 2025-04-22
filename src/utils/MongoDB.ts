@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Document } from 'mongoose';
 import { parse, stringify } from 'json-bigint';
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';

@@ -48,14 +48,26 @@ async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 							description: embed.data.color ? '#' + embed.data.color.toString(16).padStart(2, '0') : '#000000',
 							value: 'color',
 						},
-						{ label: 'フッター', description: embed.data.footer ? embed.data.footer.text : 'なし', value: 'footer' },
-						{ label: '画像', description: embed.data.image ? embed.data.image.url : 'なし', value: 'image' },
+						{
+							label: 'フッター',
+							description: embed.data.footer ? embed.data.footer.text : 'なし',
+							value: 'footer',
+						},
+						{
+							label: '画像',
+							description: embed.data.image ? embed.data.image.url : 'なし',
+							value: 'image',
+						},
 						{
 							label: 'サムネイル',
 							description: embed.data.thumbnail ? embed.data.thumbnail.url : 'なし',
 							value: 'thumbnail',
 						},
-						{ label: '著者', description: embed.data.author ? embed.data.author.name : 'なし', value: 'author' },
+						{
+							label: '著者',
+							description: embed.data.author ? embed.data.author.name : 'なし',
+							value: 'author',
+						},
 					),
 			),
 			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -69,7 +81,9 @@ async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 	});
 }
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isModalSubmit()) return;
+	if (!interaction.isModalSubmit()) {
+		return;
+	}
 	switch (interaction.customId) {
 		case 'embed_modal_0': {
 			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
@@ -81,8 +95,9 @@ export default async function (interaction: BaseInteraction) {
 		}
 		case 'embed_modal_1': {
 			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
-			if (interaction.fields.getTextInputValue('description'))
+			if (interaction.fields.getTextInputValue('description')) {
 				embed.setDescription(interaction.fields.getTextInputValue('description'));
+			}
 			await edit(embed, interaction);
 			await interaction.deferUpdate();
 			break;

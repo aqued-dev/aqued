@@ -1,12 +1,17 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('moderate')
 		.setDescription('モデレート系コマンド')
-		.setGuildOnly()
 		.addSubcommand((input) => input.setName('ban_member').setDescription('Banされたメンバー一覧を表示します。'))
 		.addSubcommand((input) =>
 			input
@@ -75,10 +80,10 @@ export default {
 	async execute(interaction: ChatInputCommandInteraction) {
 		switch (interaction.options.getSubcommand()) {
 			case 'ban_member': {
-				const bans = await interaction.guild.bans.fetch();
+				const bans = await interaction.guild?.bans.fetch();
 				const users =
 					bans
-						.map((Ban) =>
+						?.map((Ban) =>
 							Ban.user.discriminator === '0'
 								? `@${Ban.user.username}`
 								: `${Ban.user.username}#${Ban.user.discriminator}`,
@@ -86,31 +91,32 @@ export default {
 						.join('\n') || 'Banされたユーザーはいません。';
 				if (users.length > 4096) {
 					const users2 = users.substring(4096, users.length);
-					await interaction.reply({
+					return await interaction.reply({
 						embeds: [
 							new EmbedBuilder().setTitle('Banされたユーザー一覧').setDescription(users).setColor(Colors.Blue),
 							new EmbedBuilder().setTitle('Banされたユーザー一覧').setDescription(users2).setColor(Colors.Blue),
 						],
 					});
 				} else {
-					await interaction.reply({
+					return await interaction.reply({
 						embeds: [new EmbedBuilder().setTitle('Banされたユーザー一覧').setDescription(users).setColor(Colors.Blue)],
 					});
 				}
-				break;
 			}
 			case 'ban': {
-				const user = interaction.options.getUser('user');
-				const member = interaction.guild.members.cache.get(user.id);
-				if (!member)
+				const user = interaction.options.getUser('user', true);
+				const member = interaction.guild?.members.cache.get(user.id);
+				if (!member) {
 					return await interaction.error(
 						'このユーザーはBanできません。',
 						'このユーザーはこのサーバーに参加していません。',
 						true,
 					);
+				}
 				if (
-					interaction.guild.ownerId !== interaction.user.id &&
-					interaction.guild.members.cache
+					interaction.guild?.ownerId !== interaction.user.id &&
+					// @ts-expect-error ignore
+					interaction.guild?.members.cache
 						.get(interaction.user.id)
 						.roles.highest.comparePositionTo(member.roles.highest) <= 0
 				) {
@@ -120,12 +126,13 @@ export default {
 						true,
 					);
 				}
-				if (!member.bannable)
+				if (!member.bannable) {
 					return await interaction.error(
 						'このユーザーはBanできません。',
 						'botがこのユーザーをBanする権限を持っていません。',
 						true,
 					);
+				}
 				await member
 					.ban({
 						reason: interaction.options.getString('reason')
@@ -154,16 +161,18 @@ export default {
 				break;
 			}
 			case 'kick': {
-				const user = interaction.options.getUser('user');
-				const member = interaction.guild.members.cache.get(user.id);
-				if (!member)
+				const user = interaction.options.getUser('user', true);
+				const member = interaction.guild?.members.cache.get(user.id);
+				if (!member) {
 					return await interaction.error(
 						'このユーザーはkickできません。',
 						'このユーザーはこのサーバーに参加していません。',
 						true,
 					);
+				}
 				if (
-					interaction.guild.ownerId !== interaction.user.id &&
+					interaction.guild?.ownerId !== interaction.user.id &&
+					// @ts-expect-error error
 					interaction.guild.members.cache
 						.get(interaction.user.id)
 						.roles.highest.comparePositionTo(member.roles.highest) <= 0
@@ -174,12 +183,13 @@ export default {
 						true,
 					);
 				}
-				if (!member.kickable)
+				if (!member.kickable) {
 					return await interaction.error(
 						'このユーザーはkickできません。',
 						'botがこのユーザーをkickする権限を持っていません。',
 						true,
 					);
+				}
 				await member
 					.kick(
 						interaction.options.getString('reason')
@@ -207,16 +217,18 @@ export default {
 				break;
 			}
 			case 'unban': {
-				const user = interaction.options.getUser('user');
-				const member = interaction.guild.members.cache.get(user.id);
-				if (!member)
+				const user = interaction.options.getUser('user', true);
+				const member = interaction.guild?.members.cache.get(user.id);
+				if (!member) {
 					return await interaction.error(
 						'このユーザーはban解除できません。',
 						'このユーザーはこのサーバーに参加していません。',
 						true,
 					);
+				}
 				if (
-					interaction.guild.ownerId !== interaction.user.id &&
+					interaction.guild?.ownerId !== interaction.user.id &&
+					// @ts-expect-error error
 					interaction.guild.members.cache
 						.get(interaction.user.id)
 						.roles.highest.comparePositionTo(member.roles.highest) <= 0
@@ -227,12 +239,13 @@ export default {
 						true,
 					);
 				}
-				if (!member.bannable)
+				if (!member.bannable) {
 					return await interaction.error(
 						'このユーザーはban解除できません。',
 						'botがこのユーザーをban解除する権限を持っていません。',
 						true,
 					);
+				}
 				await member.guild.bans
 					.remove(
 						member.id,
@@ -261,17 +274,19 @@ export default {
 				break;
 			}
 			case 'timeout': {
-				const user = interaction.options.getUser('user');
-				const time = interaction.options.getInteger('time') * 60 * 1000;
-				const member = interaction.guild.members.cache.get(user.id);
-				if (!member)
+				const user = interaction.options.getUser('user', true);
+				const time = interaction.options.getInteger('time', true) * 60 * 1000;
+				const member = interaction.guild?.members.cache.get(user.id);
+				if (!member) {
 					return await interaction.error(
 						'このユーザーはタイムアウトできません。',
 						'このユーザーはこのサーバーに参加していません。',
 						true,
 					);
+				}
 				if (
-					interaction.guild.ownerId !== interaction.user.id &&
+					interaction.guild?.ownerId !== interaction.user.id &&
+					// @ts-expect-error error
 					interaction.guild.members.cache
 						.get(interaction.user.id)
 						.roles.highest.comparePositionTo(member.roles.highest) <= 0
@@ -282,12 +297,13 @@ export default {
 						true,
 					);
 				}
-				if (!member.moderatable)
+				if (!member.moderatable) {
 					return await interaction.error(
 						'このユーザーはタイムアウトできません。',
 						'botがこのユーザーをタイムアウトする権限を持っていません。',
 						true,
 					);
+				}
 				await member
 					.timeout(
 						time,
@@ -316,16 +332,18 @@ export default {
 				break;
 			}
 			case 'untimeout': {
-				const user = interaction.options.getUser('user');
-				const member = interaction.guild.members.cache.get(user.id);
-				if (!member)
+				const user = interaction.options.getUser('user', true);
+				const member = interaction.guild?.members.cache.get(user.id);
+				if (!member) {
 					return await interaction.error(
 						'このユーザーはタイムアウト解除できません。',
 						'このユーザーはこのサーバーに参加していません。',
 						true,
 					);
+				}
 				if (
-					interaction.guild.ownerId !== interaction.user.id &&
+					interaction.guild?.ownerId !== interaction.user.id &&
+					// @ts-expect-error error
 					interaction.guild.members.cache
 						.get(interaction.user.id)
 						.roles.highest.comparePositionTo(member.roles.highest) <= 0
@@ -336,12 +354,13 @@ export default {
 						true,
 					);
 				}
-				if (!member.moderatable)
+				if (!member.moderatable) {
 					return await interaction.error(
 						'このユーザーはタイムアウト解除できません。',
 						'botがこのユーザーをタイムアウト解除する権限を持っていません。',
 						true,
 					);
+				}
 				await member
 					.timeout(
 						null,
@@ -369,6 +388,9 @@ export default {
 					);
 				break;
 			}
+			default:
+				break;
 		}
+		return;
 	},
 };

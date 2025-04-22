@@ -6,15 +6,16 @@ export default {
 	command: new SlashCommandBuilder()
 		.setName('janken')
 		.setDescription('じゃんけんをします！')
-		.addStringOption(option =>
-			option.setName('hand')
+		.addStringOption((option) =>
+			option
+				.setName('hand')
 				.setDescription('出す手を選んでください')
 				.setRequired(true)
 				.addChoices(
 					{ name: 'グー', value: 'rock' },
 					{ name: 'チョキ', value: 'scissors' },
-					{ name: 'パー', value: 'paper' }
-				)
+					{ name: 'パー', value: 'paper' },
+				),
 		)
 		.setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild]),
@@ -40,9 +41,7 @@ export default {
 				new EmbedBuilder()
 					.setTitle('🃏 じゃんけん！')
 					.setDescription(
-						`あなた: ${handEmojis[userHand]}\n` +
-						`Bot: ${handEmojis[botHand]}\n\n` +
-						`**結果: ${result}**`
+						`あなた: ${handEmojis[userHand]}\n` + `Bot: ${handEmojis[botHand]}\n\n` + `**結果: ${result}**`,
 					)
 					.setColor(Colors.Blue),
 			],
@@ -51,7 +50,9 @@ export default {
 };
 
 function getResult(user, bot) {
-	if (user === bot) return '引き分け！';
+	if (user === bot) {
+		return '引き分け！';
+	}
 	if (
 		(user === 'rock' && bot === 'scissors') ||
 		(user === 'scissors' && bot === 'paper') ||

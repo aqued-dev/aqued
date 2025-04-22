@@ -1,7 +1,11 @@
 import { TextInputStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, BaseInteraction } from 'discord.js';
 export default async function (interaction: BaseInteraction) {
-	if (!interaction.isStringSelectMenu()) return;
-	if (interaction.customId !== 'embed_edit_select') return;
+	if (!interaction.isStringSelectMenu()) {
+		return;
+	}
+	if (interaction.customId !== 'embed_edit_select') {
+		return;
+	}
 	switch (interaction.values[0]) {
 		case 'title': {
 			await interaction.showModal(
