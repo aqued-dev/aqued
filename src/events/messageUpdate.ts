@@ -26,7 +26,7 @@ async function dissoku(newMessage: Message) {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle('UPしました！')
-						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 3600}:F> にお知らせします。`)
+						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 7200}:F> にお知らせします。`)
 						.setColor(Colors.Blue),
 				],
 			});
@@ -58,7 +58,7 @@ async function dissoku(newMessage: Message) {
 					});
 				}
 			}
-		}, 3_600_000);
+		}, 7_200_000);
 	}
 }
 async function globalChat(newMessage: Message) {
