@@ -19,7 +19,7 @@ export default {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		let playerFingers = 2;
-		let botFingers = 2;
+		const botFingers = 2;
 
 		const embed = new EmbedBuilder()
 			.setTitle('✋ 親指立てるゲーム！')
@@ -93,10 +93,7 @@ export default {
 				} else if (botFingers <= 0) {
 					await raiseInteraction.update({
 						embeds: [
-							new EmbedBuilder()
-								.setTitle('🤖 ボットの勝ち！')
-								.setDescription('また挑戦してね。')
-								.setColor(Colors.Red),
+							new EmbedBuilder().setTitle('🤖 ボットの勝ち！').setDescription('また挑戦してね。').setColor(Colors.Red),
 						],
 						components: [],
 					});
