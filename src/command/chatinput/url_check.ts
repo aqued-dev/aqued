@@ -25,7 +25,7 @@ export default {
 							.setColor(Colors.Red),
 					],
 				});
-			const data: string = await value.text();
+			const data: string = await value.json();
 			if (data['rating'] === 'r' || data['rating'] === 'g') {
 				return await interaction.editReply({
 					embeds: [

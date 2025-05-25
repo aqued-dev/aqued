@@ -33,7 +33,7 @@ export default {
 						.setAuthor({ name: url });
 				}
 
-				const data = await response.text();
+				const data = await response.json();
 				if (data['rating'] === 'r' || data['rating'] === 'g') {
 					return new EmbedBuilder()
 						.setTitle('このサイトは安全です')
