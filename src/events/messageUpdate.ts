@@ -36,7 +36,7 @@ async function dissoku(newMessage: Message) {
 						embeds: [
 							new EmbedBuilder()
 								.setTitle('UPできます！')
-								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setDescription('</up:1363739182672904354> でupできます。')
 								.setColor(Colors.Blue),
 						],
 						allowedMentions: { parse: ['roles'] },
@@ -47,7 +47,7 @@ async function dissoku(newMessage: Message) {
 						embeds: [
 							new EmbedBuilder()
 								.setTitle('UPできます！')
-								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setDescription('</up:1363739182672904354> でupできます。')
 								.setColor(Colors.Blue),
 						],
 					});
