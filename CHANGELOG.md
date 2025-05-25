@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2025/05/
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2025/05/25
 
 ### Added
 
