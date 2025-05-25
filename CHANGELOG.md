@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1000兆円欲しい
 - Embedの編集完了/削除ボタン
 - 親指立てるゲーム(by @curtainch)
+- じゃんけん(by @curtainch)
 
 ### Changed
 
