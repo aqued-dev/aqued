@@ -1,4 +1,4 @@
-import { BaseInteraction, Colors, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
+import { BaseInteraction, Colors, EmbedBuilder } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
@@ -17,30 +17,8 @@ export default async function (interaction: BaseInteraction) {
 				.setDescription('ロールの付与又は解除に成功しました。'),
 		],
 	});
-	const options = (
-		await Promise.all(
-			interaction.values.map(async (value) => {
-				const role = await interaction.guild.roles.fetch(value);
-				if (!role) {
-					return null;
-				}
-				return {
-					label: role.name,
-					value: value,
-				};
-			}),
-		)
-	).filter((option): option is { label: string; value: string } => option !== null);
 
 	await interaction.message.edit({
-		components: [
-			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-				new StringSelectMenuBuilder()
-					.setPlaceholder('取得したいロールを選択してください...')
-					.setCustomId('rolepanelselect')
-					.setMaxValues(interaction.values.length)
-					.addOptions(options),
-			),
-		],
+		components: interaction.message.components,
 	});
 }

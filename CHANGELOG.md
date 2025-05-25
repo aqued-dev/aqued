@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.5.1...HEAD)
+## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.5.2...HEAD)
+
+## [3.5.2](https://github.com/aqued-dev/aqued/compare/3.5.1...3.5.2) - 2025/05/25
+
+### Fixed
+
+- ロールパネルのプルダウンメニューの項目が減る
 
 ## [3.5.1](https://github.com/aqued-dev/aqued/compare/3.5.0...3.5.1) - 2025/05/25
 
