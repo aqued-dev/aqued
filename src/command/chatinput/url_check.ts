@@ -13,10 +13,9 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
-		return await interaction.error('実行できません', '仕様変更により、現在無効化しています。', true);
 		await interaction.deferReply();
 		const url = interaction.options.getString('url');
-		fetch(`https://safeweb.norton.com/report/show?url=${encodeURI(url)}&ulang=jpn`).then(async (value) => {
+		fetch(`https://safeweb.norton.com/safeweb/sites/v1/details?url=${encodeURI(url)}&insert=0`).then(async (value) => {
 			if (!value.ok)
 				return await interaction.editReply({
 					embeds: [
@@ -27,7 +26,7 @@ export default {
 					],
 				});
 			const data: string = await value.text();
-			if (data.includes('安全')) {
+			if (data['rating'] === 'r' || data['rating'] === 'g') {
 				return await interaction.editReply({
 					embeds: [
 						new EmbedBuilder()
@@ -38,7 +37,7 @@ export default {
 							.setFooter({ text: 'Powered by Norton Safeweb' }),
 					],
 				});
-			} else if (data.includes('注意')) {
+			} else if (data['rating'] === 'w') {
 				return await interaction.editReply({
 					embeds: [
 						new EmbedBuilder()
@@ -50,7 +49,7 @@ export default {
 							.setFooter({ text: 'Powered by Norton Safeweb' }),
 					],
 				});
-			} else if (data.includes('警告')) {
+			} else if (data['rating'] === 'b') {
 				return await interaction.editReply({
 					embeds: [
 						new EmbedBuilder()
@@ -60,7 +59,7 @@ export default {
 							.setFooter({ text: 'Powered by Norton Safeweb' }),
 					],
 				});
-			} else if (data.includes('未評価')) {
+			} else if (data['rating'] === 'u') {
 				return new EmbedBuilder()
 					.setTitle('このサイトは未評価です')
 					.setDescription('このサイトはまだ評価されていません。')
