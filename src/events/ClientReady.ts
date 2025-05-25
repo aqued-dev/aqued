@@ -38,8 +38,8 @@ export default {
 					.setTitle('Aquedが起動しました。')
 					.setColor(Colors.Blue)
 					.addFields(
-						{ name: 'サーバー数', value: String(client.guilds.cache.size) },
-						{ name: 'ユーザー数', value: String(client.users.cache.size) },
+						{ name: 'サーバー数', value: String(client.guilds.cache.size) ?? '不明' },
+						{ name: 'ユーザー数', value: String(client.users.cache.size) ?? '不明' },
 						{
 							name: 'botを使用したことがあるユーザー数',
 							value: users ? String(users.length) : '0',
@@ -48,7 +48,7 @@ export default {
 							name: '総コマンド実行数',
 							value: commandExecNumber.length > 0 ? commandExecNumber.reduce((a, b) => a + b, 0).toString() : '0',
 						},
-						{ name: 'バージョン', value: await client.botData.infos.get('version') },
+						{ name: 'バージョン', value: (await client.botData.infos.get('version')) ?? '不明' },
 					),
 			],
 		});

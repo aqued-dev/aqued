@@ -20,7 +20,6 @@ export default {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		let playerFingers = 2;
-		const botFingers = 2;
 		let currentPhase = 'call';
 
 		const embed = new EmbedBuilder()
@@ -68,6 +67,7 @@ export default {
 					],
 				});
 			} else if (currentPhase === 'raise') {
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				const [_, __, playerRaiseStr, playerCallStr, botRaiseStr] = buttonInteraction.customId.split('_');
 				const playerRaise = parseInt(playerRaiseStr);
 				const playerCall = parseInt(playerCallStr);
