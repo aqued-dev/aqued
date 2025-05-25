@@ -1,14 +1,14 @@
 {
 	"name": "aqued",
-	"version": "3.5.0",
+	"version": "3.4.1",
 	"description": "Discord Bot",
 	"main": "dist/index.js",
 	"author": "aqued-dev",
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"lint": "prettier --check . && eslint src --ext .ts",
-		"lint:fix": "prettier --write . && eslint src --fix",
+		"lint": "prettier --check . && eslint",
+		"lint:fix": "prettier --write . && eslint --fix",
 		"build": "rimraf dist && tsc",
 		"start": "node dist/src/index.js",
 		"prepare": "husky"

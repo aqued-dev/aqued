@@ -1,5 +1,13 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction } from 'discord.js';
+import {
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	ButtonInteraction,
+} from 'discord.js';
 import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
@@ -12,7 +20,7 @@ export default {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		let playerFingers = 2;
-		let botFingers = 2;
+		const botFingers = 2;
 		let currentPhase = 'call';
 
 		const embed = new EmbedBuilder()
@@ -25,7 +33,7 @@ export default {
 			new ButtonBuilder().setCustomId('oyayubi_call_1').setLabel('1本').setStyle(ButtonStyle.Primary),
 			new ButtonBuilder().setCustomId('oyayubi_call_2').setLabel('2本').setStyle(ButtonStyle.Primary),
 			new ButtonBuilder().setCustomId('oyayubi_call_3').setLabel('3本').setStyle(ButtonStyle.Primary),
-			new ButtonBuilder().setCustomId('oyayubi_call_4').setLabel('4本').setStyle(ButtonStyle.Primary)
+			new ButtonBuilder().setCustomId('oyayubi_call_4').setLabel('4本').setStyle(ButtonStyle.Primary),
 		);
 
 		const message = await interaction.reply({ embeds: [embed], components: [callRow], fetchReply: true });
@@ -48,8 +56,14 @@ export default {
 					],
 					components: [
 						new ActionRowBuilder<ButtonBuilder>().addComponents(
-							new ButtonBuilder().setCustomId(`oyayubi_raise_1_${playerCall}_${botRaise}`).setLabel('👍 1本上げる').setStyle(ButtonStyle.Success),
-							new ButtonBuilder().setCustomId(`oyayubi_raise_2_${playerCall}_${botRaise}`).setLabel('👍👍 2本上げる').setStyle(ButtonStyle.Success)
+							new ButtonBuilder()
+								.setCustomId(`oyayubi_raise_1_${playerCall}_${botRaise}`)
+								.setLabel('👍 1本上げる')
+								.setStyle(ButtonStyle.Success),
+							new ButtonBuilder()
+								.setCustomId(`oyayubi_raise_2_${playerCall}_${botRaise}`)
+								.setLabel('👍👍 2本上げる')
+								.setStyle(ButtonStyle.Success),
 						),
 					],
 				});
@@ -70,11 +84,7 @@ export default {
 
 				if (playerFingers <= 0) {
 					await buttonInteraction.update({
-						embeds: [
-							new EmbedBuilder()
-								.setTitle('🏆 あなたの勝ち！')
-								.setColor(Colors.Green),
-						],
+						embeds: [new EmbedBuilder().setTitle('🏆 あなたの勝ち！').setColor(Colors.Green)],
 						components: [],
 					});
 					collector.stop();
