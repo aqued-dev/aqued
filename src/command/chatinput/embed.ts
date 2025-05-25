@@ -1,12 +1,15 @@
 import {
 	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ButtonBuilder,
+	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
 	StringSelectMenuBuilder,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
@@ -29,7 +32,7 @@ export default {
 				new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 					new StringSelectMenuBuilder()
 						.setPlaceholder('embedの編集...')
-						.setCustomId('embed_edit_select')
+						.setCustomId(`embed_edit_select_${interaction.user.id}`)
 						.setMaxValues(1)
 						.addOptions(
 							{ label: 'タイトル', description: interaction.options.getString('title') || 'タイトル', value: 'title' },
@@ -48,9 +51,10 @@ export default {
 				),
 				new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 					new StringSelectMenuBuilder()
-						.setPlaceholder('フィールドの編集...')
-						.setCustomId('embed_fields_edit_select')
+						.setPlaceholder('[近日登場] フィールドの編集...')
+						.setCustomId(`embed_fields_edit_select_${interaction.user.id}`)
 						.setMaxValues(1)
+						.setDisabled(true)
 						.addOptions(
 							{
 								label: 'フィールド1',
@@ -178,6 +182,16 @@ export default {
 								value: 'field25',
 							},
 						),
+				),
+				new ActionRowBuilder<ButtonBuilder>().addComponents(
+					new ButtonBuilder()
+						.setLabel('編集完了')
+						.setStyle(ButtonStyle.Success)
+						.setCustomId(`embed_ok_${interaction.user.id}`),
+					new ButtonBuilder()
+						.setLabel('削除')
+						.setStyle(ButtonStyle.Danger)
+						.setCustomId(`embed_delete_${interaction.user.id}`),
 				),
 			],
 		});

@@ -1,27 +1,16 @@
 import { ActivityType, Client, Colors, EmbedBuilder, Events } from 'discord.js';
 import { info } from '../utils/log.js';
-import { readdir, stat, unlink } from 'node:fs/promises';
 
 export default {
 	name: Events.ClientReady,
 	once: false,
 	async execute(client: Client) {
-		const files = await readdir('src/interactions/artifacter');
-		for (const file of files) {
-			const filePath = `src/interactions/artifacter/${file}`;
-			const fileExtension = file.split('.').pop();
-
-			if ((await stat(filePath)).isFile() && fileExtension === 'png') {
-				await unlink(filePath);
-			}
-		}
-
 		client.user.setPresence({
 			status: 'online',
 			activities: [
 				{
 					name: '/help | ' + client.guilds.cache.size + ' Guilds | v' + (await client.botData.infos.get('version')),
-					type: ActivityType.Playing,
+					type: ActivityType.Custom,
 				},
 			],
 		});

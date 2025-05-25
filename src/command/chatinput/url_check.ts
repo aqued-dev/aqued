@@ -1,6 +1,12 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
+
 export default {
 	command: new SlashCommandBuilder()
 		.setName('url_check')

@@ -1,20 +1,20 @@
 import {
-	ChatInputCommandInteraction,
-	PermissionFlagsBits,
-	ModalBuilder,
 	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	ModalBuilder,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { translatePermission } from '../../utils/permission.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('slowmode')
 		.setDescription('低速モードを設定します。')
-		.setGuildOnly()
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,

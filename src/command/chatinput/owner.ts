@@ -1,6 +1,10 @@
-import { ActivityType, ChatInputCommandInteraction } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import {
+	ActivityType,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()

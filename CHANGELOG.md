@@ -7,16 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2025/05/
 
 ### Added
 
 - 1000兆円欲しい
+- Embedの編集完了/削除ボタン
+
+### Changed
+
+- 各種ライブラリとNode.jsのアップデート
+- 不要依存関係を削除
+- Embedフィールドの準備
 
 ### Fixed
 
 - メッセージ展開でbotをはじく
 - 短冊を作成者以外削除出来なくする
+- Embedを作成者以外編集できなくする
+- URL チェックを復活
+- ロールパネルのプルダウンメニューの項目が減る
+
+### Deleted
+
+- build コマンド
 
 ## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2024-08-23
 

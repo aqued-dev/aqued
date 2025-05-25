@@ -1,14 +1,15 @@
 import {
 	ActionRowBuilder,
+	ApplicationIntegrationType,
 	ButtonBuilder,
 	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
 	ComponentType,
 	EmbedBuilder,
+	InteractionContextType,
+	SlashCommandBuilder,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()

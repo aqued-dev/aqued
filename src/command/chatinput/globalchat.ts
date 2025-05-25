@@ -1,20 +1,20 @@
 import {
+	ApplicationIntegrationType,
 	ChannelType,
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
+	InteractionContextType,
 	PermissionFlagsBits,
+	SlashCommandBuilder,
 	Webhook,
 } from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('globalchat')
 		.setDescription('グローバルチャットに参加/退出します。')
-		.setGuildOnly()
 		.addChannelOption((input) =>
 			input.addChannelTypes(ChannelType.GuildText).setName('channel').setDescription('チャンネル').setRequired(true),
 		)

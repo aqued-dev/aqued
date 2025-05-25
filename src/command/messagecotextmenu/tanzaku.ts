@@ -1,15 +1,16 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	ButtonBuilder,
 	ButtonStyle,
-	EmbedBuilder,
-	MessageContextMenuCommandInteraction,
 	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	MessageContextMenuCommandInteraction,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { TanzakuGenerate } from '../../utils/TanzakuGenerate.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()

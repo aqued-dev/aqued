@@ -1,14 +1,15 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import {
+	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ButtonBuilder,
+	ButtonInteraction,
+	ButtonStyle,
 	ChatInputCommandInteraction,
 	Colors,
 	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	ButtonInteraction,
+	InteractionContextType,
+	SlashCommandBuilder,
 } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	// 親指立てるゲームコマンドの設定

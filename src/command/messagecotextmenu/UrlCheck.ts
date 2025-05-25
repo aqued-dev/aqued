@@ -1,6 +1,12 @@
-import { ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteraction, Colors } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationCommandType,
+	ApplicationIntegrationType,
+	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	MessageContextMenuCommandInteraction,
+} from 'discord.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()

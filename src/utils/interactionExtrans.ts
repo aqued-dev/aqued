@@ -1,14 +1,14 @@
 import {
-	ChatInputCommandInteraction,
-	EmbedBuilder,
-	UserContextMenuCommandInteraction,
-	MessageContextMenuCommandInteraction,
-	Colors,
-	StringSelectMenuInteraction,
 	ButtonInteraction,
-	RoleSelectMenuInteraction,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	MessageContextMenuCommandInteraction,
+	MessageFlags,
 	ModalSubmitInteraction,
-	Message,
+	RoleSelectMenuInteraction,
+	StringSelectMenuInteraction,
+	UserContextMenuCommandInteraction,
 } from 'discord.js';
 declare module 'discord.js' {
 	interface ChatInputCommandInteraction {
@@ -43,17 +43,17 @@ declare module 'discord.js' {
 async function error(title: string, description: string, ephemeral: boolean) {
 	if (this.deferred || this.replied)
 		return await this.followUp({
-			ephemeral,
 			embeds: [
 				new EmbedBuilder()
 					.setColor(Colors.Red)
 					.setTitle('❌ ' + title)
 					.setDescription(description),
 			],
+			flags: ephemeral ? MessageFlags.Ephemeral : [],
 		});
 	return await this.reply({
-		fetchReply: true,
-		ephemeral,
+		withResponse: true,
+		flags: ephemeral ? MessageFlags.Ephemeral : [],
 		embeds: [
 			new EmbedBuilder()
 				.setColor(Colors.Red)
@@ -65,7 +65,7 @@ async function error(title: string, description: string, ephemeral: boolean) {
 async function ok(title: string, description: string, ephemeral: boolean) {
 	if (this.deferred || this.replied)
 		return await this.followUp({
-			ephemeral,
+			flags: ephemeral ? MessageFlags.Ephemeral : [],
 			embeds: [
 				new EmbedBuilder()
 					.setColor(Colors.Blue)
@@ -74,8 +74,8 @@ async function ok(title: string, description: string, ephemeral: boolean) {
 			],
 		});
 	return await this.reply({
-		fetchReply: true,
-		ephemeral,
+		withResponse: true,
+		flags: ephemeral ? MessageFlags.Ephemeral : [],
 		embeds: [
 			new EmbedBuilder()
 				.setColor(Colors.Blue)

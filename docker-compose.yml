@@ -1,27 +1,10 @@
 services:
-  db:
-    container_name: bot-db
-    image: mysql:8.4.2
-    volumes:
-      - mysql-data:/var/lib/mysql
-    ports:
-      - 1644:3306
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: Yes
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: aqued
-      TZ: 'Asia/Tokyo'
-    command: mysqld
-    depends_on:
-      - app
   app:
     volumes:
       - .:/usr/src/app
     container_name: bot
-    image: node:22.7.0
+    image: node:22.16.0
     working_dir: /usr/src/app
     command: bash -c 'npm install -g pnpm && pnpm i && pnpm build && pnpm start'
 volumes:
-  mysql-data:
   bot:
