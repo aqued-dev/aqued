@@ -1,11 +1,15 @@
-import { ChatInputCommandInteraction, PermissionFlagsBits, ChannelType } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChannelType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('auto_news')
-		.setGuildOnly()
 		.setDescription('ニュースチャンネルの内容を自動的に公開するようにします。')
 		.addChannelOption((input) =>
 			input

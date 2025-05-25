@@ -1,6 +1,11 @@
-import { ChannelType, ChatInputCommandInteraction, Webhook } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChannelType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	SlashCommandBuilder,
+	Webhook,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()

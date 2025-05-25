@@ -17,6 +17,21 @@ export default async function (interaction: BaseInteraction) {
 				.setDescription('ロールの付与又は解除に成功しました。'),
 		],
 	});
+	const options = (
+		await Promise.all(
+			interaction.values.map(async (value) => {
+				const role = await interaction.guild.roles.fetch(value);
+				if (!role) {
+					return null;
+				}
+				return {
+					label: role.name,
+					value: value,
+				};
+			}),
+		)
+	).filter((option): option is { label: string; value: string } => option !== null);
+
 	await interaction.message.edit({
 		components: [
 			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -24,11 +39,7 @@ export default async function (interaction: BaseInteraction) {
 					.setPlaceholder('取得したいロールを選択してください...')
 					.setCustomId('rolepanelselect')
 					.setMaxValues(interaction.values.length)
-					.addOptions(
-						interaction.values
-							.filter((value) => interaction.guild.roles.cache.has(value))
-							.map((value) => ({ label: interaction.guild.roles.cache.get(value).name, value: value })),
-					),
+					.addOptions(options),
 			),
 		],
 	});

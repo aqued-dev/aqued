@@ -1,19 +1,19 @@
 import {
-	ChatInputCommandInteraction,
 	ActionRowBuilder,
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
 	ModalBuilder,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+	SnowflakeUtil,
 	TextInputBuilder,
 	TextInputStyle,
-	SnowflakeUtil,
-	PermissionFlagsBits,
 } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('rolepanel')
-		.setGuildOnly()
 		.setDescription('ロールパネルを生成します。')
 		.addRoleOption((input) => input.setName('role1').setDescription('ロール1').setRequired(true))
 		.addRoleOption((input) => input.setName('role2').setDescription('ロール2').setRequired(false))

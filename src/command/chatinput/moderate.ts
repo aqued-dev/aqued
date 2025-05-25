@@ -1,12 +1,17 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationIntegrationType,
+	ChatInputCommandInteraction,
+	Colors,
+	EmbedBuilder,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('moderate')
 		.setDescription('モデレート系コマンド')
-		.setGuildOnly()
 		.addSubcommand((input) => input.setName('ban_member').setDescription('Banされたメンバー一覧を表示します。'))
 		.addSubcommand((input) =>
 			input

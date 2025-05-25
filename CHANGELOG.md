@@ -5,18 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.4.0...HEAD)
+## [Unreleased](https://github.com/aqued-dev/aqued/compare/3.5.1...HEAD)
 
-## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2024
+## [3.5.1](https://github.com/aqued-dev/aqued/compare/3.5.0...3.5.1) - 2025/05/25
+
+### Fixed
+
+- ディス速通知のコマンドメンションを修正
+
+## [3.5.0](https://github.com/aqued-dev/aqued/compare/3.4.0...3.5.0) - 2025/05/25
 
 ### Added
 
 - 1000兆円欲しい
+- Embedの編集完了/削除ボタン
+- 親指立てるゲーム(by @curtainch)
+- じゃんけん(by @curtainch)
+
+### Changed
+
+- 各種ライブラリとNode.jsのアップデート
+- 不要依存関係を削除
+- Embedフィールドの準備
 
 ### Fixed
 
 - メッセージ展開でbotをはじく
 - 短冊を作成者以外削除出来なくする
+- Embedを作成者以外編集できなくする
+- URL チェックを復活
+- ロールパネルのプルダウンメニューの項目が減る
+
+### Deleted
+
+- build コマンド
 
 ## [3.4.0](https://github.com/aqued-dev/aqued/compare/3.3.0...3.4.0) - 2024-08-23
 

@@ -1,7 +1,10 @@
-import { TextInputStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, BaseInteraction } from 'discord.js';
+import { ActionRowBuilder, BaseInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
-	if (interaction.customId !== 'embed_edit_select') return;
+	if (!interaction.customId.startsWith('embed_edit_select_')) return;
+	if (interaction.customId.replace('embed_edit_select_', '') !== interaction.user.id) {
+		return await interaction.error('操作不可', 'コマンドを実行した本人以外は操作できません', true);
+	}
 	switch (interaction.values[0]) {
 		case 'title': {
 			await interaction.showModal(

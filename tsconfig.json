@@ -5,9 +5,7 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"outDir": "dist",
-		"skipLibCheck": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true
+		"skipLibCheck": true
 	},
 	"include": ["src"]
 }

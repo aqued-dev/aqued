@@ -1,6 +1,12 @@
-import { ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteraction, Colors } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationCommandType,
+	ApplicationIntegrationType,
+	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	MessageContextMenuCommandInteraction,
+} from 'discord.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
@@ -13,7 +19,6 @@ export default {
 	permissions: false,
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {
-		return await interaction.error('実行できません', '仕様変更により、現在無効化しています。', true);
 		if (!interaction.targetMessage.cleanContent)
 			return await interaction.error('エラー', 'メッセージの内容がありません', true);
 		const urls = interaction.targetMessage.cleanContent.match(/(https?:\/\/[^\s]+)/g);
@@ -23,7 +28,9 @@ export default {
 
 		const returnEmbeds = urls.map(async (url) => {
 			try {
-				const response = await fetch(`https://safeweb.norton.com/report?url=${encodeURI(url)}&ulang=jpn`);
+				const response = await fetch(
+					`https://safeweb.norton.com/safeweb/sites/v1/details?url=${encodeURI(url)}&insert=0`,
+				);
 				if (!response.ok) {
 					return new EmbedBuilder()
 						.setTitle('❌ 確認失敗')
@@ -32,15 +39,15 @@ export default {
 						.setAuthor({ name: url });
 				}
 
-				const data = await response.text();
-				if (data.includes('安全')) {
+				const data = await response.json();
+				if (data['rating'] === 'r' || data['rating'] === 'g') {
 					return new EmbedBuilder()
 						.setTitle('このサイトは安全です')
 						.setDescription('ノートン セーフウェブが分析して安全性とセキュリティの問題を調べました。')
 						.setColor(Colors.Green)
 						.setAuthor({ name: url, url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });
-				} else if (data.includes('注意')) {
+				} else if (data['rating'] === 'w') {
 					return new EmbedBuilder()
 						.setTitle('このサイトは注意が必要です')
 						.setDescription(
@@ -49,14 +56,14 @@ export default {
 						.setColor(Colors.Yellow)
 						.setAuthor({ name: url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });
-				} else if (data.includes('警告')) {
+				} else if (data['rating'] === 'b') {
 					return new EmbedBuilder()
 						.setTitle('このサイトは危険です')
 						.setDescription('これは既知の危険な Web ページです。このページを表示**しない**ことを推奨します。')
 						.setColor(Colors.Red)
 						.setAuthor({ name: url })
 						.setFooter({ text: 'Powered by Norton Safeweb' });
-				} else if (data.includes('未評価')) {
+				} else if (data['rating'] === 'u') {
 					return new EmbedBuilder()
 						.setTitle('このサイトは未評価です')
 						.setDescription('このサイトはまだ評価されていません。')

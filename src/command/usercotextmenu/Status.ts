@@ -1,6 +1,12 @@
-import { ApplicationCommandType, Colors, EmbedBuilder, UserContextMenuCommandInteraction } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
+import {
+	ApplicationCommandType,
+	ApplicationIntegrationType,
+	Colors,
+	ContextMenuCommandBuilder,
+	EmbedBuilder,
+	InteractionContextType,
+	UserContextMenuCommandInteraction,
+} from 'discord.js';
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('UserStatus')

@@ -1,24 +1,25 @@
-import { readdir } from 'node:fs/promises';
-import { exit } from 'node:process';
-import { inspect } from 'node:util';
 import {
 	ActivityType,
 	ChannelType,
 	Client,
 	Collection,
 	Colors,
+	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GatewayIntentBits,
 	REST,
 	Routes,
+	SlashCommandBuilder,
 	SnowflakeUtil,
 } from 'discord.js';
-import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders';
+import { readdir } from 'node:fs/promises';
+import { exit } from 'node:process';
+import { inspect } from 'node:util';
 import config from '../config.json' with { type: 'json' };
 import packageJson from '../package.json' with { type: 'json' };
 
 import './utils/extrans.js';
-import { info, error } from './utils/log.js';
+import { error, info } from './utils/log.js';
 import { MongoDB } from './utils/MongoDB.js';
 function newMongoDB(name: string): MongoDB {
 	return new MongoDB({ url: config.mongoDBUrl, name });
@@ -75,7 +76,6 @@ client.botData = {
 	messageExpansion: newMongoDB('messageExpansion'),
 	aquedAutoNews: newMongoDB('aquedAutoNews'),
 	verifyPanel: newMongoDB('verifyPanel'),
-	artifacter: newMongoDB('artifacter'),
 	errorChannelId: config.channelIds.error,
 	botLogChannelId: config.channelIds.botLog,
 	commandLogChannelId: config.channelIds.commandLog,
@@ -104,6 +104,8 @@ if (response.ok) {
 		info('new version release: https://github.com/aqued-dev/aqued/releases/tag/' + json[0].name);
 	} else if (Number(version.replaceAll('.', '')) === Number(json[0].name.replaceAll('.', ''))) {
 		await infos.set('version', json[0].name);
+	} else {
+		await infos.set('version', version);
 	}
 } else {
 	await infos.set('version', version);

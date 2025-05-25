@@ -1,26 +1,27 @@
 import {
 	APIEmbed,
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	AttachmentBuilder,
 	ChannelType,
 	Colors,
+	ContextMenuCommandBuilder,
 	EmbedBuilder,
 	GuildMember,
+	InteractionContextType,
 	MessageContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	StickerFormatType,
 	User,
 	Webhook,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { ForcePinDataType } from '../../utils/ForcePinDataType.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('Force Pin')
 		.setType(ApplicationCommandType.Message)
-		.setGuildOnly()
+
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,

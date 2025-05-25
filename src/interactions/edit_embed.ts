@@ -1,9 +1,11 @@
 import {
 	ActionRowBuilder,
 	BaseInteraction,
+	ButtonBuilder,
+	ButtonStyle,
 	EmbedBuilder,
-	StringSelectMenuBuilder,
 	ModalSubmitInteraction,
+	StringSelectMenuBuilder,
 } from 'discord.js';
 async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 	const APIfields = embed.data.fields || [];
@@ -29,7 +31,7 @@ async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 				new StringSelectMenuBuilder()
 					.setPlaceholder('embedの編集...')
-					.setCustomId('embed_edit_select')
+					.setCustomId(`embed_edit_select_${interaction.user.id}`)
 					.setMaxValues(1)
 					.addOptions(
 						{
@@ -60,10 +62,21 @@ async function edit(embed: EmbedBuilder, interaction: ModalSubmitInteraction) {
 			),
 			new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 				new StringSelectMenuBuilder()
-					.setPlaceholder('フィールドの編集...')
-					.setCustomId('embed_fields_edit_select')
+					.setPlaceholder('[近日登場] フィールドの編集...')
+					.setCustomId(`embed_fields_edit_select_${interaction.user.id}`)
 					.setMaxValues(1)
-					.addOptions(fields),
+					.addOptions(fields)
+					.setDisabled(true),
+			),
+			new ActionRowBuilder<ButtonBuilder>().addComponents(
+				new ButtonBuilder()
+					.setLabel('編集完了')
+					.setStyle(ButtonStyle.Success)
+					.setCustomId(`embed_ok_${interaction.user.id}`),
+				new ButtonBuilder()
+					.setLabel('削除')
+					.setStyle(ButtonStyle.Danger)
+					.setCustomId(`embed_delete_${interaction.user.id}`),
 			),
 		],
 	});
@@ -88,12 +101,13 @@ export default async function (interaction: BaseInteraction) {
 			break;
 		}
 		case 'embed_modal_2': {
+			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 			try {
-				const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 				embed.setURL(interaction.fields.getTextInputValue('url'));
 				await edit(embed, interaction);
 				await interaction.deferUpdate();
 			} catch {
+				await edit(embed, interaction);
 				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
 			}
 			break;
@@ -106,6 +120,7 @@ export default async function (interaction: BaseInteraction) {
 				await edit(embed, interaction);
 				await interaction.deferUpdate();
 			} else {
+				await edit(embed, interaction);
 				await interaction.reply({
 					content: '正しい16進数カラーコードを入力してください。(3桁は非対応です。)',
 					ephemeral: true,
@@ -115,41 +130,47 @@ export default async function (interaction: BaseInteraction) {
 			break;
 		}
 		case 'embed_modal_4': {
+			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
+
 			try {
-				const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 				embed.setFooter({ text: interaction.fields.getTextInputValue('text') });
 				await edit(embed, interaction);
+
 				await interaction.deferUpdate();
 			} catch {
+				await edit(embed, interaction);
 				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
 			}
 			break;
 		}
 		case 'embed_modal_5': {
+			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 			try {
-				const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 				embed.setImage(interaction.fields.getTextInputValue('image'));
 				await edit(embed, interaction);
 				await interaction.deferUpdate();
 			} catch {
+				await edit(embed, interaction);
 				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
 			}
 			break;
 		}
 		case 'embed_modal_6': {
+			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 			try {
-				const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 				embed.setThumbnail(interaction.fields.getTextInputValue('thumbnailurl'));
 				await edit(embed, interaction);
 				await interaction.deferUpdate();
 			} catch {
+				await edit(embed, interaction);
+
 				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
 			}
 			break;
 		}
 		case 'embed_modal_7': {
+			const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 			try {
-				const embed = EmbedBuilder.from(interaction.message.embeds[0]);
 				embed.setAuthor({
 					name: interaction.fields.getTextInputValue('name'),
 					iconURL: interaction.fields.getTextInputValue('icon'),
@@ -158,6 +179,7 @@ export default async function (interaction: BaseInteraction) {
 				await edit(embed, interaction);
 				await interaction.deferUpdate();
 			} catch {
+				await edit(embed, interaction);
 				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
 			}
 			break;

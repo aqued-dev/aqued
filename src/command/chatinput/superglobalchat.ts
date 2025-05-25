@@ -1,13 +1,17 @@
-import { ChannelType, ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js';
+import {
+	ApplicationIntegrationType,
+	ChannelType,
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	PermissionFlagsBits,
+	SlashCommandBuilder,
+} from 'discord.js';
 import { translatePermission } from '../../utils/permission.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new SlashCommandBuilder()
 		.setName('superglobalchat')
-		.setDescription('スーパーグローバルチャットに参加/退出します。')
-		.setGuildOnly()
+		.setDescription('[使用不可] スーパーグローバルチャットに参加/退出します。')
 		.addChannelOption((input) =>
 			input.addChannelTypes(ChannelType.GuildText).setName('channel').setDescription('チャンネル').setRequired(true),
 		)

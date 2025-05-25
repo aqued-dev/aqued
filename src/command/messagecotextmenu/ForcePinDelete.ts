@@ -1,17 +1,17 @@
 import {
 	ApplicationCommandType,
+	ApplicationIntegrationType,
 	ChannelType,
+	ContextMenuCommandBuilder,
+	InteractionContextType,
 	MessageContextMenuCommandInteraction,
 	PermissionFlagsBits,
 } from 'discord.js';
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 export default {
 	command: new ContextMenuCommandBuilder()
 		.setName('Force Pin解除')
 		.setType(ApplicationCommandType.Message)
-		.setGuildOnly()
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 	ownersOnly: false,

@@ -23,7 +23,7 @@ async function dissoku(newMessage: Message) {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle('UPしました！')
-						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 3600}:F> にお知らせします。`)
+						.setDescription(`<t:${Math.floor(Date.now() / 1000) + 7200}:F> にお知らせします。`)
 						.setColor(Colors.Blue),
 				],
 			});
@@ -36,7 +36,7 @@ async function dissoku(newMessage: Message) {
 						embeds: [
 							new EmbedBuilder()
 								.setTitle('UPできます！')
-								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setDescription('</up:1363739182672904354> でupできます。')
 								.setColor(Colors.Blue),
 						],
 						allowedMentions: { parse: ['roles'] },
@@ -47,12 +47,12 @@ async function dissoku(newMessage: Message) {
 						embeds: [
 							new EmbedBuilder()
 								.setTitle('UPできます！')
-								.setDescription('</dissoku up:828002256690610256> でupできます。')
+								.setDescription('</up:1363739182672904354> でupできます。')
 								.setColor(Colors.Blue),
 						],
 					});
 			}
-		}, 3_600_000);
+		}, 7_200_000);
 	}
 }
 async function globalChat(newMessage: Message) {
