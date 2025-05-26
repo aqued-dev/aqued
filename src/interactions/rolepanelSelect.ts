@@ -1,9 +1,9 @@
-import { BaseInteraction, Colors, EmbedBuilder, roleMention } from 'discord.js';
+import { BaseInteraction, Colors, EmbedBuilder, MessageFlags, roleMention } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isStringSelectMenu()) return;
 	if (interaction.customId !== 'rolepanelselect') return;
-	await interaction.deferReply({ ephemeral: true });
+	await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 	const result: Record<'grant' | 'release' | 'fail', string[]> = { grant: [], release: [], fail: [] };
 	for (const value of interaction.values) {
 		const roles = interaction.guild.members.cache.get(interaction.user.id).roles.cache.has(value);
@@ -29,7 +29,7 @@ export default async function (interaction: BaseInteraction) {
 	if (result.fail.length !== 0) {
 		embed.addFields({ name: '操作に失敗したロール', value: result.fail.map((id) => roleMention(id)).join('\n') });
 	}
-	
+
 	await interaction.editReply({
 		embeds: [embed],
 	});

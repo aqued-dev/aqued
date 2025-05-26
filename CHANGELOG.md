@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.6.0](https://github.com/aqued-dev/aqued/compare/3.5.2...3.6.0) - 2025/05/25
 
+### Added
+
+- 個人メモ機能
+
 ### Changed
 
 - ロールパネルでロール獲得・剥奪時に分かりやすいように

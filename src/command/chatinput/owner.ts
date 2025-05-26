@@ -3,6 +3,7 @@ import {
 	ApplicationIntegrationType,
 	ChatInputCommandInteraction,
 	InteractionContextType,
+	MessageFlags,
 	SlashCommandBuilder,
 } from 'discord.js';
 
@@ -34,10 +35,10 @@ export default {
 				await interaction.reply({
 					content:
 						'```xl\n' +
-						((await interaction.client.botData.errors.get(interaction.options.getString('id'))) ||
+						((await interaction.client.botData.errors.get(interaction.options.getString('id', true))) ||
 							'指定されたidのエラーは存在しません。') +
 						'\n```',
-					ephemeral: true,
+					flags: MessageFlags.Ephemeral,
 				});
 				break;
 			}
@@ -56,7 +57,7 @@ export default {
 						},
 					],
 				});
-				await interaction.reply({ content: '変更しました。', ephemeral: true });
+				await interaction.reply({ content: '変更しました。', flags: MessageFlags.Ephemeral });
 				break;
 			}
 		}

@@ -22,7 +22,7 @@ export default {
 	permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.MentionEveryone],
 	async execute(interaction: ChatInputCommandInteraction) {
 		const message = await interaction.reply({
-			fetchReply: true,
+			withResponse: true,
 			embeds: [
 				new EmbedBuilder()
 					.setTitle('サーバーUP通知設定')
@@ -36,6 +36,9 @@ export default {
 				),
 			],
 		});
-		await interaction.client.botData.commandExecutors.serverUpNotice.set(message.id, interaction.user.id);
+		await interaction.client.botData.commandExecutors.serverUpNotice.set(
+			message.resource.message.id,
+			interaction.user.id,
+		);
 	},
 };

@@ -5,6 +5,7 @@ import {
 	ButtonStyle,
 	Colors,
 	EmbedBuilder,
+	MessageFlags,
 	RoleSelectMenuBuilder,
 	StringSelectMenuBuilder,
 } from 'discord.js';
@@ -281,9 +282,9 @@ export default async function (interaction: BaseInteraction) {
 						const role = await interaction.client.botData.guildUpNotice.dissoku.get(interaction.guildId + '_role');
 						const message = await (role
 							? interaction.reply({
-									fetchReply: true,
+									withResponse: true,
 									content: 'ロール選択または解除してください。',
-									ephemeral: true,
+									flags: MessageFlags.Ephemeral,
 									components: [
 										new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
 											new RoleSelectMenuBuilder()
@@ -301,9 +302,9 @@ export default async function (interaction: BaseInteraction) {
 									embeds: [new EmbedBuilder().setTitle('ディス速').setColor(Colors.Blue)],
 								})
 							: interaction.reply({
-									fetchReply: true,
+									withResponse: true,
 									content: 'ロール選択または解除してください。',
-									ephemeral: true,
+									flags: MessageFlags.Ephemeral,
 									components: [
 										new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
 											new RoleSelectMenuBuilder()
@@ -314,7 +315,10 @@ export default async function (interaction: BaseInteraction) {
 									],
 									embeds: [new EmbedBuilder().setTitle('ディス速').setColor(Colors.Blue)],
 								}));
-						await interaction.client.botData.commandExecutors.serverUpNotice.set(message.id, interaction.user.id);
+						await interaction.client.botData.commandExecutors.serverUpNotice.set(
+							message.resource.message.id,
+							interaction.user.id,
+						);
 
 						break;
 					}
@@ -322,9 +326,9 @@ export default async function (interaction: BaseInteraction) {
 						const role = await interaction.client.botData.guildUpNotice.disboard.get(interaction.guildId + '_role');
 						const message = await (role
 							? interaction.reply({
-									fetchReply: true,
+									withResponse: true,
 									content: 'ロール選択または解除してください。',
-									ephemeral: true,
+									flags: MessageFlags.Ephemeral,
 									components: [
 										new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
 											new RoleSelectMenuBuilder()
@@ -342,9 +346,9 @@ export default async function (interaction: BaseInteraction) {
 									embeds: [new EmbedBuilder().setTitle('DISBOARD').setColor(Colors.Blue)],
 								})
 							: interaction.reply({
-									fetchReply: true,
+									withResponse: true,
 									content: 'ロール選択または解除してください。',
-									ephemeral: true,
+									flags: MessageFlags.Ephemeral,
 									components: [
 										new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
 											new RoleSelectMenuBuilder()
@@ -355,7 +359,10 @@ export default async function (interaction: BaseInteraction) {
 									],
 									embeds: [new EmbedBuilder().setTitle('DISBOARD').setColor(Colors.Blue)],
 								}));
-						await interaction.client.botData.commandExecutors.serverUpNotice.set(message.id, interaction.user.id);
+						await interaction.client.botData.commandExecutors.serverUpNotice.set(
+							message.resource.message.id,
+							interaction.user.id,
+						);
 
 						break;
 					}

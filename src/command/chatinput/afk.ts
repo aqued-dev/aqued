@@ -30,7 +30,6 @@ export default {
 				await mention.delete(interaction.user.id);
 			}
 			await interaction.reply({
-				ephemeral: false,
 				embeds: [embed],
 			});
 		} else {
