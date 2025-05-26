@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- 個人メモ機能
+- 個人メモ
+- 天気
 
 ### Changed
 
