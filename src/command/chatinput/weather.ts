@@ -6,6 +6,7 @@ import {
 	InteractionContextType,
 	SlashCommandBuilder,
 } from 'discord.js';
+import { buttonPagination } from '../../utils/pagenation.js';
 
 interface WeatherData {
 	error?: string;
@@ -74,7 +75,7 @@ export default {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle('❌ 取得エラー')
-						.setDescription('データエラーで取得できませんでした')
+						.setDescription('データエラーで取得できませんでした\n指定した場所が誤っている可能性があります')
 						.setColor(Colors.Blue),
 				],
 			});
@@ -103,8 +104,8 @@ export default {
 			});
 		}
 
-		return await interaction.editReply({
-			embeds: [
+		return await buttonPagination(
+			[
 				new EmbedBuilder()
 					.setDescription(data.description.bodyText.replaceAll('　', '').replaceAll('\n\n', '\n'))
 					.setTitle(`${today.dateLabel} の ${data.title}`)
@@ -159,6 +160,8 @@ export default {
 					)
 					.setColor(Colors.Blue),
 			],
-		});
+			interaction,
+			{ defer: true },
+		);
 	},
 };

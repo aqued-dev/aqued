@@ -111,7 +111,7 @@ export default {
 						.setFooter({ text: `Page ${index + 1}/${array.length}` })
 						.setColor(Colors.Blue),
 				);
-				return await buttonPagination(embeds, interaction, ephemeral === 'true');
+				return await buttonPagination(embeds, interaction, { ephemeral: ephemeral === 'true' });
 			} catch {
 				return await interaction.error('失敗', 'メモ一覧の取得に失敗しました', true);
 			}

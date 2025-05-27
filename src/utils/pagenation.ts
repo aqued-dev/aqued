@@ -6,8 +6,8 @@ import {
 	CommandInteraction,
 	ComponentType,
 	EmbedBuilder,
-	Message,
 	MessageFlags,
+	Routes,
 	type BaseMessageOptions,
 } from 'discord.js';
 
@@ -15,14 +15,15 @@ import {
  * ボタンページネーション
  * @version v3.6.0  新規追加
  * @param datas ページの内容
- * @param interaction メッセージ又はコマンドインタラクション
+ * @param interaction インタラクション
  * @returns
  */
 export const buttonPagination = async (
 	datas: (string | EmbedBuilder)[],
-	interaction: CommandInteraction | Message,
-	ephemeral: boolean = false,
+	interaction: CommandInteraction,
+	options: { defer?: boolean; ephemeral?: boolean },
 ) => {
+	const { defer, ephemeral } = options;
 	let currentPage = 0;
 	const customIds = {
 		before: `components_button_pagination_before_id_${interaction.client.botData.readyId}`,
@@ -65,18 +66,11 @@ export const buttonPagination = async (
 	if (ephemeral) {
 		sendData['flags'] = MessageFlags.Ephemeral;
 	}
-
-	const reply = await interaction.reply(sendData);
+	const reply = await interaction[defer ? 'editReply' : 'reply']({ ...sendData });
 
 	if (datas.length !== 0) {
-		let userId: string;
-		if (interaction instanceof CommandInteraction) {
-			userId = interaction.user.id;
-		} else {
-			userId = interaction.author.id;
-		}
 		const collector = reply.createMessageComponentCollector({
-			filter: (buttonInteraction) => buttonInteraction.user.id === userId,
+			filter: (buttonInteraction) => buttonInteraction.user.id === interaction.user.id,
 			componentType: ComponentType.Button,
 			time: 2 * 60 * 1000,
 			max: 1000000,
@@ -111,7 +105,7 @@ export const buttonPagination = async (
 						updateData.embeds = [pageData];
 					}
 
-					await buttonInteraction.update(updateData);
+					await buttonInteraction.update({ ...updateData, withResponse: true });
 				} else {
 					await buttonInteraction.deferUpdate();
 				}
@@ -121,7 +115,9 @@ export const buttonPagination = async (
 			}
 		});
 		collector.on('end', async () => {
-			await reply.edit({ components: [createButtonRow(true)] });
+			await interaction.client.rest.patch(Routes.channelMessage(interaction.channelId, reply.id), {
+				body: { components: [createButtonRow(true).toJSON()] },
+			});
 		});
 	}
 };
