@@ -7,6 +7,6 @@ export const chunkArray = <T>(array: T[], size: number): T[][] => {
 };
 
 export const choiceArray = <T>(arr: readonly T[]): T => {
-  const index = Math.floor(Math.random() * arr.length);
-  return arr[index];
-}
+	const index = Math.floor(Math.random() * arr.length);
+	return arr[index];
+};
