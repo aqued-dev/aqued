@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ロールパネルでロール獲得・剥奪時に分かりやすいように
 
+### Fixed
+
+- helpのオートコンプリートのバグ修正
+
 ## [3.5.2](https://github.com/aqued-dev/aqued/compare/3.5.1...3.5.2) - 2025/05/25
 
 ### Fixed
