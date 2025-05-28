@@ -28,8 +28,7 @@ export default async function (interaction: BaseInteraction) {
 		beforeData[index] = data;
 		await database.set(interaction.user.id, beforeData);
 		return await interaction.ok('成功', `メモの編集に成功しました`, true);
-	} catch (error) {
-		console.error(error);
+	} catch {
 		return await interaction.error('失敗', 'メモの編集処理中にエラーが発生しました', true);
 	}
 }

@@ -121,7 +121,10 @@ export default {
 					.setTitle(`${today.dateLabel} の ${data.title}`)
 					.setFooter({ text: `発表日時: ${data.publicTimeFormatted} / API By ${data.copyright.title}` })
 					.addFields(
-						{ name: '天気', value: `${today.telop}${today.detail.weather ? `(${today.detail.weather})` : '(詳細不明)'}` },
+						{
+							name: '天気',
+							value: `${today.telop}${today.detail.weather ? `(${today.detail.weather})` : '(詳細不明)'}`,
+						},
 						{ name: '風', value: `${today.detail.wind ?? '--'}` },
 						{ name: '波', value: `${today.detail.wave ?? '--'}` },
 						{

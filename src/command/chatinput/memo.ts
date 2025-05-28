@@ -104,8 +104,7 @@ export default {
 						true,
 					);
 				}
-			} catch (error) {
-				console.error(error);
+			} catch {
 				return await interaction.error('失敗', 'メモの取得に失敗しました', true);
 			}
 		} else if (commandName === 'update') {

@@ -23,8 +23,7 @@ export default async function (interaction: BaseInteraction) {
 
 		await database.set(interaction.user.id, [...beforeData, data]);
 		return await interaction.ok('成功', `メモの作成に成功しました。\nメモID: ${id}`, true);
-	} catch (error) {
-		console.error(error);
+	} catch {
 		return await interaction.error('失敗', 'メモの作成に失敗しました', true);
 	}
 }

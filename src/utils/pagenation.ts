@@ -7,7 +7,6 @@ import {
 	ComponentType,
 	EmbedBuilder,
 	MessageFlags,
-	Routes,
 	type BaseMessageOptions,
 } from 'discord.js';
 
