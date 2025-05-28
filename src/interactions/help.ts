@@ -9,6 +9,10 @@ export default async function (interaction: BaseInteraction) {
 			if (!name.includes(value)) continue;
 			choice.push({ name: name, value: name });
 		}
-		await interaction.respond(choice);
+		await interaction.respond(
+			choice.length === 0
+				? commandNames.slice(0, 24).map((name) => ({ name: name, value: name }))
+				: choice.slice(0, 24),
+		);
 	}
 }
