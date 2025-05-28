@@ -4,6 +4,7 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	EmbedBuilder,
+	MessageFlags,
 	ModalSubmitInteraction,
 	StringSelectMenuBuilder,
 } from 'discord.js';
@@ -108,7 +109,7 @@ export default async function (interaction: BaseInteraction) {
 				await interaction.deferUpdate();
 			} catch {
 				await edit(embed, interaction);
-				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
+				await interaction.reply({ content: 'URLが正しくありません。', flags: MessageFlags.Ephemeral });
 			}
 			break;
 		}
@@ -123,7 +124,7 @@ export default async function (interaction: BaseInteraction) {
 				await edit(embed, interaction);
 				await interaction.reply({
 					content: '正しい16進数カラーコードを入力してください。(3桁は非対応です。)',
-					ephemeral: true,
+					flags: MessageFlags.Ephemeral,
 				});
 			}
 
@@ -139,7 +140,7 @@ export default async function (interaction: BaseInteraction) {
 				await interaction.deferUpdate();
 			} catch {
 				await edit(embed, interaction);
-				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
+				await interaction.reply({ content: 'URLが正しくありません。', flags: MessageFlags.Ephemeral });
 			}
 			break;
 		}
@@ -151,7 +152,7 @@ export default async function (interaction: BaseInteraction) {
 				await interaction.deferUpdate();
 			} catch {
 				await edit(embed, interaction);
-				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
+				await interaction.reply({ content: 'URLが正しくありません。', flags: MessageFlags.Ephemeral });
 			}
 			break;
 		}
@@ -164,7 +165,7 @@ export default async function (interaction: BaseInteraction) {
 			} catch {
 				await edit(embed, interaction);
 
-				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
+				await interaction.reply({ content: 'URLが正しくありません。', flags: MessageFlags.Ephemeral });
 			}
 			break;
 		}
@@ -180,7 +181,7 @@ export default async function (interaction: BaseInteraction) {
 				await interaction.deferUpdate();
 			} catch {
 				await edit(embed, interaction);
-				await interaction.reply({ content: 'URLが正しくありません。', ephemeral: true });
+				await interaction.reply({ content: 'URLが正しくありません。', flags: MessageFlags.Ephemeral });
 			}
 			break;
 		}

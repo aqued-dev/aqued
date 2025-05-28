@@ -49,12 +49,14 @@ declare module 'discord.js' {
 			globalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
 			superGlobalChat: { register: MongoDB; messages: MongoDB; replyMessages: MongoDB };
 			aquedAutoNews: MongoDB;
+			memo: MongoDB;
 			commandLogChannelId: string;
 			commandDatas: Array<
 				RESTPostAPIChatInputApplicationCommandsJSONBody | RESTPostAPIContextMenuApplicationCommandsJSONBody
 			>;
 			rest: REST;
 			clientId: string;
+			readyId: string;
 		};
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "aqued",
-	"version": "3.5.2",
+	"version": "3.6.0",
 	"description": "Discord Bot",
 	"main": "dist/index.js",
 	"author": "aqued-dev",
@@ -16,7 +16,7 @@
 	"dependencies": {
 		"discord.js": "^14.19.3",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.15.0",
+		"mongoose": "^8.15.1",
 		"typescript": "^5.8.3"
 	},
 	"devDependencies": {
@@ -24,16 +24,16 @@
 		"@commitlint/config-conventional": "^19.8.1",
 		"@eslint/js": "^9.27.0",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^22.15.21",
+		"@types/node": "^22.15.23",
 		"eslint": "^9.27.0",
 		"eslint-config-prettier": "^10.1.5",
 		"eslint-formatter-pretty": "^6.0.1",
 		"eslint-plugin-unicorn": "^59.0.1",
-		"globals": "^16.1.0",
+		"globals": "^16.2.0",
 		"husky": "^9.1.7",
 		"prettier": "3.5.3",
 		"rimraf": "^6.0.1",
-		"typescript-eslint": "^8.32.1"
+		"typescript-eslint": "^8.33.0"
 	},
 	"engines": {
 		"node": ">=20.11.0"

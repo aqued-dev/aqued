@@ -36,8 +36,8 @@ export default {
 			new ButtonBuilder().setCustomId('oyayubi_call_4').setLabel('4本').setStyle(ButtonStyle.Primary),
 		);
 
-		const message = await interaction.reply({ embeds: [embed], components: [callRow], fetchReply: true });
-		const collector = message.createMessageComponentCollector({ time: 60000 });
+		const message = await interaction.reply({ embeds: [embed], components: [callRow], withResponse: true });
+		const collector = message.resource.message.createMessageComponentCollector({ time: 60000 });
 
 		collector.on('collect', async (buttonInteraction: ButtonInteraction) => {
 			if (buttonInteraction.user.id !== interaction.user.id) return;

@@ -36,6 +36,7 @@ const client = new Client({
 	presence: { status: 'dnd', activities: [{ name: '起動中...', type: ActivityType.Playing }] },
 });
 client.botData = {
+	readyId: SnowflakeUtil.generate().toString(),
 	commands: { chatInput: [], userCotextMenu: [], messageCotextMenu: [] },
 	interactionFiles: [],
 	messageFiles: [],
@@ -76,6 +77,7 @@ client.botData = {
 	messageExpansion: newMongoDB('messageExpansion'),
 	aquedAutoNews: newMongoDB('aquedAutoNews'),
 	verifyPanel: newMongoDB('verifyPanel'),
+	memo: newMongoDB('memo'),
 	errorChannelId: config.channelIds.error,
 	botLogChannelId: config.channelIds.botLog,
 	commandLogChannelId: config.channelIds.commandLog,

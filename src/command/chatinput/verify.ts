@@ -52,7 +52,7 @@ export default {
 		switch (interaction.options.getString('type')) {
 			case '足し算認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('足し算認証')
@@ -65,12 +65,12 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			case '引き算認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('引き算認証')
@@ -83,12 +83,12 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			case '掛け算認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('掛け算認証')
@@ -101,12 +101,12 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			case '割り算認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('割り算認証')
@@ -119,12 +119,12 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			case '1クリック認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('1クリック認証')
@@ -137,12 +137,12 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			case '乱数認証': {
 				const message = await interaction.reply({
-					fetchReply: true,
+					withResponse: true,
 					embeds: [
 						new EmbedBuilder()
 							.setTitle('乱数認証')
@@ -155,7 +155,7 @@ export default {
 						),
 					],
 				});
-				await interaction.client.botData.verifyPanel.set(message.id, role.id);
+				await interaction.client.botData.verifyPanel.set(message.resource.message.id, role.id);
 				break;
 			}
 			default: {

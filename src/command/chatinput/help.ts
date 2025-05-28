@@ -73,7 +73,7 @@ export default {
 			for (const [index, embed] of embeds.entries()) embed.setFooter({ text: `Page ${index + 1} / ${embeds.length}` });
 
 			const message = await interaction.reply({
-				fetchReply: true,
+				withResponse: true,
 				embeds: [embeds[0]],
 				components: [
 					new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -83,7 +83,7 @@ export default {
 					),
 				],
 			});
-			const interactionEvent = message.createMessageComponentCollector({
+			const interactionEvent = message.resource.message.createMessageComponentCollector({
 				componentType: ComponentType.Button,
 				time: 120_000,
 				max: 1_000_000,
@@ -102,7 +102,7 @@ export default {
 						break;
 					}
 					case 'stop': {
-						message.edit({ components: [] }).catch(() => {
+						message.resource.message.edit({ components: [] }).catch(() => {
 							/* empty */
 						});
 						interactionEvent.stop();
@@ -121,7 +121,7 @@ export default {
 				}
 			});
 			interactionEvent.on('end', () => {
-				message.edit({ components: [] }).catch(() => {
+				message.resource.message.edit({ components: [] }).catch(() => {
 					/* empty */
 				});
 			});

@@ -11,7 +11,7 @@ export default async function (interaction: BaseInteraction) {
 		interaction.fields.getTextInputValue('description') || '以下のセレクトメニューで、ロールを取得できます。';
 	roles = roles.filter((value) => value !== null);
 	const message = await interaction.reply({
-		fetchReply: true,
+		withResponse: true,
 		embeds: [
 			new EmbedBuilder()
 				.setTitle(title)
@@ -39,5 +39,5 @@ export default async function (interaction: BaseInteraction) {
 			),
 		],
 	});
-	await interaction.client.botData.rolePanelId.set(message.id, id);
+	await interaction.client.botData.rolePanelId.set(message.resource.message.id, id);
 }

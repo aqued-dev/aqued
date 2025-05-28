@@ -5,12 +5,14 @@ import unicorn from 'eslint-plugin-unicorn';
 import { parser } from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 export default [
+	{
+		ignores: ['dist/*'],
+	},
 	eslint.configs.recommended,
 	prettier,
 	...tseslint.configs.recommended,
 	{
 		files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
-		ignores: ['./dist/*'],
 		languageOptions: {
 			parser,
 			parserOptions: {
