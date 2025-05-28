@@ -90,6 +90,16 @@ export default {
 				],
 			});
 		}
+		if (!data.forecasts || !Array.isArray(data.forecasts) || data.forecasts.length < 3) {
+			return await interaction.editReply({
+				embeds: [
+					new EmbedBuilder()
+						.setTitle('❌ データ不足')
+						.setDescription('十分な予報データを取得できませんでした。場所を変えるか、時間を置いて再度お試しください。')
+						.setColor(Colors.Blue),
+				],
+			});
+		}
 		const today = data.forecasts[0];
 		const day2 = data.forecasts[1];
 		const day3 = data.forecasts[2];
@@ -98,7 +108,7 @@ export default {
 				embeds: [
 					new EmbedBuilder()
 						.setTitle('❌ 取得エラー')
-						.setDescription('取得時にエラーが発生しました')
+						.setDescription('予報データの取得中にエラーが発生しました。必要なデータが不足しています。')
 						.setColor(Colors.Blue),
 				],
 			});
@@ -111,7 +121,7 @@ export default {
 					.setTitle(`${today.dateLabel} の ${data.title}`)
 					.setFooter({ text: `発表日時: ${data.publicTimeFormatted} / API By ${data.copyright.title}` })
 					.addFields(
-						{ name: '天気', value: `${today.telop}(${today.detail.weather})` },
+						{ name: '天気', value: `${today.telop}${today.detail.weather ? `(${today.detail.weather})` : '(詳細不明)'}` },
 						{ name: '風', value: `${today.detail.wind ?? '--'}` },
 						{ name: '波', value: `${today.detail.wave ?? '--'}` },
 						{
@@ -128,7 +138,7 @@ export default {
 					.setTitle(`${day2.dateLabel} の ${data.title}`)
 					.setFooter({ text: `発表日時: ${data.publicTimeFormatted} / API By ${data.copyright.title}` })
 					.addFields(
-						{ name: '天気', value: `${day2.telop}(${day2.detail.weather})` },
+						{ name: '天気', value: `${day2.telop}${day2.detail.weather ? `(${day2.detail.weather})` : '(詳細不明)'}` },
 						{ name: '風', value: `${day2.detail.wind ?? '--'}` },
 						{ name: '波', value: `${day2.detail.wave ?? '--'}` },
 						{
@@ -146,7 +156,7 @@ export default {
 					.setTitle(`${day3.dateLabel} の ${data.title}`)
 					.setFooter({ text: `発表日時: ${data.publicTimeFormatted} / API By ${data.copyright.title}` })
 					.addFields(
-						{ name: '天気', value: `${day3.telop}(${day3.detail.weather})` },
+						{ name: '天気', value: `${day3.telop}${day3.detail.weather ? `(${day3.detail.weather})` : '(詳細不明)'}` },
 						{ name: '風', value: `${day3.detail.wind ?? '--'}` },
 						{ name: '波', value: `${day3.detail.wave ?? '--'}` },
 						{

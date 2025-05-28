@@ -150,13 +150,23 @@ export default {
 			const id = interaction.options.getString('id', true);
 			try {
 				const beforeArray = ((await database.get(interaction.user.id)) as MemoData[]) ?? [];
+				const memoExists = beforeArray.some((memo) => String(memo.id) === id);
+
+				if (!memoExists) {
+					return await interaction.error(
+						'失敗',
+						'指定されたIDのメモは見つかりませんでした。存在しないか、既に削除されている可能性があります。',
+						true,
+					);
+				}
+
 				await database.set(
 					interaction.user.id,
 					beforeArray.filter((memo) => String(memo.id) !== id),
 				);
 				return await interaction.ok('成功', 'メモの削除に成功しました', true);
 			} catch {
-				return await interaction.error('失敗', 'メモの削除に失敗しました', true);
+				return await interaction.error('失敗', 'メモの削除処理中にエラーが発生しました', true);
 			}
 		} else if (commandName === 'list') {
 			const ephemeral = interaction.options.getString('view');
