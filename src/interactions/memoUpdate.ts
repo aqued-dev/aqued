@@ -18,13 +18,18 @@ export default async function (interaction: BaseInteraction) {
 		};
 
 		const index = beforeData.findIndex((memo) => String(memo.id) === id);
-		if (index !== -1) {
-			beforeData[index] = data;
+		if (index === -1) {
+			return await interaction.error(
+				'失敗',
+				'編集しようとしたメモは見つかりませんでした。削除された可能性があります。',
+				true,
+			);
 		}
+		beforeData[index] = data;
 		await database.set(interaction.user.id, beforeData);
 		return await interaction.ok('成功', `メモの編集に成功しました`, true);
 	} catch (error) {
 		console.error(error);
-		return await interaction.error('失敗', 'メモの編集に失敗しました', true);
+		return await interaction.error('失敗', 'メモの編集処理中にエラーが発生しました', true);
 	}
 }
