@@ -6,6 +6,7 @@ import {
 	Colors,
 	EmbedBuilder,
 	InteractionContextType,
+	MessageFlags,
 	ModalBuilder,
 	SlashCommandBuilder,
 	TextInputBuilder,
@@ -89,29 +90,99 @@ export default {
 					.setCustomId('memo_crud_create'),
 			);
 		} else if (commandName === 'read') {
-			/**
-			 * empty
-			 *  */
-		} else if (commandName === 'update') {
-			/**
-			 * empty
-			 *  */
-		} else if (commandName === 'delete') {
-			/**
-			 * empty
-			 *  */
-		} else if (commandName === 'list') {
+			const id = interaction.options.getString('id', true);
+			const ephemeral = interaction.options.getString('view');
 			try {
-				const ephemeral = interaction.options.getString('view');
+				const memoArray: MemoData[] | undefined = await database.get(interaction.user.id);
+				const memo = memoArray.filter((memo) => String(memo.id) === id)[0] ?? null;
+				if (memoArray && memoArray.length !== 0 && memo) {
+					return await interaction.ok(memo.title, memo.value || '(メモの内容は無いようだ...)', ephemeral === 'true');
+				} else {
+					return await interaction.error(
+						'失敗',
+						'IDが間違っているか、メモが一件も登録されていない可能性があります',
+						true,
+					);
+				}
+			} catch (error) {
+				console.error(error);
+				return await interaction.error('失敗', 'メモの取得に失敗しました', true);
+			}
+		} else if (commandName === 'update') {
+			const id = interaction.options.getString('id', true);
+			try {
+				const memoArray: MemoData[] | undefined = await database.get(interaction.user.id);
+				const memo = memoArray.filter((memo) => String(memo.id) === id)[0] ?? null;
+				if (memoArray && memoArray.length !== 0 && memo) {
+					return await interaction.showModal(
+						new ModalBuilder()
+							.setTitle('メモ編集')
+							.setCustomId(`memo_crud_update_${memo.id}`)
+							.addComponents(
+								new ActionRowBuilder<TextInputBuilder>().addComponents(
+									new TextInputBuilder()
+										.setLabel('タイトル')
+										.setStyle(TextInputStyle.Short)
+										.setCustomId('title')
+										.setRequired(true)
+										.setPlaceholder('タイトルを入力...')
+										.setValue(memo.title),
+								),
+								new ActionRowBuilder<TextInputBuilder>().addComponents(
+									new TextInputBuilder()
+										.setLabel('内容')
+										.setStyle(TextInputStyle.Paragraph)
+										.setCustomId('value')
+										.setRequired(false)
+										.setPlaceholder('内容を入力...')
+										.setValue(memo.value || ''),
+								),
+							),
+					);
+				} else {
+					return await interaction.error('失敗', 'メモの取得に失敗しました', true);
+				}
+			} catch {
+				return await interaction.error('失敗', 'メモの取得に失敗しました', true);
+			}
+		} else if (commandName === 'delete') {
+			await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+			const id = interaction.options.getString('id', true);
+			try {
+				const beforeArray = ((await database.get(interaction.user.id)) as MemoData[]) ?? [];
+				await database.set(
+					interaction.user.id,
+					beforeArray.filter((memo) => String(memo.id) !== id),
+				);
+				return await interaction.ok('成功', 'メモの削除に成功しました', true);
+			} catch {
+				return await interaction.error('失敗', 'メモの削除に失敗しました', true);
+			}
+		} else if (commandName === 'list') {
+			const ephemeral = interaction.options.getString('view');
+			await interaction.deferReply({ flags: ephemeral === 'true' ? MessageFlags.Ephemeral : [] });
+			try {
 				const memos = (await database.get(interaction.user.id)) as MemoData[] | null;
 				const embeds: EmbedBuilder[] = chunkArray(memos, 10).map((memoArray, index, array) =>
 					new EmbedBuilder()
 						.setTitle('メモ一覧')
-						.setDescription(memoArray.map((memo) => `${memo.id}: ${bold(memo.title)}`).join('\n'))
+						.setDescription(
+							memoArray?.map((memo) => `${memo.id}: ${bold(memo.title)}`).join('\n') ||
+								'表示できるメモが見つかりませんでした',
+						)
 						.setFooter({ text: `Page ${index + 1}/${array.length}` })
 						.setColor(Colors.Blue),
 				);
-				return await buttonPagination(embeds, interaction, { ephemeral: ephemeral === 'true' });
+				if (embeds.length === 0) {
+					embeds.push(
+						new EmbedBuilder()
+							.setTitle('メモ一覧')
+							.setDescription('表示できるメモが見つかりませんでした')
+							.setFooter({ text: `Page 1/1` })
+							.setColor(Colors.Blue),
+					);
+				}
+				return await buttonPagination(embeds, interaction, { ephemeral: ephemeral === 'true', defer: true });
 			} catch {
 				return await interaction.error('失敗', 'メモ一覧の取得に失敗しました', true);
 			}

@@ -115,9 +115,7 @@ export const buttonPagination = async (
 			}
 		});
 		collector.on('end', async () => {
-			await interaction.client.rest.patch(Routes.channelMessage(interaction.channelId, reply.id), {
-				body: { components: [createButtonRow(true).toJSON()] },
-			});
+			await reply.edit({ components: [createButtonRow(true)] });
 		});
 	}
 };

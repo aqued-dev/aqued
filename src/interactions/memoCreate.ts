@@ -1,7 +1,7 @@
 import { BaseInteraction } from 'discord.js';
 
 export interface MemoData {
-	id: bigint;
+	id: number;
 	title: string;
 	value?: string;
 }
@@ -14,14 +14,13 @@ export default async function (interaction: BaseInteraction) {
 		const beforeData: MemoData[] = (await database.get(interaction.user.id)) ?? [];
 		const title = interaction.fields.getTextInputValue('title');
 		const value = interaction.fields.getTextInputValue('value');
-		const id = (beforeData[beforeData.length - 1]?.id ?? 0n) + 1n;
+		const id = (beforeData[beforeData.length - 1]?.id ?? 0) + 1;
 		const data: MemoData = {
 			title,
 			id,
+			value,
 		};
-		if (!value.trim()) {
-			data['value'] = value;
-		}
+
 		await database.set(interaction.user.id, [...beforeData, data]);
 		return await interaction.ok('成功', `メモの作成に成功しました。\nメモID: ${id}`, true);
 	} catch (error) {
