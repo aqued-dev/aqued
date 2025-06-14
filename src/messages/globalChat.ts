@@ -103,19 +103,17 @@ export default async function (message: Message) {
 								? user.globalName
 									? `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.globalName}(@${user.username}) userId: ${user.id} mId: ${message.id}`
+										}${user.globalName}(@${user.username}) mId: ${message.id}`
 									: `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}@${user.username} userId: ${user.id} mId: ${message.id}`
+										}@${user.username} mId: ${message.id}`
 								: user.globalName
 									? `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.globalName}(${user.username}#${user.discriminator}) userId: ${user.id} channelId: ${
-											message.channelId
-										} mId: ${message.id}`
+										}${user.globalName}(${user.username}#${user.discriminator}) mId: ${message.id}`
 									: `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.username}#${user.discriminator} userId: ${user.id} mId: ${message.id}`,
+										}${user.username}#${user.discriminator} mId: ${message.id}`,
 					})
 					.then(async (value) => {
 						if (messages) {
@@ -140,19 +138,17 @@ export default async function (message: Message) {
 								? user.globalName
 									? `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.globalName}(@${user.username}) userId: ${user.id} mId: ${message.id}`
+										}${user.globalName}(@${user.username}) mId: ${message.id}`
 									: `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}@${user.username} userId: ${user.id} mId: ${message.id}`
+										}@${user.username} mId: ${message.id}`
 								: user.globalName
 									? `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.globalName}(${user.username}#${user.discriminator}) userId: ${user.id} channelId: ${
-											message.channelId
-										} mId: ${message.id}`
+										}${user.globalName}(${user.username}#${user.discriminator}) mId: ${message.id}`
 									: `${message.client.botData.owners.includes(user.id) ? '👑 | ' : ''}${
 											message.client.botData.mods.includes(user.id) ? '🛠️ | ' : ''
-										}${user.username}#${user.discriminator} userId: ${user.id} mId: ${message.id}`,
+										}${user.username}#${user.discriminator} mId: ${message.id}`,
 					})
 					.then(async (value) => {
 						if (messages) {
