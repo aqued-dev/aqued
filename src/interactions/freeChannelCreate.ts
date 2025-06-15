@@ -6,9 +6,8 @@ import {
 	ChannelType,
 	Collection,
 	ModalBuilder,
-	PermissionFlagsBits,
 	TextInputBuilder,
-	TextInputStyle,
+	TextInputStyle
 } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
@@ -67,18 +66,18 @@ export default async function (interaction: BaseInteraction) {
 
 			category.children
 				.create({
-					name: `${
-						interaction.user.discriminator === '0'
-							? interaction.user.globalName || interaction.user.username
-							: interaction.user.username
-					}のチャンネル`,
-					permissionOverwrites: [{ id: interaction.user.id, allow: PermissionFlagsBits.ManageChannels }],
+					name: `${interaction.user.discriminator === '0'
+						? interaction.user.globalName || interaction.user.username
+						: interaction.user.username
+						}のチャンネル`,
 					topic: `<@!${interaction.user.id}>のチャンネルです。`,
 					type: ChannelType.GuildText,
 				})
 				.then(async (channel) => {
 					const users: string[] = (await interaction.client.botData.aquedFreeChannelUser.get(categoryId)) || [];
 					users.push(interaction.user.id);
+					await channel.lockPermissions()
+					await channel.permissionOverwrites.create(interaction.user.id, { ManageChannels: true })
 					await interaction.client.botData.aquedFreeChannelUser.set(categoryId, users);
 					await interaction.ok('チャンネルを作成しました。', `<#${channel.id}>`, true);
 					await channel.send({
