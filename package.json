@@ -16,7 +16,7 @@
 	"dependencies": {
 		"discord.js": "^14.19.3",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.15.1",
+		"mongoose": "^8.17.0",
 		"typescript": "^5.8.3"
 	},
 	"devDependencies": {
