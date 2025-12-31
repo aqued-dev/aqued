@@ -2,7 +2,7 @@ import { BaseInteraction, ChannelType, Webhook } from 'discord.js';
 
 export default async function (interaction: BaseInteraction) {
 	if (!interaction.isModalSubmit()) return;
-
+	if (interaction.customId !== 'mod_globalchataquedsystem_modal') return;
 	const content = interaction.fields.getTextInputValue('content');
 	const registers = await interaction.client.botData.globalChat.register.keys();
 	await interaction.ok('送信開始', '送信が開始しました。', true);
