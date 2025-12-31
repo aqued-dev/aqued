@@ -3,7 +3,11 @@ import {
 	ChannelType,
 	ChatInputCommandInteraction,
 	InteractionContextType,
+	LabelBuilder,
+	ModalBuilder,
 	SlashCommandBuilder,
+	TextInputBuilder,
+	TextInputStyle,
 	Webhook,
 } from 'discord.js';
 
@@ -35,8 +39,7 @@ export default {
 		.addSubcommand((input) =>
 			input
 				.setName('globalchataquedsystem')
-				.setDescription('(botモデレーター専用コマンド)Aqued System Messageを送信します。')
-				.addStringOption((input) => input.setName('content').setDescription('内容').setRequired(true)),
+				.setDescription('(botモデレーター専用コマンド)Aqued System Messageを送信します。'),
 		)
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
@@ -82,26 +85,21 @@ export default {
 				break;
 			}
 			case 'globalchataquedsystem': {
-				const content = interaction.options.getString('content');
-				const registers = await interaction.client.botData.globalChat.register.keys();
-				await interaction.ok('送信開始', '送信が開始しました。', true);
-				for (const value of registers) {
-					const channel = interaction.client.channels.cache.get(value);
-					if (!channel) continue;
-					if (channel.type !== ChannelType.GuildText) continue;
-					const webhooks = await channel.fetchWebhooks();
-					const webhook: Webhook =
-						!webhooks.some((value) => value.name === 'Aqued') ||
-						webhooks.find((value) => value.name === 'Aqued').owner.id !== interaction.client.user.id
-							? await channel.createWebhook({ name: 'Aqued' })
-							: webhooks.find((value) => value.name === 'Aqued');
+				const modal = new ModalBuilder()
+					.setTitle('Aqued System Message')
+					.setCustomId('mod_globalchataquedsystem_modal');
+				const input = new TextInputBuilder()
+					.setCustomId('content')
+					.setStyle(TextInputStyle.Paragraph)
+					.setPlaceholder('内容を入力...');
+				const label = new LabelBuilder()
+					.setLabel('内容')
+					.setDescription('Aqued System Messageの内容を入力してください。')
+					.setTextInputComponent(input);
 
-					await webhook.send({
-						content,
-						avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
-						username: 'Aqued System',
-					});
-				}
+				modal.addLabelComponents(label);
+
+				await interaction.showModal(modal);
 				break;
 			}
 		}
