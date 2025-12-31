@@ -1,12 +1,4 @@
-import {
-	Activity,
-	Client,
-	ClientPresenceStatusData,
-	GuildMember,
-	PresenceStatus,
-	Snowflake,
-	User,
-} from 'discord.js';
+import { Activity, Client, ClientPresenceStatusData, GuildMember, PresenceStatus, Snowflake, User } from 'discord.js';
 
 declare module 'discord.js' {
 	interface User {
