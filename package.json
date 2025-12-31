@@ -14,26 +14,26 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"discord.js": "^14.19.3",
+		"discord.js": "^14.25.1",
 		"json-bigint": "^1.0.0",
-		"mongoose": "^8.15.1",
-		"typescript": "^5.8.3"
+		"mongoose": "^8.21.0",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@eslint/js": "^9.27.0",
+		"@eslint/js": "^9.39.2",
 		"@types/json-bigint": "^1.0.4",
-		"@types/node": "^24.0.1",
-		"eslint": "^9.27.0",
-		"eslint-config-prettier": "^10.1.5",
+		"@types/node": "^24.10.4",
+		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-formatter-pretty": "^6.0.1",
 		"eslint-plugin-unicorn": "^59.0.1",
-		"globals": "^16.2.0",
+		"globals": "^16.5.0",
 		"husky": "^9.1.7",
 		"prettier": "3.5.3",
-		"rimraf": "^6.0.1",
-		"typescript-eslint": "^8.33.0"
+		"rimraf": "^6.1.2",
+		"typescript-eslint": "^8.51.0"
 	},
 	"engines": {
 		"node": ">=20.11.0"
