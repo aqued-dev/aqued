@@ -81,17 +81,17 @@ export default {
 
 			if (member.avatar) {
 				member.avatar.startsWith('a_')
-					? embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setThumbnail(member.extDefaultAvatarURL({ extension: 'webp' }));
+					? embed.setThumbnail(member.displayAvatarURL({ extension: 'gif' }))
+					: embed.setThumbnail(member.displayAvatarURL({ extension: 'webp' }));
 				user.avatar.startsWith('a_')
-					? embed.setImage(user.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setImage(user.extDefaultAvatarURL({ extension: 'webp' }));
+					? embed.setImage(user.displayAvatarURL({ extension: 'gif' }))
+					: embed.setImage(user.displayAvatarURL({ extension: 'webp' }));
 			} else if (user.avatar) {
 				user.avatar.startsWith('a_')
-					? embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'gif' }))
-					: embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
+					? embed.setThumbnail(user.displayAvatarURL({ extension: 'gif' }))
+					: embed.setThumbnail(user.displayAvatarURL({ extension: 'webp' }));
 			} else {
-				embed.setThumbnail(user.extDefaultAvatarURL({ extension: 'webp' }));
+				embed.setThumbnail(user.displayAvatarURL({ extension: 'webp' }));
 			}
 
 			await interaction.reply({
@@ -141,9 +141,9 @@ export default {
 						.setThumbnail(
 							user.avatar
 								? user.avatar.startsWith('a_')
-									? user.extDefaultAvatarURL({ extension: 'gif' })
-									: user.extDefaultAvatarURL({ extension: 'webp' })
-								: user.extDefaultAvatarURL({ extension: 'webp' }),
+									? user.displayAvatarURL({ extension: 'gif' })
+									: user.displayAvatarURL({ extension: 'webp' })
+								: user.displayAvatarURL({ extension: 'webp' }),
 						),
 				],
 			});

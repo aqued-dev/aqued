@@ -1,13 +1,11 @@
 import {
-	ImageURLOptions,
-	calculateUserDefaultAvatarIndex,
-	User,
-	GuildMember,
 	Activity,
-	ClientPresenceStatusData,
 	Client,
+	ClientPresenceStatusData,
+	GuildMember,
 	PresenceStatus,
 	Snowflake,
+	User,
 } from 'discord.js';
 
 declare module 'discord.js' {
@@ -23,11 +21,9 @@ declare module 'discord.js' {
 			userId: Snowflake;
 			client: Client;
 		};
-		extDefaultAvatarURL(options: ImageURLOptions): string;
 	}
 	interface GuildMember {
 		url(): string;
-		extDefaultAvatarURL(options: ImageURLOptions): string;
 	}
 }
 
@@ -59,16 +55,7 @@ function presence(): {
 		client: this.client,
 	};
 }
-function UserExtensionDefaultAvatarURL(options: ImageURLOptions) {
-	const index = this.discriminator === '0' ? calculateUserDefaultAvatarIndex(this.id) : this.discriminator % 5;
-	const defaultAvatar = this.client.rest.cdn.defaultAvatar(index);
-	return this.avatarURL(options) ?? defaultAvatar;
-}
-function GuildMemberExtensionDefaultAvatarURL(options: ImageURLOptions) {
-	return this.avatarURL(options) ?? this.user.extDefaultAvatarURL(options);
-}
+
 User.prototype.extPresence = presence;
 User.prototype.url = url;
-User.prototype.extDefaultAvatarURL = UserExtensionDefaultAvatarURL;
-GuildMember.prototype.extDefaultAvatarURL = GuildMemberExtensionDefaultAvatarURL;
 GuildMember.prototype.url = url;

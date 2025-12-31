@@ -80,7 +80,7 @@ export default {
 					);
 				await webhook.send({
 					embeds: [embed],
-					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 					username: 'Aqued System',
 				});
 			}
@@ -121,7 +121,7 @@ export default {
 
 				await webhook.send({
 					embeds: [embed],
-					avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 					username: 'Aqued System',
 				});
 			}

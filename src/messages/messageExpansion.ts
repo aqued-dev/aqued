@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message, Colors, Webhook, AttachmentBuilder, StickerFormatType, APIEmbed } from 'discord.js';
+import { APIEmbed, AttachmentBuilder, Colors, EmbedBuilder, Message, StickerFormatType, Webhook } from 'discord.js';
 
 export default async function (message: Message) {
 	if (message.author.bot || message.system) return;
@@ -57,7 +57,7 @@ export default async function (message: Message) {
 		);
 	}
 	webhook.send({
-		avatarURL: urlMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+		avatarURL: urlMessage.author.displayAvatarURL({ extension: 'webp' }),
 		username: urlMessage.author.displayName,
 		embeds: [...urlMessageEmbed, ...stickerEmbeds],
 		content:

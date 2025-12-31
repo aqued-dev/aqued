@@ -1,13 +1,13 @@
 import {
-	Message,
-	Events,
-	EmbedBuilder,
-	Colors,
-	ChannelType,
-	Webhook,
 	AttachmentBuilder,
+	ChannelType,
+	Colors,
+	EmbedBuilder,
+	Events,
+	Message,
 	MessageType,
 	StickerFormatType,
+	Webhook,
 } from 'discord.js';
 import { MessageEditData } from '../utils/SuperGlobalChatType.js';
 async function dissoku(newMessage: Message) {
@@ -106,7 +106,7 @@ async function globalChat(newMessage: Message) {
 								? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
 								: `@${repliedMessage.author.username}`
 							: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
-					iconURL: repliedMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+					iconURL: repliedMessage.author.displayAvatarURL({ extension: 'webp' }),
 				})
 				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 				.setColor(Colors.Blue);

@@ -29,7 +29,7 @@ export default {
 						.setTitle(`${interaction.client.user.tag}を招待する。`)
 						.setColor(Colors.Blue)
 						.setDescription('下のボタンから招待できます。')
-						.setThumbnail(interaction.client.user.extDefaultAvatarURL({ extension: 'webp' })),
+						.setThumbnail(interaction.client.user.displayAvatarURL({ extension: 'webp' })),
 				],
 				components: [
 					new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -65,7 +65,7 @@ export default {
 					.setTitle(`${bot.tag}を招待する。`)
 					.setColor(Colors.Blue)
 					.setDescription('下のボタンから招待できます。')
-					.setThumbnail(bot.extDefaultAvatarURL({ extension: 'webp' })),
+					.setThumbnail(bot.displayAvatarURL({ extension: 'webp' })),
 			],
 			components: [
 				new ActionRowBuilder<ButtonBuilder>().addComponents(

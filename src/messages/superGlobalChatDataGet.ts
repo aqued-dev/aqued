@@ -1,14 +1,14 @@
 import {
-	Message,
 	ChannelType,
-	Webhook,
 	Colors,
 	EmbedBuilder,
+	Message,
 	SnowflakeUtil,
+	Webhook,
 	calculateUserDefaultAvatarIndex,
 } from 'discord.js';
-import { EmptyData, MessageData, MessageDeleteData, MessageEditData } from '../utils/SuperGlobalChatType.js';
 import { inspect } from 'node:util';
+import { EmptyData, MessageData, MessageDeleteData, MessageEditData } from '../utils/SuperGlobalChatType.js';
 
 export default async function (message: Message) {
 	try {
@@ -27,7 +27,7 @@ export default async function (message: Message) {
 						discriminator: message.author.discriminator,
 						globalName: message.author.globalName,
 						username: message.author.username,
-						extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+						displayAvatarURL: message.author.displayAvatarURL({ extension: 'webp' }),
 					},
 				});
 
@@ -49,7 +49,7 @@ export default async function (message: Message) {
 							| {
 									content: string;
 									id: string;
-									user: { discriminator: string; globalName: string; username: string; extDefaultAvatarURL: string };
+									user: { discriminator: string; globalName: string; username: string; displayAvatarURL: string };
 							  }
 							| undefined = await message.client.botData.superGlobalChat.replyMessages.get(data.reference);
 						if (!repliedMessage) return;
@@ -61,7 +61,7 @@ export default async function (message: Message) {
 											? `${repliedMessage.user.globalName}(@${repliedMessage.user.username})`
 											: `@${repliedMessage.user.username}`
 										: `${repliedMessage.user.username}#${repliedMessage.user.discriminator}`,
-								iconURL: repliedMessage.user.extDefaultAvatarURL,
+								iconURL: repliedMessage.user.displayAvatarURL,
 							})
 							.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 							.setColor(Colors.Blue);
@@ -100,7 +100,7 @@ export default async function (message: Message) {
 									discriminator: message.author.discriminator,
 									globalName: message.author.globalName,
 									username: message.author.username,
-									extDefaultAvatarURL: message.author.extDefaultAvatarURL({ extension: 'webp' }),
+									displayAvatarURL: message.author.displayAvatarURL({ extension: 'webp' }),
 								},
 							});
 						});

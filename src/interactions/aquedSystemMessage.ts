@@ -19,7 +19,7 @@ export default async function (interaction: BaseInteraction) {
 
 		await webhook.send({
 			content,
-			avatarURL: interaction.client.user.extDefaultAvatarURL({ extension: 'webp' }),
+			avatarURL: interaction.client.user.displayAvatarURL({ extension: 'webp' }),
 			username: 'Aqued System',
 		});
 	}

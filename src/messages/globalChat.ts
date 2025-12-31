@@ -82,7 +82,7 @@ export default async function (message: Message) {
 									? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
 									: `@${repliedMessage.author.username}`
 								: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
-						iconURL: repliedMessage.author.extDefaultAvatarURL({ extension: 'webp' }),
+						iconURL: repliedMessage.author.displayAvatarURL({ extension: 'webp' }),
 					})
 					.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
 					.setColor(Colors.Blue);
@@ -90,8 +90,8 @@ export default async function (message: Message) {
 			}
 			if (user.avatar) {
 				const avatar = user.avatar.startsWith('a_')
-					? user.extDefaultAvatarURL({ extension: 'gif' })
-					: user.extDefaultAvatarURL({ extension: 'webp' });
+					? user.displayAvatarURL({ extension: 'gif' })
+					: user.displayAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
 						content,
@@ -126,7 +126,7 @@ export default async function (message: Message) {
 						}
 					});
 			} else {
-				const avatar = user.extDefaultAvatarURL({ extension: 'webp' });
+				const avatar = user.displayAvatarURL({ extension: 'webp' });
 				await webhook
 					.send({
 						content,

@@ -26,7 +26,7 @@ export default async function (message: Message) {
 	user_
 		? webhook
 				.send({
-					avatarURL: user_.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: user_.displayAvatarURL({ extension: 'webp' }),
 					username: user_.displayName,
 					embeds: data.embeds,
 					content: data.content,
@@ -45,7 +45,7 @@ export default async function (message: Message) {
 				})
 		: webhook
 				.send({
-					avatarURL: user_.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: user_.displayAvatarURL({ extension: 'webp' }),
 					username: user_.displayName,
 					embeds: data.embeds,
 					content: data.content,

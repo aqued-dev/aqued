@@ -81,7 +81,7 @@ export default {
 			const messageUser: User = interaction.targetMessage.author;
 			webhook
 				.send({
-					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: messageUser.displayAvatarURL({ extension: 'webp' }),
 					username: messageUser.displayName,
 					embeds: [...messageEmbed, ...stickerEmbeds],
 					content: interaction.targetMessage.cleanContent,
@@ -104,7 +104,7 @@ export default {
 			if (!messageUser) messageUser = users.cache.get(interaction.targetMessage.author.id);
 			webhook
 				.send({
-					avatarURL: messageUser.extDefaultAvatarURL({ extension: 'webp' }),
+					avatarURL: messageUser.displayAvatarURL({ extension: 'webp' }),
 					username: messageUser.displayName,
 					embeds: [...messageEmbed, ...stickerEmbeds],
 					content: interaction.targetMessage.cleanContent,
