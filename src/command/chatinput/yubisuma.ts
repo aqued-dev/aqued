@@ -86,8 +86,16 @@ class YubisumaGame {
 
 	private buildStatusFields() {
 		return [
-			{ name: 'あなた', value: `${YubisumaGame.fingerDisplay(this.playerFingers)}（残り${this.playerFingers}本）`, inline: true },
-			{ name: 'CPU', value: `${YubisumaGame.fingerDisplay(this.cpuFingers)}（残り${this.cpuFingers}本）`, inline: true },
+			{
+				name: 'あなた',
+				value: `${YubisumaGame.fingerDisplay(this.playerFingers)}（残り${this.playerFingers}本）`,
+				inline: true,
+			},
+			{
+				name: 'CPU',
+				value: `${YubisumaGame.fingerDisplay(this.cpuFingers)}（残り${this.cpuFingers}本）`,
+				inline: true,
+			},
 		];
 	}
 
@@ -127,7 +135,9 @@ class YubisumaGame {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle('👊 指を出してください')
-					.setDescription(`**${callerLabel}** が宣言者です。\n出す指の本数を選んでください（0〜${this.maxPlayerRaise}本）。`)
+					.setDescription(
+						`**${callerLabel}** が宣言者です。\n出す指の本数を選んでください（0〜${this.maxPlayerRaise}本）。`,
+					)
 					.addFields(this.buildStatusFields())
 					.setColor(Colors.Blue),
 			],
@@ -169,7 +179,7 @@ class YubisumaGame {
 						.setTitle('📣 合計本数を宣言！')
 						.setDescription(
 							`あなたは **${YubisumaGame.raiseLabel(this.playerRaise)}** を出しました。\n` +
-							`合計本数を宣言してください！（0〜${this.maxCall}本）`,
+								`合計本数を宣言してください！（0〜${this.maxCall}本）`,
 						)
 						.addFields(this.buildStatusFields())
 						.setColor(Colors.Orange),
@@ -195,7 +205,6 @@ class YubisumaGame {
 					await this.runResultPhase(Math.floor(Math.random() * (this.maxCall + 1)));
 				}
 			});
-
 		} else {
 			const cpuCalled = this.decideCpuCall();
 
@@ -316,11 +325,11 @@ async function execute(interaction: ChatInputCommandInteraction) {
 				.setTitle('✋ 指スマ / いっせーので')
 				.setDescription(
 					'CPUと対決しましょう！\n\n' +
-					'**ルール**\n' +
-					'- 各自0〜自分の残り指本数を同時に出す\n' +
-					'- 宣言者が合計本数を予想して宣言\n' +
-					'- ピタリなら宣言者の指が1本減る\n' +
-					'- **先に指を0本にした人の勝ち！**',
+						'**ルール**\n' +
+						'- 各自0〜自分の残り指本数を同時に出す\n' +
+						'- 宣言者が合計本数を予想して宣言\n' +
+						'- ピタリなら宣言者の指が1本減る\n' +
+						'- **先に指を0本にした人の勝ち！**',
 				)
 				.setColor(Colors.Blue)
 				.setFooter({ text: '準備ができたらスタートボタンを押してください' }),
