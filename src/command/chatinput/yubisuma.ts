@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import {
 	ActionRowBuilder,
+	ApplicationIntegrationType,
 	ButtonBuilder,
 	ButtonInteraction,
 	ButtonStyle,
@@ -8,9 +9,9 @@ import {
 	Colors,
 	ComponentType,
 	EmbedBuilder,
+	InteractionContextType,
 	Message,
 } from 'discord.js';
-import { ApplicationIntegrationType, InteractionContextType } from '../../utils/extrans.js';
 
 // ===========================
 // 型定義
@@ -150,7 +151,7 @@ async function runCallPhase(interaction: ChatInputCommandInteraction, message: M
 					.setTitle('📣 合計本数を宣言！')
 					.setDescription(
 						`あなたは **${raiseLabel(game.playerRaise!)}** を出しました。\n` +
-							`合計本数を宣言してください！（0〜${max}本）`,
+						`合計本数を宣言してください！（0〜${max}本）`,
 					)
 					.addFields(buildStatusFields(game))
 					.setColor(Colors.Orange),
@@ -307,11 +308,11 @@ export default {
 					.setTitle('✋ 指スマ / いっせーので')
 					.setDescription(
 						'CPUと対決しましょう！\n\n' +
-							'**ルール**\n' +
-							'- 各自0〜自分の残り指本数を同時に出す\n' +
-							'- 宣言者が合計本数を予想して宣言\n' +
-							'- ピタリなら宣言者の指が1本減る\n' +
-							'- **先に指を0本にした人の勝ち！**',
+						'**ルール**\n' +
+						'- 各自0〜自分の残り指本数を同時に出す\n' +
+						'- 宣言者が合計本数を予想して宣言\n' +
+						'- ピタリなら宣言者の指が1本減る\n' +
+						'- **先に指を0本にした人の勝ち！**',
 					)
 					.setColor(Colors.Blue)
 					.setFooter({ text: '準備ができたらスタートボタンを押してください' }),
