@@ -9,6 +9,8 @@ import {
   EmbedBuilder,
   Message,
   SlashCommandBuilder,
+  ApplicationIntegrationType,
+  InteractionContextType,
 } from "discord.js";
 
 // ===========================
