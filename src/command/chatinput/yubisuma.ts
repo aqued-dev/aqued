@@ -4,29 +4,14 @@ import {
 	ButtonInteraction,
 	ButtonStyle,
 	ChatInputCommandInteraction,
-	Client,
 	Colors,
 	ComponentType,
 	EmbedBuilder,
-	GatewayIntentBits,
-	Interaction,
 	Message,
 	REST,
 	Routes,
 	SlashCommandBuilder,
 } from 'discord.js';
-import 'dotenv/config';
-
-// ===========================
-// 環境変数
-// ===========================
-const TOKEN = process.env.DISCORD_TOKEN!;
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID!;
-
-if (!TOKEN || !CLIENT_ID) {
-	console.error('❌ .env に DISCORD_TOKEN と DISCORD_CLIENT_ID を設定してください');
-	process.exit(1);
-}
 
 // ===========================
 // ゲームクラス
@@ -388,41 +373,3 @@ async function execute(interaction: ChatInputCommandInteraction) {
 const command = new SlashCommandBuilder()
 	.setName('yubisuma')
 	.setDescription('指スマ / いっせーので をCPUと1対1で対戦します！');
-
-async function registerCommands() {
-	const rest = new REST({ version: '10' }).setToken(TOKEN);
-	console.log('⏳ スラッシュコマンドを登録中...');
-	await rest.put(Routes.applicationCommands(CLIENT_ID), {
-		body: [command.toJSON()],
-	});
-	console.log('✅ スラッシュコマンドの登録完了');
-}
-
-// ===========================
-// Client
-// ===========================
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-client.once('clientReady', () => {
-	console.log(`✅ Bot起動完了: ${client.user?.tag}`);
-});
-
-client.on('interactionCreate', async (interaction: Interaction) => {
-	if (!interaction.isChatInputCommand()) return;
-	if (interaction.commandName !== 'yubisuma') return;
-	await execute(interaction);
-});
-
-// ===========================
-// 起動
-// ===========================
-(async () => {
-	await registerCommands();
-	await client.login(TOKEN);
-})();
-
-process.on('SIGINT', () => {
-	console.log('\n👋 Botをシャットダウンします...');
-	client.destroy();
-	process.exit(0);
-});
