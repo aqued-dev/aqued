@@ -38,9 +38,9 @@
 	"engines": {
 		"node": ">=20.11.0"
 	},
-	"packageManager": "pnpm@10.11.0",
+	"packageManager": "pnpm@10.30.2",
 	"volta": {
-		"node": "22.16.0",
-		"pnpm": "10.11.0"
+		"node": "24.13.1",
+		"pnpm": "10.30.2"
 	}
 }
