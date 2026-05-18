@@ -393,11 +393,11 @@ packages:
   bignumber.js@9.3.1:
     resolution: {integrity: sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==}
 
-  brace-expansion@1.1.12:
-    resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
+  brace-expansion@1.1.14:
+    resolution: {integrity: sha512-MWPGfDxnyzKU7rNOW9SP/c50vi3xrmrua/+6hfPbCS2ABNWfx24vPidzvC7krjU/RTo235sV776ymlsMtGKj8g==}
 
-  brace-expansion@5.0.3:
-    resolution: {integrity: sha512-fy6KJm2RawA5RcHkLa1z/ScpBeA762UF9KmZQxwIbDtRJrgLzM10depAiEQ+CXYcoiqW1/m96OAAoke2nE9EeA==}
+  brace-expansion@5.0.6:
+    resolution: {integrity: sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==}
     engines: {node: 18 || 20 || >=22}
 
   browserslist@4.28.1:
@@ -668,6 +668,7 @@ packages:
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@6.0.2:
@@ -1630,12 +1631,12 @@ snapshots:
 
   bignumber.js@9.3.1: {}
 
-  brace-expansion@1.1.12:
+  brace-expansion@1.1.14:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
 
-  brace-expansion@5.0.3:
+  brace-expansion@5.0.6:
     dependencies:
       balanced-match: 4.0.4
 
@@ -2081,11 +2082,11 @@ snapshots:
 
   minimatch@10.2.2:
     dependencies:
-      brace-expansion: 5.0.3
+      brace-expansion: 5.0.6
 
   minimatch@3.1.2:
     dependencies:
-      brace-expansion: 1.1.12
+      brace-expansion: 1.1.14
 
   minimist@1.2.8: {}
 
