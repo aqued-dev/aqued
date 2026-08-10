@@ -16,7 +16,7 @@ async function dissoku(newMessage: Message) {
 	if (
 		newMessage.embeds[0] &&
 		newMessage.embeds[0].fields[0] &&
-		newMessage.embeds[0].fields[0].value.includes('ActiveLevel')
+		newMessage.embeds[0].fields[0].name.includes('をアップしたよ!')
 	) {
 		if (newMessage.channel.type === ChannelType.GuildText)
 			newMessage.channel.send({
