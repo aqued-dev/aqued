@@ -67,6 +67,11 @@ client.botData = {
 		messages: newMongoDB('globalChatMessages'),
 		blocks: newMongoDB('globalChatblocks'),
 	},
+	newGlobalChat: {
+		register: newMongoDB('newGlobalChatRegister'),
+		messages: newMongoDB('newGlobalChatMessages'),
+		blocks: newMongoDB('newGlobalChatBlocks'),
+	},
 	superGlobalChat: {
 		register: newMongoDB('superGlobalChatRegister'),
 		messages: newMongoDB('superGlobalChatMessages'),
