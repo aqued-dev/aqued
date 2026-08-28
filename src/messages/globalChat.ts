@@ -86,7 +86,7 @@ export default async function (message: Message) {
 					.setDescription(truncateContent(repliedMessage.cleanContent) || '(内容がありません)'),
 			);
 
-			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信元メッセージ');
+			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信先メッセージ');
 		}
 
 		await sender(

@@ -104,7 +104,7 @@ async function globalChat(message: Message) {
 					.setDescription(truncateContent(repliedMessage.cleanContent)),
 			);
 
-			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信元メッセージ');
+			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信先メッセージ');
 		}
 
 		await sender(
