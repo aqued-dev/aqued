@@ -39,9 +39,10 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
-		await interaction.deferReply({ ephemeral: true });
 		switch (interaction.options.getSubcommand()) {
 			case 'globalmessagedelete': {
+				await interaction.deferReply({ ephemeral: true });
+
 				const messages: undefined | { channelId: string; messageId: string }[] =
 					await interaction.client.botData.globalChat.messages.get(interaction.options.getString('mid'));
 				if (!messages) await interaction.error('削除できません', 'メッセージが見つかりません。', true);
@@ -80,6 +81,7 @@ export default {
 				break;
 			}
 			case 'iconsync': {
+				await interaction.deferReply({ ephemeral: true });
 				const { register } = interaction.client.botData.newGlobalChat;
 
 				const registers = await register.values();
