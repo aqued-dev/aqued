@@ -86,7 +86,11 @@ export default async function (message: Message) {
 					.setDescription(truncateContent(repliedMessage.cleanContent) || '(内容がありません)'),
 			);
 
-			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信先メッセージ');
+			button = new ButtonBuilder()
+				.setStyle(ButtonStyle.Link)
+				.setLabel('返信先メッセージ')
+				.setURL('https://example.com/')
+				.setDisabled(true);
 		}
 
 		await sender(
@@ -189,22 +193,18 @@ export const sender = async (
 		try {
 			const webhook = new WebhookClient({ id: value.webhook.id, token: value.webhook.token });
 
-			const targetData: WebhookMessageCreateOptions = { ...data };
-
 			if (repliedMessageId && button) {
-				const targetButton = ButtonBuilder.from(button).setURL('https://example.com/').setDisabled(true);
-
 				if (repliedMessageRecord) {
 					const relayMessage = repliedMessageRecord.relays.find((d) => d.channelId === key) || {
 						guildId: repliedMessageRecord.guildId,
 						channelId: repliedMessageRecord.channelId,
 						id: repliedMessageId,
 					};
-					targetButton
+					button
 						.setURL(`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`)
 						.setDisabled(false);
 				}
-				targetData.components = [new ActionRowBuilder<ButtonBuilder>().addComponents(targetButton)];
+				data.components = [new ActionRowBuilder<ButtonBuilder>().addComponents(button)];
 			}
 
 			if (edit) {
@@ -212,10 +212,10 @@ export const sender = async (
 				const relayMessage = editMessageRecord?.relays?.find((d) => d.channelId === key);
 				if (!relayMessage) return;
 
-				await webhook.editMessage(relayMessage.id, targetData as WebhookMessageEditOptions);
+				await webhook.editMessage(relayMessage.id, data as WebhookMessageEditOptions);
 				return;
 			} else {
-				const message = await webhook.send(targetData);
+				const message = await webhook.send(data);
 				await messageIndex.set(message.id, id);
 				relays.push({ guildId: value.guildId, channelId: message.channel_id, id: message.id });
 				return;
