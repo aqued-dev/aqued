@@ -195,14 +195,20 @@ export const sender = async (
 
 			if (repliedMessageId && button) {
 				if (repliedMessageRecord) {
-					const relayMessage = repliedMessageRecord.relays.find((d) => d.channelId === key) || {
-						guildId: repliedMessageRecord.guildId,
-						channelId: repliedMessageRecord.channelId,
-						id: repliedMessageId,
-					};
-					button
-						.setURL(`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`)
-						.setDisabled(false);
+					const relayMessage = repliedMessageRecord.relays.find((d) => d.channelId === key);
+					if (relayMessage) {
+						button
+							.setURL(
+								`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`,
+							)
+							.setDisabled(false);
+					} else if (repliedMessageRecord.channelId === key) {
+						button
+							.setURL(
+								`https://discord.com/channels/${repliedMessageRecord.guildId}/${repliedMessageRecord.channelId}/${editIndexed ?? indexedForReply}`,
+							)
+							.setDisabled(false);
+					}
 				}
 				data.components = [new ActionRowBuilder<ButtonBuilder>().addComponents(button)];
 			}
