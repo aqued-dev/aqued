@@ -83,7 +83,7 @@ export default async function (message: Message) {
 						name: userFormat(repliedMessage.author),
 						iconURL: avatarUrl(repliedMessage.author),
 					})
-					.setDescription(truncateContent(repliedMessage.cleanContent)),
+					.setDescription(truncateContent(repliedMessage.cleanContent) || '(内容がありません)'),
 			);
 
 			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信元メッセージ');
