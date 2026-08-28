@@ -14,7 +14,7 @@ import { translatePermission } from '../../utils/permission.js';
 import { userFormat } from '../../utils/userFormat.js';
 
 export interface NewGlobalChatRegisterData {
-	webhook: { id: string; token: string; avatar: string };
+	webhook: { id: string; token: string };
 	guildId: string;
 }
 
@@ -114,7 +114,7 @@ export default {
 			});
 
 			await register.set(channel.id, {
-				webhook: { id: webhook.id, token: webhook.token, avatar },
+				webhook: { id: webhook.id, token: webhook.token },
 				guildId: interaction.guild.id,
 			});
 

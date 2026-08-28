@@ -238,7 +238,6 @@ export const sender = async (
 							webhook: {
 								id: webhook.id,
 								token: webhook.token,
-								avatar,
 							},
 							guildId: guild.id,
 						});
