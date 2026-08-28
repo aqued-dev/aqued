@@ -124,7 +124,6 @@ export const files = (attachments: Message['attachments']): AttachmentBuilder[] 
 };
 
 export const truncateContent = (content: string, maxLength = 1500): string => {
-	if (!content) return '内容がありません。';
 	return content.length <= maxLength ? content : `${content.slice(0, maxLength)}...`;
 };
 

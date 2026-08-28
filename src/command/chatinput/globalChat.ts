@@ -45,6 +45,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		await interaction.deferReply({ ephemeral: false });
 		const channel = interaction.options.getChannel('channel', false, [ChannelType.GuildText]) || interaction.channel;
 
 		if (!interaction.guild || channel?.type !== ChannelType.GuildText) {
