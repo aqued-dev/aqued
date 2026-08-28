@@ -1,6 +1,5 @@
 import {
 	ApplicationIntegrationType,
-	ChannelType,
 	ChatInputCommandInteraction,
 	InteractionContextType,
 	LabelBuilder,
@@ -8,7 +7,6 @@ import {
 	SlashCommandBuilder,
 	TextInputBuilder,
 	TextInputStyle,
-	Webhook,
 	WebhookClient,
 } from 'discord.js';
 

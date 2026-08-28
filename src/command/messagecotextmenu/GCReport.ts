@@ -35,7 +35,12 @@ export default {
 				if (channel?.isSendable()) {
 					channel.send({
 						content: interaction.client.botData.mods.map((v) => `<@${v}>`).join(', '),
-						embeds: [new EmbedBuilder().setColor(Colors.Red).setTitle('通報').setDescription(`MID: ${mId}\n報告者: ${userFormat(interaction.user)}`)],
+						embeds: [
+							new EmbedBuilder()
+								.setColor(Colors.Red)
+								.setTitle('通報')
+								.setDescription(`MID: ${mId}\n報告者: ${userFormat(interaction.user)}`),
+						],
 						components: [
 							new ActionRowBuilder<ButtonBuilder>().addComponents(
 								new ButtonBuilder()
