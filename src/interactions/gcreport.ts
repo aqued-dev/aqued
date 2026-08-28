@@ -20,14 +20,13 @@ export default async function (interaction: BaseInteraction) {
 			}))
 			.filter((t): t is typeof t & { relayMessageId: string } => !!t.relayMessageId);
 
-		// 5件ずつのチャンクに分割して順番に処理
 		for (let i = 0; i < targets.length; i += CONCURRENCY) {
 			const chunk = targets.slice(i, i + CONCURRENCY);
 			await Promise.allSettled(
 				chunk.map(async ({ webhookId, webhookToken, relayMessageId }) => {
 					const webhook = new WebhookClient({ id: webhookId, token: webhookToken });
 					await webhook.deleteMessage(relayMessageId);
-				})
+				}),
 			);
 		}
 
