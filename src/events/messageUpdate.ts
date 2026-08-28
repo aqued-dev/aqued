@@ -1,15 +1,17 @@
 import {
-	AttachmentBuilder,
+	ButtonBuilder,
+	ButtonStyle,
 	ChannelType,
 	Colors,
 	EmbedBuilder,
 	Events,
 	Message,
 	MessageType,
-	StickerFormatType,
 	Webhook,
 } from 'discord.js';
+import { avatarUrl, files, inviteUrls, sender, stickerEmbeds, truncateContent } from '../messages/globalChat.js';
 import { MessageEditData } from '../utils/SuperGlobalChatType.js';
+import { userFormat } from '../utils/userFormat.js';
 async function dissoku(newMessage: Message) {
 	if (!(await newMessage.client.botData.guildUpNotice.dissoku.get(newMessage.guildId))) return;
 	if (newMessage.author.id !== '761562078095867916') return;
@@ -55,68 +57,76 @@ async function dissoku(newMessage: Message) {
 		}, 7_200_000);
 	}
 }
-async function globalChat(newMessage: Message) {
-	const user = newMessage.author;
+async function globalChat(message: Message) {
+	const user = message.author;
+	const channel = message.channel;
+	const { register, messages, messageIndex } = message.client.botData.newGlobalChat;
+	const registed = Boolean(await register.get(channel.id));
 
+	// 未登録のチャンネルの場合は無視する
+	if (!registed) {
+		return;
+	}
+	// チャンネルがテキストチャンネルでない場合は無視する
+	if (channel.type !== ChannelType.GuildText) return;
+	// Bot / System / Webhook のメッセージを無視する
 	if (user.bot || user.system || user.discriminator === '0000') return;
-	if (newMessage.channel.type !== ChannelType.GuildText) return;
-	if (!(await newMessage.client.botData.globalChat.register.get(newMessage.channelId))) return;
 
-	const messages: undefined | { channelId: string; messageId: string }[] =
-		await newMessage.client.botData.globalChat.messages.get(newMessage.id);
-	for (const value of messages) {
-		const channel = newMessage.client.channels.cache.get(value.channelId);
-		if (!channel) continue;
-		if (channel.type !== ChannelType.GuildText) continue;
-		const webhooks = await channel.fetchWebhooks();
-		const webhook: Webhook =
-			!webhooks.some((value) => value.name === 'Aqued') ||
-			webhooks.find((value) => value.name === 'Aqued').owner.id !== newMessage.client.user.id
-				? await channel.createWebhook({ name: 'Aqued' })
-				: webhooks.find((value) => value.name === 'Aqued');
-		const attachments: Array<string | AttachmentBuilder> = [];
-		if (newMessage.attachments.size > 0) {
-			newMessage.attachments.map((attachment) =>
-				attachments.push(attachment.spoiler ? new AttachmentBuilder(attachment.url).setSpoiler(true) : attachment.url),
+	try {
+		const inviteDetected = [
+			inviteUrls.dicoall,
+			inviteUrls.disboard,
+			inviteUrls.discoparty,
+			inviteUrls.discord,
+			inviteUrls.discordCafe,
+			inviteUrls.dissoku,
+			inviteUrls.sabach,
+			inviteUrls.distopia,
+		].some((regex) => regex.test(message.cleanContent.toLowerCase()));
+
+		if (inviteDetected) return;
+
+		const embeds = stickerEmbeds(message.stickers);
+		let button: ButtonBuilder | undefined = undefined;
+		let repliedMessageId: string | undefined = undefined;
+
+		if (message.type === MessageType.Reply) {
+			const repliedMessage = await message.fetchReference();
+
+			repliedMessageId = repliedMessage.id;
+			embeds.push(
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
+					.setAuthor({
+						name: userFormat(repliedMessage.author),
+						iconURL: avatarUrl(repliedMessage.author),
+					})
+					.setDescription(truncateContent(repliedMessage.cleanContent)),
 			);
-		}
-		const stickerEmbeds: EmbedBuilder[] = [];
-		if (newMessage.stickers.size > 0) {
-			if (newMessage.stickers.first().format === StickerFormatType.Lottie)
-				stickerEmbeds.push(
-					new EmbedBuilder().setColor(Colors.Blue).setDescription('このスタンプに対応していないため、表示できません。'),
-				);
-			else
-				stickerEmbeds.push(
-					new EmbedBuilder().setTitle('スタンプ').setColor(Colors.Blue).setImage(newMessage.stickers.first().url),
-				);
+
+			button = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('返信元メッセージ');
 		}
 
-		const content =
-			newMessage.cleanContent.slice(0, 1500) === newMessage.cleanContent
-				? newMessage.cleanContent
-				: `${newMessage.cleanContent.slice(0, 1500)}...` || '内容がありません。';
-		if (newMessage.type === MessageType.Reply) {
-			const repliedMessage = await newMessage.fetchReference();
-			const embed = new EmbedBuilder()
-				.setAuthor({
-					name:
-						repliedMessage.author.discriminator === '0'
-							? repliedMessage.author.globalName
-								? `${repliedMessage.author.globalName}(@${repliedMessage.author.username})`
-								: `@${repliedMessage.author.username}`
-							: `${repliedMessage.author.username}#${repliedMessage.author.discriminator}`,
-					iconURL: repliedMessage.author.displayAvatarURL({ extension: 'webp' }),
-				})
-				.setDescription(repliedMessage.content ?? 'メッセージの内容がありません。')
-				.setColor(Colors.Blue);
-			stickerEmbeds.push(embed);
-		}
-		webhook.editMessage(value.messageId, {
-			content,
-			files: attachments,
-			embeds: stickerEmbeds,
-		});
+		await sender(
+			register,
+			messages,
+			messageIndex,
+			{
+				content: truncateContent(message.cleanContent),
+				avatarURL: avatarUrl(message.author),
+				embeds,
+				files: files(message.attachments),
+				username: userFormat(message.author),
+				allowedMentions: { parse: [] },
+			},
+			message,
+			button,
+			true,
+			repliedMessageId,
+		);
+		message.react('✅');
+	} catch (error) {
+		console.error(error);
 	}
 }
 async function superGlobalChat(newMessage: Message) {

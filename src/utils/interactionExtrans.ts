@@ -41,7 +41,16 @@ declare module 'discord.js' {
 	}
 }
 async function error(title: string, description: string, ephemeral: boolean) {
-	if (this.deferred || this.replied)
+	if (this.deferred)
+		return await this.editReply({
+			embeds: [
+				new EmbedBuilder()
+					.setColor(Colors.Red)
+					.setTitle('❌ ' + title)
+					.setDescription(description),
+			],
+		});
+	if (this.replied)
 		return await this.followUp({
 			embeds: [
 				new EmbedBuilder()
@@ -63,7 +72,17 @@ async function error(title: string, description: string, ephemeral: boolean) {
 	});
 }
 async function ok(title: string, description: string, ephemeral: boolean) {
-	if (this.deferred || this.replied)
+	if (this.deferred)
+		return await this.editReply({
+			embeds: [
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
+					.setTitle('✅ ' + title)
+					.setDescription(description),
+			],
+		});
+
+	if (this.replied)
 		return await this.followUp({
 			flags: ephemeral ? MessageFlags.Ephemeral : [],
 			embeds: [

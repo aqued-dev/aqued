@@ -1,6 +1,6 @@
 {
 	"name": "aqued",
-	"version": "3.6.1",
+	"version": "3.7.0",
 	"description": "Discord Bot",
 	"main": "dist/index.js",
 	"author": "aqued-dev",
@@ -14,7 +14,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"discord.js": "^14.25.1",
+		"discord.js": "^14.27.0",
 		"json-bigint": "^1.0.0",
 		"mongoose": "^9.2.2",
 		"typescript": "^5.9.3"

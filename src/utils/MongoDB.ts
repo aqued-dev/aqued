@@ -34,7 +34,7 @@ export interface DataDocument extends Document {
 /**
  * The MongoDB class provides methods for manipulating the database.
  */
-export class MongoDB {
+export class MongoDB<Data=any> {
 	public name: string;
 	public model: mongoose.Model<DataDocument>;
 
@@ -69,9 +69,9 @@ export class MongoDB {
 	/**
 	 * Retrieves the value associated with the specified key.
 	 * @param {string} key - The key to retrieve the value for.
-	 * @returns {Promise<any>} - A Promise that resolves with the retrieved value or undefined if the key does not exist.
+	 * @returns {Promise<Data | undefined>} - A Promise that resolves with the retrieved value or undefined if the key does not exist.
 	 */
-	async get(key: string): Promise<any> {
+	async get(key: string): Promise<Data | undefined> {
 		const document = await this.model.findOne({ key });
 		return document ? parse(decrypt(document.value)) : undefined;
 	}
@@ -79,10 +79,10 @@ export class MongoDB {
 	/**
 	 * Sets the value associated with the specified key.
 	 * @param {string} key - The key to set the value for.
-	 * @param {any} value - The value to be set.
+	 * @param {Data} value - The value to be set.
 	 * @returns {Promise<void>} - A Promise that resolves when the operation is complete.
 	 */
-	async set(key: string, value: any): Promise<void> {
+	async set(key: string, value: Data): Promise<void> {
 		const encryptedValue = encrypt(stringify(value));
 		await this.model.findOneAndUpdate({ key }, { value: encryptedValue }, { upsert: true });
 	}
@@ -106,11 +106,11 @@ export class MongoDB {
 
 	/**
 	 * Retrieves all entries in the database as an array of key-value pairs.
-	 * @returns {Promise<Array<{ key: string; value: any }>>} - A Promise that resolves with an array of key-value pairs.
+	 * @returns {Promise<Array<{ key: string; value: Data }>>} - A Promise that resolves with an array of key-value pairs.
 	 */
-	async list(): Promise<Array<{ key: string; value: any }>> {
+	async list(): Promise<Array<{ key: string; value: Data }>> {
 		const documents = await this.model.find();
-		const data: Array<{ key: string; value: any }> = [];
+		const data: Array<{ key: string; value: Data }> = [];
 		for (const document of documents) {
 			data.push({ key: document.key, value: parse(decrypt(document.value)) });
 		}
@@ -128,9 +128,9 @@ export class MongoDB {
 
 	/**
 	 * Retrieves all values in the database.
-	 * @returns {Promise<any[]>} - A Promise that resolves with an array of values.
+	 * @returns {Promise<Data[]>} - A Promise that resolves with an array of values.
 	 */
-	async values(): Promise<any[]> {
+	async values(): Promise<Data[]> {
 		const data = await this.model.find();
 		return data.map((value) => parse(decrypt(value.value)));
 	}

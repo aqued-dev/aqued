@@ -1,6 +1,5 @@
 import {
 	ActivityType,
-	ChannelType,
 	Client,
 	Collection,
 	Colors,
@@ -10,7 +9,7 @@ import {
 	REST,
 	Routes,
 	SlashCommandBuilder,
-	SnowflakeUtil,
+	SnowflakeUtil
 } from 'discord.js';
 import { readdir } from 'node:fs/promises';
 import { exit } from 'node:process';
@@ -70,7 +69,7 @@ client.botData = {
 	newGlobalChat: {
 		register: newMongoDB('newGlobalChatRegister'),
 		messages: newMongoDB('newGlobalChatMessages'),
-		blocks: newMongoDB('newGlobalChatBlocks'),
+		messageIndex: newMongoDB('newGlobalChatMessageIndex'),
 	},
 	superGlobalChat: {
 		register: newMongoDB('superGlobalChatRegister'),
@@ -208,7 +207,7 @@ process.on('uncaughtException', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (channel.type === ChannelType.GuildText) {
+		if (channel?.isSendable()) {
 			channel.send({
 				embeds: [
 					new EmbedBuilder()
@@ -226,7 +225,7 @@ process.on('unhandledRejection', (error) => {
 	errors.set(errorId.toString(), inspect(error).slice(0, 1800));
 
 	client.channels.fetch(errorChannelId).then(async (channel) => {
-		if (channel.type === ChannelType.GuildText) {
+		if (channel?.isSendable()) {
 			channel.send({
 				embeds: [
 					new EmbedBuilder()

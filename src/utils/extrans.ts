@@ -4,6 +4,7 @@ import {
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody,
 } from 'discord.js';
+import { NewGlobalChatMessageData, NewGlobalChatRegisterData } from '../command/chatinput/globalChat.js';
 
 import './interactionExtrans.js';
 import { MongoDB } from './MongoDB.js';
@@ -47,7 +48,11 @@ declare module 'discord.js' {
 			botLogChannelId: string;
 			verifyPanel: MongoDB;
 			globalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
-			newGlobalChat: { register: MongoDB; messages: MongoDB; blocks: MongoDB };
+			newGlobalChat: {
+				register: MongoDB<NewGlobalChatRegisterData>;
+				messages: MongoDB<NewGlobalChatMessageData>;
+				messageIndex: MongoDB<string>;
+			};
 			superGlobalChat: { register: MongoDB; messages: MongoDB; replyMessages: MongoDB };
 			aquedAutoNews: MongoDB;
 			memo: MongoDB;

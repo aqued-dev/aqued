@@ -9,6 +9,7 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 	Webhook,
+	WebhookClient,
 } from 'discord.js';
 
 export default {
@@ -23,18 +24,8 @@ export default {
 		)
 		.addSubcommand((input) =>
 			input
-				.setName('globalchatban')
-				.setDescription('(botモデレーター専用コマンド)グローバルチャットBanを行います。')
-				.addUserOption((input) => input.setName('user').setDescription('対象ユーザー').setRequired(true))
-				.addStringOption((input) =>
-					input.setName('reason').setDescription('グローバルチャットBanする理由').setRequired(true),
-				),
-		)
-		.addSubcommand((input) =>
-			input
-				.setName('globalchatunban')
-				.setDescription('(botモデレーター専用コマンド)グローバルチャットBan解除を行います。')
-				.addUserOption((input) => input.setName('user').setDescription('対象ユーザー').setRequired(true)),
+				.setName('iconsync')
+				.setDescription('(botモデレーター専用コマンド)グローバルチャットのwebhookのアイコンを同期します'),
 		)
 		.addSubcommand((input) =>
 			input
@@ -48,6 +39,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		await interaction.deferReply({ ephemeral: true });
 		switch (interaction.options.getSubcommand()) {
 			case 'globalmessagedelete': {
 				const messages: undefined | { channelId: string; messageId: string }[] =
@@ -69,21 +61,6 @@ export default {
 				await interaction.ok('削除しました。', 'メッセージを削除しました。', true);
 				break;
 			}
-			case 'globalchatban': {
-				const { blocks } = interaction.client.botData.globalChat;
-				const user = interaction.options.getUser('user');
-				const reason = interaction.options.getString('reason');
-				await blocks.set(user.id, reason);
-				await interaction.ok('グローバルチャットBanに成功', 'グローバルチャットBanが完了しました。', true);
-				break;
-			}
-			case 'globalchatunban': {
-				const { blocks } = interaction.client.botData.globalChat;
-				const user = interaction.options.getUser('user');
-				await blocks.delete(user.id);
-				await interaction.ok('グローバルチャットBan解除に成功', 'グローバルチャットBan解除が完了しました。', true);
-				break;
-			}
 			case 'globalchataquedsystem': {
 				const modal = new ModalBuilder()
 					.setTitle('Aqued System Message')
@@ -100,6 +77,21 @@ export default {
 				modal.addLabelComponents(label);
 
 				await interaction.showModal(modal);
+				break;
+			}
+			case 'iconsync': {
+				const { register } = interaction.client.botData.newGlobalChat;
+
+				const registers = await register.values();
+
+				for (const { webhook } of registers) {
+					const { id, token } = webhook;
+					const webhookClient = new WebhookClient({ id, token });
+
+					await webhookClient.edit({ avatar: interaction.client.user.displayAvatarURL({ extension: 'webp' }) });
+				}
+
+				await interaction.ok('変更しました', '変更しました', true);
 				break;
 			}
 		}
