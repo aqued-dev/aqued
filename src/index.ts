@@ -9,7 +9,7 @@ import {
 	REST,
 	Routes,
 	SlashCommandBuilder,
-	SnowflakeUtil
+	SnowflakeUtil,
 } from 'discord.js';
 import { readdir } from 'node:fs/promises';
 import { exit } from 'node:process';

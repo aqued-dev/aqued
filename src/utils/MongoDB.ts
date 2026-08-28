@@ -34,7 +34,7 @@ export interface DataDocument extends Document {
 /**
  * The MongoDB class provides methods for manipulating the database.
  */
-export class MongoDB<Data=any> {
+export class MongoDB<Data = any> {
 	public name: string;
 	public model: mongoose.Model<DataDocument>;
 
