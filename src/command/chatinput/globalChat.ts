@@ -141,11 +141,18 @@ export default {
 	},
 };
 
+const CONCURRENCY = 10;
+
 export const systemSender = async (register: MongoDB, embed: EmbedBuilder, avatarURL: string) => {
 	const registers = await register.values();
 
-	for (const register of registers) {
-		const webhook = new WebhookClient({ id: register.webhook.id, token: register.webhook.token });
-		await webhook.send({ embeds: [embed], username: 'Aqued System', avatarURL });
+	for (let i = 0; i < registers.length; i += CONCURRENCY) {
+		const chunk = registers.slice(i, i + CONCURRENCY);
+		await Promise.allSettled(
+			chunk.map(async (r) => {
+				const webhook = new WebhookClient({ id: r.webhook.id, token: r.webhook.token });
+				await webhook.send({ embeds: [embed], username: 'Aqued System', avatarURL });
+			}),
+		);
 	}
 };

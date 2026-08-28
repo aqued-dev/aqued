@@ -146,6 +146,8 @@ export const avatarUrl = (user: User): string => {
 		return user.displayAvatarURL({ extension: 'webp' });
 	}
 };
+const CONCURRENCY = 10;
+
 export const sender = async (
 	register: MongoDB<NewGlobalChatRegisterData>,
 	messages: MongoDB<NewGlobalChatMessageData>,
@@ -161,99 +163,115 @@ export const sender = async (
 	const relays: NewGlobalChatMessageRelayData[] = [];
 	await messageIndex.set(id, id);
 
-	for (const registedData of registers) {
+	let repliedMessageRecord: NewGlobalChatMessageData | undefined;
+	if (repliedMessageId && button) {
+		const indexed = await messageIndex.get(repliedMessageId);
+		if (indexed) {
+			repliedMessageRecord = (await messages.get(indexed)) ?? undefined;
+		}
+	}
+
+	let editMessageRecord: NewGlobalChatMessageData | undefined;
+	let editIndexed: string | undefined;
+	if (edit) {
+		editIndexed = await messageIndex.get(id);
+		if (editIndexed) {
+			editMessageRecord = (await messages.get(editIndexed)) ?? undefined;
+		}
+	}
+
+	const targets = registers.filter((r) => r.key !== channel.id);
+
+	const sendToTarget = async (registedData: (typeof targets)[number]) => {
 		const key = registedData.key;
 		const value = registedData.value as NewGlobalChatRegisterData;
 
-		if (key === channel.id) continue;
 		try {
 			const webhook = new WebhookClient({ id: value.webhook.id, token: value.webhook.token });
 
+			const targetData: WebhookMessageCreateOptions = { ...data };
+
 			if (repliedMessageId && button) {
-				button.setURL('https://example.com/').setDisabled(true);
+				const targetButton = ButtonBuilder.from(button).setURL('https://example.com/').setDisabled(true);
 
-				const indexed = await messageIndex.get(repliedMessageId);
-				if (indexed) {
-					const message = await messages.get(indexed);
-					if (message) {
-						const relayMessage = message.relays.find((d) => d.channelId === key) || {
-							guildId: message.guildId,
-							channelId: message.channelId,
-							id: indexed,
-						};
-						button
-							.setURL(
-								`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`,
-							)
-							.setDisabled(false);
-					}
+				if (repliedMessageRecord) {
+					const relayMessage = repliedMessageRecord.relays.find((d) => d.channelId === key) || {
+						guildId: repliedMessageRecord.guildId,
+						channelId: repliedMessageRecord.channelId,
+						id: repliedMessageId,
+					};
+					targetButton
+						.setURL(`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`)
+						.setDisabled(false);
 				}
-				data.components = [new ActionRowBuilder<ButtonBuilder>().addComponents(button)];
+				targetData.components = [new ActionRowBuilder<ButtonBuilder>().addComponents(targetButton)];
 			}
+
 			if (edit) {
-				const indexed = await messageIndex.get(id);
-				if (indexed) {
-					const message = await messages.get(indexed);
-					const relayMessage = message?.relays?.find((d) => d.channelId === key);
-					if (!relayMessage) continue;
+				if (!editIndexed) return;
+				const relayMessage = editMessageRecord?.relays?.find((d) => d.channelId === key);
+				if (!relayMessage) return;
 
-					await webhook.editMessage(relayMessage.id, data as WebhookMessageEditOptions);
-				}
+				await webhook.editMessage(relayMessage.id, targetData as WebhookMessageEditOptions);
+				return;
 			} else {
-				const message = await webhook.send(data);
+				const message = await webhook.send(targetData);
 				await messageIndex.set(message.id, id);
-
 				relays.push({ guildId: value.guildId, channelId: message.channel_id, id: message.id });
+				return;
 			}
 		} catch (error) {
 			console.log(error);
 			if (error instanceof DiscordAPIError) {
 				if (error.code === 10015 || error.code === 50027) {
-					const channel = client.channels.cache.get(key) || (await client.channels.fetch(key));
+					const targetChannel = client.channels.cache.get(key) || (await client.channels.fetch(key));
 
-					if (channel?.type === ChannelType.GuildText) {
+					if (targetChannel?.type === ChannelType.GuildText) {
 						let reason = '削除されていたため再生成しました';
 
 						if (error.code === 50027) {
 							reason = '使用不可になっていたため';
 
-							const webhooks = await channel.fetchWebhooks();
-							webhooks
+							const webhooks = await targetChannel.fetchWebhooks();
+							const deletions = webhooks
 								.filter(
 									(webhook) =>
 										webhook.name === 'Aqued' &&
 										(webhook.owner?.id === client.user.id || webhook.applicationId === client.user.id),
 								)
 								.map((webhook) => webhook.delete(reason));
+							await Promise.allSettled(deletions);
 						}
+
 						const avatar = client.user.displayAvatarURL({ extension: 'webp' });
-						const webhook = await channel.createWebhook({
+						const newWebhook = await targetChannel.createWebhook({
 							name: 'Aqued',
 							avatar,
 							reason,
 						});
 
 						await register.set(key, {
-							webhook: {
-								id: webhook.id,
-								token: webhook.token,
-							},
+							webhook: { id: newWebhook.id, token: newWebhook.token },
 							guildId: guild.id,
 						});
 
-						const message = await webhook.send(data);
+						const message = await newWebhook.send(data);
 						await messageIndex.set(message.id, id);
-
 						relays.push({ guildId: message.guildId, channelId: message.channelId, id: message.id });
-
-						continue;
+						return;
 					}
 				} else if (error.code === 10003) {
 					await register.delete(key);
-					continue;
+					return;
 				}
 			}
 		}
+	};
+
+	for (let i = 0; i < targets.length; i += CONCURRENCY) {
+		const chunk = targets.slice(i, i + CONCURRENCY);
+		await Promise.allSettled(chunk.map(sendToTarget));
 	}
+
 	await messages.set(id, { guildId: guild.id, channelId: channel.id, relays });
 };
