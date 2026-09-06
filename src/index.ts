@@ -88,6 +88,10 @@ client.botData = {
 	commandDatas: [],
 	rest: new REST().setToken(config.token),
 	clientId: config.clientId,
+	gcChannelId: {
+		base: config.channelIds.gcBase,
+		report: config.channelIds.gcReport,
+	}
 };
 const {
 	commands,

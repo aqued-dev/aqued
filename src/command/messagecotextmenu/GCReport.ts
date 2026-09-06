@@ -23,7 +23,7 @@ export default {
 	permissions: false,
 
 	async execute(interaction: MessageContextMenuCommandInteraction) {
-		const { messageIndex, register } = interaction.client.botData.newGlobalChat;
+		const { messageIndex, register, messages } = interaction.client.botData.newGlobalChat;
 		await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 		const registed = await register.get(interaction.channelId);
 		if (!registed)
@@ -31,8 +31,26 @@ export default {
 		const mId = await messageIndex.get(interaction.targetId);
 
 		if (mId) {
-			interaction.client.channels.fetch(interaction.client.botData.errorChannelId).then(async (channel) => {
+			interaction.client.channels.fetch(interaction.client.botData.gcChannelId.report).then(async (channel) => {
 				if (channel?.isSendable()) {
+					const message = await messages.get(mId);
+					const button = [];
+					if (message) {
+						const relayMessage = message.relays.find(
+							(d) => d.channelId === interaction.client.botData.gcChannelId.base,
+						);
+
+						const base = new ButtonBuilder().setLabel('メッセージに飛ぶ').setStyle(ButtonStyle.Link);
+						if (relayMessage) {
+							button.push(
+								base.setURL(
+									`https://discord.com/channels/${relayMessage.guildId}/${relayMessage.channelId}/${relayMessage.id}`,
+								),
+							);
+						} else if (message.channelId === interaction.client.botData.gcChannelId.base) {
+							button.push(base.setURL(`https://discord.com/channels/${message.guildId}/${message.channelId}/${mId}`));
+						}
+					}
 					channel.send({
 						content: interaction.client.botData.mods.map((v) => `<@${v}>`).join(', '),
 						embeds: [
@@ -51,6 +69,7 @@ export default {
 									.setLabel('削除')
 									.setStyle(ButtonStyle.Danger)
 									.setCustomId(`newGlobalChatMessages_delete_${mId}`),
+								...button,
 							),
 						],
 						allowedMentions: { users: interaction.client.botData.mods },

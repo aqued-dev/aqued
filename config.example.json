@@ -5,7 +5,9 @@
 	"channelIds": {
 		"error": "",
 		"botLog": "",
-		"commandLog": ""
+		"commandLog": "",
+		"gcReport": "",
+		"gcBase": ""
 	},
 	"clientId": "",
 	"mongoDBUrl": "",
