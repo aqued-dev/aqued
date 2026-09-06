@@ -205,7 +205,7 @@ export const sender = async (
 					} else if (repliedMessageRecord.channelId === key) {
 						button
 							.setURL(
-								`https://discord.com/channels/${repliedMessageRecord.guildId}/${repliedMessageRecord.channelId}/${editIndexed ?? indexedForReply}`,
+								`https://discord.com/channels/${repliedMessageRecord.guildId}/${repliedMessageRecord.channelId}/${repliedMessageId}`,
 							)
 							.setDisabled(false);
 					}

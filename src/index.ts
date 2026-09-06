@@ -91,7 +91,7 @@ client.botData = {
 	gcChannelId: {
 		base: config.channelIds.gcBase,
 		report: config.channelIds.gcReport,
-	}
+	},
 };
 const {
 	commands,
