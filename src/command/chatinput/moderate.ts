@@ -73,7 +73,7 @@ export default {
 		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall])
 		.setContexts([InteractionContextType.Guild]),
 
-	ownersOnly: true,
+	ownersOnly: false,
 	modOnly: false,
 	permissions: [PermissionFlagsBits.KickMembers, PermissionFlagsBits.BanMembers, PermissionFlagsBits.ModerateMembers],
 
