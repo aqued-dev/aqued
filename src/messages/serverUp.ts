@@ -7,7 +7,7 @@ export default async function (message: Message) {
 			message.author.id === '302050872383242240' &&
 			message.embeds[0] &&
 			message.embeds[0].image &&
-			message.embeds[0].image.url.includes('disboard.org/images/bot-command-image-bump.png')
+			message.embeds[0].image.url.includes('disboard.org/images/bot-command-image-bump')
 		) {
 			if (message.channel.type === ChannelType.GuildText)
 				message.channel.send({
